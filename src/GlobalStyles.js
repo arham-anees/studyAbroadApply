@@ -1,6 +1,6 @@
 const GlobalStyle = {
   color: {
-    background: "",
+    background: "purple",
     textPrimary: "#000",
     textSecondary: "#000",
     textTertiary: "#fff",

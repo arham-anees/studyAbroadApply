@@ -3,10 +3,10 @@ import Constants from "expo-constants";
 import { Alert } from "react-native";
 
 export function handleLoginPress(props) {
-  props.navigation.navigate("SignIn");
+  props.navigation.goBack();
 }
 export function handleSignUpPress(props) {
-  props.navigation.push("Home");
+  props.navigation.replace("Home");
 }
 
 export function pickImage() {

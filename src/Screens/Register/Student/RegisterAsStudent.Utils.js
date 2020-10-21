@@ -1,12 +1,11 @@
 import * as ImagePicker from "expo-image-picker";
-import Constants from "expo-constants";
 import { Alert } from "react-native";
 
 export function handleLoginPress(props) {
-  props.navigation.navigate("SignIn");
+  props.navigation.goBack();
 }
 export function handleSignUpPress(props) {
-  props.navigation.navigate("Home");
+  props.navigation.pushToTop("Home");
 }
 
 export function pickImage() {

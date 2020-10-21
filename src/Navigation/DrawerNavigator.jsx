@@ -5,10 +5,7 @@ import {
   DrawerItem,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../Screens/Home/Home";
-import ApplicationBar from "../Components/Appbar";
-import SignInScreen from "../Screens/SignIn/SignIn";
 import LeftMenuProfile from "../Components/LeftMenuPorfile";
 
 let drawer = createDrawerNavigator();
@@ -21,7 +18,7 @@ function CustomDrawerContent(props) {
       <DrawerItem
         label="Log Out"
         onPress={() => {
-          props.navigation.navigate("SignIn");
+          props.navigation.replace("SignIn");
         }}
       />
     </DrawerContentScrollView>

@@ -1,3 +1,20 @@
+// import { NavigationActions } from "react-navigation";
+
+// export const resetLogin = (navigation) =>
+//   navigation.dispatch(
+//     NavigationActions.reset({
+//       index: 0,
+//       actions: [NavigationActions.navigate({ routeName: "Home" })],
+//     })
+//   );
+// export const resetLogout = (navigation) =>
+//   navigation.dispatch(
+//     NavigationActions.reset({
+//       index: 0,
+//       actions: [NavigationActions.navigate({ routeName: "SignIn" })],
+//     })
+//   );
+
 export function IsEmail(email) {
   if (
     email.value.match(

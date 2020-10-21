@@ -1,5 +1,8 @@
+import { StackActions } from "@react-navigation/native";
+
 export function handleLoginPress(props) {
-  props.navigation.navigate("Home");
+  // props.navigation.dispatch(StackActions.popToTop());
+  props.navigation.replace("Home");
 }
 export function handleRegisterStudent(props) {
   props.navigation.navigate("RegisterAsStudent");

@@ -2,6 +2,7 @@ import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { PieChart } from "react-native-chart-kit";
 import { Title } from "react-native-paper";
+import GlobalStyle from "../../GlobalStyles";
 
 function PieChartCustom(props) {
   const data = [
@@ -37,22 +38,27 @@ function PieChartCustom(props) {
   return (
     <View style={Styles.card}>
       <Title style={Styles.title}>Application By Status</Title>
-      <PieChart
-        data={data}
-        height={200}
-        width={Dimensions.get("screen").width - 20}
-        chartConfig={{
-          backgroundColor: "#00000000",
-          backgroundGradientFrom: "#022173",
-          backgroundGradientTo: "#1b3fa0",
-          color: () => `rgba(255, 255, 255, 1)`,
-          style: {
-            borderRadius: 0,
-            padding: 0,
-          },
-        }}
-        accessor="population"
-      />
+      <View style={Styles.chart}>
+        <PieChart
+          data={data}
+          height={220}
+          width={Dimensions.get("screen").width - 20}
+          chartConfig={{
+            backgroundColor: "transparent",
+            backgroundGradientFrom: "purple",
+            backgroundGradientTo: "purple",
+            color: () => `rgba(255, 255, 255, 1)`,
+            style: {
+              borderRadius: 0,
+              padding: 0,
+            },
+          }}
+          accessor="population"
+          paddingLeft="0"
+          hideLegend={true}
+          verticalLabelRotation={130}
+        />
+      </View>
     </View>
   );
 }
@@ -62,12 +68,14 @@ export default PieChartCustom;
 const colors = [];
 const Styles = StyleSheet.create({
   card: {
-    backgroundColor: "purple",
     margin: 10,
     borderRadius: 15,
   },
   title: {
-    color: "#fff",
     textAlign: "center",
+  },
+  chart: {
+    backgroundColor: GlobalStyle.color.background,
+    borderRadius: 16,
   },
 });
