@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 import ApplicationBar from "../../Components/Appbar";
 import LineChartCustom from "./LineChart.Component";
 import PieChartCustom from "./PieChart.component";
-import * as Styles from "./Home.Style";
+import Styles from "./Home.Style";
 
 export default class HomeScreen extends React.Component {
   render() {

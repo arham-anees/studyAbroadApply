@@ -7,6 +7,7 @@ import RegisterAsAssociateScreen from "../Screens/Register/Associate/RegisterAsA
 import drawerRoutes from "./DrawerNavigator";
 import LoadingScreen from "../Screens/LoadingScreen";
 import SignInScreen from "../Screens/SignIn/SignIn";
+import HomeScreen from "../Screens/Home/Home";
 
 let Stack = createStackNavigator();
 

@@ -7,6 +7,9 @@ const GlobalStyle = {
     primary: "purple",
     secondary: "light-blue",
   },
+  padding: {
+    pageBottom: 40,
+  },
 };
 
 export default GlobalStyle;

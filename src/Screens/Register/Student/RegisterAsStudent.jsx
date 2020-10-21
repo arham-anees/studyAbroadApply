@@ -1,56 +1,83 @@
 import React from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableHighlightBase,
+  View,
+} from "react-native";
 import { Button, Input } from "react-native-elements";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { RadioButton } from "react-native-paper";
 import EmailTextInput from "../../../Components/EmailTextInput";
 import PasswordInput from "../../../Components/PasswordInput";
-import * as Screens from "../../../ScreenNames";
+import Styles from "./RegisterAsStudent.Style";
+import {
+  handleLoginPress,
+  handleSignUpPress,
+  pickImage,
+} from "./RegisterAsStudent.Utils";
 
 export default class RegisterAsStudentScreen extends React.Component {
-  handleLoginPress = () => {
-    this.props.navigation.navigate("SignIn");
-  };
-  handleSignUpPress = () => {
-    this.props.navigation.navigate("Home");
-  };
   render() {
     return (
-      <ScrollView style={Styles.mainContainer}>
-        <View style={Styles.header}>
-          <Text>Register As Student</Text>
-        </View>
-        <View style={Styles.body}>
-          <Input
-            leftIcon={{ type: "material", name: "person" }}
-            placeholder={"First Name"}
-          />
-          <Input
-            leftIcon={{ type: "material", name: "person" }}
-            placeholder={"Last Name"}
-          />
-          <EmailTextInput />
-          <PasswordInput />
-          <PasswordInput placeholder={"Confirm Password"} />
-          <Button raised title="SIGN UP" onPress={this.handleSignUpPress} />
-          <Button
-            title="LOGIN HERE"
-            type="clear"
-            onPress={this.handleLoginPress}
-          />
-        </View>
-      </ScrollView>
+      <SafeAreaView style={Styles.mainContainer}>
+        <ScrollView>
+          <View style={Styles.header}>
+            <Text>Register As Student</Text>
+          </View>
+          <View style={Styles.body}>
+            <Input
+              leftIcon={{ type: "material", name: "person" }}
+              placeholder={"First Name"}
+            />
+            <Input
+              leftIcon={{ type: "material", name: "person" }}
+              placeholder={"Last Name"}
+            />
+            <EmailTextInput />
+            <PasswordInput />
+            <PasswordInput placeholder={"Confirm Password"} />
+            <View style={Styles.RadioContainer}>
+              <View style={Styles.RadioMale}>
+                <RadioButton value="male" />
+                <Text>Male</Text>
+              </View>
+              <View style={Styles.RadioFemale}>
+                <RadioButton value="female" />
+                <Text>Female</Text>
+              </View>
+            </View>
+
+            <View style={Styles.selectImage}>
+              <Button
+                raised
+                type="outline"
+                title="Select Profile Picture"
+                onPress={() => pickImage()}
+              ></Button>
+              <View>
+                <Text></Text>
+              </View>
+            </View>
+            <Button
+              raised
+              title="SIGN UP"
+              onPress={() => handleSignUpPress(this.props)}
+            />
+            <Text></Text>
+            {/* <TouchableOpacity style={Styles.btnLogin}>
+              <Text style={Styles.btnLoginTitle}>LOGIN HERE</Text>
+            </TouchableOpacity> */}
+            <Button
+              title="LOGIN HERE"
+              type="outline"
+              onPress={() => handleLoginPress(this.props)}
+            />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
-
-const Styles = StyleSheet.create({
-  mainContainer: { marginHorizontal: 10, marginTop: 30, flex: 1 },
-  header: {
-    flex: 1,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: Dimensions.get("window").height / 4,
-  },
-  body: { flex: 3 },
-});

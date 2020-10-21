@@ -36,7 +36,7 @@ function PieChartCustom(props) {
   ];
   return (
     <View style={Styles.card}>
-      <Title style={Styles.title}>Pie Chart</Title>
+      <Title style={Styles.title}>Application By Status</Title>
       <PieChart
         data={data}
         height={200}
