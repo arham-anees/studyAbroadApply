@@ -22,7 +22,7 @@ function SignUpAsStudent(props) {
   const { navigation } = props;
 
   return (
-    <Block flex style={[styles.container, { backgroundColor: "red" }]}>
+    <Block flex style={styles.container}>
       <StatusBar hidden />
       <Block flex center>
         <ImageBackground
@@ -30,13 +30,12 @@ function SignUpAsStudent(props) {
           style={{ height, width, zIndex: 1 }}
         />
       </Block>
-      <Block center style={{ backgroundColor: "red" }}>
+      <Block center>
         <Image source={Images.LogoOnboarding} style={styles.logo} />
       </Block>
       <Block
-        flex
         space="between"
-        style={[styles.padded, { backgroundColor: "red" }]}
+        style={[styles.padded, { flex:2 }]}
       >
         <Block flex space="around" style={{ zIndex: 2 }}>
           <Block style={styles.title}>
