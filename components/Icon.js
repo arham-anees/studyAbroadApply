@@ -14,7 +14,7 @@ class IconExtra extends React.Component {
 
   async componentDidMount() {
     await Font.loadAsync({ ArgonExtra: ArgonExtra });
-    await Font.loadAsync({ MaterialIcons: MaterialIcons });
+    // await Font.loadAsync({ MaterialIcons: MaterialIcons });
     this.setState({ fontLoaded: true });
   }
 

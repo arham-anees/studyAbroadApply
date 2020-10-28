@@ -13,7 +13,7 @@ import Onboarding from "../screens/Onboarding";
 import Pro from "../screens/Pro";
 import Profile from "../screens/Profile";
 import Register from "../screens/Register";
-import Elements from "../screens/Elements";
+// import Elements from "../screens/Elements";
 import Articles from "../screens/Articles";
 import SignIn from "../screens/Auth/SignIn/SignIn";
 import SignUpAsStudent from "../screens/Auth/SignUpAsStudent/SignUpAsStudent";
@@ -36,7 +36,7 @@ function ElementsStack(props) {
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
         name="Elements"
-        component={Elements}
+        component={Home}
         options={{
           header: ({ navigation, scene }) => (
             <Header title="Elements" navigation={navigation} scene={scene} />
