@@ -67,7 +67,7 @@ function SignIn(props) {
             <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
               <Button
                 style={[styles.button, { marginBottom: 20 }]}
-                onPress={() => navigation.navigate("Elements")}
+                onPress={() => navigation.navigate("Home")}
               >
                 Sign In
               </Button>

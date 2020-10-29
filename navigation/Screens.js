@@ -18,12 +18,14 @@ import Articles from "../screens/Articles";
 import SignIn from "../screens/Auth/SignIn/SignIn";
 import SignUpAsStudent from "../screens/Auth/SignUpAsStudent/SignUpAsStudent";
 import SignUpAsAssociate from "../screens/Auth/SignUpAsAssociate/SignUpAsAssociate";
+import ApplicationDetails from "../screens/Applications/ApplicationDetails";
 // drawer
 import CustomDrawerContent from "./Menu";
 
 // header for screens
 import { Icon, Header } from "../components";
 import { argonTheme, tabs } from "../constants";
+import Applications from "../screens/Applications/Applications";
 
 const { width } = Dimensions.get("screen");
 
@@ -65,34 +67,35 @@ function ElementsStack(props) {
   );
 }
 
-function ArticlesStack(props) {
+function ApplicationStack(props) {
   return (
     <Stack.Navigator mode="card" headerMode="screen">
       <Stack.Screen
-        name="Articles"
-        component={Articles}
+        name="Applications"
+        component={Applications}
         options={{
           header: ({ navigation, scene }) => (
-            <Header title="Articles" navigation={navigation} scene={scene} />
+            <Header
+              title="Applications"
+              navigation={navigation}
+              scene={scene}
+            />
           ),
           cardStyle: { backgroundColor: "#F8F9FE" },
         }}
       />
       <Stack.Screen
-        name="Pro"
-        component={Pro}
+        name="ApplicationDetails"
+        component={ApplicationDetails}
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              title=""
-              back
-              white
-              transparent
+              title="Applications"
               navigation={navigation}
               scene={scene}
             />
           ),
-          headerTransparent: true,
+          cardStyle: { backgroundColor: "#F8F9FE" },
         }}
       />
     </Stack.Navigator>
@@ -159,6 +162,7 @@ function HomeStack(props) {
           cardStyle: { backgroundColor: "#F8F9FE" },
         }}
       />
+
       <Stack.Screen
         name="Pro"
         component={Pro}
@@ -278,7 +282,7 @@ export default function AppStack(props) {
       <Drawer.Screen name="Profile" component={ProfileStack} />
       <Drawer.Screen name="Account" component={Register} />
       <Drawer.Screen name="Elements" component={ElementsStack} />
-      <Drawer.Screen name="Articles" component={ArticlesStack} />
+      <Drawer.Screen name="Applications" component={ApplicationStack} />
       <Drawer.Screen name="Auth" component={AuthStack} />
     </Drawer.Navigator>
   );
