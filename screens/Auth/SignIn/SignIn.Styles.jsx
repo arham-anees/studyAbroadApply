@@ -4,9 +4,7 @@ const { Dimensions, StyleSheet } = require("react-native");
 const { height, width } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: theme.COLORS.BLACK,
-  },
+  container: {},
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,
     position: "relative",

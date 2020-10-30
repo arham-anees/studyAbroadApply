@@ -48,11 +48,12 @@ function CustomDrawerContent({
                 borderWidth: StyleSheet.hairlineWidth,
               }}
             />
-            <Text color="#8898AA" style={{ marginTop: 16, marginLeft: 8 }}>
-              DOCUMENTATION
-            </Text>
+            {/* <Text
+              color="#8898AA"
+              style={{ marginTop: 16, marginLeft: 8 }}
+            ></Text> */}
           </Block>
-          <DrawerCustomItem title="Getting Started" navigation={navigation} />
+          <DrawerCustomItem title="Sign Out" navigation={navigation} />
         </ScrollView>
       </Block>
     </Block>

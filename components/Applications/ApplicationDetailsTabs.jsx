@@ -10,6 +10,8 @@ const defaultMenu = [
   { id: "profile", title: "Profile" },
   { id: "course", title: "Course" },
   { id: "documents", title: "Documents" },
+  { id: "offers", title: "Offers" },
+  { id: "travelInformation", title: "Travel Information" },
 ];
 
 class ApplicationDetailsTabs extends React.Component {

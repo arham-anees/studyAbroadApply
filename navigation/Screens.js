@@ -69,7 +69,7 @@ function ElementsStack(props) {
 
 function ApplicationStack(props) {
   return (
-    <Stack.Navigator mode="card" headerMode="screen">
+    <Stack.Navigator headerMode="screen">
       <Stack.Screen
         name="Applications"
         component={Applications}
@@ -88,13 +88,6 @@ function ApplicationStack(props) {
         name="ApplicationDetails"
         component={ApplicationDetails}
         options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              title="Applications"
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
           cardStyle: { backgroundColor: "#F8F9FE" },
         }}
       />

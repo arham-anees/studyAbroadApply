@@ -84,7 +84,7 @@ export default function Step1(props) {
       </Block>
       <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
         <View style={styles.dropdown}>
-          <Picker mode={"dropdown"}>
+          <Picker mode="dropdown">
             <Picker.Item label="1990" value="1990" />
             <Picker.Item label="1991" value="1991" />
             <Picker.Item label="1992" value="1992" />

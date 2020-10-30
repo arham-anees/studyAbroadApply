@@ -64,8 +64,15 @@ class DrawerItem extends React.Component {
             color={focused ? "white" : "rgba(0,0,0,0.5)"}
           />
         );
-      case "Log out":
-        return <Icon />;
+      case "Sign Out":
+        return (
+          <Icon
+            name="logout"
+            family="AntDesign"
+            size={14}
+            color={focused ? "white" : "rgba(0,0,0,0.5)"}
+          />
+        );
       default:
         return null;
     }
@@ -83,10 +90,8 @@ class DrawerItem extends React.Component {
       <TouchableOpacity
         style={{ height: 60 }}
         onPress={() =>
-          title == "Getting Started"
-            ? Linking.openURL(
-                "https://demos.creative-tim.com/argon-pro-react-native/docs/"
-              ).catch((err) => console.error("An error occurred", err))
+          title == "Sign Out"
+            ? navigation.navigate("SignIn")
             : navigation.navigate(title)
         }
       >

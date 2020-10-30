@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image } from "react-native";
+import { Image, View } from "react-native";
 import { AppLoading } from "expo";
 import { useFonts } from "@use-expo/font";
 import { Asset } from "expo-asset";
@@ -76,6 +76,7 @@ export default (props) => {
       </NavigationContainer>
     );
   }
+  return <View></View>;
 };
 
 // export default class App extends React.Component {
