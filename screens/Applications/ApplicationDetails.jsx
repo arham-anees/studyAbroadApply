@@ -34,7 +34,6 @@ class ApplicationDetails extends React.Component {
     this.setState({ activeTab: id });
   };
   render() {
-    console.log(this.state.activeTab);
     return (
       <SafeAreaView>
         <ImageBackground

@@ -2,14 +2,15 @@ import React from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { Block, Button, Text } from "galio-framework";
 import { Dimensions } from "react-native";
+import GlobalStyle from "../../GlobalStyles";
 
 const { width } = Dimensions.get("screen");
 
 function DocumentItem(props) {
   return (
     <View style={styles.container}>
-      <Block row right>
-        <Text>{props.number} </Text>
+      <Block row>
+        <Text h5>{props.number}. </Text>
         <Text h5>{props.name}</Text>
       </Block>
       <Block row space="between" margin={5}>
@@ -17,10 +18,10 @@ function DocumentItem(props) {
         <Text>{props.date}</Text>
       </Block>
       <Block row space="between">
-        <Button style={styles.button} color="green">
+        <Button style={styles.button} color={GlobalStyle.bg.green}>
           Download
         </Button>
-        <Button style={styles.button} color="red">
+        <Button style={styles.button} color={GlobalStyle.bg.red}>
           Delete
         </Button>
       </Block>
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    width: (width - 50) / 2,
+    width: (width - 60) / 2,
     height: 30,
   },
 });

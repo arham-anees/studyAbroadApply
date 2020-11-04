@@ -4,6 +4,8 @@ import { Picker } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
 import DocumentItem from "../../../components/Applications/DocumentItem";
+import * as DocumentPicker from "expo-document-picker";
+import GlobalStyle from "../../../GlobalStyles";
 
 const { width } = Dimensions.get("screen");
 const documents = [
@@ -32,8 +34,29 @@ const documentTypes = [
   { value: 3, name: "CV" },
   { value: 4, name: "Bachelors Degree / Transcript" },
 ];
-function DocumentsTab(props) {
-  return (
+
+class DocumentsTab extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      file: null,
+    };
+  }
+  pickDocumentHandle = () => {
+    DocumentPicker.getDocumentAsync({
+      type: "*/*",
+      copyToCacheDirectory: false,
+    })
+      .then((result) => {
+        if (result.type === "success") {
+          this.setState({ file: result, file: result.name });
+        } else {
+          this.refs.toast.show("hello world");
+        }
+      })
+      .catch((er) => console.log(er));
+  };
+  render = () => (
     <View>
       <Block style={styles.block}>
         <Text color="white" h5 center>
@@ -58,19 +81,27 @@ function DocumentsTab(props) {
         <Block>
           <Text color="white">File</Text>
           <Block row space="between" middle>
-            <Text color="white">./file.pdf</Text>
-            <Button style={[styles.button, { width: width / 3 }]}>File</Button>
+            <Text color="white">{this.state.file}</Text>
+            <Button
+              uppercase
+              style={[styles.button, { width: width / 3 }]}
+              onPress={() => this.pickDocumentHandle()}
+            >
+              File
+            </Button>
           </Block>
         </Block>
         <Block row space={"between"} flex marginTop={10}>
           <Button
-            color="green"
+            uppercase
+            color={GlobalStyle.bg.green}
             style={[styles.button, { width: (width - 30) / 2 }]}
           >
             Upload
           </Button>
           <Button
-            color="red"
+            uppercase
+            color={GlobalStyle.bg.red}
             style={[styles.button, { width: (width - 30) / 2 }]}
           >
             Reset

@@ -13,33 +13,37 @@ const Colors = [
 ];
 function AppStatusByCountry(props) {
   return (
-    <View style={Styles.card}>
-      <AppStatusByCountryDoughnutChart />
-      <View style={Styles.legendContainer}>
-        <TouchableOpacity style={Styles.legend}>
-          <TouchableOpacity
-            style={{ ...Styles.color, backgroundColor: Colors[0] }}
-          ></TouchableOpacity>
-          <Text style={Styles.legendTitle}>In Progress</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Styles.legend}>
-          <TouchableOpacity
-            style={{ ...Styles.color, backgroundColor: Colors[1] }}
-          ></TouchableOpacity>
-          <Text style={Styles.legendTitle}>New Application Submitted</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Styles.legend}>
-          <TouchableOpacity
-            style={{ ...Styles.color, backgroundColor: Colors[2] }}
-          ></TouchableOpacity>
-          <Text style={Styles.legendTitle}>Pending With Institute</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Styles.legend}>
-          <TouchableOpacity
-            style={{ ...Styles.color, backgroundColor: Colors[3] }}
-          ></TouchableOpacity>
-          <Text style={Styles.legendTitle}>Visa Issued</Text>
-        </TouchableOpacity>
+    <View style={{ margin: 10 }}>
+      <View style={GlobalStyle.block}>
+        <View style={Styles.card}>
+          <AppStatusByCountryDoughnutChart />
+          <View style={Styles.legendContainer}>
+            <TouchableOpacity style={Styles.legend}>
+              <TouchableOpacity
+                style={{ ...Styles.color, backgroundColor: Colors[0] }}
+              ></TouchableOpacity>
+              <Text style={Styles.legendTitle}>In Progress</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={Styles.legend}>
+              <TouchableOpacity
+                style={{ ...Styles.color, backgroundColor: Colors[1] }}
+              ></TouchableOpacity>
+              <Text style={Styles.legendTitle}>New Application Submitted</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={Styles.legend}>
+              <TouchableOpacity
+                style={{ ...Styles.color, backgroundColor: Colors[2] }}
+              ></TouchableOpacity>
+              <Text style={Styles.legendTitle}>Pending With Institute</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={Styles.legend}>
+              <TouchableOpacity
+                style={{ ...Styles.color, backgroundColor: Colors[3] }}
+              ></TouchableOpacity>
+              <Text style={Styles.legendTitle}>Visa Issued</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </View>
   );

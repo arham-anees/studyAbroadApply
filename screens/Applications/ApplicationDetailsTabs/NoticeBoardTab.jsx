@@ -29,9 +29,7 @@ function NoticeBoardTab(props) {
         <Text color="white">New Application Submitted</Text>
       </Block>
       <Block style={styles.block}>
-        <Text color="white" h5 italic center>
-          Update Status
-        </Text>
+        <Text style={styles.title}>Update Status</Text>
         <Block>
           <Text color="white">Application Status</Text>
           <View style={styles.dropdown}>
@@ -47,27 +45,38 @@ function NoticeBoardTab(props) {
         </Block>
       </Block>
       <Block style={styles.block}>
-        <Text color="white">Next Follow</Text>
-        <Input></Input>
-      </Block>
-      <Block row middle space="between" style={styles.block}>
-        <Text color="white">Up Date</Text>
-        <Button style={styles.updateStatusBtn}>Add Next Follow Up Date</Button>
-      </Block>
-      <Block style={styles.block}>
-        <Text center h5 italic color="white">
-          Application Notes
-        </Text>
-        <Block row space={"between"}>
-          <Text color="white">Is visible to students</Text>
-          <Checkbox color="primary" label=" " Icon />
+        <Text style={styles.title}>Follow Up</Text>
+        <Block row space="between">
+          <Text color="white">Next Follow Up</Text>
+          <Text color="white">10/10/2020</Text>
         </Block>
         <Block row middle space="between">
-          {/* <Block style={styles.iconBlock} middle>
-            <Icon family="Entypo" name="message" />
-          </Block> */}
+          <Text color="white">Up Date</Text>
+          <Button style={styles.updateStatusBtn}>
+            Add Next Follow Up Date
+          </Button>
+        </Block>
+      </Block>
+      <Block style={styles.block}>
+        <Text style={styles.title}>Application Notes</Text>
+        <Block>
+          <Block style={styles.noteBody}>
+            <Text color="white">Faraz: this is a note</Text>
+          </Block>
+          <Block style={styles.noteBody}>
+            <Text color="white">Student: this is a note</Text>
+          </Block>
+        </Block>
+        <Checkbox
+          color="white"
+          label="Is visible to students"
+          icon
+          iconColor="black"
+          labelStyle={{ color: "white" }}
+        />
+        <Block row middle space="between">
           <Block flex>
-            <Input></Input>
+            <Input placeholder={"Note"}></Input>
           </Block>
           <Block style={styles.iconBlock} middle>
             <Icon family="Feather" name="send" />
@@ -89,7 +98,7 @@ const styles = StyleSheet.create({
   block: {
     backgroundColor: "#0004",
     marginTop: 10,
-    padding: 5,
+    padding: 10,
     borderRadius: 5,
   },
   dropdown: {
@@ -108,8 +117,22 @@ const styles = StyleSheet.create({
   },
   iconBlock: {
     width: 50,
+    marginLeft: 5,
     backgroundColor: "white",
     height: theme.SIZES.INPUT_HEIGHT,
     borderRadius: theme.SIZES.INPUT_BORDER_RADIUS,
+  },
+  noteBody: {
+    borderBottomWidth: 1,
+    borderBottomColor: "white",
+    paddingVertical: 5,
+    marginBottom: 10,
+  },
+  title: {
+    marginBottom: 10,
+    color: "white",
+    textAlign: "center",
+    fontStyle: "italic",
+    fontSize: 24,
   },
 });

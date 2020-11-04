@@ -4,6 +4,7 @@ import { Picker } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
 import { Input } from "../../../components";
+import SelectCountry from "../../../components/SelectCountry";
 
 const { width } = Dimensions.get("screen");
 const countries = [
@@ -92,7 +93,8 @@ function CourseTab(props) {
         <Block row middle>
           <Text style={styles.title}>Country</Text>
           <View style={styles.info}>
-            <View style={styles.dropdown}>
+            <SelectCountry />
+            {/* <View style={styles.dropdown}>
               <Picker mode={"dropdown"}>
                 {countries.map((item, index) => (
                   <Picker.Item
@@ -102,7 +104,7 @@ function CourseTab(props) {
                   />
                 ))}
               </Picker>
-            </View>
+            </View> */}
           </View>
         </Block>
         <Block row middle>

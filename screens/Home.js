@@ -4,6 +4,7 @@ import {
   Dimensions,
   ScrollView,
   ImageBackground,
+  SafeAreaView,
 } from "react-native";
 import { Block, theme } from "galio-framework";
 
@@ -15,21 +16,26 @@ import PieChart from "../components/Home/PieChart.Component";
 import StackedBarComponent from "../components/Home/StackedBar.Component";
 import Images from "../constants/Images";
 import CountryApplicationsProgressChart from "../components/Home/CountryApplications.ProgressChart";
+import ProgressBarByCountry from "../components/Home/ProgressBarByCountry";
+import GlobalStyle from "../GlobalStyles";
 
 const { height, width } = Dimensions.get("screen");
 class Home extends React.Component {
   render() {
     return (
-      <Block flex center style={styles.home}>
-        <ImageBackground
-          source={Images.Onboarding}
-          style={{ height, width, zIndex: 1 }}
-        >
-          <AppStatusByCountry />
-          <LineChart />
-          {/* <CountryApplicationsProgressChart /> */}
-        </ImageBackground>
-      </Block>
+      <SafeAreaView>
+        <ScrollView>
+          <ImageBackground
+            source={Images.Onboarding}
+            style={{ height: height + 100, width, zIndex: 1 }}
+          >
+            <AppStatusByCountry />
+            <LineChart />
+            <ProgressBarByCountry />
+            {/* <CountryApplicationsProgressChart /> */}
+          </ImageBackground>
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }

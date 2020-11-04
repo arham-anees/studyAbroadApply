@@ -27,6 +27,10 @@ import { Icon, Header } from "../components";
 import { argonTheme, tabs } from "../constants";
 import Applications from "../screens/Applications/Applications";
 
+import SearchCourse from "../screens/Courses/SearchCourse/SearchCourse";
+import SearchedCourses from "../screens/Courses/SearchCourse/SearchedCourses";
+import Notifications from "../screens/Notifications/Notification";
+
 const { width } = Dimensions.get("screen");
 
 const Stack = createStackNavigator();
@@ -91,6 +95,60 @@ function ApplicationStack(props) {
           cardStyle: { backgroundColor: "#F8F9FE" },
         }}
       />
+    </Stack.Navigator>
+  );
+}
+function CourseStack(props) {
+  return (
+    <Stack.Navigator headerMode="screen">
+      <Stack.Screen
+        name="Courses"
+        component={SearchCourse}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Search Courses"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="SearchedCourses"
+        component={SearchedCourses}
+        options={{
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+function NotificationStack(props) {
+  return (
+    <Stack.Navigator headerMode="screen">
+      <Stack.Screen
+        name="Notifications"
+        component={Notifications}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Notifications"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      {/* <Stack.Screen
+        name="SearchedCourses"
+        component={SearchedCourses}
+        options={{
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      /> */}
     </Stack.Navigator>
   );
 }
@@ -274,9 +332,10 @@ export default function AppStack(props) {
       <Drawer.Screen name="Home" component={HomeStack} />
       <Drawer.Screen name="Profile" component={ProfileStack} />
       <Drawer.Screen name="Account" component={Register} />
-      <Drawer.Screen name="Elements" component={ElementsStack} />
+      <Drawer.Screen name="Notifications" component={NotificationStack} />
       <Drawer.Screen name="Applications" component={ApplicationStack} />
       <Drawer.Screen name="Auth" component={AuthStack} />
+      <Drawer.Screen name="Courses" component={CourseStack} />
     </Drawer.Navigator>
   );
 }
