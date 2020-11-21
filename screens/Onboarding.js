@@ -19,7 +19,7 @@ class Onboarding extends React.Component {
 
     return (
       <Block flex style={styles.container}>
-        <StatusBar hidden />
+        <StatusBar />
         <Block flex center>
           <ImageBackground
             source={Images.Onboarding}

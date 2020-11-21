@@ -1,10 +1,9 @@
-import React from "react";
-import { View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, View } from "react-native";
 
 import {
   ImageBackground,
   Image,
-  StyleSheet,
   StatusBar,
   Dimensions,
 } from "react-native";
@@ -13,108 +12,99 @@ import { Block, Button, theme } from "galio-framework";
 const { height, width } = Dimensions.get("screen");
 
 import styles from "./SignUpAsStudent.Styles";
-
 import argonTheme from "../../../constants/Theme";
 import Images from "../../../constants/Images";
-import { Icon, Input } from "../../../components";
+import LabelledInput from "../../../components/LabelledInput.Component";
 
-function SignUpAsStudent(props) {
-  const { navigation } = props;
 
-  return (
-    <Block flex style={styles.container}>
-      <StatusBar hidden />
-      <Block flex center>
+import {HandleSignUp} from './SignUpAsStudent.Utils';
+
+class SignUpAsStudent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      FirstName: "",
+      LastName: "",
+      Email: "",
+      Password: "",
+      ConfirmPassword: "",
+      error: -1,
+    };
+  }
+
+  handleSignUp=()=>{
+    HandleSignUp(this.state).then(x=>console.log(x))
+    .catch(e=>{
+      console.log(e)
+      try{
+        let errorCode=parseInt(e);
+        this.setState({error:errorCode});
+      }
+      catch(e){
+//show toast
+      }
+    })
+  }
+  handleEmailChange=(value)=>{
+console.log(value);
+this.setState({Email:value});
+  }
+  render = () => (
+    <Block  style={styles.container}>
+      <StatusBar />
+      <Block  center>
         <ImageBackground
           source={Images.Onboarding}
-          style={{ height, width, zIndex: 1 }}
+          style={{ height, width, zIndex: 1, position:"absolute" }}
         />
       </Block>
-      <Block center>
+      <Block center style={{height:200, justifyContent:"center"}}>
         <Image source={Images.LogoOnboarding} style={styles.logo} />
       </Block>
-      <Block
-        space="between"
-        style={[styles.padded, { flex:2 }]}
-      >
-        <Block flex space="around" style={{ zIndex: 2 }}>
+      <Block space="between" style={styles.padded}>
+        <Block  space="around" >
           <Block style={styles.title}>
             <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-              <Input
-                placeholder="First Name"
-                iconContent={
-                  <Icon
-                    size={11}
-                    style={{ marginRight: 14 }}
-                    color={argonTheme.COLORS.ICON}
-                    name="person"
-                    family="Fontisto"
-                  />
-                }
+              <LabelledInput
+                label="First Name"
+                iconname="person"
+                iconfamily="Fontisto"
+                onChange={this.handleEmailChange}
               />
-            </Block>
-            <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-              <Input
-                placeholder="Last Name"
-                iconContent={
-                  <Icon
-                    size={11}
-                    style={{ marginRight: 14 }}
-                    color={argonTheme.COLORS.ICON}
-                    name="person"
-                    family="Fontisto"
-                  />
-                }
+              <LabelledInput
+                label="Last Name"
+                iconname="person"
+                value={this.state.LastName}
+                onChange={this.handleEmailChange}
+                iconfamily="Fontisto"
               />
-            </Block>
-            <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-              <Input
-                placeholder="Email"
-                iconContent={
-                  <Icon
-                    size={11}
-                    style={{ marginRight: 14 }}
-                    color={argonTheme.COLORS.ICON}
-                    name="person"
-                    family="Fontisto"
-                  />
-                }
+
+              <LabelledInput label="Email" iconname="key" iconfamily="Entypo" 
+              value={this.state.Email}
+                error={this.state.error===2}
+                onChange={this.handleEmailChange}
+                />
+              <LabelledInput
+                label="Password"
+                iconname="key"
+                error={this.state.error===3}
+                iconfamily="Entypo"
+                onChange={this.handleEmailChange}
               />
-            </Block>
-            <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-              <Input
-                placeholder="Password"
-                iconContent={
-                  <Icon
-                    size={11}
-                    style={{ marginRight: 14 }}
-                    color={argonTheme.COLORS.ICON}
-                    name="key"
-                    family="Entypo"
-                  />
-                }
-              />
-            </Block>
-            <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-              <Input
-                placeholder="Confirm Password"
-                iconContent={
-                  <Icon
-                    size={11}
-                    style={{ marginRight: 14 }}
-                    color={argonTheme.COLORS.ICON}
-                    name="key"
-                    family="Entypo"
-                  />
-                }
+              <LabelledInput
+                label="Confirm Password"
+                iconname="key"
+                iconfamily="Entypo"
+                onChange={this.handleEmailChange}
+                error={this.state.error===4}
               />
             </Block>
           </Block>
-          <Block center style={styles.title}>
+          <Block center style={[styles.title,{marginTop:20}]}>
             <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
               <Button
                 style={[styles.button, { marginBottom: 20 }]}
-                onPress={() => navigation.navigate("Elements")}
+                onPress={this.handleSignUp}
               >
                 Sign Up
               </Button>
@@ -123,7 +113,7 @@ function SignUpAsStudent(props) {
               <Button
                 style={styles.button}
                 color={argonTheme.COLORS.SECONDARY}
-                onPress={() => navigation.navigate("SignIn")}
+                onPress={() => this.props.navigation.navigate("SignIn")}
                 textStyle={{ color: argonTheme.COLORS.BLACK }}
               >
                 Sign In Here

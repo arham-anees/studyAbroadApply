@@ -1,5 +1,6 @@
-import { Block, Input, Text } from "galio-framework";
+import { Block, Input, Text, theme } from "galio-framework";
 import React from "react";
+import { View } from "react-native";
 
 const travelDocuments = {
   arrivalTime: "10:20 PM",
@@ -10,53 +11,28 @@ const travelDocuments = {
 };
 function TravelInformation(props) {
   return (
-    <Block>
-      <Block row space="between" middle>
-        <Text color="white">Arrival Date</Text>
-        <Input
-          value={travelDocuments.arrivalDate}
-          color="black"
-          editable={false}
-          opacity={0.5}
-        />
+    <View style={{paddingHorizontal:theme.SIZES.BASE}}>
+      <Block row  space="evenly">
+      <Text color="white">Arrival Date</Text>
+        <Text color="white">{travelDocuments.arrivalDate}</Text>
       </Block>
-      <Block row space="between" middle>
+      <Block row space="evenly">
         <Text color="white">Arrival Time</Text>
-        <Input
-          value={travelDocuments.arrivalTime}
-          color="black"
-          editable={false}
-          opacity={0.5}
-        />
+        <Text color="white">{travelDocuments.arrivalTime}</Text>
       </Block>
-      <Block row space="between" middle>
+      <Block row space="evenly">
         <Text color="white">Flight Number</Text>
-        <Input
-          value={travelDocuments.flightNumber}
-          color="black"
-          editable={false}
-          opacity={0.5}
-        />
+        <Text color="white">{travelDocuments.flightNumber}</Text>
       </Block>
-      <Block row space="between" middle>
+      <Block row space="evenly">
         <Text color="white">Proposed Accomodation</Text>
-        <Input
-          value={travelDocuments.proposedAccomodation}
-          color="black"
-          editable={false}
-          opacity={0.5}
-        />
+        <Text color="white">{travelDocuments.proposedAccomodation}</Text>
       </Block>
-      <Block row space="between" middle>
+      <Block row space="evenly" >
         <Text color="white">Contact Number Abroad</Text>
-        <Input
-          value={travelDocuments.contactNumberAbroad}
-          color="black"
-          editable={false}
-          opacity={0.5}
-        />
+        <Text color="white">{travelDocuments.contactNumberAbroad}</Text>
       </Block>
-    </Block>
+    </View>
   );
 }
 

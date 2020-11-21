@@ -4,6 +4,7 @@ import React from "react";
 import { View } from "react-native";
 import { argonTheme } from "../../../constants";
 import { Picker } from "react-native";
+import LabelledInput from "../../../components/LabelledInput.Component";
 
 import styles from "./SignUpAsAssociate.Style";
 export default function Step1(props) {
@@ -12,77 +13,12 @@ export default function Step1(props) {
       <Text h5 center style={{ color: "white" }}>
         Company Information
       </Text>
-      {/* <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-                <Input
-                  placeholder="First Name"
-                  iconContent={
-                    <Icon
-                      size={11}
-                      style={{ marginRight: 14 }}
-                      color={argonTheme.COLORS.ICON}
-                      name="person"
-                      family="Fontisto"
-                    />
-                  }
-                />
-              </Block> */}
-      {/* <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-                <Input
-                  placeholder="Last Name"
-                  iconContent={
-                    <Icon
-                      size={11}
-                      style={{ marginRight: 14 }}
-                      color={argonTheme.COLORS.ICON}
-                      name="person"
-                      family="Fontisto"
-                    />
-                  }
-                />
-              </Block> */}
       <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-        <Input
-          placeholder="Email"
-          iconContent={
-            <Icon
-              size={11}
-              style={{ marginRight: 14 }}
-              color={argonTheme.COLORS.ICON}
-              name="person"
-              family="Fontisto"
-            />
-          }
-        />
-      </Block>
-      <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-        <Input
-          placeholder="Company Name"
-          iconContent={
-            <Icon
-              size={11}
-              style={{ marginRight: 14 }}
-              color={argonTheme.COLORS.ICON}
-              name="key"
-              family="Entypo"
-            />
-          }
-        />
-      </Block>
-      <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-        <Input
-          placeholder="Website"
-          iconContent={
-            <Icon
-              size={11}
-              style={{ marginRight: 14 }}
-              color={argonTheme.COLORS.ICON}
-              name="key"
-              family="Entypo"
-            />
-          }
-        />
-      </Block>
-      <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
+      <LabelledInput label="Email" iconname="person" iconfamily="Fontisto"/>
+      <LabelledInput label="Company Name" iconname="person" iconfamily="Fontisto"/>
+      <LabelledInput label="Website" iconname="person" iconfamily="Fontisto"/>
+      <Block>
+      <Text style={{ color: "white" }}>Established Year</Text>
         <View style={styles.dropdown}>
           <Picker mode="dropdown">
             <Picker.Item label="1990" value="1990" />
@@ -93,6 +29,7 @@ export default function Step1(props) {
             <Picker.Item label="1995" value="1995" />
           </Picker>
         </View>
+      </Block>
       </Block>
     </View>
   );

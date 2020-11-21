@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,
-    position: "relative",
+    
     bottom: theme.SIZES.BASE,
     zIndex: 2,
   },
@@ -23,12 +23,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 200,
     height: 60,
-    zIndex: 2,
-    position: "relative",
-    marginTop: "-50%",
-  },
-  title: {
-    marginTop: "-5%",
+    zIndex:10
   },
   subTitle: {
     marginTop: 20,

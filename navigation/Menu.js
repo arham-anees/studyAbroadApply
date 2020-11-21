@@ -15,8 +15,7 @@ function CustomDrawerContent({
   ...rest
 }) {
   // const insets = useSafeArea();
-  const screens = ["Home", "Applications", "Courses", "Articles"];
-  const icons = ["Home", "profile", "Courses", "Articles"];
+  const screens = ["Home", "Applications", "Courses"];
   return (
     <Block
       style={styles.container}
@@ -48,10 +47,6 @@ function CustomDrawerContent({
                 borderWidth: StyleSheet.hairlineWidth,
               }}
             />
-            {/* <Text
-              color="#8898AA"
-              style={{ marginTop: 16, marginLeft: 8 }}
-            ></Text> */}
           </Block>
           <DrawerCustomItem title="Sign Out" navigation={navigation} />
         </ScrollView>

@@ -1,195 +1,79 @@
-import { Block, Text, Button } from "galio-framework";
+import { Block, Text, Button, theme } from "galio-framework";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Icon, Input } from "../../../components";
+import LabelledInput from "../../../components/LabelledInput.Component";
 import { argonTheme } from "../../../constants";
 
 function ProfileTab(props) {
   return (
     <View>
       <Block>
-        <Block>
-          <Text color="white">Student Name</Text>
-          <Input
-            placeholder="Student Name"
-            iconContent={
-              <Icon
-                size={11}
-                style={{ marginRight: 14 }}
-                color={argonTheme.COLORS.ICON}
-                name="person"
-                family="Fontisto"
+        <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
+              <LabelledInput label="Student Name"
+                iconname="person"
+                iconfamily="Fontisto"
               />
-            }
-          />
-        </Block>
-        <Block>
-          <Text color="white">Father Name</Text>
-          <Input
-            placeholder="Father Name"
-            iconContent={
-              <Icon
-                size={11}
-                style={{ marginRight: 14 }}
-                color={argonTheme.COLORS.ICON}
-                name="person"
-                family="Fontisto"
+              <LabelledInput
+                label="Father Name"
+                iconname="person"
+                iconfamily="Fontisto"
               />
-            }
-          />
-        </Block>
-        <Block>
-          <Text color="white">Email</Text>
-          <Input
-            placeholder="Email"
-            iconContent={
-              <Icon
-                size={11}
-                style={{ marginRight: 14 }}
-                color={argonTheme.COLORS.ICON}
-                name="person"
-                family="Fontisto"
-              />
-            }
-          />
-        </Block>
-        <Block>
-          <Text color="white">Passport Number</Text>
-          <Input
-            placeholder="Passport Number"
-            iconContent={
-              <Icon
-                size={11}
-                style={{ marginRight: 14 }}
-                color={argonTheme.COLORS.ICON}
-                name="person"
-                family="Fontisto"
-              />
-            }
-          />
-        </Block>
-        <Block>
-          <Text color="white">Expiry Date</Text>
-          <Input
-            placeholder="Expiry Date"
-            iconContent={
-              <Icon
-                size={11}
-                style={{ marginRight: 14 }}
-                color={argonTheme.COLORS.ICON}
-                name="person"
-                family="Fontisto"
-              />
-            }
-          />
-        </Block>
-        <Block>
-          <Text color="white">Landline</Text>
-          <Input
-            placeholder="Landline"
-            iconContent={
-              <Icon
-                size={11}
-                style={{ marginRight: 14 }}
-                color={argonTheme.COLORS.ICON}
-                name="person"
-                family="Fontisto"
-              />
-            }
-          />
-        </Block>
-        <Block>
-          <Text color="white">Cell Number</Text>
-          <Input
-            placeholder="Cell Number"
-            iconContent={
-              <Icon
-                size={11}
-                style={{ marginRight: 14 }}
-                color={argonTheme.COLORS.ICON}
-                name="person"
-                family="Fontisto"
-              />
-            }
-          />
-        </Block>
-        <Block>
-          <Text color="white">Date of Birth</Text>
-          <Input
-            placeholder="Date of Birth"
-            iconContent={
-              <Icon
-                size={11}
-                style={{ marginRight: 14 }}
-                color={argonTheme.COLORS.ICON}
-                name="person"
-                family="Fontisto"
-              />
-            }
-          />
-        </Block>
-        <Block>
-          <Text color="white">Gender</Text>
-          <Input
-            placeholder="Gender"
-            iconContent={
-              <Icon
-                size={11}
-                style={{ marginRight: 14 }}
-                color={argonTheme.COLORS.ICON}
-                name="person"
-                family="Fontisto"
-              />
-            }
-          />
-        </Block>
-        <Block>
-          <Text color="white">Nationality</Text>
-          <Input
-            placeholder="Nationality"
-            iconContent={
-              <Icon
-                size={11}
-                style={{ marginRight: 14 }}
-                color={argonTheme.COLORS.ICON}
-                name="person"
-                family="Fontisto"
-              />
-            }
-          />
-        </Block>
-        <Block>
-          <Text color="white">Marital Status</Text>
-          <Input
-            placeholder="Marital Status"
-            iconContent={
-              <Icon
-                size={11}
-                style={{ marginRight: 14 }}
-                color={argonTheme.COLORS.ICON}
-                name="person"
-                family="Fontisto"
-              />
-            }
-          />
-        </Block>
-        <Block>
-          <Text color="white">Address</Text>
-          <Input
-            placeholder="Address"
-            iconContent={
-              <Icon
-                size={11}
-                style={{ marginRight: 14 }}
-                color={argonTheme.COLORS.ICON}
-                name="person"
-                family="Fontisto"
-              />
-            }
-          />
-        </Block>
 
-        <Button style={styles.btnUpdate}>Update</Button>
+              <LabelledInput label="Email" iconname="key" iconfamily="Entypo" />
+              <LabelledInput
+                label="Email"
+                iconname="key"
+                iconfamily="Entypo"
+              />
+              <LabelledInput
+                label="Passport Number"
+                iconname="key"
+                iconfamily="Entypo"
+              />
+              <LabelledInput
+                label="Expiry Date"
+                iconname="key"
+                iconfamily="Entypo"
+              />
+              <LabelledInput
+                label="Landline"
+                iconname="key"
+                iconfamily="Entypo"
+              />
+              <LabelledInput
+                label="Cell Number"
+                iconname="key"
+                iconfamily="Entypo"
+              />
+              <LabelledInput
+                label="Date of Birth"
+                iconname="key"
+                iconfamily="Entypo"
+              />
+              <LabelledInput
+                label="Gender"
+                iconname="key"
+                iconfamily="Entypo"
+              />
+              <LabelledInput
+                label="Nationality"
+                iconname="key"
+                iconfamily="Entypo"
+              />
+              <LabelledInput
+                label="Marital Status"
+                iconname="key"
+                iconfamily="Entypo"
+              />
+              <LabelledInput
+                label="Address"
+                iconname="key"
+                iconfamily="Entypo"
+              />
+              <Button style={styles.btnUpdate}>Update</Button>
+            </Block>
+
       </Block>
     </View>
   );
@@ -198,6 +82,6 @@ export default ProfileTab;
 
 const styles = StyleSheet.create({
   btnUpdate: {
-    width: "100%",
+    marginTop:10
   },
 });

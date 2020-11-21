@@ -17,7 +17,7 @@ class Register extends React.Component {
   render() {
     return (
       <Block flex middle>
-        <StatusBar hidden />
+        <StatusBar />
         <ImageBackground
           source={Images.RegisterBackground}
           style={{ width, height, zIndex: 1 }}

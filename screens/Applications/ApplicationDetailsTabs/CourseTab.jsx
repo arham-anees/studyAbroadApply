@@ -4,6 +4,7 @@ import { Picker } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
 import { Input } from "../../../components";
+import DropDown from "../../../components/DropDown";
 import SelectCountry from "../../../components/SelectCountry";
 
 const { width } = Dimensions.get("screen");
@@ -90,71 +91,16 @@ function CourseTab(props) {
         <Text center h5 color="white">
           Select your course and location to apply
         </Text>
-        <Block row middle>
+        <Block>
           <Text style={styles.title}>Country</Text>
           <View style={styles.info}>
             <SelectCountry />
-            {/* <View style={styles.dropdown}>
-              <Picker mode={"dropdown"}>
-                {countries.map((item, index) => (
-                  <Picker.Item
-                    label={item.name}
-                    value={item.value}
-                    key={index}
-                  />
-                ))}
-              </Picker>
-            </View> */}
           </View>
         </Block>
-        <Block row middle>
-          <Text style={styles.title}>Level</Text>
-          <View style={styles.info}>
-            <View style={styles.dropdown}>
-              <Picker mode={"dropdown"}>
-                {levels.map((item, index) => (
-                  <Picker.Item
-                    label={item.name}
-                    value={item.value}
-                    key={index}
-                  />
-                ))}
-              </Picker>
-            </View>
-          </View>
-        </Block>
-        <Block row middle>
-          <Text style={styles.title}>Course</Text>
-          <View style={styles.info}>
-            <View style={styles.dropdown}>
-              <Picker mode={"dropdown"}>
-                {courses.map((item, index) => (
-                  <Picker.Item
-                    label={item.name}
-                    value={item.value}
-                    key={index}
-                  />
-                ))}
-              </Picker>
-            </View>
-          </View>
-        </Block>
-        <Block row middle>
-          <Text style={styles.title}>Intake</Text>
-          <View style={styles.info}>
-            <View style={styles.dropdown}>
-              <Picker mode={"dropdown"}>
-                {intakes.map((item, index) => (
-                  <Picker.Item
-                    label={item.name}
-                    value={item.value}
-                    key={index}
-                  />
-                ))}
-              </Picker>
-            </View>
-          </View>
-        </Block>
+        <DropDown label="Level" list={levels} />
+        <DropDown label="Course" list={courses} />
+        <DropDown label="Intake" list={intakes} />
+
         <Button style={styles.btnApply}>Apply</Button>
       </Block>
     </View>
@@ -169,6 +115,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 5,
     borderRadius: 5,
+    paddingHorizontal: theme.SIZES.BASE 
   },
   title: {
     width: 80,

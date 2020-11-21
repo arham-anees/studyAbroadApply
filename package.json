@@ -14,6 +14,7 @@
     "url": "git+https://github.com/arham-anees/studyAbroadApply.git"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "2.2.2",
     "@react-native-community/masked-view": "0.1.6",
     "@react-navigation/bottom-tabs": "^5.0.6",
     "@react-navigation/compat": "^5.0.0",
@@ -40,7 +41,7 @@
     "react-native-svg-charts": "^5.4.0",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "^0.14.6",
-    "@react-native-community/datetimepicker": "2.2.2"
+    "sentry-expo": "^3.0.3"
   },
   "devDependencies": {
     "babel-preset-expo": "^8.2.1"

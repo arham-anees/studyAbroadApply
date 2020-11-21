@@ -25,6 +25,18 @@
     "ios": {
       "supportsTablet": true
     },
-    "description": "Argon React Native, based on Argon Design System. Coded by Creative Tim"
+    "description": "Argon React Native, based on Argon Design System. Coded by Creative Tim",
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "SoftoSol",
+            "project": "StudyAbroadApply",
+            "authToken": "ab94721919dc4b4c9fac3ba0b52e2928cf2daaccd3a54253abea33fc62c03bdf"
+          }
+        }
+      ]
+    }
   }
 }

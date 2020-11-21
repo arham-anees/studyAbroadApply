@@ -28,5 +28,15 @@ export default {
     BORDER: '#CAD1D7',
     WHITE: '#FFFFFF',
     BLACK: '#000000'
+  },
+  ICONS:{
+    DEFAULT:{
+      WIDTH:30,
+      HEIGHT:30
+    },
+    MENU:{
+      WIDTH:20,
+      HEIGHT:20
+    }
   }
 };

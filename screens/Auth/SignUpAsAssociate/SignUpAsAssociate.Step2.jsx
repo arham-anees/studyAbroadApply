@@ -4,6 +4,7 @@ import React from "react";
 import { argonTheme } from "../../../constants";
 
 import { ScrollView } from "react-native-gesture-handler";
+import LabelledInput from "../../../components/LabelledInput.Component";
 
 export default function Step2(props) {
   return (
@@ -12,130 +13,15 @@ export default function Step2(props) {
         Contact Information
       </Text>
       <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-        <Input
-          placeholder="First Name"
-          iconContent={
-            <Icon
-              size={11}
-              style={{ marginRight: 14 }}
-              color={argonTheme.COLORS.ICON}
-              name="person"
-              family="Fontisto"
-            />
-          }
-        />
-      </Block>
-      <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-        <Input
-          placeholder="Last Name"
-          iconContent={
-            <Icon
-              size={11}
-              style={{ marginRight: 14 }}
-              color={argonTheme.COLORS.ICON}
-              name="person"
-              family="Fontisto"
-            />
-          }
-        />
-      </Block>
-      <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-        <Input
-          placeholder="Office Address"
-          iconContent={
-            <Icon
-              size={11}
-              style={{ marginRight: 14 }}
-              color={argonTheme.COLORS.ICON}
-              name="person"
-              family="Fontisto"
-            />
-          }
-        />
-      </Block>
-      <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-        <Input
-          placeholder="State/City/Province"
-          iconContent={
-            <Icon
-              size={11}
-              style={{ marginRight: 14 }}
-              color={argonTheme.COLORS.ICON}
-              name="key"
-              family="Entypo"
-            />
-          }
-        />
-      </Block>
-      <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-        <Input
-          placeholder="Country"
-          iconContent={
-            <Icon
-              size={11}
-              style={{ marginRight: 14 }}
-              color={argonTheme.COLORS.ICON}
-              name="key"
-              family="Entypo"
-            />
-          }
-        />
-      </Block>
-      <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-        <Input
-          placeholder="Landline"
-          iconContent={
-            <Icon
-              size={11}
-              style={{ marginRight: 14 }}
-              color={argonTheme.COLORS.ICON}
-              name="key"
-              family="Entypo"
-            />
-          }
-        />
-      </Block>
-      <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-        <Input
-          placeholder="Cell Phone"
-          iconContent={
-            <Icon
-              size={11}
-              style={{ marginRight: 14 }}
-              color={argonTheme.COLORS.ICON}
-              name="key"
-              family="Entypo"
-            />
-          }
-        />
-      </Block>
-      <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-        <Input
-          placeholder="Skype ID"
-          iconContent={
-            <Icon
-              size={11}
-              style={{ marginRight: 14 }}
-              color={argonTheme.COLORS.ICON}
-              name="key"
-              family="Entypo"
-            />
-          }
-        />
-      </Block>
-      <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-        <Input
-          placeholder="WhatsApp ID"
-          iconContent={
-            <Icon
-              size={11}
-              style={{ marginRight: 14 }}
-              color={argonTheme.COLORS.ICON}
-              name="key"
-              family="Entypo"
-            />
-          }
-        />
+      <LabelledInput label="First Name" iconname="person" iconfamily="Fontisto"/>
+      <LabelledInput label="Last Name" iconname="person" iconfamily="Fontisto"/>
+      <LabelledInput label="Office Address" iconname="person" iconfamily="Fontisto"/>
+      <LabelledInput label="State/City/Province" iconname="key" iconfamily="Entypo"/>
+      <LabelledInput label="Country" iconname="key" iconfamily="Entypo"/>
+      <LabelledInput label="Landline" iconname="key" iconfamily="Entypo"/>
+      <LabelledInput label="Cell Phone" iconname="key" iconfamily="Entypo"/>
+      <LabelledInput label="Skype ID" iconname="key" iconfamily="Entypo"/>
+      <LabelledInput label="WhatsApp ID" iconname="key" iconfamily="Entypo"/>
       </Block>
     </ScrollView>
   );

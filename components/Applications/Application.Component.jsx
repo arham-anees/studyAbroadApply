@@ -4,6 +4,8 @@ import { TouchableOpacity, StyleSheet, View } from "react-native";
 import {} from "@expo/vector-icons";
 import FontAwesomeIcon from "../FontAwesomeIcon";
 import GlobalStyle from "../../GlobalStyles";
+import Icons from "../../constants/Icons";
+import CustomIcon from '../../Icons/BellIcon';
 
 function ApplicationItem({ props }) {
   const { item, navigation } = props;
@@ -48,8 +50,8 @@ function ApplicationItem({ props }) {
                 <Text style={styles.textWhite}>Int</Text>
               </Block>
               <Block row space="evenly" style={styles.footer}>
-                <Icon family="galio" name="mail" color="white" size={24} />
-                <Icon family="galio" name="settings" color="white" size={24} />
+                <CustomIcon source={Icons.Email}/>
+                <CustomIcon source={Icons.Settings}/>
               </Block>
             </Block>
           </Block>

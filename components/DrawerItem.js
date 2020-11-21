@@ -1,81 +1,48 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, Linking } from "react-native";
+import { StyleSheet, TouchableOpacity, Linking, View } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 
 import Icon from "./Icon";
 import argonTheme from "../constants/Theme";
+import Icons from "../constants/Icons";
+import CustomIcon from "../Icons/BellIcon";
+import Theme from "../constants/Theme";
 
 class DrawerItem extends React.Component {
   renderIcon = () => {
     const { title, focused } = this.props;
-
+    let source = "";
     switch (title) {
       case "Home":
-        return (
-          <Icon
-            name="shop"
-            family="ArgonExtra"
-            size={14}
-            color={focused ? "white" : argonTheme.COLORS.PRIMARY}
-          />
-        );
-      case "Elements":
-        return (
-          <Icon
-            name="map-big"
-            family="ArgonExtra"
-            size={14}
-            color={focused ? "white" : argonTheme.COLORS.ERROR}
-          />
-        );
-      case "Articles":
-        return (
-          <Icon
-            name="spaceship"
-            family="ArgonExtra"
-            size={14}
-            color={focused ? "white" : argonTheme.COLORS.PRIMARY}
-          />
-        );
+       
+        source = Icons.Home;
+        break;
       case "Applications":
-        return (
-          <Icon
-            name="chart-pie-35"
-            family="ArgonExtra"
-            size={14}
-            color={focused ? "white" : argonTheme.COLORS.WARNING}
-          />
-        );
+        source = Icons.Papers;
+        break;
       case "Courses":
-        return (
-          <Icon
-            name="calendar-date"
-            family="ArgonExtra"
-            size={14}
-            color={focused ? "white" : argonTheme.COLORS.INFO}
-          />
-        );
-      case "Getting Started":
-        return (
-          <Icon
-            name="spaceship"
-            family="ArgonExtra"
-            size={14}
-            color={focused ? "white" : "rgba(0,0,0,0.5)"}
-          />
-        );
+        source = Icons.Notebook;
+        break;
       case "Sign Out":
-        return (
-          <Icon
-            name="logout"
-            family="AntDesign"
-            size={14}
-            color={focused ? "white" : "rgba(0,0,0,0.5)"}
-          />
-        );
+        source = Icons.Logout;
+        break;
       default:
         return null;
+        break;
     }
+    return (
+      <View style={{backgroundColor:"#fff",
+      borderRadius:10,
+      padding:3}}>
+      <CustomIcon
+        source={source}
+        style={{
+          width: Theme.ICONS.MENU.WIDTH,
+          height: Theme.ICONS.MENU.HEIGHT,
+        }}
+      /></View>
+    );
+
   };
 
   render() {

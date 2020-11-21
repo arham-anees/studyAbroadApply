@@ -30,7 +30,7 @@ class SignUpAsAssociate extends React.Component {
   render() {
     return (
       <Block flex style={[styles.container, { backgroundColor: "red" }]}>
-        <StatusBar hidden />
+        <StatusBar />
         <Block flex center>
           <ImageBackground
             source={Images.Onboarding}

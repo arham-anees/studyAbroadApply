@@ -1,11 +1,14 @@
-import { theme } from "galio-framework";
+import { Text, theme } from "galio-framework";
 import React from "react";
 import { View } from "react-native";
 import { Dimensions } from "react-native";
 import { Picker, StyleSheet } from "react-native";
 
-export default function DropDown(props) {
+function DropDown(props) {
+  // console.log(props.list)
   return (
+    <View>
+      <Text style={styles.text}>{props.label}</Text>
     <View style={styles.dropdown}>
       <Picker mode={"dropdown"}>
         {props.list
@@ -15,8 +18,11 @@ export default function DropDown(props) {
           : null}
       </Picker>
     </View>
+    </View>
   );
 }
+
+export default DropDown;
 
 const styles = StyleSheet.create({
   dropdown: {
@@ -28,6 +34,10 @@ const styles = StyleSheet.create({
     marginVertical: theme.SIZES.BASE / 2,
     overflow: "hidden",
     marginTop: 10,
+    width:"100%"
     // width: width - 100,
   },
+  text:{
+    color:"#fff"
+  }
 });

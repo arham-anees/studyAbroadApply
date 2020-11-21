@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
     marginVertical: theme.SIZES.BASE / 2,
     overflow: "hidden",
     marginTop: 10,
-    // width: width - 100,
+    width: "100%",
   },
 });

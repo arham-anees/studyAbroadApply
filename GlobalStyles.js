@@ -8,6 +8,7 @@ const GlobalStyle = {
     secondary: "light-blue",
     textLight: "#fffd",
     textOrange: "#ed7700",
+    error:"red"
   },
   bg: {
     green: "#04870b",
@@ -16,6 +17,7 @@ const GlobalStyle = {
     sky: "#3A8CEB",
     orange: "#FF9806",
     white: "#fffd",
+    errorMessage:"#fff8"
   },
   padding: {
     pageBottom: 40,

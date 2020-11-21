@@ -6,7 +6,7 @@ import ProgressBarAnimated from "react-native-progress-bar-animated";
 import { Dimensions } from "react-native";
 const { width } = Dimensions.get("screen");
 function ProgressBarByCountryItem(props) {
-  console.log(props.item);
+  // console.log(props.item);
   return (
     <View style={styles.wrapper}>
       <Block row space="between" middle>

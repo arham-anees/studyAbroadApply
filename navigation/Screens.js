@@ -30,6 +30,7 @@ import Applications from "../screens/Applications/Applications";
 import SearchCourse from "../screens/Courses/SearchCourse/SearchCourse";
 import SearchedCourses from "../screens/Courses/SearchCourse/SearchedCourses";
 import Notifications from "../screens/Notifications/Notification";
+import HeaderChild from "../components/HeaderChild";
 
 const { width } = Dimensions.get("screen");
 
@@ -37,39 +38,39 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
-function ElementsStack(props) {
-  return (
-    <Stack.Navigator mode="card" headerMode="screen">
-      <Stack.Screen
-        name="Elements"
-        component={Home}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header title="Elements" navigation={navigation} scene={scene} />
-          ),
-          cardStyle: { backgroundColor: "#F8F9FE" },
-        }}
-      />
-      <Stack.Screen
-        name="Pro"
-        component={Pro}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              title=""
-              back
-              white
-              transparent
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
-          headerTransparent: true,
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
+// function ElementsStack(props) {
+//   return (
+//     <Stack.Navigator mode="card" headerMode="screen">
+//       <Stack.Screen
+//         name="Elements"
+//         component={Home}
+//         options={{
+//           header: ({ navigation, scene }) => (
+//             <Header title="Elements" navigation={navigation} scene={scene} />
+//           ),
+//           cardStyle: { backgroundColor: "#F8F9FE" },
+//         }}
+//       />
+//       <Stack.Screen
+//         name="Pro"
+//         component={Pro}
+//         options={{
+//           header: ({ navigation, scene }) => (
+//             <Header
+//               title=""
+//               back
+//               white
+//               transparent
+//               navigation={navigation}
+//               scene={scene}
+//             />
+//           ),
+//           headerTransparent: true,
+//         }}
+//       />
+//     </Stack.Navigator>
+//   );
+// }
 
 function ApplicationStack(props) {
   return (
@@ -79,7 +80,7 @@ function ApplicationStack(props) {
         component={Applications}
         options={{
           header: ({ navigation, scene }) => (
-            <Header
+            <HeaderChild
               title="Applications"
               navigation={navigation}
               scene={scene}
@@ -106,7 +107,7 @@ function CourseStack(props) {
         component={SearchCourse}
         options={{
           header: ({ navigation, scene }) => (
-            <Header
+            <HeaderChild
               title="Search Courses"
               navigation={navigation}
               scene={scene}
@@ -133,7 +134,7 @@ function NotificationStack(props) {
         component={Notifications}
         options={{
           header: ({ navigation, scene }) => (
-            <Header
+            <HeaderChild
               title="Notifications"
               navigation={navigation}
               scene={scene}
@@ -161,7 +162,7 @@ function ProfileStack(props) {
         component={Profile}
         options={{
           header: ({ navigation, scene }) => (
-            <Header
+            <HeaderChild
               transparent
               white
               title="Profile"
@@ -330,12 +331,12 @@ export default function AppStack(props) {
       initialRouteName="Auth"
     >
       <Drawer.Screen name="Home" component={HomeStack} />
+      <Drawer.Screen name="Applications" component={ApplicationStack} />
+      <Drawer.Screen name="Courses" component={CourseStack} />
       <Drawer.Screen name="Profile" component={ProfileStack} />
       <Drawer.Screen name="Account" component={Register} />
       <Drawer.Screen name="Notifications" component={NotificationStack} />
-      <Drawer.Screen name="Applications" component={ApplicationStack} />
       <Drawer.Screen name="Auth" component={AuthStack} />
-      <Drawer.Screen name="Courses" component={CourseStack} />
     </Drawer.Navigator>
   );
 }

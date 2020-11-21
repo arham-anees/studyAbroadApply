@@ -2,7 +2,6 @@ import React from "react";
 import {
   ImageBackground,
   Image,
-  StyleSheet,
   StatusBar,
   Dimensions,
 } from "react-native";
@@ -14,14 +13,14 @@ import styles from "./SignIn.Styles";
 
 import argonTheme from "../../../constants/Theme";
 import Images from "../../../constants/Images";
-import { Icon, Input } from "../../../components";
+import LabelledInput from "../../../components/LabelledInput.Component";
 
 function SignIn(props) {
   const { navigation } = props;
 
   return (
     <Block flex style={styles.container}>
-      <StatusBar hidden />
+      <StatusBar/>
       <Block flex center>
         <ImageBackground
           source={Images.Onboarding}
@@ -34,34 +33,12 @@ function SignIn(props) {
       <Block flex space="between" style={styles.padded}>
         <Block flex space="around" style={{ zIndex: 2 }}>
           <Block style={styles.title}>
-            <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-              <Input
-                placeholder="Email"
-                iconContent={
-                  <Icon
-                    size={11}
-                    style={{ marginRight: 14 }}
-                    color={argonTheme.COLORS.ICON}
-                    name="person"
-                    family="Fontisto"
-                  />
-                }
-              />
-            </Block>
-            <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-              <Input
-                placeholder="Password"
-                iconContent={
-                  <Icon
-                    size={11}
-                    style={{ marginRight: 14 }}
-                    color={argonTheme.COLORS.ICON}
-                    name="key"
-                    family="Entypo"
-                  />
-                }
-              />
-            </Block>
+
+          <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
+      <LabelledInput label="Email" iconname="person" iconfamily="Fontisto"/>
+      <LabelledInput label="Password" iconname="key" iconfamily="Entypo"/>
+      </Block>
+            
           </Block>
           <Block center style={styles.title}>
             <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>

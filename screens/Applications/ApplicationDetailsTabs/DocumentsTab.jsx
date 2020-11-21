@@ -6,6 +6,7 @@ import { StyleSheet, View } from "react-native";
 import DocumentItem from "../../../components/Applications/DocumentItem";
 import * as DocumentPicker from "expo-document-picker";
 import GlobalStyle from "../../../GlobalStyles";
+import { ScrollView } from "react-native";
 
 const { width } = Dimensions.get("screen");
 const documents = [
@@ -58,56 +59,7 @@ class DocumentsTab extends React.Component {
   };
   render = () => (
     <View>
-      <Block style={styles.block}>
-        <Text color="white" h5 center>
-          New Document
-        </Text>
-        <Block>
-          <Text color="white">Title</Text>
-          <Input placeholder="Document Title" />
-        </Block>
-
-        <Block>
-          <Text color="white">Category</Text>
-          <View style={styles.dropdown}>
-            <Picker mode={"dropdown"}>
-              {documentTypes.map((item, index) => (
-                <Picker.Item label={item.name} value={item.value} key={index} />
-              ))}
-            </Picker>
-          </View>
-        </Block>
-
-        <Block>
-          <Text color="white">File</Text>
-          <Block row space="between" middle>
-            <Text color="white">{this.state.file}</Text>
-            <Button
-              uppercase
-              style={[styles.button, { width: width / 3 }]}
-              onPress={() => this.pickDocumentHandle()}
-            >
-              File
-            </Button>
-          </Block>
-        </Block>
-        <Block row space={"between"} flex marginTop={10}>
-          <Button
-            uppercase
-            color={GlobalStyle.bg.green}
-            style={[styles.button, { width: (width - 30) / 2 }]}
-          >
-            Upload
-          </Button>
-          <Button
-            uppercase
-            color={GlobalStyle.bg.red}
-            style={[styles.button, { width: (width - 30) / 2 }]}
-          >
-            Reset
-          </Button>
-        </Block>
-      </Block>
+      
       <Block style={styles.block}>
         <Text h5 color="white" center>
           Documents
@@ -122,6 +74,7 @@ class DocumentsTab extends React.Component {
           />
         ))}
       </Block>
+    
     </View>
   );
 }
@@ -143,6 +96,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 5,
     borderRadius: 5,
+    
+    paddingHorizontal: theme.SIZES.BASE 
   },
   button: {
     height: 30,
