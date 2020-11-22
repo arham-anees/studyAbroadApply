@@ -3,7 +3,8 @@ const Papers=require('../assets/svg/papers.png')
 const Notebook=require('../assets/svg/notebook.png')
 const Logout=require('../assets/svg/logout.png')
 const Menu=require('../assets/svg/menu.png')
-const Back=require('../assets/svg/back.png')
+const BackWhite=require('../assets/svg/left-arrow.png')
+const Back=require('../assets/svg/left-arrow-white.png')
 const Home=require('../assets/svg/home.png')
 const Settings=require('../assets/svg/settings.png')
 const Email=require('../assets/svg/email.png')
@@ -20,6 +21,7 @@ Notebook,
 Logout,
 Menu,
 Back,
+BackWhite,
 Home,
 Settings,
 Email,

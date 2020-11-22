@@ -1,3 +1,5 @@
+import GlobalStyle from "../../../GlobalStyles";
+
 const { theme } = require("galio-framework");
 const { Dimensions, StyleSheet } = require("react-native");
 
@@ -7,7 +9,7 @@ const styles = StyleSheet.create({
   container: {},
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,
-    position: "relative",
+
     bottom: theme.SIZES.BASE,
     zIndex: 2,
   },
@@ -22,15 +24,26 @@ const styles = StyleSheet.create({
     width: 200,
     height: 60,
     zIndex: 2,
-    position: "relative",
-    marginTop: "-50%",
+  },
+  logoBox:{
+    height:height/10*4,
+    display:"flex",
+    justifyContent:"center",
   },
   title: {
-    marginTop: "-5%",
   },
   subTitle: {
     marginTop: 20,
   },
+  error:{
+    marginHorizontal:20,
+    paddingHorizontal:5,
+    marginBottom:5,
+    color:GlobalStyle.color.textLight,
+    backgroundColor:GlobalStyle.bg.errorMessage,
+    borderRadius:2,
+    textAlign:"center"
+  }
 });
 
 export default styles;

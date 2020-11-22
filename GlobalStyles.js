@@ -17,7 +17,7 @@ const GlobalStyle = {
     sky: "#3A8CEB",
     orange: "#FF9806",
     white: "#fffd",
-    errorMessage:"#fff8"
+    errorMessage:"#f008"
   },
   padding: {
     pageBottom: 40,

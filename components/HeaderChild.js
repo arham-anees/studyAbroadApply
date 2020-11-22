@@ -1,18 +1,15 @@
 import React from "react";
 import { withNavigation } from "@react-navigation/compat";
 import {
-  TouchableOpacity,
+  
   StyleSheet,
-  Platform,
+  
   Dimensions,
 } from "react-native";
-import { Button, Block, NavBar, Text, theme } from "galio-framework";
+import {  Block, NavBar, theme } from "galio-framework";
 
-import Icon from "./Icon";
-import Input from "./Input";
 import Tabs from "./Tabs";
 import argonTheme from "../constants/Theme";
-import { Image } from "react-native";
 import CustomIcon from "../Icons/BellIcon";
 import Icons from "../constants/Icons";
 
@@ -84,6 +81,7 @@ class HeaderChild extends React.Component {
       bgColor && { backgroundColor: bgColor },
     ];
 
+    console.log(props);
     return (
       <Block style={headerStyles}>
         <NavBar
@@ -94,7 +92,7 @@ class HeaderChild extends React.Component {
           right={this.renderRight()}
           rightStyle={{ alignItems: "center" }}
           left={
-            <CustomIcon source={Icons.Back} style={{width:20}} 
+            <CustomIcon source={transparent?Icons.Back:Icons.BackWhite} style={{width:20}} 
             onPress={this.handleLeftPress} />
           }
           leftStyle={{ paddingVertical: 12, flex: 0.2 }}
