@@ -3,6 +3,8 @@ import { TouchableOpacity, StyleSheet, View } from "react-native";
 import { Block, Button, Text } from "galio-framework";
 import { Dimensions } from "react-native";
 import GlobalStyle from "../../GlobalStyles";
+import CustomIcon from "../../Icons/BellIcon";
+import Icons from "../../constants/Icons";
 
 const { width } = Dimensions.get("screen");
 
@@ -17,6 +19,11 @@ function DocumentItem(props) {
         <Text>{props.category}</Text>
         <Text>{props.date}</Text>
       </Block>
+      <Block row space="around" style={{borderTopWidth:0.5, paddingTop:10}}>
+      <CustomIcon source={Icons.Download}/>
+        <CustomIcon source={Icons.Trash}/>
+      </Block>
+{/*       
       <Block row space="between">
         <Button style={styles.button} color={GlobalStyle.bg.green}>
           Download
@@ -24,7 +31,7 @@ function DocumentItem(props) {
         <Button style={styles.button} color={GlobalStyle.bg.red}>
           Delete
         </Button>
-      </Block>
+      </Block> */}
     </View>
   );
 }

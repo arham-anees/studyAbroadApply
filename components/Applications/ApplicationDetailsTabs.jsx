@@ -8,10 +8,9 @@ import argonTheme from "../../constants/Theme";
 const defaultMenu = [
   { id: "noticeBoard", title: "Notice Board" },
   { id: "profile", title: "Profile" },
-  { id: "course", title: "Course" },
   { id: "documents", title: "Documents" },
   { id: "offers", title: "Offers" },
-  { id: "travelInformation", title: "Travel Information" },
+  { id: "travelInformation", title: "Others" },
 ];
 
 class ApplicationDetailsTabs extends React.Component {

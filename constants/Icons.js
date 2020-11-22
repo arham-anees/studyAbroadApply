@@ -7,6 +7,10 @@ const Back=require('../assets/svg/back.png')
 const Home=require('../assets/svg/home.png')
 const Settings=require('../assets/svg/settings.png')
 const Email=require('../assets/svg/email.png')
+const BoxPen=require('../assets/svg/boxpen.png')
+const Send=require('../assets/svg/send.png')
+const Download=require('../assets/svg/downArrow.png')
+const Trash=require('../assets/svg/delete.png')
 
 
 export default  Icons={
@@ -18,5 +22,9 @@ Menu,
 Back,
 Home,
 Settings,
-Email
+Email,
+BoxPen,
+Send,
+Download,
+Trash
 }

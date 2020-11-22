@@ -31,6 +31,7 @@ import SearchCourse from "../screens/Courses/SearchCourse/SearchCourse";
 import SearchedCourses from "../screens/Courses/SearchCourse/SearchedCourses";
 import Notifications from "../screens/Notifications/Notification";
 import HeaderChild from "../components/HeaderChild";
+import NewDocument from "../screens/Applications/NewDocument";
 
 const { width } = Dimensions.get("screen");
 
@@ -92,6 +93,13 @@ function ApplicationStack(props) {
       <Stack.Screen
         name="ApplicationDetails"
         component={ApplicationDetails}
+        options={{
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="NewDocument"
+        component={NewDocument}
         options={{
           cardStyle: { backgroundColor: "#F8F9FE" },
         }}

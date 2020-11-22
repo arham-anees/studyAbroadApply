@@ -3,6 +3,7 @@ import React from "react";
 import { View } from "react-native";
 import { Dimensions } from "react-native";
 import { Picker, StyleSheet } from "react-native";
+import DropDown from "./DropDown";
 
 const countries = [
   { name: "Pakistan", value: 1 },
@@ -14,27 +15,5 @@ const countries = [
 ];
 
 export default function SelectCountry(props) {
-  return (
-    <View style={styles.dropdown}>
-      <Picker mode={"dropdown"}>
-        {countries.map((item, index) => (
-          <Picker.Item label={item.name} value={item.value} key={index} />
-        ))}
-      </Picker>
-    </View>
-  );
+  return <DropDown list={countries} label="Countries"/>
 }
-
-const styles = StyleSheet.create({
-  dropdown: {
-    backgroundColor: theme.COLORS.WHITE,
-    borderRadius: theme.SIZES.INPUT_BORDER_RADIUS - 3,
-    borderWidth: theme.SIZES.INPUT_BORDER_WIDTH,
-    borderColor: theme.COLORS.INPUT,
-    height: theme.SIZES.INPUT_HEIGHT,
-    marginVertical: theme.SIZES.BASE / 2,
-    overflow: "hidden",
-    marginTop: 10,
-    width: "100%",
-  },
-});

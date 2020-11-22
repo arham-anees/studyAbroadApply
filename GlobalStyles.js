@@ -38,6 +38,10 @@ const GlobalStyle = {
   scrollBottomPadding: {
     height: 100,
   },
+  wrapText:{
+    flex:1,
+  flexWrap:"wrap"
+  }
 };
 
 export default GlobalStyle;

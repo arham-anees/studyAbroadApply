@@ -23,35 +23,33 @@ function SearchedCoursesItem(props) {
         </Text>
         <Block row>
           <Text style={[styles.text, styles.infoField]}>Country :</Text>
-          <Text style={styles.text}>Australia</Text>
+          <Text style={[styles.text, styles.infoField]}>Australia</Text>
         </Block>
         <Block row>
           <Text style={[styles.text, styles.infoField]}>City :</Text>
-          <Text style={styles.text}>Queensland</Text>
+          <Text style={[styles.text, styles.infoField]}>Queensland</Text>
         </Block>
         <Block row>
           <Text style={[styles.text, styles.infoField]}>Intakes :</Text>
-          <Text style={styles.text}>-</Text>
+          <Text style={[styles.text, styles.infoField]}>-</Text>
         </Block>
         <Block row>
           <Text style={[styles.text, styles.infoField]}>Duration :</Text>
-          <Text style={styles.text}>0 Year(s) 0 Month(s)</Text>
+          <Text style={[styles.text, styles.infoField]}>0 Year(s) 0 Month(s)</Text>
         </Block>
         <Block row>
           <Text style={[styles.text, styles.infoField]}>
             Course Fee (Per Year):
           </Text>
-          <Text style={styles.text}>$ 0</Text>
+          <Text style={[styles.text, styles.infoField]}>$ 0</Text>
         </Block>
         <Block row>
           <Text style={[styles.text, styles.infoField]}>Course Deadline :</Text>
-          <Text style={styles.text}>-</Text>
+          <Text style={[styles.text, styles.infoField]}>-</Text>
         </Block>
         <Block row middle>
-          <Text style={[styles.text, styles.infoField]}>Course Deadline :</Text>
-          <Block flex>
-            <DropDown />
-          </Block>
+        <Text style={[styles.text, styles.infoField]}>Course Deadline :</Text>
+          <Text style={[styles.text, styles.infoField]}>12/12/2020</Text>
         </Block>
         <Button>Apply</Button>
       </Block>
@@ -90,7 +88,8 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
   },
   infoField: {
-    width: 150,
+    flex:1,
+    flexWrap:"wrap"
   },
   padding: {
     padding: 10,

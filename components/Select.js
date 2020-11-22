@@ -1,100 +1,31 @@
-// import React from "react";
-// import { StyleSheet } from "react-native";
-// import PropTypes from "prop-types";
-// import ModalDropdown from "react-native-modal-dropdown";
-// import { Block, Text } from "galio-framework";
+import { theme } from 'galio-framework';
+import React from 'react';
+import { Picker, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 
-// import Icon from "./Icon";
-// import { argonTheme } from "../constants";
-
-// class DropDown extends React.Component {
-//   state = {
-//     value: 1,
-//   };
-
-//   handleOnSelect = (index, value) => {
-//     const { onSelect } = this.props;
-
-//     this.setState({ value: value });
-//     onSelect && onSelect(index, value);
-//   };
-
-//   render() {
-//     const {
-//       onSelect,
-//       iconName,
-//       iconFamily,
-//       iconSize,
-//       iconColor,
-//       color,
-//       textStyle,
-//       style,
-//       ...props
-//     } = this.props;
-
-//     const modalStyles = [
-//       styles.qty,
-//       color && { backgroundColor: color },
-//       style,
-//     ];
-
-//     const textStyles = [styles.text, textStyle];
-
-//     return (
-//       <ModalDropdown
-//         style={modalStyles}
-//         onSelect={this.handleOnSelect}
-//         dropdownStyle={styles.dropdown}
-//         dropdownTextStyle={{ paddingLeft: 16, fontSize: 12 }}
-//         {...props}
-//       >
-//         <Block flex row middle space="between">
-//           <Text size={12} style={textStyles}>
-//             {this.state.value}
-//           </Text>
-//           <Icon
-//             name={iconName || "nav-down"}
-//             family={iconFamily || "ArgonExtra"}
-//             size={iconSize || 10}
-//             color={iconColor || argonTheme.COLORS.WHITE}
-//           />
-//         </Block>
-//       </ModalDropdown>
-//     );
-//   }
-// }
-
-// DropDown.propTypes = {
-//   onSelect: PropTypes.func,
-//   iconName: PropTypes.string,
-//   iconFamily: PropTypes.string,
-//   iconSize: PropTypes.number,
-//   color: PropTypes.string,
-//   textStyle: PropTypes.any,
-// };
-
-// const styles = StyleSheet.create({
-//   qty: {
-//     width: 100,
-//     backgroundColor: argonTheme.COLORS.DEFAULT,
-//     paddingHorizontal: 16,
-//     paddingTop: 10,
-//     paddingBottom: 9.5,
-//     borderRadius: 4,
-//     shadowColor: "rgba(0, 0, 0, 0.1)",
-//     shadowOffset: { width: 0, height: 2 },
-//     shadowRadius: 4,
-//     shadowOpacity: 1,
-//   },
-//   text: {
-//     color: argonTheme.COLORS.WHITE,
-//     fontWeight: "600",
-//   },
-//   dropdown: {
-//     marginTop: 8,
-//     marginLeft: -16,
-//     width: 100,
-//   },
-// });
-
-// export default DropDown;
+export default function Select(props) {
+    return (
+      <View style={styles.dropdown}>
+        <Picker mode={"dropdown"}>
+          {props.list.map((item, index) => (
+            <Picker.Item label={item.name} value={item.value} key={index} />
+          ))}
+        </Picker>
+      </View>
+    );
+  }
+  
+  const styles = StyleSheet.create({
+    dropdown: {
+      backgroundColor: theme.COLORS.WHITE,
+      borderRadius: theme.SIZES.INPUT_BORDER_RADIUS - 3,
+      borderWidth: theme.SIZES.INPUT_BORDER_WIDTH,
+      borderColor: theme.COLORS.INPUT,
+      height: theme.SIZES.INPUT_HEIGHT,
+      marginVertical: theme.SIZES.BASE / 2,
+      overflow: "hidden",
+      marginTop: 10,
+      width: "100%",
+    },
+  });
+  

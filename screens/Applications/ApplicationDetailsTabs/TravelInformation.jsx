@@ -1,6 +1,10 @@
 import { Block, Input, Text, theme } from "galio-framework";
 import React from "react";
-import { View } from "react-native";
+import { Dimensions } from "react-native";
+import { StyleSheet, View } from "react-native";
+import GlobalStyle from "../../../GlobalStyles";
+
+const {width}=Dimensions.get("screen");
 
 const travelDocuments = {
   arrivalTime: "10:20 PM",
@@ -9,31 +13,113 @@ const travelDocuments = {
   proposedAccomodation: "-",
   contactNumberAbroad: "0300-0000000",
 };
+
+var item = {
+  course: "BSc Business Administration & Management",
+  intake: "February 2021",
+  level: "Bachelor's",
+  institute: "Budapest Metropolitan University",
+  country: "Hungary",
+};
 function TravelInformation(props) {
   return (
     <View style={{paddingHorizontal:theme.SIZES.BASE}}>
+       <Block style={styles.block}>
+        <Text color="white" center h5>
+          Course
+        </Text>
+        <Block style={styles.line}></Block>
+        <Block row>
+          <Text style={styles.title}>COURSE</Text>
+          <Text style={styles.info}>{item.course}</Text>
+        </Block>
+
+        <Block row>
+          <Text style={styles.title}>INTAKE</Text>
+          <Text style={styles.info}>{item.intake}</Text>
+        </Block>
+        <Block row>
+          <Text style={styles.title}>LEVEL</Text>
+          <Text style={styles.info}>{item.level}</Text>
+        </Block>
+        <Block row>
+          <Text style={styles.title}>INSTITUTE</Text>
+          <Text style={styles.info}>{item.institute}</Text>
+        </Block>
+        <Block row>
+          <Text style={styles.title}>COUNTRY</Text>
+          <Text style={styles.info}>{item.country}</Text>
+        </Block>
+      </Block>
+      <Block style={styles.block}>
+        <Text color="white" center h5>
+          Travel Information
+        </Text>
+        <Block style={styles.line}></Block>
       <Block row  space="evenly">
-      <Text color="white">Arrival Date</Text>
-        <Text color="white">{travelDocuments.arrivalDate}</Text>
+      <Text style={styles.item}>Arrival Date</Text>
+        <Text style={styles.item}>{travelDocuments.arrivalDate}</Text>
       </Block>
       <Block row space="evenly">
-        <Text color="white">Arrival Time</Text>
-        <Text color="white">{travelDocuments.arrivalTime}</Text>
+        <Text style={styles.item}>Arrival Time</Text>
+        <Text style={styles.item}>{travelDocuments.arrivalTime}</Text>
       </Block>
       <Block row space="evenly">
-        <Text color="white">Flight Number</Text>
-        <Text color="white">{travelDocuments.flightNumber}</Text>
+        <Text style={styles.item}>Flight Number</Text>
+        <Text style={styles.item}>{travelDocuments.flightNumber}</Text>
       </Block>
       <Block row space="evenly">
-        <Text color="white">Proposed Accomodation</Text>
-        <Text color="white">{travelDocuments.proposedAccomodation}</Text>
+        <Text style={styles.item}>Proposed Accomodation</Text>
+        <Text style={styles.item}>{travelDocuments.proposedAccomodation}</Text>
       </Block>
       <Block row space="evenly" >
-        <Text color="white">Contact Number Abroad</Text>
-        <Text color="white">{travelDocuments.contactNumberAbroad}</Text>
+        <Text style={styles.item}>Contact Number Abroad</Text>
+        <Text style={styles.item}>{travelDocuments.contactNumberAbroad}</Text>
+      </Block>
       </Block>
     </View>
   );
 }
 
 export default TravelInformation;
+const styles=StyleSheet.create({
+  item:{
+    width:width/2 -40,
+    color:GlobalStyle.color.textLight
+  }
+  , block: {
+    backgroundColor: "#0004",
+    marginTop: 10,
+    padding: 5,
+    borderRadius: 5,
+    paddingHorizontal: theme.SIZES.BASE 
+  },
+  title: {
+    width: 80,
+    color: "white",
+  },
+  info: {
+    color: "white",
+    flex: 1,
+    flexWrap: 'wrap'
+  },
+  dropdown: {
+    backgroundColor: theme.COLORS.WHITE,
+    borderRadius: theme.SIZES.INPUT_BORDER_RADIUS - 3,
+    borderWidth: theme.SIZES.INPUT_BORDER_WIDTH,
+    borderColor: theme.COLORS.INPUT,
+    height: theme.SIZES.INPUT_HEIGHT,
+    overflow: "hidden",
+    marginTop: 10,
+    width: width - 100,
+  },
+  btnApply: {
+    width: "100%",
+    marginTop: 10,
+  },
+  line:{
+    height:1,
+    backgroundColor:"#fff",
+    marginBottom:10
+  }
+})

@@ -8,7 +8,7 @@ class LabelledInput extends React.Component {
     <Block>
       <Text style={{ color: GlobalStyle.color.textLight }}>{this.props.label}</Text>
       <Input
-        placeholder={this.props.label}
+        placeholder={this.props.placeholder?this.props.placeholder:this.props.label}
         value={this.props.value ?? ""}
         style={this.props.error?{borderColor:"red", borderWidth:2}:null}
         onChangeText={this.props.onChange}

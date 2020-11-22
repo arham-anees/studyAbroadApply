@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   },
   block: GlobalStyle.block,
   blockTitle: GlobalStyle.blockTitle,
+  advancedSearch:{marginTop:15}
 });
 
 export default styles;

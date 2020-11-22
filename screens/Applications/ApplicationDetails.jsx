@@ -18,7 +18,6 @@ const { height, width } = Dimensions.get("screen");
 const Tabs = {
   NoticeBoard: "noticeBoard",
   Profile: "profile",
-  Course: "course",
   Documents: "documents",
   Offers: "offers",
   TravelInformation: "travelInformation",
@@ -40,7 +39,7 @@ class ApplicationDetails extends React.Component {
         console.log("Notice board");
       }
       else if(this.state.activeTab===Tabs.Documents){
-        console.log("Document");
+        this.props.navigation.navigate("NewDocument")
       }
       else if(this.state.activeTab===Tabs.Offers){
         console.log("Offers");
@@ -65,8 +64,8 @@ class ApplicationDetails extends React.Component {
                 <NoticeBoardTab />
               ) : this.state.activeTab === Tabs.Profile ? (
                 <ProfileTab />
-              ) : this.state.activeTab === Tabs.Course ? (
-                <CourseTab />
+              // ) : this.state.activeTab === Tabs.Course ? (
+              //   <CourseTab />
               ) : this.state.activeTab === Tabs.Documents ? (
                 <DocumentsTab />
               ) : this.state.activeTab === Tabs.Offers ? (
@@ -77,10 +76,10 @@ class ApplicationDetails extends React.Component {
 
               <Block style={{ minHeight: 200 }}></Block>
             </ScrollView>
-            {this.state.activeTab === Tabs.NoticeBoard ||this.state.activeTab===Tabs.Documents? (
+            {this.state.activeTab===Tabs.Documents? (
                   <Button onlyIcon icon="plus" iconFamily="antdesign"
                   iconSize={30} color="green" iconColor="#fff"
-                  style={styles.floatingButton}>add</Button>
+                  style={styles.floatingButton} onPress={this.AddNewHandle}>add</Button>
               ) : null}
           
           </View>

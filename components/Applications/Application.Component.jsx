@@ -2,8 +2,6 @@ import { Block, Button, Card, Icon, Text } from "galio-framework";
 import React from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 import {} from "@expo/vector-icons";
-import FontAwesomeIcon from "../FontAwesomeIcon";
-import GlobalStyle from "../../GlobalStyles";
 import Icons from "../../constants/Icons";
 import CustomIcon from '../../Icons/BellIcon';
 

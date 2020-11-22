@@ -1,16 +1,11 @@
-import {
-  Block,
-  Button,
-  Checkbox,
-  Icon,
-  Input,
-  Text,
-  theme,
-} from "galio-framework";
-import React from "react";
+import { Block, Button, Checkbox, Input, Text, theme } from "galio-framework";
+import React, { useState } from "react";
 import { Picker } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
+import Icons from "../../../constants/Icons";
+import GlobalStyle from "../../../GlobalStyles";
+import CustomIcon from "../../../Icons/BellIcon";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -22,7 +17,19 @@ const applicationStatus = [
   { name: "Refund Acknowledged", value: 1 },
 ];
 
+function Note(props) {
+  return (
+    <Block row style={{borderWidth:0.5, padding:5, borderColor:"#fff", marginBottom:10, borderRadius:5}}>
+      <Text style={{color:GlobalStyle.color.textLight}}>Faraz :</Text>
+      <Text  style={{color:GlobalStyle.color.textLight, paddingLeft:10, flex:1, flexWrap:"wrap"}}>
+        This is test note long enough to break line but still no success
+      </Text>
+    </Block>
+  );
+}
+
 function NoticeBoardTab(props) {
+  const [openNewNote, setOpenNewNote]=useState(false);
   return (
     <View>
       <Block center style={styles.statusBar}>
@@ -50,23 +57,22 @@ function NoticeBoardTab(props) {
           <Text color="white">Next Follow Up</Text>
           <Text color="white">10/10/2020</Text>
         </Block>
-        <Block row middle space="between">
-          <Text color="white">Up Date</Text>
+        <Block row bottom>
           <Button style={styles.updateStatusBtn}>
             Add Next Follow Up Date
           </Button>
         </Block>
       </Block>
       <Block style={styles.block}>
+ 
         <Text style={styles.title}>Application Notes</Text>
         <Block>
-          <Block style={styles.noteBody}>
-            <Text color="white">Faraz: this is a note</Text>
-          </Block>
-          <Block style={styles.noteBody}>
-            <Text color="white">Student: this is a note</Text>
-          </Block>
+        <Note/>
+        <Note/>
+        <Note/>
         </Block>
+        {openNewNote?
+        <Block>
         <Checkbox
           color="white"
           label="Is visible to students"
@@ -79,9 +85,13 @@ function NoticeBoardTab(props) {
             <Input placeholder={"Note"}></Input>
           </Block>
           <Block style={styles.iconBlock} middle>
-            <Icon family="Feather" name="send" />
+        <CustomIcon source={Icons.Send} onPress={()=>setOpenNewNote(false)}/>
           </Block>
         </Block>
+        </Block>:
+        <View style={styles.newNote}>
+        <CustomIcon source={Icons.BoxPen} onPress={()=>setOpenNewNote(true)}/>
+        </View>}
       </Block>
     </View>
   );
@@ -93,7 +103,6 @@ const styles = StyleSheet.create({
   statusBar: {
     backgroundColor: "green",
     width: width,
-    paddingVertical: 10,
   },
   block: {
     backgroundColor: "#0004",
@@ -134,5 +143,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontStyle: "italic",
     fontSize: 24,
+  },
+  newNote: {
+    backgroundColor: "#fff",
+    alignSelf: "flex-end",
+    padding: 5,
+    borderRadius: 5,
   },
 });

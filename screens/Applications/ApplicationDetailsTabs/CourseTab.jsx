@@ -1,5 +1,5 @@
 import { Block, Button, Text, theme } from "galio-framework";
-import React from "react";
+import React, { useState } from "react";
 import { Picker } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
@@ -59,6 +59,7 @@ var item = {
   country: "Hungary",
 };
 function CourseTab(props) {
+  const [openApplyForm, setApplyForm] = useState(false);
   return (
     <View>
       <Block style={styles.block}>
@@ -87,22 +88,28 @@ function CourseTab(props) {
           <Text style={styles.info}>{item.country}</Text>
         </Block>
       </Block>
-      <Block style={styles.block}>
-        <Text center h5 color="white">
-          Select your course and location to apply
-        </Text>
-        <Block>
-          <Text style={styles.title}>Country</Text>
-          <View style={styles.info}>
-            <SelectCountry />
-          </View>
-        </Block>
-        <DropDown label="Level" list={levels} />
-        <DropDown label="Course" list={courses} />
-        <DropDown label="Intake" list={intakes} />
+      {/* {openApplyForm ? (
+        <Block style={styles.block}>
+          <Text center h5 color="white">
+            Select your course and location to apply
+          </Text>
+          <Block>
+            <Text style={styles.title}>Country</Text>
+            <View style={styles.info}>
+              <SelectCountry />
+            </View>
+          </Block>
+          <DropDown label="Level" list={levels} />
+          <DropDown label="Course" list={courses} />
+          <DropDown label="Intake" list={intakes} />
 
-        <Button style={styles.btnApply}>Apply</Button>
-      </Block>
+          <Button style={styles.btnApply} onPress={()=>setApplyForm(false)}>Apply</Button>
+        </Block>
+      ) : (
+        <Block center style={{ marginTop: 20 }}>
+          <Button onPress={()=>setApplyForm(true)}>Apply for course</Button>
+        </Block>
+      )} */}
     </View>
   );
 }

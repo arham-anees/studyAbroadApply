@@ -5,7 +5,6 @@ import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
 import DocumentItem from "../../../components/Applications/DocumentItem";
 
-const { width } = Dimensions.get("screen");
 const documents = [
   { id: 1, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
   { id: 2, name: "Passport", category: "Passport", date: "Oct 29 2020" },
@@ -26,57 +25,10 @@ const documents = [
   { id: 12, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
   { id: 13, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
 ];
-const documentTypes = [
-  { value: 1, name: "Bachelors Degree / Transcript" },
-  { value: 2, name: "Passport" },
-  { value: 3, name: "CV" },
-  { value: 4, name: "Bachelors Degree / Transcript" },
-];
+
 function OffersTab(props) {
   return (
     <View>
-      <Block style={styles.block}>
-        <Text color="white" h5 center>
-          New Document
-        </Text>
-        <Block>
-          <Text color="white">Title</Text>
-          <Input placeholder="Document Title" />
-        </Block>
-
-        <Block>
-          <Text color="white">Category</Text>
-          <View style={styles.dropdown}>
-            <Picker mode={"dropdown"}>
-              {documentTypes.map((item, index) => (
-                <Picker.Item label={item.name} value={item.value} key={index} />
-              ))}
-            </Picker>
-          </View>
-        </Block>
-
-        <Block>
-          <Text color="white">File</Text>
-          <Block row space="between" middle>
-            <Text color="white">./file.pdf</Text>
-            <Button style={[styles.button, { width: width / 3 }]}>File</Button>
-          </Block>
-        </Block>
-        <Block row space={"between"} flex marginTop={10}>
-          <Button
-            color="green"
-            style={[styles.button, { width: (width - 30) / 2 }]}
-          >
-            Upload
-          </Button>
-          <Button
-            color="red"
-            style={[styles.button, { width: (width - 30) / 2 }]}
-          >
-            Reset
-          </Button>
-        </Block>
-      </Block>
       <Block style={styles.block}>
         <Text h5 color="white" center>
           Documents
