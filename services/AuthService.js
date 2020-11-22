@@ -8,10 +8,21 @@ function Login({ email, password }) {
   });
 }
 
+function RegisterStudent({ firstName,lastName,email, password }) {
+    return new Promise((resolve, reject) => {
+      try {
+        resolve(false);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+  
 
 
 const AuthService={
-    Login
+    Login,
+    RegisterStudent
 }
 
 export default AuthService;

@@ -107,8 +107,6 @@ class Header extends React.Component {
       bgColor && { backgroundColor: bgColor },
     ];
 
-    console.log('--------------------------------------------------------------')
-    console.log(title)
     return (
       <Block style={headerStyles}>
         <NavBar

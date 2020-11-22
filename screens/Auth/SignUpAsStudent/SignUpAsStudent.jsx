@@ -7,7 +7,7 @@ import {
   StatusBar,
   Dimensions,
 } from "react-native";
-import { Block, Button, theme } from "galio-framework";
+import { Block, Button, Text, theme } from "galio-framework";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -29,26 +29,28 @@ class SignUpAsStudent extends React.Component {
       Password: "",
       ConfirmPassword: "",
       error: -1,
+      generalMessage:"",
     };
   }
 
   handleSignUp=()=>{
-    HandleSignUp(this.state).then(x=>console.log(x))
-    .catch(e=>{
-      console.log(e)
-      try{
-        let errorCode=parseInt(e);
-        this.setState({error:errorCode});
-      }
-      catch(e){
-//show toast
-      }
+    HandleSignUp(this.state).then(x=>{
     })
+    .catch(e=>{
+      try{
+        let errorCode=parseInt(e.errorCode);
+        this.setState({error:errorCode,generalMessage:e.message});
+      }
+      catch(err){
+        this.setState({generalMessage:err})
+      }
+      });
   }
-  handleEmailChange=(value)=>{
-console.log(value);
-this.setState({Email:value});
-  }
+  handleFirstNameChange=(value)=>this.setState({FirstName:value, generalMessage:'', error:-1});
+  handleLastNameChange=(value)=>this.setState({LastName:value, generalMessage:'', error:-1});
+  handleEmailChange=(value)=>this.setState({Email:value, generalMessage:'', error:-1});
+  handlePasswordChange=(value)=>this.setState({Password:value, generalMessage:'', error:-1});
+  handleConfirmPasswordChange=(value)=>this.setState({ConfirmPassword:value, generalMessage:'', error:-1});
   render = () => (
     <Block  style={styles.container}>
       <StatusBar />
@@ -69,37 +71,47 @@ this.setState({Email:value});
                 label="First Name"
                 iconname="person"
                 iconfamily="Fontisto"
-                onChange={this.handleEmailChange}
+                onChange={this.handleFirstNameChange}
+                
+                value={this.state.FirstName}
               />
               <LabelledInput
                 label="Last Name"
                 iconname="person"
                 value={this.state.LastName}
-                onChange={this.handleEmailChange}
+                onChange={this.handleLastNameChange}
                 iconfamily="Fontisto"
+                value={this.state.LastName}
               />
 
               <LabelledInput label="Email" iconname="key" iconfamily="Entypo" 
               value={this.state.Email}
                 error={this.state.error===2}
                 onChange={this.handleEmailChange}
+                value={this.state.Email}
                 />
               <LabelledInput
                 label="Password"
                 iconname="key"
                 error={this.state.error===3}
                 iconfamily="Entypo"
-                onChange={this.handleEmailChange}
+                onChange={this.handlePasswordChange}
+                value={this.state.Password}
+                password
               />
               <LabelledInput
                 label="Confirm Password"
                 iconname="key"
                 iconfamily="Entypo"
-                onChange={this.handleEmailChange}
+                password
+                onChange={this.handleConfirmPasswordChange}
                 error={this.state.error===4}
+                value={this.state.ConfirmPassword}
               />
+              {this.state.generalMessage.length>0?<Text style={styles.error}>{this.state.generalMessage}</Text>:null}
             </Block>
           </Block>
+
           <Block center style={[styles.title,{marginTop:20}]}>
             <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
               <Button

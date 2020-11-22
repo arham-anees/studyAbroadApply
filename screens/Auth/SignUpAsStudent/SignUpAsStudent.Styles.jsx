@@ -1,3 +1,5 @@
+import GlobalStyle from "../../../GlobalStyles";
+
 const { theme } = require("galio-framework");
 const { Dimensions, StyleSheet } = require("react-native");
 
@@ -28,6 +30,13 @@ const styles = StyleSheet.create({
   subTitle: {
     marginTop: 20,
   },
+  error:{
+    paddingHorizontal:5,
+    color:GlobalStyle.color.textLight,
+    backgroundColor:GlobalStyle.bg.errorMessage,
+    borderRadius:2,
+    textAlign:"center"
+  }
 });
 
 export default styles;

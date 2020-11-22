@@ -81,7 +81,6 @@ class HeaderChild extends React.Component {
       bgColor && { backgroundColor: bgColor },
     ];
 
-    console.log(props);
     return (
       <Block style={headerStyles}>
         <NavBar
