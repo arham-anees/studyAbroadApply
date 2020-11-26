@@ -5,35 +5,38 @@ const { height, width } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.COLORS.BLACK,
+    flex:1
   },
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,
-    position: "relative",
     bottom: theme.SIZES.BASE,
     zIndex: 2,
+    flex:2
   },
   button: {
     width: width - theme.SIZES.BASE * 6,
     height: theme.SIZES.BASE * 3,
     shadowRadius: 0,
     shadowOpacity: 0,
-    marginBottom: 10,
+    marginVertical: 10,
   },
   logo: {
     width: 200,
     height: 60,
     zIndex: 2,
-    position: "relative",
-    marginTop: "-50%",
+  },   
+  logoBox:{
+    height:height/10*4,
+    justifyContent:"center"
   },
-  title: {
-    marginTop: "-5%",
+  buttons: {
+    minHeight:100,
+    marginTop:20
   },
   subTitle: {
     marginTop: 20,
   },
-  stepContainer: { flex: 2 },
+  stepContainer: {},
   dropdown: {
     backgroundColor: theme.COLORS.WHITE,
     borderRadius: theme.SIZES.INPUT_BORDER_RADIUS - 3,

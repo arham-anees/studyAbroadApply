@@ -31,7 +31,6 @@ handlePasswordChange=(value)=>this.setState({error:false,password:value});
 handleEmailChange=(value)=>this.setState({error:false,email:value});
 handleSubmit=()=>{
   this.setState({isSubmitted:true});
-  console.log(this.state.email, this.state.password);
   if(this.state.email.length==0||this.state.password.length==0){
     this.setState({error:true, isSubmitted:false});
     return;
@@ -48,7 +47,6 @@ handleSubmit=()=>{
     }
   })
   .catch(err=>{
-    console.log(err);
     this.setState({isSubmitted:false, error:true});
   })
 }

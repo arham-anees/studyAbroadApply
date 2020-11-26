@@ -1,23 +1,27 @@
 import { Text, theme } from "galio-framework";
 import React from "react";
 import { View } from "react-native";
-import { Dimensions } from "react-native";
 import { Picker, StyleSheet } from "react-native";
 
-function DropDown(props) {
+function DropDown({label,list, onChange,selectedValue}) {
   // console.log(props.list)
+  if(!selectedValue)selectedValue=list[0];
   return (
     <View>
-      <Text style={styles.text}>{props.label}</Text>
-    <View style={styles.dropdown}>
-      <Picker mode={"dropdown"}>
-        {props.list
-          ? props.list.map((item, index) => (
-              <Picker.Item label={item.name} value={item.value} key={index} />
-            ))
-          : null}
-      </Picker>
-    </View>
+      <Text style={styles.text}>{label}</Text>
+      <View style={styles.dropdown}>
+        <Picker
+          mode={"dropdown"}
+          onValueChange={onChange}
+          selectedValue={selectedValue}
+        >
+          {list
+            ? list.map((item, index) => (
+                <Picker.Item label={item.name} value={item.value} key={index} />
+              ))
+            : null}
+        </Picker>
+      </View>
     </View>
   );
 }

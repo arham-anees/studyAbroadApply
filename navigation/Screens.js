@@ -258,7 +258,8 @@ function AuthStack(props) {
         component={SignUpAsAssociate}
         options={{
           header: ({ navigation, scene }) => (
-            <Header
+            <HeaderChild      
+            
               title=""
               back
               white

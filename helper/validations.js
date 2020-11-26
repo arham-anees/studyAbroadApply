@@ -26,6 +26,20 @@ export function isEmailValid(email) {
 }
 
 
+export function isWebsiteValid(value) {
+  try {
+    if(!value)return false;
+    if(value.length==0)return false;
+    let reg = value.match(/^[\w\.]+@([\w]+\.)+[\w-]{2,4}$/);
+    if (reg == null) return false;
+    if (reg[0] === reg.input) return true;
+  } catch {
+    return false;
+  }
+  return false;
+}
+
+
 export function isUsernameValid(value) {
   try {
       if(!value)return false;

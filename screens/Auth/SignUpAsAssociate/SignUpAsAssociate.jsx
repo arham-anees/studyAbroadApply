@@ -1,7 +1,14 @@
 import React from "react";
 import styles from "./SignUpAsAssociate.Style";
 
-import { ImageBackground, Image, StatusBar, Dimensions } from "react-native";
+import {
+  ImageBackground,
+  Image,
+  StatusBar,
+  Dimensions,
+  ScrollView,
+  View,
+} from "react-native";
 import { Block, Button, theme } from "galio-framework";
 
 const { height, width } = Dimensions.get("screen");
@@ -11,87 +18,187 @@ import Images from "../../../constants/Images";
 import Step1 from "./SignUpAsAssociate.Step1";
 import Step2 from "./SignUpAsAssociate.Step2";
 import Step3 from "./SignUpAsAssociate.Step3";
+import { ValidateStep1, ValidateStep2, ValidateStep3 } from "./SignUpAsAssociate.Utils";
+import { KeyboardAvoidingView } from "react-native";
+import { Platform } from "react-native";
+import { Keyboard } from "react-native";
 
 class SignUpAsAssociate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       step: 1,
+      email: "email",
+      companyName: "",
+      companyWebsite: "",
+      yearEstablished: 1990,
+      firstName: "",
+      lastName: "",
+      officeAddress: "",
+      stateCity: "",
+      country: "",
+      landline: "",
+      cellPhone: "",
+      skypeId: "",
+      whatsappId: "",
+      recruitCountries: "",
+      maxStudentSendAbroad: 0,
+      educationalIntitues: "",
+      estimateStudentSendAbroad: 0,
+      error: true,
+      errorMessage: "",
+      keyboard: false,
     };
   }
+
+  componentWillMount() {
+    this.keyboardWillShowSub = Keyboard.addListener(
+      "keyboardDidShow",
+      this.keyboardWillShow
+    );
+    this.keyboardWillHideSub = Keyboard.addListener(
+      "keyboardDidHide",
+      this.keyboardWillHide
+    );
+  }
+
+  componentWillUnmount() {
+    this.keyboardWillShowSub.remove();
+    this.keyboardWillHideSub.remove();
+  }
+
+  keyboardWillShow = () => {
+    console.log("keyboardWillShow");
+    this.setState({ keyboard: true });
+  };
+  keyboardWillHide = () => this.setState({ keyboard: false });
+  handleCompanyNameChange = (value) =>
+    this.setState({ companyName: value, error: false });
+  handleEmailChange = (value) => this.setState({ email: value, error: false });
+  handleCompanyWebsiteChange = (value) =>
+    this.setState({ companyWebsite: value, error: false });
+  handleYearEstablishedChange = (value) =>
+    this.setState({ yearEstablished: value, error: false });
+  handleFirstNameChange = (value) =>
+    this.setState({ firstName: value, error: false });
+  handleLastNameChange = (value) =>
+    this.setState({ lastName: value, error: false });
+  handleOfficeAddressChange = (value) =>
+    this.setState({ officeAddress: value, error: false });
+  handleStateCityChange = (value) =>
+    this.setState({ stateCity: value, error: false });
+  handleCountryChange = (value) =>
+    this.setState({ country: value, error: false });
+  handleLandlineChange = (value) =>
+    this.setState({ landline: value, error: false });
+  handleCellPhoneChange = (value) =>
+    this.setState({ cellPhone: value, error: false });
+  handleSkypeIdChange = (value) =>
+    this.setState({ skypeId: value, error: false });
+  handleWhatsappIdChange = (value) =>
+    this.setState({ whatsappId: value, error: false });
+  handleRecruitCountriesChange = (value) =>
+    this.setState({ recruitCountries: value, error: false });
+  handleMaxStudentSendAbroadChange = (value) =>
+    this.setState({ maxStudentSendAbroad: value, error: false });
+  handleEducationalIntituesChange = (value) =>
+    this.setState({ educationalIntitues: value, error: false });
+  handleEstimateStudentSendAbroadChange = (value) =>
+    this.setState({ estimateStudentSendAbroad: value, error: false });
   nextStep() {
-    if (this.state.step === 3) {
-      this.props.navigation.navigate("Home");
-    } else this.setState({ step: this.state.step + 1 });
+    var stepUp;
+    if (this.state.step == 1)
+      ValidateStep1(this.state).then((response) => {
+        this.nextStepProcess(response)
+      });
+    else if (this.state.step == 2)
+      ValidateStep2(this.state).then((response) => {
+        this.nextStepProcess(response)
+      });
+    else if (this.state.step == 3)
+      ValidateStep3(this.state).then((response) => {
+        this.nextStepProcess(response)
+      });
+      console.log(stepUp);
+
+    
+  }
+  nextStepProcess(stepUp){
+    if (stepUp) {
+      if (this.state.step === 3) {
+        this.props.navigation.navigate("Home");
+      } else this.setState({ step: this.state.step + 1 });
+    }
   }
   perviousStep() {
     this.setState({ step: this.state.step - 1 });
   }
   render() {
     return (
-      <Block flex style={[styles.container, { backgroundColor: "red" }]}>
-        <StatusBar />
-        <Block flex center>
-          <ImageBackground
-            source={Images.Onboarding}
-            style={{ height, width, zIndex: 1 }}
-          />
-        </Block>
-        <Block center style={{ backgroundColor: "red" }}>
-          <Image source={Images.LogoOnboarding} style={styles.logo} />
-        </Block>
-        <Block space="between" style={[styles.padded, { flex: 2 }]}>
-          <Block space="around" style={{ zIndex: 2, flex: 2 }}>
-            <Block style={[styles.title, styles.stepContainer]}>
-              {this.state.step === 1 ? <Step1 /> : null}
-              {this.state.step === 2 ? <Step2 /> : null}
-              {this.state.step === 3 ? <Step3 /> : null}
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+        <ImageBackground
+          source={Images.Onboarding}
+          style={{ height, width, zIndex: 1, flex:1 }}
+        >
+            <Block flex center style={styles.logoBox}>
+              <Image source={Images.LogoOnboarding} style={styles.logo} />
             </Block>
-            <Block
-              flex
-              bottom
-              style={[
-                styles.title,
-                { justifyContent: "space-around", marginTop: 10 },
-              ]}
-            >
-              <Block
-                style={[
-                  { paddingHorizontal: theme.SIZES.BASE },
-                  styles.navigationBtnContainer,
-                ]}
-              >
-                {/* <Button
-                  style={[styles.button, { marginBottom: 20 }]}
-                  onPress={() => navigation.navigate("Elements")}
-                >
-                  Sign Up
-                </Button> */}
-                <Button
-                  style={{ width: 100 }}
-                  onPress={() => this.perviousStep()}
-                  disabled={this.state.step === 1}
-                >
-                  Previous
-                </Button>
-                <Button style={{ width: 100 }} onPress={() => this.nextStep()}>
-                  {this.state.step === 3 ? "Submit" : "Next"}
-                </Button>
+            <Block style={styles.padded}>
+          <ScrollView>
+              <Block style={[styles.title, styles.stepContainer]}>
+                {this.state.step === 1 ? (
+                  <Step1
+                    {...this.state}
+                    handleCompanyNameChange={this.handleCompanyNameChange}
+                    handleEmailChange={this.handleEmailChange}
+                    handleCompanyWebsiteChange={this.handleCompanyWebsiteChange}
+                    handleYearEstablishedChange={
+                      this.handleYearEstablishedChange
+                    }
+                  />
+                ) : null}
+                {this.state.step === 2 ? <Step2 {...this.state} /> : null}
+                {this.state.step === 3 ? <Step3 {...this.state} /> : null}
               </Block>
-              <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-                <Button
-                  style={styles.button}
-                  color={argonTheme.COLORS.SECONDARY}
-                  onPress={() => this.props.navigation.navigate("SignIn")}
-                  textStyle={{ color: argonTheme.COLORS.BLACK }}
+              </ScrollView>
+              <Block flex bottom style={styles.buttons}>
+                <Block
+                  style={[
+                    { paddingHorizontal: theme.SIZES.BASE },
+                    styles.navigationBtnContainer,
+                  ]}
                 >
-                  Sign In Here
-                </Button>
+                  <Button
+                    style={{ width: 100 }}
+                    onPress={() => this.perviousStep()}
+                    disabled={this.state.step === 1}
+                  >
+                    Previous
+                  </Button>
+                  <Button
+                    style={{ width: 100 }}
+                    onPress={() => this.nextStep()}
+                  >
+                    {this.state.step === 3 ? "Submit" : "Next"}
+                  </Button>
+                </Block>
+                <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
+                  <Button
+                    style={styles.button}
+                    color={argonTheme.COLORS.SECONDARY}
+                    onPress={() => this.props.navigation.navigate("SignIn")}
+                    textStyle={{ color: argonTheme.COLORS.BLACK }}
+                  >
+                    Sign In Here
+                  </Button>
+                </Block>
               </Block>
+             
             </Block>
-          </Block>
-        </Block>
-      </Block>
+            {this.state.keyboard ? <View style={{ height: 280 }} /> : <View style={{ height: 60 }}/>}
+       
+        </ImageBackground>
+      </KeyboardAvoidingView>
     );
   }
 }
