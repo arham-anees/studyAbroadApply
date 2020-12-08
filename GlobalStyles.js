@@ -41,7 +41,20 @@ const GlobalStyle = {
   wrapText:{
     flex:1,
   flexWrap:"wrap"
-  }
+  },
+  SIZES:{
+    HeadingNormalHeight:24,
+    PageNormalPadding:15
+  },
+  STATUSCOLOR:{
+    InProgress:"rgb(0, 143, 251)",
+    NewApplication:"rgb(0, 227, 150)",
+    VisaIssued:"rgb(255, 69, 96)",
+    SentToCounsellor:"rgb(0, 143, 251)",
+    SentToInstitute:"rgb(254, 176, 25)"
+  },
+  STATUSBACKGROUND:["green","rgb(254, 176, 25)","rgb(0, 143, 251)","rgb(255, 69, 96)"],
+  STATUSTEXTCOLOR:["#fff","rgb(0, 143, 251)","rgb(254, 176, 25)"]
 };
 
 export default GlobalStyle;

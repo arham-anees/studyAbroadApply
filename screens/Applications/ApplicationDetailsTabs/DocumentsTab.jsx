@@ -58,9 +58,10 @@ class DocumentsTab extends React.Component {
       .catch((er) => console.log(er));
   };
   render = () => (
-    <View>
+    <View style={{
+      paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
       
-      <Block style={styles.block}>
+      <Block>
         <Text h5 color="white" center>
           Documents
         </Text>

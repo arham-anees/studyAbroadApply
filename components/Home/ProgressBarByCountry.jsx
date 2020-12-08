@@ -36,12 +36,12 @@ const data = [
 ];
 
 class ProgressBarByCountry extends React.Component {
-  redDot = { ...styles.dot, backgroundColor: GlobalStyle.bg.red };
-  orangeDot = { ...styles.dot, backgroundColor: GlobalStyle.bg.orange };
-  skyDot = { ...styles.dot, backgroundColor: GlobalStyle.bg.sky };
+  redDot = { ...styles.dot, backgroundColor: GlobalStyle.STATUSCOLOR.NewApplication };
+  orangeDot = { ...styles.dot, backgroundColor: GlobalStyle.STATUSCOLOR.SentToInstitute };
+  skyDot = { ...styles.dot, backgroundColor: GlobalStyle.STATUSCOLOR.SentToCounsellor};
   render = () => {
     return (
-      <View style={{ margin: 10 }}>
+      <View>
         <View style={GlobalStyle.block}>
           {data
             .sort(function (a, b) {
@@ -80,7 +80,7 @@ export default ProgressBarByCountry;
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: GlobalStyle.bg.white,
+    
     marginVertical: 5,
     padding: 5,
     borderRadius: 10,
@@ -93,5 +93,6 @@ const styles = StyleSheet.create({
     height: 15,
     marginLeft: 10,
     marginRight: 5,
+    borderRadius:10
   },
 });

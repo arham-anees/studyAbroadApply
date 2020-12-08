@@ -6,14 +6,14 @@ import GlobalStyle from "../../GlobalStyles";
 import AppStatusByCountryDoughnutChart from "./AppStatusByCountry.DoughnutChart";
 // import { Text } from "galio-framework";
 const Colors = [
-  "rgb(0, 143, 251)",
-  "rgb(0, 227, 150)",
-  "rgb(254, 176, 25)",
-  "rgb(255, 69, 96)",
+  GlobalStyle.STATUSCOLOR.InProgress,
+  GlobalStyle.STATUSCOLOR.NewApplication,
+  GlobalStyle.STATUSCOLOR.SentToInstitute,
+  GlobalStyle.STATUSCOLOR.VisaIssued,
 ];
 function AppStatusByCountry(props) {
   return (
-    <View style={{ margin: 10 }}>
+    <View>
       <View style={GlobalStyle.block}>
         <View style={Styles.card}>
           <AppStatusByCountryDoughnutChart />

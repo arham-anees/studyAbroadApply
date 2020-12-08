@@ -4,11 +4,42 @@ import { ImageBackground, ScrollView } from "react-native";
 import { Dimensions } from "react-native";
 import { View } from "react-native";
 import { Images } from "../../../constants";
+import CourseService from "../../../services/CourseService";
 import SearchedCoursesItem from "./SearchedCourses.Component";
 
 const { width, height } = Dimensions.get("window");
 
 class SearchedCourses extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      data: null,
+      error: null,
+    };
+  }
+
+  componentDidMount() { 
+    const { country, course, institute, advanced } = this.props.route.params;
+    if (advanced) {
+    } else {
+      CourseService.SearchCourse(country, course, institute)
+        .then((res) => {
+          this.setState({ loading: false, data: res });
+        })
+        .catch((err) => {
+          this.setState({ loading: false, error: err });
+        });
+    }
+  }
+
+
+renderItems=()=>{
+  let data=[];//this.state.data;
+  return data.map(x=> <SearchedCoursesItem item={x}/>)
+}
+
+
   render = () => {
     return (
       <View>
@@ -17,14 +48,16 @@ class SearchedCourses extends React.Component {
           style={{ height, width, zIndex: 1 }}
         >
           <ScrollView>
-          <Block padding={10}>
-            <SearchedCoursesItem />
-            <SearchedCoursesItem />
-            <SearchedCoursesItem />
-            <SearchedCoursesItem />
-            <SearchedCoursesItem />
-          </Block>
-          <Block style={{height:100}}></Block>
+            <Block padding={10}>
+              {this.state.loading ? (
+                <View></View>
+              ) : (
+                <React.Fragment>
+                 {this.renderItems()}
+                </React.Fragment>
+              )}
+            </Block>
+            <Block style={{ height: 100 }}></Block>
           </ScrollView>
         </ImageBackground>
       </View>

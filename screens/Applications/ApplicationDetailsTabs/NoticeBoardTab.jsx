@@ -31,10 +31,11 @@ function Note(props) {
 function NoticeBoardTab(props) {
   const [openNewNote, setOpenNewNote]=useState(false);
   return (
-    <View>
+    <View >
       <Block center style={styles.statusBar}>
         <Text color="white">New Application Submitted</Text>
       </Block>
+      <View style={styles.body}>
       <Block style={styles.block}>
         <Text style={styles.title}>Update Status</Text>
         <Block>
@@ -93,7 +94,7 @@ function NoticeBoardTab(props) {
         <CustomIcon source={Icons.BoxPen} onPress={()=>setOpenNewNote(true)}/>
         </View>}
       </Block>
-    </View>
+    </View></View>
   );
 }
 
@@ -110,6 +111,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
+  body:{
+    paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding},
   dropdown: {
     backgroundColor: theme.COLORS.WHITE,
     borderRadius: theme.SIZES.INPUT_BORDER_RADIUS - 3,

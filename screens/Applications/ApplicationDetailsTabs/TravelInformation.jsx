@@ -23,9 +23,10 @@ var item = {
 };
 function TravelInformation(props) {
   return (
-    <View style={{paddingHorizontal:theme.SIZES.BASE}}>
+    <View style={{
+      paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
        <Block style={styles.block}>
-        <Text color="white" center h5>
+        <Text color={GlobalStyle.color.textLight} center h5>
           Course
         </Text>
         <Block style={styles.line}></Block>
@@ -52,7 +53,7 @@ function TravelInformation(props) {
         </Block>
       </Block>
       <Block style={styles.block}>
-        <Text color="white" center h5>
+        <Text color={GlobalStyle.color.textLight} center h5>
           Travel Information
         </Text>
         <Block style={styles.line}></Block>
@@ -92,14 +93,15 @@ const styles=StyleSheet.create({
     marginTop: 10,
     padding: 5,
     borderRadius: 5,
-    paddingHorizontal: theme.SIZES.BASE 
+    paddingHorizontal: theme.SIZES.BASE ,
+    paddingBottom:10
   },
   title: {
     width: 80,
-    color: "white",
+    color: GlobalStyle.color.textLight,
   },
   info: {
-    color: "white",
+    color: GlobalStyle.color.textLight,
     flex: 1,
     flexWrap: 'wrap'
   },
@@ -119,7 +121,7 @@ const styles=StyleSheet.create({
   },
   line:{
     height:1,
-    backgroundColor:"#fff",
+    backgroundColor:GlobalStyle.color.textLight,
     marginBottom:10
   }
 })

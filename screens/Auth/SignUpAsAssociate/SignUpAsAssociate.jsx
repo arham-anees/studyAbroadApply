@@ -20,8 +20,6 @@ import Step2 from "./SignUpAsAssociate.Step2";
 import Step3 from "./SignUpAsAssociate.Step3";
 import { ValidateStep1, ValidateStep2, ValidateStep3 } from "./SignUpAsAssociate.Utils";
 import { KeyboardAvoidingView } from "react-native";
-import { Platform } from "react-native";
-import { Keyboard } from "react-native";
 
 class SignUpAsAssociate extends React.Component {
   constructor(props) {
@@ -47,24 +45,23 @@ class SignUpAsAssociate extends React.Component {
       estimateStudentSendAbroad: 0,
       error: true,
       errorMessage: "",
-      keyboard: false,
     };
   }
 
   componentWillMount() {
-    this.keyboardWillShowSub = Keyboard.addListener(
-      "keyboardDidShow",
-      this.keyboardWillShow
-    );
-    this.keyboardWillHideSub = Keyboard.addListener(
-      "keyboardDidHide",
-      this.keyboardWillHide
-    );
+    // this.keyboardWillShowSub = Keyboard.addListener(
+    //   "keyboardDidShow",
+    //   this.keyboardWillShow
+    // );
+    // this.keyboardWillHideSub = Keyboard.addListener(
+    //   "keyboardDidHide",
+    //   this.keyboardWillHide
+    // );
   }
 
   componentWillUnmount() {
-    this.keyboardWillShowSub.remove();
-    this.keyboardWillHideSub.remove();
+    //this.keyboardWillShowSub.remove();
+    //this.keyboardWillHideSub.remove();
   }
 
   keyboardWillShow = () => {
@@ -135,7 +132,7 @@ class SignUpAsAssociate extends React.Component {
   }
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+      <View style={styles.container} behavior="padding" enabled>
         <ImageBackground
           source={Images.Onboarding}
           style={{ height, width, zIndex: 1, flex:1 }}
@@ -198,7 +195,7 @@ class SignUpAsAssociate extends React.Component {
             {this.state.keyboard ? <View style={{ height: 280 }} /> : <View style={{ height: 60 }}/>}
        
         </ImageBackground>
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }

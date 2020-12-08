@@ -4,6 +4,7 @@ import { Picker } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
 import DocumentItem from "../../../components/Applications/DocumentItem";
+import GlobalStyle from "../../../GlobalStyles";
 
 const documents = [
   { id: 1, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
@@ -28,8 +29,9 @@ const documents = [
 
 function OffersTab(props) {
   return (
-    <View>
-      <Block style={styles.block}>
+    <View style={{
+      paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
+      <Block>
         <Text h5 color="white" center>
           Documents
         </Text>

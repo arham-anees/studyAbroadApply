@@ -7,11 +7,14 @@ import ApplicationItem from "../../components/Applications/Application.Component
 import Images from "../../constants/Images";
 import styles from "./Applications.Style";
 import GlobalStyles from '../../GlobalStyles';
+import { Block } from "galio-framework";
+import GlobalStyle from "../../GlobalStyles";
 const { height, width } = Dimensions.get("screen");
 const data = [
   {
     name: "Imran Khan",
-    status: "status",
+    status: "New Application",
+    statusId:1,
     level: "Bachelors",
     date: "1/12/2020",
     course: "Software Engineering",
@@ -19,7 +22,7 @@ const data = [
   },
   {
     name: "Ahmad Raza",
-    status: "status",
+    status: "Sent To Counsellor",    statusId:2,
     level: "Bachelors",
     date: "1/12/2020",
     course: "Software Engineering",
@@ -27,7 +30,7 @@ const data = [
   },
   {
     name: "Ibrar Akhtar",
-    status: "status",
+    status: "In Progress",    statusId:3,
     level: "Bachelors",
     date: "1/12/2020",
     course: "Software Engineering",
@@ -35,7 +38,7 @@ const data = [
   },
   {
     name: "Tauseef Rehman",
-    status: "status",
+    status: "Visa Issued",    statusId:4,
     level: "Bachelors",
     date: "1/12/2020",
     course: "Software Engineering",
@@ -53,6 +56,7 @@ function Applications(props) {
         {data.map((item, index) => (
           <ApplicationItem props={{ ...props, item, index }} key={index} />
         ))}
+        <Block style={GlobalStyle.scrollBottomPadding}></Block>
         </ScrollView>
       </ImageBackground>
     </View>

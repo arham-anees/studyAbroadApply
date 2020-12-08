@@ -4,9 +4,13 @@ import { TouchableOpacity, StyleSheet, View } from "react-native";
 import {} from "@expo/vector-icons";
 import Icons from "../../constants/Icons";
 import CustomIcon from '../../Icons/BellIcon';
+import HeaderNormal from "../HeadingNormal";
+import GlobalStyle from "../../GlobalStyles";
 
 function ApplicationItem({ props }) {
   const { item, navigation } = props;
+  console.log(item)
+  let statusBackground=GlobalStyle.STATUSBACKGROUND[item.statusId-1]
   return (
     <TouchableOpacity onPress={() => navigation.navigate("ApplicationDetails")}>
       <View
@@ -15,18 +19,29 @@ function ApplicationItem({ props }) {
         style={styles.container}
       >
         <View styles={styles.wrapper}>
-          <Block row middle>
+          {/* <Block row middle>
             <Text h5 center style={styles.textWhite}>
-              {item.name}
+               {item.name} 
+              test
             </Text>
-          </Block>
-
-          <Block left>
-            <Block>
+          </Block> */}
+          <HeaderNormal>
+            <Block row  center >
+            <Text style={{fontSize:24}}>{item.name}</Text>
+            
+            </Block>
+            </HeaderNormal>
+          <Block left style={styles.body}>
+            {/* <Block>
               <Text style={[styles.textWhite, styles.bgStatus]}>
                 {item.status}
               </Text>
-            </Block>
+            </Block> */}
+             <Block row center style={{ width: "100%" }}>
+              <Text style={[styles.textWhite, {...styles.bgStatus,backgroundColor:statusBackground}]}>
+                {item.status}
+              </Text>
+              </Block>
             <Block row middle>
               <Text style={styles.textWhite}>{item.course},</Text>
               <Text style={styles.textWhite}> {item.level}</Text>
@@ -34,18 +49,27 @@ function ApplicationItem({ props }) {
             <Block row middle>
               <Text style={styles.textWhite}>{item.institute}</Text>
             </Block>
+           
             <Block>
-              <Block row space="between" style={{ width: "100%" }}>
-                <Text style={styles.textWhite}>App Date: </Text>
+              {/* <Block row style={{ width: "100%" }}>
+                <Text style={{...styles.textWhite,width:"50%"}}>Application Status: </Text>
+                <Text style={[styles.textWhite, {...styles.bgStatus,backgroundColor:statusBackground}]}>
+                {item.status}
+              </Text>
+              </Block> */} 
+             
+             
+              <Block row style={{ width: "100%" }}>
+                <Text style={{...styles.textWhite,width:"50%"}}>Application Date: </Text>
                 <Text style={styles.textWhite}>{item.date}</Text>
               </Block>
-              <Block row space="between" style={{ width: "100%" }}>
-                <Text style={styles.textWhite}>Intake</Text>
+              <Block row style={{ width: "100%" }}>
+                <Text style={{...styles.textWhite,width:"50%"}}>Intake</Text>
                 <Text style={styles.textWhite}>21 Feb</Text>
               </Block>
-              <Block row space="between" style={{ width: "100%" }}>
-                <Text style={styles.textWhite}>Created By</Text>
-                <Text style={styles.textWhite}>Int</Text>
+              <Block row  style={{ width: "100%" }}>
+                <Text style={{...styles.textWhite,width:"50%"}}>Created By</Text>
+                <Text style={styles.textWhite}>test user</Text>
               </Block>
               <Block row space="evenly" style={styles.footer}>
                 <CustomIcon source={Icons.Email}/>
@@ -67,7 +91,10 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: "#fff4",
     borderRadius: 10,
-    padding: 10,
+    paddingBottom: 10,
+  },
+  body:{
+    paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding
   },
   wrapper: {
     padding: 10,
@@ -77,10 +104,11 @@ const styles = StyleSheet.create({
     color: "white",
   },
   bgStatus: {
-    backgroundColor: "orange",
-    borderRadius: 10,
-    paddingHorizontal: 5,
-    color: "white",
+    borderRadius: 5,
+    padding:3,
+    paddingHorizontal: 10,
+    height:"100%",
+    textAlignVertical:"center"
   },
   icon: {
     width: 20,

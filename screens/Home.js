@@ -27,7 +27,8 @@ class Home extends React.Component {
         <ScrollView>
           <ImageBackground
             source={Images.Onboarding}
-            style={{ height: height + 100, width, zIndex: 1 }}
+            style={{ height: height + 100, width, zIndex: 1,
+              paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding }}
           >
             <AppStatusByCountry />
             <LineChart />

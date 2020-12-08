@@ -57,7 +57,7 @@ class SearchCourse extends React.Component {
               <LabelledInput label="Discipline" />
               <Button
                 onPress={() =>
-                  this.props.navigation.navigate("SearchedCourses")
+                  this.props.navigation.navigate({name:"SearchedCourses",params:{country:1,course:"test",institute:"test" ,advanced:0}})
                 }
               >
                 Search

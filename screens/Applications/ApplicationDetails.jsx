@@ -6,6 +6,7 @@ import { ImageBackground } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import ApplicationDetailsTabs from "../../components/Applications/ApplicationDetailsTabs";
 import Images from "../../constants/Images";
+import GlobalStyle from "../../GlobalStyles";
 import CourseTab from "./ApplicationDetailsTabs/CourseTab";
 import DocumentsTab from "./ApplicationDetailsTabs/DocumentsTab";
 import NoticeBoardTab from "./ApplicationDetailsTabs/NoticeBoardTab";
@@ -93,7 +94,6 @@ export default ApplicationDetails;
 
 const styles = StyleSheet.create({
   container: {
-    margin: 5,
   },
   floatingButton:{
     width: 60,

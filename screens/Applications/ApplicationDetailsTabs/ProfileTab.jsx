@@ -4,12 +4,13 @@ import { StyleSheet, View } from "react-native";
 import { Icon, Input } from "../../../components";
 import LabelledInput from "../../../components/LabelledInput.Component";
 import { argonTheme } from "../../../constants";
+import GlobalStyle from "../../../GlobalStyles";
 
 function ProfileTab(props) {
   return (
     <View>
       <Block>
-        <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
+        <Block style={{ paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding }}>
               <LabelledInput label="Student Name"
                 iconname="person"
                 iconfamily="Fontisto"

@@ -9,6 +9,7 @@ import GlobalStyle from "../../../GlobalStyles";
 const { width, height } = Dimensions.get("window");
 
 function SearchedCoursesItem(props) {
+  const {title, university, country, city, intake, duration, annualFee, feeCurrency,courseDeadline, id}=props;
   return (
     <View style={styles.wrapper}>
       <Block style={styles.header}>

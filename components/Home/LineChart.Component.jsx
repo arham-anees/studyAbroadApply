@@ -6,7 +6,7 @@ import GlobalStyle from "../../GlobalStyles";
 
 function LineChartCustom(props) {
   return (
-    <View style={{ margin: 10 }}>
+    <View>
       <View style={GlobalStyle.block}>
         <View style={Styles.chart}>
           <LineChart
@@ -34,7 +34,7 @@ function LineChartCustom(props) {
                 },
               ],
             }}
-            width={Dimensions.get("screen").width - 40} // from react-native
+            width={Dimensions.get("screen").width - 50} // from react-native
             height={220}
             chartConfig={{
               backgroundColor: "transparent",
@@ -50,7 +50,6 @@ function LineChartCustom(props) {
             }}
             bezier
             style={{
-              marginVertical: 8,
               borderRadius: 16,
             }}
           />
@@ -66,7 +65,6 @@ export default LineChartCustom;
 
 const Styles = StyleSheet.create({
   container: {
-    margin: 10,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
