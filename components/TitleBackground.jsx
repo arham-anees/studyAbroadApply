@@ -11,8 +11,6 @@ return (
       // Button Linear Gradient
       colors={[Theme.COLORS.SECONDARY,Theme.COLORS.SECONDARY]}
       style={{ borderRadius: 5 }}
-      start={0}
-      end={1}
     >
         {props.children}
     </LinearGradient>

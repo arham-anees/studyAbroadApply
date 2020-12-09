@@ -1,4 +1,4 @@
-import { Block } from "galio-framework";
+import { Block, Text } from "galio-framework";
 import React from "react";
 import { ImageBackground, ScrollView } from "react-native";
 import { Dimensions } from "react-native";
@@ -21,13 +21,18 @@ class SearchedCourses extends React.Component {
 
   componentDidMount() { 
     const { country, course, institute, advanced } = this.props.route.params;
+    console.log(country);
     if (advanced) {
+      console.log('advanced');
     } else {
+      console.log('classic');
       CourseService.SearchCourse(country, course, institute)
         .then((res) => {
+          console.log('success');
           this.setState({ loading: false, data: res });
         })
         .catch((err) => {
+          console.log('failed');
           this.setState({ loading: false, error: err });
         });
     }
@@ -50,7 +55,7 @@ renderItems=()=>{
           <ScrollView>
             <Block padding={10}>
               {this.state.loading ? (
-                <View></View>
+                <View><Text>Loading</Text></View>
               ) : (
                 <React.Fragment>
                  {this.renderItems()}

@@ -57,7 +57,7 @@ export function isPasswordValid(value) {
   try {
     if(!value)return false;
     if(value.length==0)return false;
-    let reg = value.match(/^[\w\.]+@([\w]+\.)+[\w-]{2,4}$/);
+    let reg = value.match(/[a-z0-9A-Z]+/);
     if (reg == null) return false;
     if (reg[0] === reg.input) return true;
   } catch {

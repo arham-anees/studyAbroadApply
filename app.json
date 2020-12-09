@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Argon FREE React Native",
-    "slug": "argon-free-react-native",
+    "name": "Study Abroad Apply",
+    "slug": "study-abroad-apply",
     "privacy": "public",
     "sdkVersion": "37.0.0",
     "platforms": [
@@ -25,7 +25,7 @@
     "ios": {
       "supportsTablet": true
     },
-    "description": "Argon React Native, based on Argon Design System. Coded by Creative Tim",
+    "description": "Study Abroad Apply helps students to apply to foreign universities for studies.",
     "hooks": {
       "postPublish": [
         {

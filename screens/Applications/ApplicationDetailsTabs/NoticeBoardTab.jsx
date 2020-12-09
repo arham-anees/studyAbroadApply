@@ -3,98 +3,170 @@ import React, { useState } from "react";
 import { Picker } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
+import DropDown from "../../../components/DropDown";
 import Icons from "../../../constants/Icons";
 import GlobalStyle from "../../../GlobalStyles";
 import CustomIcon from "../../../Icons/BellIcon";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { KeyboardAvoidingView } from "react-native";
 
 const { height, width } = Dimensions.get("screen");
 
 const applicationStatus = [
   { name: "Application Status", value: 1 },
-  { name: "Application Sent to Institute", value: 1 },
-  { name: "Application Sent to Student Counsellor", value: 1 },
-  { name: "New Application Application Submitted", value: 1 },
-  { name: "Refund Acknowledged", value: 1 },
+  { name: "Application Sent to Institute", value: 2 },
+  { name: "Application Sent to Student Counsellor", value: 3 },
+  { name: "New Application Application Submitted", value: 4 },
+  { name: "Refund Acknowledged", value: 5 },
 ];
 
-function Note(props) {
+function Note({ sender, note }) {
   return (
-    <Block row style={{borderWidth:0.5, padding:5, borderColor:"#fff", marginBottom:10, borderRadius:5}}>
-      <Text style={{color:GlobalStyle.color.textLight}}>Faraz :</Text>
-      <Text  style={{color:GlobalStyle.color.textLight, paddingLeft:10, flex:1, flexWrap:"wrap"}}>
-        This is test note long enough to break line but still no success
+    <Block
+      row
+      style={{
+        borderWidth: 0.5,
+        padding: 5,
+        borderColor: "#fff",
+        marginBottom: 10,
+        borderRadius: 5,
+      }}
+    >
+      <Text style={{ color: GlobalStyle.color.textLight }}>{sender} :</Text>
+      <Text
+        style={{
+          color: GlobalStyle.color.textLight,
+          paddingLeft: 10,
+          flex: 1,
+          flexWrap: "wrap",
+        }}
+      >
+        {note}
       </Text>
     </Block>
   );
 }
 
 function NoticeBoardTab(props) {
-  const [openNewNote, setOpenNewNote]=useState(false);
+  const [openNewNote, setOpenNewNote] = useState(false);
+  const [newNote, setNewNote] = useState("test");
+
+  const [date, setDate] = useState(Date.now());
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
+
+  let { application } = props;
+  const { addFollowUp, updateStatus, addNote } = props;
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios");
+    addFollowUp(selectedDate);
+  };
+
+  const handleAddNotePress = () => {
+    addNote({ sender: "test", note: newNote });
+    setOpenNewNote(false);
+    setNewNote("");
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
+
   return (
-    <View >
+    <KeyboardAvoidingView>
       <Block center style={styles.statusBar}>
         <Text color="white">New Application Submitted</Text>
       </Block>
       <View style={styles.body}>
-      <Block style={styles.block}>
-        <Text style={styles.title}>Update Status</Text>
-        <Block>
-          <Text color="white">Application Status</Text>
-          <View style={styles.dropdown}>
-            <Picker mode={"dropdown"}>
-              {applicationStatus.map((item, index) => (
-                <Picker.Item label={item.name} value={item.value} key={index} />
-              ))}
-            </Picker>
-          </View>
-          <Block right>
-            <Button style={styles.updateStatusBtn}>Update Status</Button>
+        <Block style={styles.block}>
+          <Text style={styles.title}>Update Status</Text>
+          <Block>
+            <DropDown
+              list={applicationStatus}
+              label={"Application Status"}
+              selectedValue={application.applicationStatus}
+              onChange={updateStatus}
+            />
+            <Block right>
+              <Button style={styles.updateStatusBtn}>Update Status</Button>
+            </Block>
           </Block>
         </Block>
-      </Block>
-      <Block style={styles.block}>
-        <Text style={styles.title}>Follow Up</Text>
-        <Block row space="between">
-          <Text color="white">Next Follow Up</Text>
-          <Text color="white">10/10/2020</Text>
-        </Block>
-        <Block row bottom>
-          <Button style={styles.updateStatusBtn}>
-            Add Next Follow Up Date
-          </Button>
-        </Block>
-      </Block>
-      <Block style={styles.block}>
- 
-        <Text style={styles.title}>Application Notes</Text>
-        <Block>
-        <Note/>
-        <Note/>
-        <Note/>
-        </Block>
-        {openNewNote?
-        <Block>
-        <Checkbox
-          color="white"
-          label="Is visible to students"
-          icon
-          iconColor="black"
-          labelStyle={{ color: "white" }}
-        />
-        <Block row middle space="between">
-          <Block flex>
-            <Input placeholder={"Note"}></Input>
-          </Block>
-          <Block style={styles.iconBlock} middle>
-        <CustomIcon source={Icons.Send} onPress={()=>setOpenNewNote(false)}/>
+        <Block style={styles.block}>
+          <Text style={styles.title}>Follow Up</Text>
+          {application.followUps.map((x, index) => (
+            <Block row space="between" key={index}>
+              <Text color="white">Next Follow Up</Text>
+              <Text color="white">{new Date(x).toDateString()}</Text>
+            </Block>
+          ))}
+          <Block row bottom>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+              />
+            )}
+            <Button style={styles.updateStatusBtn} onPress={showDatepicker}>
+              Add Next Follow Up Date
+            </Button>
           </Block>
         </Block>
-        </Block>:
-        <View style={styles.newNote}>
-        <CustomIcon source={Icons.BoxPen} onPress={()=>setOpenNewNote(true)}/>
-        </View>}
-      </Block>
-    </View></View>
+        <Block style={styles.block}>
+          <Text style={styles.title}>Application Notes</Text>
+          <Block>
+            {application.notes.map((x, index) => (
+              <Note key={index} sender={x.sender} note={x.note} />
+            ))}
+          </Block>
+          {openNewNote ? (
+            <Block>
+              <Checkbox
+                color="white"
+                label="Is visible to students"
+                icon
+                iconColor="black"
+                labelStyle={{ color: "white" }}
+              />
+              <Block row middle space="between">
+                <Block flex>
+                  <Input
+                    placeholder={"Note"}
+                    value={newNote}
+                    color={"black"}
+                    onChangeText={(text) => setNewNote(text)}
+                  />
+                </Block>
+                <Block style={styles.iconBlock} middle>
+                  <CustomIcon
+                    source={Icons.Send}
+                    onPress={handleAddNotePress}
+                  />
+                </Block>
+              </Block>
+            </Block>
+          ) : (
+            <View style={styles.newNote}>
+              <CustomIcon
+                source={Icons.BoxPen}
+                onPress={() => setOpenNewNote(true)}
+              />
+            </View>
+          )}
+        </Block>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -111,8 +183,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
-  body:{
-    paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding},
+  body: {
+    paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding,
+  },
   dropdown: {
     backgroundColor: theme.COLORS.WHITE,
     borderRadius: theme.SIZES.INPUT_BORDER_RADIUS - 3,

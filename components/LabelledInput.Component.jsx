@@ -12,6 +12,8 @@ class LabelledInput extends React.Component {
         value={this.props.value ?? ""}
         style={[this.props.error?{borderColor:"red", borderWidth:2}:null,{color:"black"}]}
         onChangeText={this.props.onChange}
+        onFocus={this.props.onFocus}
+        onKeyPress={this.props.onKeyPress}
         color={"black"}
         password={this.props.password?true:false}
       />
