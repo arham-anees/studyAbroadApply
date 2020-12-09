@@ -116,7 +116,7 @@ class SignUpAsAssociate extends React.Component {
       ValidateStep3(this.state).then((response) => {
         this.nextStepProcess(response)
       });
-      console.log(stepUp);
+      //console.log(stepUp);
 
     
   }

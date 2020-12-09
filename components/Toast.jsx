@@ -1,28 +1,54 @@
 import { Block, Text } from "galio-framework";
-import React from "react";
-import { Dimensions } from "react-native";
+import React, { useState } from "react";
+import { Dimensions, Modal } from "react-native";
 import { StyleSheet, View } from "react-native";
 
-const { height } = Dimensions.get("window");
+const { height } = Dimensions.get("screen");
 
 function Toast(props) {
+  const {isShow}=props;
+  const [show, setShow]=useState(isShow);
+  setTimeout(() => {
+    setShow(false);
+  }, 3000);
   return (
-    <Block center style={styles.wrapper}>
-      <Text color="white">{props.children}</Text>
-    </Block>
+    <Modal animationType="slide" transparent={true} visible={show}>
+      <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+  <Text style={styles.text}>{props.children}</Text>
+        </View>
+      </View>
+    </Modal>
   );
 }
 
 export default Toast;
 
 const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: "rgb(255, 0, 8)",
-    padding: 10,
-    borderRadius: 50,
-    marginTop: 10,
-    position: "absolute",
+ 
+  centeredView: {
+    flex: 1,
+    justifyContent: "flex-end",
     alignItems: "center",
-    justifyContent: "center",
+    marginBottom: 30
   },
+  modalView: {
+    margin: 10,
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 5,
+    paddingHorizontal:10,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  text:{
+fontSize:14
+  }
 });

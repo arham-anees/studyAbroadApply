@@ -21,14 +21,23 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   logo: {
-    width: 200,
-    height: 60,
+    width: width/10*8,
+    height:50,
+    resizeMode:"contain",
     zIndex: 2,
   },
   logoBox:{
     height:height/10*4,
     display:"flex",
     justifyContent:"center",
+  },
+  logoText:{
+    color:GlobalStyle.color.textLight,
+    fontSize:32
+  },
+  sloganText:{
+    color:GlobalStyle.color.textLight,
+    fontSize:20
   },
   title: {
   },

@@ -1,68 +1,94 @@
 import { Block, Button, Input, Text, theme } from 'galio-framework';
-import React from 'react';
-import { SafeAreaView } from 'react-native';
-import { ImageBackground } from 'react-native';
+import React, { useState } from 'react';
 import { Dimensions } from 'react-native';
 import { Picker, StyleSheet } from 'react-native';
-import { View } from 'react-native';
+import DropDown from '../../components/DropDown';
 import LabelledInput from '../../components/LabelledInput.Component';
-import { Images } from '../../constants';
 import GlobalStyle from '../../GlobalStyles';
-const { width, height } = Dimensions.get("screen");
+import * as DocumentPicker from 'expo-document-picker';
+
+
+const { width } = Dimensions.get("screen");
 const documentTypes = [
     { value: 1, name: "Bachelors Degree / Transcript" },
     { value: 2, name: "Passport" },
     { value: 3, name: "CV" },
     { value: 4, name: "Bachelors Degree / Transcript" },
   ];
-const NewDocument = () => {
-    return (
-      <SafeAreaView>
-        <ImageBackground
-          source={Images.Onboarding}
-          style={{ height, width, zIndex: 1 }}
-        >
-            <View>
-          <Block style={styles.block}>
-            <Text color={GlobalStyle.color.textLight} h5 center>
-              New Document
-            </Text>
-            <LabelledInput placeholder="Document Title" label="Title" />
+const NewDocument = (props) => {
+  const [title, setTitle]=useState('');
+  const [category, setCategory]=useState(1);
+  const [file, setFile]=useState(null);
+  const {closeModal,submitModal}=props;
+  const [titleError,setTitleError]=useState(false);
+  const [fileError,setFileError]=useState(false);
+  const pickDoc=()=>{
+    DocumentPicker.getDocumentAsync({
+      type:"*/*"
+    }).then(x=>{if(x.type=="success")setFile(x)})
+    .catch(err=>console.log(err));
+  }
 
-            <Block>
-              <Text color={GlobalStyle.color.textLight}>Category</Text>
-              <View style={styles.dropdown}>
-                <Picker mode={"dropdown"}>
-                  {documentTypes.map((item, index) => (
-                    <Picker.Item
-                      label={item.name}
-                      value={item.value}
-                      key={index}
-                    />
-                  ))}
-                </Picker>
-              </View>
-            </Block>
-            <Block>
-              <Text color={GlobalStyle.color.textLight}>File</Text>
-              <Block row space="between" middle>
-                <Text color={GlobalStyle.color.textLight} style={GlobalStyle.wrapText}>./file.pdf/le.pdf</Text>
-                <Button style={{ width: width / 3, height: 30 }}>File</Button>
-              </Block>
-            </Block>
-            <Block row space={"between"} flex marginTop={10}>
-              <Button color={GlobalStyle.bg.green} style={styles.button}>
-                Upload
-              </Button>
-              <Button color={GlobalStyle.bg.red} style={styles.button}>
-                Reset
-              </Button>
-            </Block>
-          
+  const submit=()=>{
+    let isValid=true;
+    if (file == null) {      
+      setFileError(true);
+      isValid = false;
+    }
+
+    if (title.length == 0) {
+      setTitleError(true);
+      isValid = false;
+    }
+
+    let categoryName=documentTypes.filter(x=>x.value==category)[0].name;
+    if(isValid)submitModal({ title, category:categoryName, file })
+  }
+    return (
+      <Block style={styles.container}>
+        <Text h5 center>
+          New Document
+        </Text>
+        <LabelledInput
+          placeholder="Document Title"
+          label="Title"
+          textColor={"#000"}
+          value={title}
+          onChange={(text) => {setTitle(text);setTitleError(false)}}
+          error={titleError}
+        />
+        <Block>
+          <DropDown
+            list={documentTypes}
+            label={"Category"}
+            textColor={"#000"}
+            selectedValue={category}
+            onChange={(newCategory) => setCategory(newCategory)}
+          />
+        </Block>
+        <Block>
+          <Text>File</Text>
+          <Block row space="between" middle>
+            <Text style={[GlobalStyle.wrapText,{color:fileError?GlobalStyle.color.error:GlobalStyle.color.textDark}]}>{file?file.name:"No File Selected"}</Text>
+            <Button style={{ width: width / 3, height: 30 }} onPress={()=>{pickDoc();setFileError(false)}}>File</Button>
           </Block>
-          </View>
-        </ImageBackground>
-      </SafeAreaView>
+        </Block>
+        <Block row space={"between"} marginTop={10}>
+          <Button
+            style={[styles.button, { borderColor: "#000" }]}
+            onPress={closeModal}
+            color={"transparent"}
+          >
+            <Text>Close</Text>
+          </Button>
+          <Button
+            style={styles.button}
+            onPress={submit}
+          >
+            Submit
+          </Button>
+        </Block>
+      </Block>
     );
 }
  
@@ -70,23 +96,11 @@ export default NewDocument;
 
 
 const styles = StyleSheet.create({
-    dropdown: {
-      backgroundColor: theme.COLORS.WHITE,
-      borderRadius: theme.SIZES.INPUT_BORDER_RADIUS - 3,
-      borderWidth: theme.SIZES.INPUT_BORDER_WIDTH,
-      borderColor: theme.COLORS.INPUT,
-      height: theme.SIZES.INPUT_HEIGHT,
-      overflow: "hidden",
-      marginTop: 10,
-    },
-    block: {
-      backgroundColor: "#0004",
-      margin: 10,
-      padding: 10,
-      borderRadius: 5,
-    },
-    button: {
-      height: 50,
+  container:{
+    width:width/10*7,
+  },
+   button: {
+      height: 35,
       width: width  / 3,
       marginTop:20
     },

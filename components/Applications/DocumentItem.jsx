@@ -9,19 +9,21 @@ import Icons from "../../constants/Icons";
 const { width } = Dimensions.get("screen");
 
 function DocumentItem(props) {
+  const {deleteItem}=props;
+  const {id,number, name, category, date}=props;
   return (
     <View style={styles.container}>
       <Block row>
-        <Text h5>{props.number}. </Text>
-        <Text h5>{props.name}</Text>
+        <Text h5>{number}. </Text>
+        <Text h5>{name}</Text>
       </Block>
       <Block row space="between" margin={5}>
-        <Text>{props.category}</Text>
-        <Text>{props.date}</Text>
+        <Text>{category}</Text>
+        <Text>{date}</Text>
       </Block>
       <Block row space="around" style={{borderTopWidth:0.5, paddingTop:10}}>
-      <CustomIcon source={Icons.Download}/>
-        <CustomIcon source={Icons.Trash}/>
+        <CustomIcon source={Icons.Download}/>
+          <CustomIcon source={Icons.Trash} onPress={()=>deleteItem(id)}/>
       </Block>
 {/*       
       <Block row space="between">

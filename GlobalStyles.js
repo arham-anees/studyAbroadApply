@@ -8,7 +8,8 @@ const GlobalStyle = {
     secondary: "light-blue",
     textLight: "#fffd",
     textOrange: "#ed7700",
-    error:"red"
+    textDark:"#000",
+    error:"red",
   },
   bg: {
     green: "#04870b",

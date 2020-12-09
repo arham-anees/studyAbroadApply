@@ -6,28 +6,10 @@ import { StyleSheet, View } from "react-native";
 import DocumentItem from "../../../components/Applications/DocumentItem";
 import GlobalStyle from "../../../GlobalStyles";
 
-const documents = [
-  { id: 1, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 2, name: "Passport", category: "Passport", date: "Oct 29 2020" },
-  {
-    id: 3,
-    name: "Bachelors Degree / Transcript",
-    category: "Bachelors Degree / Transcript",
-    date: "Oct 29 2020",
-  },
-  { id: 4, name: "HSSC", category: "HSSC", date: "Oct 29 2020" },
-  { id: 5, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 6, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 7, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 8, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 9, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 10, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 11, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 12, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 13, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-];
 
 function OffersTab(props) {
+  const {offers}=props.application;
+const {deleteOffer}=props;
   return (
     <View style={{
       paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
@@ -35,13 +17,15 @@ function OffersTab(props) {
         <Text h5 color="white" center>
           Documents
         </Text>
-        {documents.map((item, index) => (
+        {offers.map((item, index) => (
           <DocumentItem
             name={item.name}
             number={index + 1}
             category={item.category}
             date={item.date}
+            id={item.id}
             key={index}
+            deleteItem={deleteOffer}
           />
         ))}
       </Block>

@@ -28,6 +28,7 @@ function ProfileTab(props) {
   const [date, setDate] = useState(Date.now());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
+  const [dateIndex, setDateIndex]=useState(1);
   
   const {studentName, fatherName, phone, email,passportNumber
     ,passportExpiryDate, landline, dateOfBirth, gender, nationality,
@@ -39,13 +40,15 @@ const {handleChange, updateGender, updateMaritalStatus}=props;
     setMode(currentMode);
   };
 
-  const showDatepicker = () => {
+  const showDatepicker = (newDateIndex) => {
     showMode("date");
+    setDateIndex(newDateIndex);
   };
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
-    handleChange(selectedDate,'dateOfBirth')
+    if(dateIndex==1) handleChange(selectedDate,'passportExpiryDate');
+    else if(dateIndex==2) handleChange(selectedDate,'dateOfBirth');
   };
 
   
@@ -89,8 +92,8 @@ const {handleChange, updateGender, updateMaritalStatus}=props;
                 value={passportExpiryDate}
                 onChange={(text)=>handleChange(text,'passportExpiryDate')}
               /> */}
-              <ButtonTextBox value={new Date(dateOfBirth).toDateString()} 
-              label={"Expiry Date"} onPress={showDatepicker}/>
+              <ButtonTextBox value={new Date(passportExpiryDate).toDateString()} 
+              label={"Expiry Date"} onPress={()=>showDatepicker(1)}/>
               <LabelledInput
                 label="Landline"
                 iconname="key"
@@ -106,7 +109,7 @@ const {handleChange, updateGender, updateMaritalStatus}=props;
                 onChange={(text)=>handleChange(text,'phone')}
               />
               <ButtonTextBox value={new Date(dateOfBirth).toDateString()} 
-              label={"Date Of Birth"} onPress={showDatepicker}/>
+              label={"Date Of Birth"} onPress={()=>showDatepicker(2)}/>
               <DropDown list={Genders} label={"Gender"} selectedValue={gender}
               onChange={updateGender}/>
               <LabelledInput

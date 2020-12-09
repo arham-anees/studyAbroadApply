@@ -2,13 +2,15 @@ import { Text, theme } from "galio-framework";
 import React from "react";
 import { View } from "react-native";
 import { Picker, StyleSheet } from "react-native";
+import GlobalStyle from "../GlobalStyles";
 
-function DropDown({label,list, onChange,selectedValue}) {
+function DropDown({label,list, onChange,selectedValue, textColor}) {
   // console.log(props.list)
+ 
   if(!selectedValue)selectedValue=list[0];
   return (
     <View>
-      <Text style={styles.text}>{label}</Text>
+      <Text color={textColor?textColor:GlobalStyle.color.textLight}>{label}</Text>
       <View style={styles.dropdown}>
         <Picker
           mode={"dropdown"}
@@ -41,7 +43,4 @@ const styles = StyleSheet.create({
     width:"100%"
     // width: width - 100,
   },
-  text:{
-    color:"#fff"
-  }
 });

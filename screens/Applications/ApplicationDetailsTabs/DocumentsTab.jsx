@@ -1,5 +1,5 @@
 import { Block, Button, Input, Text, theme } from "galio-framework";
-import React from "react";
+import React, { useState } from "react";
 import { Picker } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
@@ -9,26 +9,7 @@ import GlobalStyle from "../../../GlobalStyles";
 import { ScrollView } from "react-native";
 
 const { width } = Dimensions.get("screen");
-const documents = [
-  { id: 1, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 2, name: "Passport", category: "Passport", date: "Oct 29 2020" },
-  {
-    id: 3,
-    name: "Bachelors Degree / Transcript",
-    category: "Bachelors Degree / Transcript",
-    date: "Oct 29 2020",
-  },
-  { id: 4, name: "HSSC", category: "HSSC", date: "Oct 29 2020" },
-  { id: 5, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 6, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 7, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 8, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 9, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 10, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 11, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 12, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-  { id: 13, name: "CV", category: "Curriculum Vitae", date: "Oct 29 2020" },
-];
+
 const documentTypes = [
   { value: 1, name: "Bachelors Degree / Transcript" },
   { value: 2, name: "Passport" },
@@ -36,14 +17,12 @@ const documentTypes = [
   { value: 4, name: "Bachelors Degree / Transcript" },
 ];
 
-class DocumentsTab extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      file: null,
-    };
-  }
-  pickDocumentHandle = () => {
+function DocumentsTab (props) {
+  const [file, setFile]=useState(null);
+
+const {documents}=props.application;
+const {deleteDocument}=props;
+  const pickDocumentHandle = () => {
     DocumentPicker.getDocumentAsync({
       type: "*/*",
       copyToCacheDirectory: false,
@@ -57,7 +36,7 @@ class DocumentsTab extends React.Component {
       })
       .catch((er) => console.log(er));
   };
-  render = () => (
+  return (
     <View style={{
       paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
       
@@ -71,7 +50,9 @@ class DocumentsTab extends React.Component {
             number={index + 1}
             category={item.category}
             date={item.date}
+            id={item.id}
             key={index}
+            deleteItem={deleteDocument}
           />
         ))}
       </Block>

@@ -61,7 +61,10 @@ render=()=> (
         >
           <ScrollView>
       <Block center style={styles.logoBox}>
-        <Image source={Images.LogoOnboarding} style={styles.logo} />
+        {/* <Image source={Images.LogoOnboarding} style={styles.logo} />
+        <Image source={Images.Slogan} style={styles.logo} /> */}
+        <Text style={styles.logoText}>Study Abroad Apply</Text>
+        <Text style={styles.sloganText}>Apply to become ann associate</Text>
       </Block>
       <Block  space="between" style={styles.padded}>
         <Block  space="around" style={{ zIndex: 2 }}>
