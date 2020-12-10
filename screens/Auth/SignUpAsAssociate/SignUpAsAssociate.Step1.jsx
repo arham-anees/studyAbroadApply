@@ -5,6 +5,7 @@ import LabelledInput from "../../../components/LabelledInput.Component";
 
 
 import DropDown from "../../../components/DropDown";
+import GlobalStyle from "../../../GlobalStyles";
 function getYears(){
   let years=[];
   for (let year = 1990; year <=new Date().getFullYear(); year++) {
@@ -24,7 +25,7 @@ export default function Step1({
 }) {
   return (
     <View>
-      <Text h5 center style={{ color: "white" }}>
+      <Text center style={{ color: "white", fontSize:GlobalStyle.SIZES.HEADING5 }}>
         Company Information
       </Text>
       <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
@@ -34,6 +35,7 @@ export default function Step1({
           iconname="person"
           iconfamily="Fontisto"
           onChange={handleEmailChange}
+          required
         />
         <LabelledInput
           label="Company Name"
@@ -41,6 +43,7 @@ export default function Step1({
           iconname="person"
           iconfamily="Fontisto"
           onChange={handleCompanyNameChange}
+          required
         />
         <LabelledInput
           label="Website"
@@ -48,6 +51,7 @@ export default function Step1({
           iconname="person"
           iconfamily="Fontisto"
           onChange={handleCompanyWebsiteChange}
+          required
         />
         <Block>
           <DropDown

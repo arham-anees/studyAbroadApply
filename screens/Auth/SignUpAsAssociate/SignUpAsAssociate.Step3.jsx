@@ -7,10 +7,11 @@ import { ScrollView } from "react-native-gesture-handler";
 import { View } from "react-native";
 import { Picker } from "react-native";
 import styles from "./SignUpAsAssociate.Style";
+import GlobalStyle from "../../../GlobalStyles";
 export default function Step3(props) {
   return (
     <ScrollView>
-      <Text h5 center style={{ color: "white" }}>
+      <Text center style={{ color: "white", fontSize:GlobalStyle.SIZES.HEADING5 }}>
         Recruitment Details
       </Text>
       <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>

@@ -1,3 +1,6 @@
+import { Dimensions } from "react-native";
+
+const {height, width}=Dimensions.get("window");
 const GlobalStyle = {
   color: {
     background: "purple",
@@ -33,7 +36,6 @@ const GlobalStyle = {
     marginBottom: 10,
     color: "white",
     textAlign: "center",
-    fontStyle: "italic",
     fontSize: 24,
   },
   scrollBottomPadding: {
@@ -45,7 +47,10 @@ const GlobalStyle = {
   },
   SIZES:{
     HeadingNormalHeight:24,
-    PageNormalPadding:15
+    PageNormalPadding:15,
+    NavBarHeight:60,
+    PageHeight:height-70,
+    HEADING5:24
   },
   STATUSCOLOR:{
     InProgress:"rgb(0, 143, 251)",
@@ -55,7 +60,12 @@ const GlobalStyle = {
     SentToInstitute:"rgb(254, 176, 25)"
   },
   STATUSBACKGROUND:["green","rgb(254, 176, 25)","rgb(0, 143, 251)","rgb(255, 69, 96)"],
-  STATUSTEXTCOLOR:["#fff","rgb(0, 143, 251)","rgb(254, 176, 25)"]
+  STATUSTEXTCOLOR:["#fff","rgb(0, 143, 251)","rgb(254, 176, 25)"],
+  LOGO:{
+    TEXT:{
+      FONTSIZE:32
+    }
+  }
 };
 
 export default GlobalStyle;

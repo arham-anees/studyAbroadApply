@@ -41,7 +41,7 @@ const {deleteDocument}=props;
       paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
       
       <Block>
-        <Text h5 color="white" center>
+        <Text style={{fontSize:GlobalStyle.SIZES.HEADING5}} color="white" center>
           Documents
         </Text>
         {documents.map((item, index) => (

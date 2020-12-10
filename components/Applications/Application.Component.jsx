@@ -9,7 +9,7 @@ import GlobalStyle from "../../GlobalStyles";
 
 function ApplicationItem({ props }) {
   const { item, navigation } = props;
-  console.log(item)
+  //console.log(item)
   let statusBackground=GlobalStyle.STATUSBACKGROUND[item.statusId-1]
   return (
     <TouchableOpacity onPress={() => navigation.navigate("ApplicationDetails")}>

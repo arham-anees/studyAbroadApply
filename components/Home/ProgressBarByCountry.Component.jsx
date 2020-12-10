@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   countryName: {
-    fontSize: 20,
+    
   },
   dot: {
     width: 15,

@@ -63,7 +63,7 @@ function CourseTab(props) {
   return (
     <View>
       <Block style={styles.block}>
-        <Text color="white" center h5>
+        <Text color="white" center style={{fontSize:GlobalStyle.SIZES.HEADING5}}>
           Course
         </Text>
         <Block row>

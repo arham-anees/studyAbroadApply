@@ -5,6 +5,7 @@ import {
   ScrollView,
   ImageBackground,
   SafeAreaView,
+  BackHandler,
 } from "react-native";
 import { Block, theme } from "galio-framework";
 
@@ -18,25 +19,21 @@ import Images from "../constants/Images";
 import CountryApplicationsProgressChart from "../components/Home/CountryApplications.ProgressChart";
 import ProgressBarByCountry from "../components/Home/ProgressBarByCountry";
 import GlobalStyle from "../GlobalStyles";
+import Background from "../components/Background";
+import { View } from "react-native";
 
 const { height, width } = Dimensions.get("screen");
 class Home extends React.Component {
   render() {
     return (
-      <SafeAreaView>
-        <ScrollView>
-          <ImageBackground
-            source={Images.Onboarding}
-            style={{ height: height + 100, width, zIndex: 1,
-              paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding }}
-          >
+      <Background>
+        <View style={{padding:GlobalStyle.SIZES.PageNormalPadding}}>
             <AppStatusByCountry />
             <LineChart />
             <ProgressBarByCountry />
             {/* <CountryApplicationsProgressChart /> */}
-          </ImageBackground>
-        </ScrollView>
-      </SafeAreaView>
+            </View>
+      </Background>
     );
   }
 }

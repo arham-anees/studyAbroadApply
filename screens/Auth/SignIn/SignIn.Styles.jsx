@@ -9,12 +9,11 @@ const styles = StyleSheet.create({
   container: {},
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,
-
     bottom: theme.SIZES.BASE,
     zIndex: 2,
   },
   button: {
-    width: width - theme.SIZES.BASE * 6,
+    width: "100%",
     height: theme.SIZES.BASE * 3,
     shadowRadius: 0,
     shadowOpacity: 0,
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
   },
   logoText:{
     color:GlobalStyle.color.textLight,
-    fontSize:32
+    fontSize:GlobalStyle.LOGO.TEXT.FONTSIZE
   },
   sloganText:{
     color:GlobalStyle.color.textLight,
@@ -45,12 +44,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   error:{
-    marginHorizontal:20,
     paddingHorizontal:5,
-    marginBottom:5,
     color:GlobalStyle.color.textLight,
     backgroundColor:GlobalStyle.bg.errorMessage,
-    borderRadius:2,
+    borderRadius:3,
+    marginBottom:15,
     textAlign:"center"
   }
 });

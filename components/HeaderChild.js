@@ -12,6 +12,7 @@ import Tabs from "./Tabs";
 import argonTheme from "../constants/Theme";
 import CustomIcon from "../Icons/BellIcon";
 import Icons from "../constants/Icons";
+import GlobalStyle from "../GlobalStyles";
 
 const { height, width } = Dimensions.get("window");
 
@@ -123,6 +124,7 @@ const styles = StyleSheet.create({
     paddingBottom: theme.SIZES.BASE * 1.5,
     paddingTop: theme.SIZES.BASE,
     zIndex: 5,
+    height:GlobalStyle.SIZES.NavBarHeight
   },
   shadow: {
     backgroundColor: theme.COLORS.WHITE,

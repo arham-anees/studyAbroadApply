@@ -10,7 +10,7 @@ class LabelledInput extends React.Component {
     return (
     <Block>
       <Text style={{ color: this.labelColor }}>
-        {this.props.label}
+        {this.props.label} {this.props.required?"*":null}
       </Text>
       <Input
         placeholder={

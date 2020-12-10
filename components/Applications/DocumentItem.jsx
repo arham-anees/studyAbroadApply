@@ -14,8 +14,8 @@ function DocumentItem(props) {
   return (
     <View style={styles.container}>
       <Block row>
-        <Text h5>{number}. </Text>
-        <Text h5>{name}</Text>
+        <Text>{number}. </Text>
+        <Text>{name}</Text>
       </Block>
       <Block row space="between" margin={5}>
         <Text>{category}</Text>

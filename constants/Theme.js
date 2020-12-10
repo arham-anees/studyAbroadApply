@@ -18,8 +18,8 @@ export default {
     PLACEHOLDER: '#9FA5AA',
     SWITCH_ON: '#5E72E4',
     SWITCH_OFF: '#D4D9DD',
-    GRADIENT_START: '#6B24AA',
-    GRADIENT_END: '#AC2688',
+    GRADIENT_START: '#28157F',
+    GRADIENT_END: '#CD7CD0',
     PRICE_COLOR: '#EAD5FB',
     BORDER_COLOR: '#E7E7E7',
     BLOCK: '#E7E7E7',
@@ -27,7 +27,8 @@ export default {
     HEADER: '#525F7F',
     BORDER: '#CAD1D7',
     WHITE: '#FFFFFF',
-    BLACK: '#000000'
+    BLACK: '#000000',
+    
   },
   ICONS:{
     DEFAULT:{

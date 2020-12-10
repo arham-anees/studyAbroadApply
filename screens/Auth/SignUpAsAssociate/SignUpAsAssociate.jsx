@@ -9,7 +9,7 @@ import {
   ScrollView,
   View,
 } from "react-native";
-import { Block, Button, theme } from "galio-framework";
+import { Block, Button, Text, theme } from "galio-framework";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -20,13 +20,14 @@ import Step2 from "./SignUpAsAssociate.Step2";
 import Step3 from "./SignUpAsAssociate.Step3";
 import { ValidateStep1, ValidateStep2, ValidateStep3 } from "./SignUpAsAssociate.Utils";
 import { KeyboardAvoidingView } from "react-native";
+import Background from "../../../components/Background";
 
 class SignUpAsAssociate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       step: 1,
-      email: "email",
+      email: "",
       companyName: "",
       companyWebsite: "",
       yearEstablished: 1990,
@@ -116,7 +117,6 @@ class SignUpAsAssociate extends React.Component {
       ValidateStep3(this.state).then((response) => {
         this.nextStepProcess(response)
       });
-      //console.log(stepUp);
 
     
   }
@@ -132,16 +132,13 @@ class SignUpAsAssociate extends React.Component {
   }
   render() {
     return (
-      <View style={styles.container} behavior="padding" enabled>
-        <ImageBackground
-          source={Images.Onboarding}
-          style={{ height, width, zIndex: 1, flex:1 }}
-        >
-            <Block flex center style={styles.logoBox}>
-              <Image source={Images.LogoOnboarding} style={styles.logo} />
-            </Block>
-            <Block style={styles.padded}>
-          <ScrollView>
+      <Background noScroll fullscreen>
+        <View style={styles.container} behavior="padding" enabled>
+        <Block center style={styles.logoBox}>
+        <Text style={styles.logoText}>Study Abroad Apply</Text>
+      </Block>
+          <Block style={styles.padded}>
+            <ScrollView>
               <Block style={[styles.title, styles.stepContainer]}>
                 {this.state.step === 1 ? (
                   <Step1
@@ -157,45 +154,44 @@ class SignUpAsAssociate extends React.Component {
                 {this.state.step === 2 ? <Step2 {...this.state} /> : null}
                 {this.state.step === 3 ? <Step3 {...this.state} /> : null}
               </Block>
-              </ScrollView>
-              <Block flex bottom style={styles.buttons}>
-                <Block
-                  style={[
-                    { paddingHorizontal: theme.SIZES.BASE },
-                    styles.navigationBtnContainer,
-                  ]}
+            </ScrollView>
+            <Block flex bottom style={styles.buttons}>
+              <Block
+                style={[
+                  { paddingHorizontal: theme.SIZES.BASE },
+                  styles.navigationBtnContainer,
+                ]}
+              >
+                <Button
+                  style={{ width: 100 }}
+                  onPress={() => this.perviousStep()}
+                  disabled={this.state.step === 1}
                 >
-                  <Button
-                    style={{ width: 100 }}
-                    onPress={() => this.perviousStep()}
-                    disabled={this.state.step === 1}
-                  >
-                    Previous
-                  </Button>
-                  <Button
-                    style={{ width: 100 }}
-                    onPress={() => this.nextStep()}
-                  >
-                    {this.state.step === 3 ? "Submit" : "Next"}
-                  </Button>
-                </Block>
-                <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-                  <Button
-                    style={styles.button}
-                    color={argonTheme.COLORS.SECONDARY}
-                    onPress={() => this.props.navigation.navigate("SignIn")}
-                    textStyle={{ color: argonTheme.COLORS.BLACK }}
-                  >
-                    Sign In Here
-                  </Button>
-                </Block>
+                  Previous
+                </Button>
+                <Button style={{ width: 100 }} onPress={() => this.nextStep()}>
+                  {this.state.step === 3 ? "Submit" : "Next"}
+                </Button>
               </Block>
-             
+              <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
+                <Button
+                  style={styles.button}
+                  color={argonTheme.COLORS.SECONDARY}
+                  onPress={() => this.props.navigation.navigate("SignIn")}
+                  textStyle={{ color: argonTheme.COLORS.BLACK }}
+                >
+                  Sign In Here
+                </Button>
+              </Block>
             </Block>
-            {this.state.keyboard ? <View style={{ height: 280 }} /> : <View style={{ height: 60 }}/>}
-       
-        </ImageBackground>
-      </View>
+          </Block>
+          {this.state.keyboard ? (
+            <View style={{ height: 280 }} />
+          ) : (
+            <View style={{ height: 60 }} />
+          )}
+        </View>
+      </Background>
     );
   }
 }

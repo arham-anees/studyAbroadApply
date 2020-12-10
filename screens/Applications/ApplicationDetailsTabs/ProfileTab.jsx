@@ -149,6 +149,7 @@ export default ProfileTab;
 
 const styles = StyleSheet.create({
   btnUpdate: {
-    marginTop:10
+    marginTop:10,
+    width:"100%"
   },
 });

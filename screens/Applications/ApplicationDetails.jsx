@@ -7,8 +7,10 @@ import { Dimensions } from "react-native";
 import { ImageBackground } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import ApplicationDetailsTabs from "../../components/Applications/ApplicationDetailsTabs";
+import Background from "../../components/Background";
 import Toast from "../../components/Toast";
 import Images from "../../constants/Images";
+import GlobalStyle from "../../GlobalStyles";
 import DocumentsTab from "./ApplicationDetailsTabs/DocumentsTab";
 import NoticeBoardTab from "./ApplicationDetailsTabs/NoticeBoardTab";
 import OffersTab from "./ApplicationDetailsTabs/OffersTab";
@@ -256,7 +258,7 @@ class ApplicationDetails extends React.Component {
     try {
       if (this.state.activeTab === Tabs.NoticeBoard) {
         this.setState({ showModal: true });
-      } else if (this.state.activeTab === Tabs.Documents) {
+      } else if (this.state.activeTab === Tabs.Documents || this.state.activeTab === Tabs.Offers ) {
         this.setState({ showModal: true });
       } else if (this.state.activeTab === Tabs.Offers) {
         console.log("Offers");
@@ -291,17 +293,14 @@ class ApplicationDetails extends React.Component {
 
   render() {
     return (
-      <SafeAreaView>
-        <ImageBackground
-          source={Images.Onboarding}
-          style={{ height, width, zIndex: 1 }}
-        >
-          <View>
-            <KeyboardAvoidingView behavior="padding">
+<Background noScroll>
               <ApplicationDetailsTabs
                 initialIndex={this.state.activeTab}
                 onChange={this.onTabChange}
-              />
+              /><KeyboardAvoidingView
+              behavior={Platform.OS == "ios" ? "padding" : "height"}
+              style={{ flex: 1 }}
+            >
               <ScrollView  style={styles.container}>
                 {this.state.activeTab === Tabs.NoticeBoard ? (
                   <NoticeBoardTab
@@ -335,7 +334,8 @@ class ApplicationDetails extends React.Component {
                 <Toast isShow={this.state.isShow}>{this.state.toastMessage}</Toast>
                 {/* <Block style={{ minHeight: 200 }}></Block> */}
               </ScrollView>
-              {this.state.activeTab === Tabs.Documents ? (
+              {this.state.activeTab === Tabs.Documents ||
+              this.state.activeTab === Tabs.Offers ? (
                 <Button
                   onlyIcon
                   icon="plus"
@@ -362,11 +362,8 @@ class ApplicationDetails extends React.Component {
                     />
                   </View>
                 </View>
-              </Modal>
-            </KeyboardAvoidingView>
-          </View>
-        </ImageBackground>
-      </SafeAreaView>
+              </Modal></KeyboardAvoidingView>
+              </Background>
     );
   }
 }
@@ -375,14 +372,14 @@ export default ApplicationDetails;
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom:50,
-    height:height/10*8
+    height:GlobalStyle.SIZES.PageHeight-GlobalStyle.SIZES.NavBarHeight,
+    flex:1
   },
   floatingButton:{
     width: 60,
     height: 60,
     position: "absolute",
-    top: Dimensions.get("window").height - 150,
+    top: GlobalStyle.SIZES.PageHeight - GlobalStyle.SIZES.NavBarHeight*3,
     right: 30,
   },
   centeredView: {

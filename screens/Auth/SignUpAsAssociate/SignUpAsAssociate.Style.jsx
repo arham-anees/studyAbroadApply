@@ -1,3 +1,5 @@
+import GlobalStyle from "../../../GlobalStyles";
+
 const { theme } = require("galio-framework");
 const { Dimensions, StyleSheet } = require("react-native");
 
@@ -26,8 +28,12 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },   
   logoBox:{
-    height:height/10*4,
+    height:height/10*3,
     justifyContent:"center"
+  },
+  logoText:{
+    color:GlobalStyle.color.textLight,
+    fontSize:GlobalStyle.LOGO.TEXT.FONTSIZE
   },
   buttons: {
     minHeight:100,

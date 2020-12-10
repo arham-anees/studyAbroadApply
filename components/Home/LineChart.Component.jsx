@@ -7,7 +7,7 @@ import GlobalStyle from "../../GlobalStyles";
 function LineChartCustom(props) {
   return (
     <View>
-      <View style={GlobalStyle.block}>
+      <View style={[GlobalStyle.block,{padding:0,height:250}]}>
         <View style={Styles.chart}>
           <LineChart
             verticalLabelRotation={-45}
@@ -34,8 +34,8 @@ function LineChartCustom(props) {
                 },
               ],
             }}
-            width={Dimensions.get("screen").width - 50} // from react-native
-            height={220}
+            width={Dimensions.get("screen").width-60} // from react-native
+            height={200}
             chartConfig={{
               backgroundColor: "transparent",
 
@@ -65,12 +65,13 @@ export default LineChartCustom;
 
 const Styles = StyleSheet.create({
   container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    paddingTop:10
   },
   title: {
     textAlign: "center",
-    color: "white",
+    color: GlobalStyle.color.textLight,
   },
+  chart:{
+    marginTop:20
+  }
 });

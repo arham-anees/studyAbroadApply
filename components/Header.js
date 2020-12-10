@@ -15,6 +15,7 @@ import argonTheme from "../constants/Theme";
 import { Image } from "react-native";
 import CustomIcon from "../Icons/BellIcon";
 import Icons from "../constants/Icons";
+import GlobalStyle from "../GlobalStyles";
 
 const { height, width } = Dimensions.get("window");
 const iPhoneX = () =>
@@ -26,13 +27,8 @@ const BellButton = ({ isWhite, style, navigation }) => (
     style={[styles.button, style]}
     onPress={() => navigation.navigate("Notifications")}
   >
-    <CustomIcon source={Icons.Bell}/>
-    {/* <Icon
-      family="ArgonExtra"
-      size={16}
-      name="bell"
-      color={argonTheme.COLORS[isWhite ? "WHITE" : "ICON"]}
-    /> */}
+    <CustomIcon source={Icons.Bell} 
+            style={{width:25, height:25}}/>
     <Block middle style={styles.notify} />
   </TouchableOpacity>
 );
@@ -117,7 +113,7 @@ class Header extends React.Component {
           right={this.renderRight()}
           rightStyle={{ alignItems: "center" }}
           left={
-            <CustomIcon source={Icons.Menu} style={{width:20}} 
+            <CustomIcon source={Icons.Menu} style={{width:25,height:25}} 
             onPress={this.handleLeftPress} />
           }
           leftStyle={{ paddingVertical: 12, flex: 0.2 }}
@@ -143,12 +139,14 @@ const styles = StyleSheet.create({
     width: "100%",
     fontSize: 16,
     fontWeight: "bold",
+    marginLeft:10
   },
   navbar: {
     paddingVertical: 0,
     paddingBottom: theme.SIZES.BASE * 1.5,
     paddingTop: theme.SIZES.BASE,
     zIndex: 5,
+    height:GlobalStyle.SIZES.NavBarHeight
   },
   shadow: {
     backgroundColor: theme.COLORS.WHITE,

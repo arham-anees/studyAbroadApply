@@ -4,6 +4,7 @@ import { Block, theme } from "galio-framework";
 
 const { width } = Dimensions.get("screen");
 import argonTheme from "../../constants/Theme";
+import GlobalStyle from "../../GlobalStyles";
 
 const defaultMenu = [
   { id: "noticeBoard", title: "Notice Board" },
@@ -122,6 +123,7 @@ const styles = StyleSheet.create({
     width: width,
     backgroundColor: theme.COLORS.WHITE,
     zIndex: 2,
+    height:GlobalStyle.SIZES.NavBarHeight
   },
   shadow: {
     shadowColor: theme.COLORS.BLACK,

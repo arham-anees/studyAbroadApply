@@ -240,16 +240,8 @@ function AuthStack(props) {
         name="SignUpAsStudent"
         component={SignUpAsStudent}
         options={{
-          header: ({ navigation, scene }) => (
-            <HeaderChild
-              title=""
-              back
-              white
-              transparent
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
+         
+          headerShown: false,
           headerTransparent: true,
         }}
       />
@@ -257,17 +249,8 @@ function AuthStack(props) {
         name="SignUpAsAssociate"
         component={SignUpAsAssociate}
         options={{
-          header: ({ navigation, scene }) => (
-            <HeaderChild      
-            
-              title=""
-              back
-              white
-              transparent
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
+         
+          headerShown: false,
           headerTransparent: true,
         }}
       />

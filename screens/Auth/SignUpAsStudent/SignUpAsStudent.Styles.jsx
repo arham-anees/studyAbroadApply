@@ -11,12 +11,11 @@ const styles = StyleSheet.create({
   },
   padded: {
     paddingHorizontal: theme.SIZES.BASE * 2,
-    
     bottom: theme.SIZES.BASE,
     zIndex: 2,
   },
   button: {
-    width: width - theme.SIZES.BASE * 6,
+    width: "100%",
     height: theme.SIZES.BASE * 3,
     shadowRadius: 0,
     shadowOpacity: 0,
@@ -26,6 +25,15 @@ const styles = StyleSheet.create({
     width: 200,
     height: 60,
     zIndex:10
+  },
+  logoBox:{
+    height:height/10*3,
+    display:"flex",
+    justifyContent:"center",
+  },
+  logoText:{
+    color:GlobalStyle.color.textLight,
+    fontSize:32
   },
   subTitle: {
     marginTop: 20,

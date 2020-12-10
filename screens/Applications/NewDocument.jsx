@@ -46,7 +46,7 @@ const NewDocument = (props) => {
   }
     return (
       <Block style={styles.container}>
-        <Text h5 center>
+        <Text center style={{fontSize:GlobalStyle.SIZES.HEADING5}}>
           New Document
         </Text>
         <LabelledInput

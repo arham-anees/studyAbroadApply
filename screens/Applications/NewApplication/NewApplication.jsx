@@ -6,7 +6,7 @@ class NewApplication extends React.Component{
     render(){
         return <View>
             <Block style={styles.block}>
-        <Text color="white" h5 center>
+        <Text color="white" style={{fontSize:GlobalStyle.SIZES.HEADING5}} center>
           New Document
         </Text>
         <Block>
