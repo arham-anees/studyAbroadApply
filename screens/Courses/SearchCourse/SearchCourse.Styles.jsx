@@ -4,8 +4,8 @@ import GlobalStyle from "../../../GlobalStyles";
 const { StyleSheet } = require("react-native");
 const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
-  container: {
-    padding: 10,
+  btn: {
+    width: "100%",
   },
   input: {
     width: width - 110,

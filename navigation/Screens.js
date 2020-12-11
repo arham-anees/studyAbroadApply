@@ -95,13 +95,13 @@ function ApplicationStack(props) {
         component={ApplicationDetails}
         options={{
           cardStyle: { backgroundColor: "#F8F9FE" },
-        }}
-      />
-      <Stack.Screen
-        name="NewDocument"
-        component={NewDocument}
-        options={{
-          cardStyle: { backgroundColor: "#F8F9FE" },
+          header: ({ navigation, scene }) => (
+            <HeaderChild
+              title="Application Details"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
         }}
       />
     </Stack.Navigator>

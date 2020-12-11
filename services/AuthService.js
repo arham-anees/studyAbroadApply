@@ -11,7 +11,7 @@ function Login({ email, password }) {
 function RegisterStudent({ firstName, lastName, email, password }) {
   return new Promise((resolve, reject) => {
     try {
-      resolve(false);
+      resolve(true);
     } catch (e) {
       reject(e);
     }

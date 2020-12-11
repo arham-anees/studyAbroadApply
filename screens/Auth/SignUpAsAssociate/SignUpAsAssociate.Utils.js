@@ -7,9 +7,9 @@ export function ValidateStep1({
 }) {
   return new Promise((resolve, reject) => {
     try {
-      //   if (!isEmailValid(email))reject({ errorCode: 1, message: "Invalid email address" });
-      //   if (companyName.length == 0)reject({ errorCode: 1, message: "Invalid company name" });
-      //   if (!isWebsiteValid(companyWebsite))reject({ errorCode: 1, message: "Invalid company website" });
+        if (!isEmailValid(email))reject({ errorCode: 1, message: "Invalid email address" });
+        if (companyName.length == 0)reject({ errorCode: 1, message: "Invalid company name" });
+        if (!isWebsiteValid(companyWebsite))reject({ errorCode: 1, message: "Invalid company website" });
       resolve(true);
     } catch (err) {
       reject({ errorCode: 0, message: err });
@@ -31,6 +31,7 @@ export function ValidateStep2({
 }) {
   return new Promise((resolve, reject) => {
     try {
+    
       if (!firstName || firstName.length == 0)
         reject({ errorCode: 1, message: "Empty first name" });
       if (!lastName || lastName.length == 0)
@@ -59,6 +60,7 @@ export function ValidateStep2({
 export function ValidateStep3({ recruitCountries, educationalIntitues }) {
   return new Promise((resolve, reject) => {
     try {
+      resolve(true);
       if (!recruitCountries || recruitCountries.length == 0)
         reject({ errorCode: 1, message: "Empty recruit countries" });
       if (!educationalIntitues || educationalIntitues.length == 0)

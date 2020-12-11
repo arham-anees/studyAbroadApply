@@ -37,9 +37,10 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
     marginRight: 10,
+    borderRadius:5
   },
   title: {
-    fontSize: 18,
+    fontSize: GlobalStyle.SIZES.HEADING6,
     fontStyle: "italic",
     fontWeight: "bold",
   },

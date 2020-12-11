@@ -162,13 +162,13 @@ class SignUpAsAssociate extends React.Component {
                   styles.navigationBtnContainer,
                 ]}
               >
+                {this.state.step!=1?
                 <Button
                   style={{ width: 100 }}
                   onPress={() => this.perviousStep()}
-                  disabled={this.state.step === 1}
                 >
                   Previous
-                </Button>
+                </Button>:<View></View>}
                 <Button style={{ width: 100 }} onPress={() => this.nextStep()}>
                   {this.state.step === 3 ? "Submit" : "Next"}
                 </Button>

@@ -53,8 +53,6 @@ const {handleChange, updateGender, updateMaritalStatus}=props;
 
   
   return (
-    <View>
-      <Block>
         <Block style={{ paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
           <Block style={GlobalStyle.block}>
               <LabelledInput 
@@ -130,7 +128,6 @@ const {handleChange, updateGender, updateMaritalStatus}=props;
               />
               <Button style={styles.btnUpdate}>Update</Button>
             </Block>
-            </Block>
             {show && (
               <DateTimePicker
                 testID="dateTimePicker"
@@ -141,8 +138,8 @@ const {handleChange, updateGender, updateMaritalStatus}=props;
                 onChange={onChange}
               />
             )}
-      </Block>
-    </View>
+            <Block style={GlobalStyle.scrollBottomPadding}></Block>
+            </Block>
   );
 }
 export default ProfileTab;

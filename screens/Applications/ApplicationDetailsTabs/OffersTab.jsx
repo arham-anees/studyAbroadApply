@@ -13,7 +13,7 @@ const {deleteOffer}=props;
   return (
     <View style={{
       paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
-      <Block>
+      <Block style={GlobalStyle.block}>
         <Text style={{fontSize:GlobalStyle.SIZES.HEADING5}} color="white" center>
           Documents
         </Text>
@@ -29,6 +29,7 @@ const {deleteOffer}=props;
           />
         ))}
       </Block>
+            <Block style={GlobalStyle.scrollBottomPadding}></Block>
     </View>
   );
 }

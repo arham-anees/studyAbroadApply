@@ -23,9 +23,12 @@ var item = {
 };
 function TravelInformation(props) {
   return (
-    <View style={{
-      paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
-       <Block style={styles.block}>
+    <View
+      style={{
+        paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding,
+      }}
+    >
+      <Block style={styles.block}>
         <Text color={GlobalStyle.color.textLight} center h5>
           Course
         </Text>
@@ -57,27 +60,30 @@ function TravelInformation(props) {
           Travel Information
         </Text>
         <Block style={styles.line}></Block>
-      <Block row  space="evenly">
-      <Text style={styles.item}>Arrival Date</Text>
-        <Text style={styles.item}>{travelDocuments.arrivalDate}</Text>
+        <Block row space="evenly">
+          <Text style={styles.item}>Arrival Date</Text>
+          <Text style={styles.item}>{travelDocuments.arrivalDate}</Text>
+        </Block>
+        <Block row space="evenly">
+          <Text style={styles.item}>Arrival Time</Text>
+          <Text style={styles.item}>{travelDocuments.arrivalTime}</Text>
+        </Block>
+        <Block row space="evenly">
+          <Text style={styles.item}>Flight Number</Text>
+          <Text style={styles.item}>{travelDocuments.flightNumber}</Text>
+        </Block>
+        <Block row space="evenly">
+          <Text style={styles.item}>Proposed Accomodation</Text>
+          <Text style={styles.item}>
+            {travelDocuments.proposedAccomodation}
+          </Text>
+        </Block>
+        <Block row space="evenly">
+          <Text style={styles.item}>Contact Number Abroad</Text>
+          <Text style={styles.item}>{travelDocuments.contactNumberAbroad}</Text>
+        </Block>
       </Block>
-      <Block row space="evenly">
-        <Text style={styles.item}>Arrival Time</Text>
-        <Text style={styles.item}>{travelDocuments.arrivalTime}</Text>
-      </Block>
-      <Block row space="evenly">
-        <Text style={styles.item}>Flight Number</Text>
-        <Text style={styles.item}>{travelDocuments.flightNumber}</Text>
-      </Block>
-      <Block row space="evenly">
-        <Text style={styles.item}>Proposed Accomodation</Text>
-        <Text style={styles.item}>{travelDocuments.proposedAccomodation}</Text>
-      </Block>
-      <Block row space="evenly" >
-        <Text style={styles.item}>Contact Number Abroad</Text>
-        <Text style={styles.item}>{travelDocuments.contactNumberAbroad}</Text>
-      </Block>
-      </Block>
+      <Block style={GlobalStyle.scrollBottomPadding}></Block>
     </View>
   );
 }

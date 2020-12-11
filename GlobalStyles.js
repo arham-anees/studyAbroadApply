@@ -49,8 +49,9 @@ const GlobalStyle = {
     HeadingNormalHeight:24,
     PageNormalPadding:15,
     NavBarHeight:60,
-    PageHeight:height-70,
-    HEADING5:24
+    PageHeight:height-60,
+    HEADING5:24,
+    HEADING6:18
   },
   STATUSCOLOR:{
     InProgress:"rgb(0, 143, 251)",

@@ -32,8 +32,8 @@ class SignIn extends React.Component {
     this.setState({ error: false, password: value });
   handleEmailChange = (value) => this.setState({ error: false, email: value });
   handleSubmit = () => {
-    // this.props.navigation.navigate("Home");
-    // return;
+    this.props.navigation.navigate("Home");
+    return;
     this.setState({ isSubmitted: true });
     if (this.state.email.length == 0 || this.state.password.length == 0) {
       this.setState({ error: true, isSubmitted: false });

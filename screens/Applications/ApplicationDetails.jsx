@@ -1,11 +1,9 @@
-import { Block, Button, Text} from "galio-framework";
+import { Block, Button, Text } from "galio-framework";
 import React from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import { Modal } from "react-native";
 import { KeyboardAvoidingView } from "react-native";
-import { Dimensions } from "react-native";
-import { ImageBackground } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { Dimensions, ScrollView } from "react-native";
 import ApplicationDetailsTabs from "../../components/Applications/ApplicationDetailsTabs";
 import Background from "../../components/Background";
 import Toast from "../../components/Toast";
@@ -16,7 +14,7 @@ import NoticeBoardTab from "./ApplicationDetailsTabs/NoticeBoardTab";
 import OffersTab from "./ApplicationDetailsTabs/OffersTab";
 import ProfileTab from "./ApplicationDetailsTabs/ProfileTab";
 import TravelInformation from "./ApplicationDetailsTabs/TravelInformation";
-import NewDocument from './NewDocument';
+import NewDocument from "./NewDocument";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -33,8 +31,8 @@ class ApplicationDetails extends React.Component {
     this.state = {
       activeTab: Tabs.NoticeBoard,
       showModal: false,
-      isShow:false,
-      toastMessage:"this is test toast message",
+      isShow: false,
+      toastMessage: "this is test toast message",
       application: {
         studentName: "Ahmad Raza",
         fatherName: "Hamid Ali",
@@ -258,7 +256,10 @@ class ApplicationDetails extends React.Component {
     try {
       if (this.state.activeTab === Tabs.NoticeBoard) {
         this.setState({ showModal: true });
-      } else if (this.state.activeTab === Tabs.Documents || this.state.activeTab === Tabs.Offers ) {
+      } else if (
+        this.state.activeTab === Tabs.Documents ||
+        this.state.activeTab === Tabs.Offers
+      ) {
         this.setState({ showModal: true });
       } else if (this.state.activeTab === Tabs.Offers) {
         console.log("Offers");
@@ -271,10 +272,10 @@ class ApplicationDetails extends React.Component {
   };
   submitModal = (data) => {
     const { title, category, file } = data;
-    
+
     let isValid = true;
     if (file == null) {
-      this.setState({isShow:true, toastMessage:"Please select a file"});
+      this.setState({ isShow: true, toastMessage: "Please select a file" });
       return;
     }
 
@@ -283,9 +284,13 @@ class ApplicationDetails extends React.Component {
       isValid = false;
     }
 
-    if (isValid) { 
+    if (isValid) {
       let application = this.state.application;
-      application.documents .push({name:title, category,date:new Date().toDateString()})
+      application.documents.push({
+        name: title,
+        category,
+        date: new Date().toDateString(),
+      });
       this.setState({ application });
       this.closeModal();
     }
@@ -293,77 +298,79 @@ class ApplicationDetails extends React.Component {
 
   render() {
     return (
-<Background noScroll>
-              <ApplicationDetailsTabs
-                initialIndex={this.state.activeTab}
-                onChange={this.onTabChange}
-              /><KeyboardAvoidingView
-              behavior={Platform.OS == "ios" ? "padding" : "height"}
-              style={{ flex: 1 }}
+      <Background noScroll>
+        <ApplicationDetailsTabs
+          initialIndex={this.state.activeTab}
+          onChange={this.onTabChange}
+        />
+        <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
+        >
+          <ScrollView style={styles.container}>
+            {this.state.activeTab === Tabs.NoticeBoard ? (
+              <NoticeBoardTab
+                application={this.state.application}
+                updateStatus={this.handleApplicationStatusUpdate}
+                addFollowUp={this.handleAddFollowUp}
+                addNote={this.handleAddNote}
+              />
+            ) : this.state.activeTab === Tabs.Profile ? (
+              <ProfileTab
+                application={this.state.application}
+                handleChange={this.handleChange}
+                updateMaritalStatus={this.handleUpdateMaritalStatus}
+                updateGender={this.handleUpdateGender}
+              />
+            ) : // ) : this.state.activeTab === Tabs.Course ? (
+            //   <CourseTab />
+            this.state.activeTab === Tabs.Documents ? (
+              <DocumentsTab
+                application={this.state.application}
+                deleteDocument={this.handleDeleteDocument}
+              />
+            ) : this.state.activeTab === Tabs.Offers ? (
+              <OffersTab
+                application={this.state.application}
+                deleteOffer={this.handleDeleteOffer}
+              />
+            ) : this.state.activeTab === Tabs.TravelInformation ? (
+              <TravelInformation />
+            ) : null}
+            <Toast isShow={this.state.isShow}>{this.state.toastMessage}</Toast>
+            {/* <Block style={{ minHeight: 200 }}></Block> */}
+          </ScrollView>
+          {this.state.activeTab === Tabs.Documents ||
+          this.state.activeTab === Tabs.Offers ? (
+            <Button
+              onlyIcon
+              icon="plus"
+              iconFamily="antdesign"
+              iconSize={30}
+              color="green"
+              iconColor="#fff"
+              style={styles.floatingButton}
+              onPress={this.AddNewHandle}
             >
-              <ScrollView  style={styles.container}>
-                {this.state.activeTab === Tabs.NoticeBoard ? (
-                  <NoticeBoardTab
-                    application={this.state.application}
-                    updateStatus={this.handleApplicationStatusUpdate}
-                    addFollowUp={this.handleAddFollowUp}
-                    addNote={this.handleAddNote}
-                  />
-                ) : this.state.activeTab === Tabs.Profile ? (
-                  <ProfileTab
-                    application={this.state.application}
-                    handleChange={this.handleChange}
-                    updateMaritalStatus={this.handleUpdateMaritalStatus}
-                    updateGender={this.handleUpdateGender}
-                  />
-                ) : // ) : this.state.activeTab === Tabs.Course ? (
-                //   <CourseTab />
-                this.state.activeTab === Tabs.Documents ? (
-                  <DocumentsTab
-                    application={this.state.application}
-                    deleteDocument={this.handleDeleteDocument}
-                  />
-                ) : this.state.activeTab === Tabs.Offers ? (
-                  <OffersTab
-                    application={this.state.application}
-                    deleteOffer={this.handleDeleteOffer}
-                  />
-                ) : this.state.activeTab === Tabs.TravelInformation ? (
-                  <TravelInformation />
-                ) : null}
-                <Toast isShow={this.state.isShow}>{this.state.toastMessage}</Toast>
-                {/* <Block style={{ minHeight: 200 }}></Block> */}
-              </ScrollView>
-              {this.state.activeTab === Tabs.Documents ||
-              this.state.activeTab === Tabs.Offers ? (
-                <Button
-                  onlyIcon
-                  icon="plus"
-                  iconFamily="antdesign"
-                  iconSize={30}
-                  color="green"
-                  iconColor="#fff"
-                  style={styles.floatingButton}
-                  onPress={this.AddNewHandle}
-                >
-                  add
-                </Button>
-              ) : null}
-              <Modal
-                animationType="slide"
-                transparent={true}
-                visible={this.state.showModal}
-              >
-                <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
-                    <NewDocument
-                      closeModal={this.closeModal}
-                      submitModal={this.submitModal}
-                    />
-                  </View>
-                </View>
-              </Modal></KeyboardAvoidingView>
-              </Background>
+              add
+            </Button>
+          ) : null}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.showModal}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <NewDocument
+                  closeModal={this.closeModal}
+                  submitModal={this.submitModal}
+                />
+              </View>
+            </View>
+          </Modal>
+        </KeyboardAvoidingView>
+      </Background>
     );
   }
 }
@@ -372,21 +379,21 @@ export default ApplicationDetails;
 
 const styles = StyleSheet.create({
   container: {
-    height:GlobalStyle.SIZES.PageHeight-GlobalStyle.SIZES.NavBarHeight,
-    flex:1
+    height: GlobalStyle.SIZES.PageHeight - GlobalStyle.SIZES.NavBarHeight,
+    flex: 1,
   },
-  floatingButton:{
+  floatingButton: {
     width: 60,
     height: 60,
     position: "absolute",
-    top: GlobalStyle.SIZES.PageHeight - GlobalStyle.SIZES.NavBarHeight*3,
+    top: GlobalStyle.SIZES.PageHeight - GlobalStyle.SIZES.NavBarHeight * 3,
     right: 30,
   },
   centeredView: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: 22,
   },
   modalView: {
     margin: 10,
@@ -397,11 +404,10 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
   },
-
 });

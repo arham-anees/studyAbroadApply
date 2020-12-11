@@ -9,6 +9,7 @@ import styles from "./Applications.Style";
 import GlobalStyles from '../../GlobalStyles';
 import { Block } from "galio-framework";
 import GlobalStyle from "../../GlobalStyles";
+import Background from "../../components/Background";
 const { height, width } = Dimensions.get("screen");
 const data = [
   {
@@ -47,19 +48,14 @@ const data = [
 ];
 function Applications(props) {
   return (
-    <View style={styles.containerMain}>
-      <ImageBackground
-        source={Images.Onboarding}
-        style={{ height, width, zIndex: 1 }}
-      >
-        <ScrollView style={styles.container}>
+<Background>
+        <View style={styles.container}>
         {data.map((item, index) => (
           <ApplicationItem props={{ ...props, item, index }} key={index} />
         ))}
-        <Block style={GlobalStyle.scrollBottomPadding}></Block>
-        </ScrollView>
-      </ImageBackground>
-    </View>
+        
+        </View>
+        </Background>
   );
 }
 

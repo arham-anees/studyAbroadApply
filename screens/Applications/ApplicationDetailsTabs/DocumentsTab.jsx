@@ -40,7 +40,7 @@ const {deleteDocument}=props;
     <View style={{
       paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
       
-      <Block>
+      <Block style={GlobalStyle.block}>
         <Text style={{fontSize:GlobalStyle.SIZES.HEADING5}} color="white" center>
           Documents
         </Text>
@@ -57,6 +57,7 @@ const {deleteDocument}=props;
         ))}
       </Block>
     
+      <Block style={GlobalStyle.scrollBottomPadding}></Block>
     </View>
   );
 }

@@ -29,7 +29,7 @@ class SignUpAsStudent extends React.Component {
 
   handleSignUp = () => {
     HandleSignUp(this.state)
-      .then((x) => {})
+      .then((x) => {this.props.navigation.navigate("Home")})
       .catch((e) => {
         try {
           let errorCode = parseInt(e.errorCode);

@@ -4,6 +4,7 @@ import { ImageBackground } from "react-native";
 import { Dimensions } from "react-native";
 import { View } from "react-native";
 import { ScrollView } from "react-native";
+import Background from "../../../components/Background";
 import DropDown from "../../../components/DropDown";
 import LabelledInput from "../../../components/LabelledInput.Component";
 import SelectCountry from "../../../components/SelectCountry";
@@ -38,12 +39,8 @@ class SearchCourse extends React.Component {
 
   render = () => {
     return (
-      <ImageBackground
-        source={Images.Onboarding}
-        style={{ height, width, zIndex: 1 }}
-      >
-        <View>
-          <ScrollView style={styles.container}>
+ <Background>
+   <Block style={{paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
             <Block style={styles.block}>
               <Text style={styles.blockTitle}>Search Course</Text>
               <SelectCountry />
@@ -56,6 +53,7 @@ class SearchCourse extends React.Component {
               <LabelledInput label="Course" />
               <LabelledInput label="Discipline" />
               <Button
+              style={styles.btn}
                 onPress={() =>
                   this.props.navigation.navigate({name:"SearchedCourses",params:{country:1,course:"test",institute:"test" ,advanced:0}})
                 }
@@ -73,11 +71,8 @@ class SearchCourse extends React.Component {
                   initialValue={false}
                   color={"red"}
                 />
-              </Block>
-            </Block>
-          </ScrollView>
-        </View>
-      </ImageBackground>
+              </Block></Block>
+            </Block></Background>
     );
   };
 }

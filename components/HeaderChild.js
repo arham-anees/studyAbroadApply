@@ -20,6 +20,7 @@ const { height, width } = Dimensions.get("window");
 class HeaderChild extends React.Component {
   handleLeftPress = () => {
     const { back, navigation } = this.props;
+    return navigation.goBack();
     return back ? navigation.goBack() : navigation.navigate("Home");
   };
   renderRight = () => {
