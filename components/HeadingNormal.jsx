@@ -15,6 +15,7 @@ export default HeaderNormal;
 const styles=StyleSheet.create({
     heading:{
         fontSize:GlobalStyle.SIZES.HeadingNormalHeight,
-        marginTop:5
+        marginTop:5,
+        paddingHorizontal:20
     }
 })

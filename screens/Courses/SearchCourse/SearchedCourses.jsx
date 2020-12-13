@@ -6,6 +6,8 @@ import { View } from "react-native";
 import { Images } from "../../../constants";
 import CourseService from "../../../services/CourseService";
 import SearchedCoursesItem from "./SearchedCourses.Component";
+import Background from '../../../components/Background';
+import GlobalStyle from "../../../GlobalStyles";
 
 const { width, height } = Dimensions.get("window");
 
@@ -21,39 +23,31 @@ class SearchedCourses extends React.Component {
 
   componentDidMount() { 
     const { country, course, institute, advanced } = this.props.route.params;
-    console.log(country);
-    if (advanced) {
-      console.log('advanced');
-    } else {
-      console.log('classic');
+    console.log(country, course,institute);
+    //if (advanced) {
+    //} else {
       CourseService.SearchCourse(country, course, institute)
         .then((res) => {
-          console.log('success');
           this.setState({ loading: false, data: res });
         })
         .catch((err) => {
-          console.log('failed');
+          console.log(err)
           this.setState({ loading: false, error: err });
         });
-    }
+   // }
   }
 
 
 renderItems=()=>{
-  let data=[];//this.state.data;
+  let data=this.state.data;
   return data.map(x=> <SearchedCoursesItem item={x}/>)
 }
 
 
   render = () => {
     return (
-      <View>
-        <ImageBackground
-          source={Images.Onboarding}
-          style={{ height, width, zIndex: 1 }}
-        >
-          <ScrollView>
-            <Block padding={10}>
+<Background>
+            <Block style={{paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
               {this.state.loading ? (
                 <View><Text>Loading</Text></View>
               ) : (
@@ -62,10 +56,7 @@ renderItems=()=>{
                 </React.Fragment>
               )}
             </Block>
-            <Block style={{ height: 100 }}></Block>
-          </ScrollView>
-        </ImageBackground>
-      </View>
+            </Background>
     );
   };
 }

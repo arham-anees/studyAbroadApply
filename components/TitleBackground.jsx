@@ -10,7 +10,7 @@ return (
     <LinearGradient
       // Button Linear Gradient
       colors={[Theme.COLORS.SECONDARY,Theme.COLORS.SECONDARY]}
-      style={{ borderRadius: 5 }}
+      style={{ borderRadius: 5,paddingHorizontal:20 }}
     >
         {props.children}
     </LinearGradient>
@@ -22,8 +22,9 @@ export default TitleBackground;
 
 const styles = StyleSheet.create({
     wrapper:{
-        height:40,
+        minHeight:40,
         borderRadius:5,
-        marginBottom:10
+        marginBottom:10,
+        
     }
 })

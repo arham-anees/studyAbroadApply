@@ -128,6 +128,13 @@ function CourseStack(props) {
         name="SearchedCourses"
         component={SearchedCourses}
         options={{
+          header: ({ navigation, scene }) => (
+            <HeaderChild
+              title="Search Results"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
           cardStyle: { backgroundColor: "#F8F9FE" },
         }}
       />

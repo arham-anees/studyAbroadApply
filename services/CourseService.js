@@ -42,9 +42,11 @@ function SearchCourse({ country, course, institute }) {
           courseDeadline: "12/12/2020",
         },
       ];
+      resolve(searchedCourses);
     } catch (e) {
-      reject({ errorCode: 11, message: "", error: e });
+      reject({ errorCode: 11, message: "this is error", error: e });
     }
+    resolve({title:"this has skipped data"})
   });
 }
 

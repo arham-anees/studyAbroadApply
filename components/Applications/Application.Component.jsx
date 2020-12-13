@@ -27,7 +27,7 @@ function ApplicationItem({ props }) {
           </Block> */}
           <HeaderNormal>
             <Block row  center >
-            <Text style={{fontSize:24}}>{item.name}</Text>
+            <Text style={{fontSize:GlobalStyle.SIZES.HEADING5}}>{item.name}</Text>
             
             </Block>
             </HeaderNormal>

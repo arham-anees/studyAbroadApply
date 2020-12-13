@@ -15,5 +15,5 @@ const countries = [
 ];
 
 export default function SelectCountry(props) {
-  return <DropDown list={countries} label="Countries"/>
+  return <DropDown list={countries} label="Countries" {...props}/>
 }

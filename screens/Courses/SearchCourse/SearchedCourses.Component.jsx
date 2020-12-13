@@ -4,6 +4,7 @@ import { Dimensions } from "react-native";
 import { StyleSheet } from "react-native";
 import { View } from "react-native";
 import DropDown from "../../../components/DropDown";
+import HeaderNormal from "../../../components/HeadingNormal";
 import GlobalStyle from "../../../GlobalStyles";
 
 const { width, height } = Dimensions.get("window");
@@ -11,13 +12,21 @@ const { width, height } = Dimensions.get("window");
 function SearchedCoursesItem(props) {
   const {title, university, country, city, intake, duration, annualFee, feeCurrency,courseDeadline, id}=props;
   return (
-    <View style={styles.wrapper}>
-      <Block style={styles.header}>
+    <View style={styles.container}>
+       <HeaderNormal>
+            <Block row  center >
+            <Text style={{fontSize:GlobalStyle.SIZES.HEADING5}} center>
+          bachelor of Environmental Science
+          </Text>
+            
+            </Block>
+            </HeaderNormal>
+      {/* <Block style={styles.header}>
         <Text style={styles.title}>
           BACHELOR OF ENGINEERING (CIVIL) (HONOURS)/BACHELOR OF ENVIRONMENTAL
           SCIENCE
         </Text>
-      </Block>
+      </Block> */}
       <Block style={styles.padding}>
         <Text center style={styles.instituteName}>
           University of the Sunshine Coast
@@ -44,15 +53,15 @@ function SearchedCoursesItem(props) {
           </Text>
           <Text style={[styles.text, styles.infoField]}>$ 0</Text>
         </Block>
-        <Block row>
+        {/* <Block row>
           <Text style={[styles.text, styles.infoField]}>Course Deadline :</Text>
           <Text style={[styles.text, styles.infoField]}>-</Text>
-        </Block>
+        </Block> */}
         <Block row middle>
         <Text style={[styles.text, styles.infoField]}>Course Deadline :</Text>
           <Text style={[styles.text, styles.infoField]}>12/12/2020</Text>
         </Block>
-        <Button>Apply</Button>
+        <Button style={styles.btn}>Apply For Course</Button>
       </Block>
     </View>
   );
@@ -61,27 +70,17 @@ function SearchedCoursesItem(props) {
 export default SearchedCoursesItem;
 
 const styles = StyleSheet.create({
-  wrapper: {
-    ...GlobalStyle.block,
-    marginVertical: 5,
-    overflow: "hidden",
+  container: {
+    marginHorizontal: 5,
+    margin: 10,
+    backgroundColor: "#fff4",
     borderRadius: 10,
-    padding: 0,
+    paddingBottom: 10,
   },
-  header: {
-    backgroundColor: GlobalStyle.bg.green,
-    padding: 10,
-  },
-  title: {
-    textAlign: "center",
-    color: GlobalStyle.color.textLight,
-    fontSize: 18,
-    textTransform: "capitalize",
-  },
+
   instituteName: {
     fontSize: 20,
     color: GlobalStyle.color.textLight,
-    marginBottom: 10,
     textTransform: "capitalize",
   },
   text: {
@@ -93,6 +92,9 @@ const styles = StyleSheet.create({
     flexWrap:"wrap"
   },
   padding: {
-    padding: 10,
+    paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding,
   },
+  btn:{
+    width:"100%"
+  }
 });
