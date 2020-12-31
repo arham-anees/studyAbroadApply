@@ -18,8 +18,8 @@ class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      username: "faraz@mail.com",
+      password: "123465",
       error: false,
       isSubmitted: false,
     };
@@ -30,12 +30,10 @@ class SignIn extends React.Component {
     this.props.navigation.navigate("SignUpAsAssociate");
   handlePasswordChange = (value) =>
     this.setState({ error: false, password: value });
-  handleEmailChange = (value) => this.setState({ error: false, email: value });
+  handleUsernameChange = (value) => this.setState({ error: false, username: value });
   handleSubmit = () => {
-    this.props.navigation.navigate("Home");
-    return;
     this.setState({ isSubmitted: true });
-    if (this.state.email.length == 0 || this.state.password.length == 0) {
+    if (this.state.username.length == 0 || this.state.password.length == 0) {
       this.setState({ error: true, isSubmitted: false });
       return;
     }
@@ -50,6 +48,7 @@ class SignIn extends React.Component {
         }
       })
       .catch((err) => {
+        console.log("Error: "+err);
         this.setState({ isSubmitted: false, error: true });
       });
   };
@@ -62,11 +61,11 @@ class SignIn extends React.Component {
         </Block>
         <Block space="between" style={styles.padded}>
           <LabelledInput
-            label="Email"
+            label="Username"
             iconname="person"
             iconfamily="Fontisto"
-            onChange={this.handleEmailChange}
-            value={this.state.email}
+            onChange={this.handleUsernameChange}
+            value={this.state.username}
           required
           error={this.state.emailError}
           />

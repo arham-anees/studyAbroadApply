@@ -27,7 +27,6 @@ import SearchCourse from "../screens/Courses/SearchCourse/SearchCourse";
 import SearchedCourses from "../screens/Courses/SearchCourse/SearchedCourses";
 import Notifications from "../screens/Notifications/Notification";
 import HeaderChild from "../components/HeaderChild";
-import { fromLeft } from 'react-navigation-transitions';
 
 const { width } = Dimensions.get("screen");
 

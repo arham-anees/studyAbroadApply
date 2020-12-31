@@ -6,12 +6,14 @@ import Urls from "./Urls";
 function Login({ username, password }) {
   return new Promise((resolve, reject) => {
     try {
-      const data = { Username: username, Password: password };
-      Axios.Get({ data, Urls })//call authentication method
+        console.log("it's working")
+      const url=Urls.Login;
+      Axios.Get(url+`?username=${username}&password=${password}`)//call authentication method
         .then((response) => {//if call is successful
           if (response == null) reject(Messages.FailedLogin);//if authentication is failed
           else {//if authentication is successful
-            LocalStorage.SetUser(response.data);//store token
+            LocalStorage.SetToken(response.data);//store token
+         
             resolve(true);//
           }
         })
