@@ -3,6 +3,7 @@ import React from "react";
 import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
 import GlobalStyle from "../../../GlobalStyles";
+import TextCustom from '../../../components/TextCustom';
 
 const {width}=Dimensions.get("screen");
 
@@ -23,78 +24,70 @@ var item = {
 };
 function TravelInformation(props) {
   return (
-    <View
-      style={{
-        paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding,
-      }}
-    >
+    <View>
       <Block style={styles.block}>
         <Text color={GlobalStyle.color.textLight} center h5>
           Course
         </Text>
         <Block style={styles.line}></Block>
         <Block row>
-          <Text style={styles.title}>COURSE</Text>
-          <Text style={styles.info}>{item.course}</Text>
+          <TextCustom style={styles.title}>Course</TextCustom>
+          <TextCustom style={styles.info}>{item.course}</TextCustom>
         </Block>
 
         <Block row>
-          <Text style={styles.title}>INTAKE</Text>
-          <Text style={styles.info}>{item.intake}</Text>
+          <TextCustom style={styles.title}>Intake</TextCustom>
+          <TextCustom style={styles.info}>{item.intake}</TextCustom>
         </Block>
         <Block row>
-          <Text style={styles.title}>LEVEL</Text>
-          <Text style={styles.info}>{item.level}</Text>
+          <TextCustom style={styles.title}>Level</TextCustom>
+          <TextCustom style={styles.info}>{item.level}</TextCustom>
         </Block>
         <Block row>
-          <Text style={styles.title}>INSTITUTE</Text>
-          <Text style={styles.info}>{item.institute}</Text>
+          <TextCustom style={styles.title}>Institute</TextCustom>
+          <TextCustom style={styles.info}>{item.institute}</TextCustom>
         </Block>
         <Block row>
-          <Text style={styles.title}>COUNTRY</Text>
-          <Text style={styles.info}>{item.country}</Text>
+          <TextCustom style={styles.title}>Country</TextCustom>
+          <TextCustom style={styles.info}>{item.country}</TextCustom>
         </Block>
       </Block>
       <Block style={styles.block}>
-        <Text color={GlobalStyle.color.textLight} center h5>
+        <TextCustom color={GlobalStyle.color.textLight} center h5>
           Travel Information
-        </Text>
+        </TextCustom>
         <Block style={styles.line}></Block>
-        <Block row space="evenly">
-          <Text style={styles.item}>Arrival Date</Text>
-          <Text style={styles.item}>{travelDocuments.arrivalDate}</Text>
+        <Block row>
+          <TextCustom style={styles.title}>Arrival Date</TextCustom>
+          <TextCustom  style={styles.info}>{travelDocuments.arrivalDate}</TextCustom>
         </Block>
-        <Block row space="evenly">
-          <Text style={styles.item}>Arrival Time</Text>
-          <Text style={styles.item}>{travelDocuments.arrivalTime}</Text>
+        <Block row>
+          <TextCustom style={styles.title}>Arrival Time</TextCustom>
+          <TextCustom style={styles.info}>{travelDocuments.arrivalTime}</TextCustom>
         </Block>
-        <Block row space="evenly">
-          <Text style={styles.item}>Flight Number</Text>
-          <Text style={styles.item}>{travelDocuments.flightNumber}</Text>
+        <Block row>
+          <TextCustom style={styles.title}>Flight Number</TextCustom>
+          <TextCustom style={styles.info}>{travelDocuments.flightNumber}</TextCustom>
         </Block>
-        <Block row space="evenly">
-          <Text style={styles.item}>Proposed Accomodation</Text>
-          <Text style={styles.item}>
+        <Block row>
+          <TextCustom style={styles.title}>Proposed Accomodation</TextCustom>
+          <TextCustom style={styles.info}>
             {travelDocuments.proposedAccomodation}
-          </Text>
+          </TextCustom>
         </Block>
-        <Block row space="evenly">
-          <Text style={styles.item}>Contact Number Abroad</Text>
-          <Text style={styles.item}>{travelDocuments.contactNumberAbroad}</Text>
+        <Block row>
+          <TextCustom style={styles.title}>Contact Number Abroad</TextCustom>
+          <TextCustom style={styles.info}>{travelDocuments.contactNumberAbroad}</TextCustom>
         </Block>
       </Block>
-      <Block style={GlobalStyle.scrollBottomPadding}></Block>
     </View>
   );
 }
 
 export default TravelInformation;
 const styles=StyleSheet.create({
-  item:{
-    width:width/2 -40,
-    color:GlobalStyle.color.textLight
-  }
-  , block: {
+
+   block: {
     backgroundColor: "#0004",
     marginTop: 10,
     padding: 5,
@@ -103,11 +96,10 @@ const styles=StyleSheet.create({
     paddingBottom:10
   },
   title: {
-    width: 80,
-    color: GlobalStyle.color.textLight,
+    width: "40%",
+    fontWeight:"bold"
   },
   info: {
-    color: GlobalStyle.color.textLight,
     flex: 1,
     flexWrap: 'wrap'
   },

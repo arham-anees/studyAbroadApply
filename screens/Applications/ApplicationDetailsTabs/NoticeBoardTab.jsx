@@ -9,6 +9,7 @@ import GlobalStyle from "../../../GlobalStyles";
 import CustomIcon from "../../../Icons/BellIcon";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { KeyboardAvoidingView } from "react-native";
+import TextCustom from '../../../components/TextCustom';
 
 const { height, width } = Dimensions.get("screen");
 
@@ -32,31 +33,30 @@ function Note({ sender, note }) {
         borderRadius: 5,
       }}
     >
-      <Text style={{ color: GlobalStyle.color.textLight }}>{sender} :</Text>
-      <Text
+      <TextCustom>{sender} :</TextCustom>
+      <TextCustom
         style={{
-          color: GlobalStyle.color.textLight,
           paddingLeft: 10,
           flex: 1,
           flexWrap: "wrap",
         }}
       >
         {note}
-      </Text>
+      </TextCustom>
     </Block>
   );
 }
 
 function NoticeBoardTab(props) {
   const [openNewNote, setOpenNewNote] = useState(false);
-  const [newNote, setNewNote] = useState("test");
+  const [newNote, setNewNote] = useState("");
 
   const [date, setDate] = useState(Date.now());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
   let { application } = props;
-  const { addFollowUp, updateStatus, addNote } = props;
+  const { addFollowUp, updateStatus, addNote, handleUpdateStatusPress } = props;
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -65,6 +65,7 @@ function NoticeBoardTab(props) {
   };
 
   const handleAddNotePress = () => {
+    if(newNote=="")return;
     addNote({ sender: "test", note: newNote });
     setOpenNewNote(false);
     setNewNote("");
@@ -84,9 +85,9 @@ function NoticeBoardTab(props) {
       <Block center style={styles.statusBar}>
         <Text color="white">New Application Submitted</Text>
       </Block>
-      <View style={styles.body}>
-        <Block style={styles.block}>
-          <Text style={styles.title}>Update Status</Text>
+      <View>
+        <Block style={GlobalStyle.block}>
+          <Text style={GlobalStyle.blockTitle}>Update Status</Text>
           <Block>
             <DropDown
               list={applicationStatus}
@@ -94,20 +95,20 @@ function NoticeBoardTab(props) {
               selectedValue={application.applicationStatus}
               onChange={updateStatus}
             />
-            <Block right>
-              <Button style={styles.updateStatusBtn}>Update Status</Button>
+            <Block center>
+              <Button style={styles.updateStatusBtn} onPress={handleUpdateStatusPress}>Update Status</Button>
             </Block>
           </Block>
         </Block>
-        <Block style={styles.block}>
-          <Text style={styles.title}>Follow Up</Text>
+        <Block style={GlobalStyle.block}>
+          <Text style={GlobalStyle.blockTitle}>Follow Up</Text>
           {application.followUps.map((x, index) => (
             <Block row space="between" key={index}>
-              <Text color="white">Next Follow Up</Text>
-              <Text color="white">{new Date(x).toDateString()}</Text>
+              <TextCustom>Next Follow Up</TextCustom>
+              <TextCustom>{new Date(x).toDateString()}</TextCustom>
             </Block>
           ))}
-          <Block row bottom>
+          <Block row center>
             {show && (
               <DateTimePicker
                 testID="dateTimePicker"
@@ -123,8 +124,8 @@ function NoticeBoardTab(props) {
             </Button>
           </Block>
         </Block>
-        <Block style={styles.block}>
-          <Text style={styles.title}>Application Notes</Text>
+        <Block style={GlobalStyle.block}>
+          <Text style={GlobalStyle.blockTitle}>Application Notes</Text>
           <Block>
             {application.notes.map((x, index) => (
               <Note key={index} sender={x.sender} note={x.note} />
@@ -148,7 +149,7 @@ function NoticeBoardTab(props) {
                     onChangeText={(text) => setNewNote(text)}
                   />
                 </Block>
-                <Block style={styles.iconBlock} middle>
+                <Block style={styles.iconBlock} middle disabled={true}>
                   <CustomIcon
                     source={Icons.Send}
                     onPress={handleAddNotePress}
@@ -157,12 +158,9 @@ function NoticeBoardTab(props) {
               </Block>
             </Block>
           ) : (
-            <View style={styles.newNote}>
-              <CustomIcon
-                source={Icons.BoxPen}
-                onPress={() => setOpenNewNote(true)}
-              />
-            </View>
+            <Block center >
+              <Button  style={styles.updateStatusBtn} onPress={() => setOpenNewNote(true)}>Add Note</Button>
+            </Block>
           )}
         </Block>
       </View>
@@ -176,16 +174,9 @@ const styles = StyleSheet.create({
   statusBar: {
     backgroundColor: "green",
     width: width,
-  },
-  block: {
-    backgroundColor: "#0004",
-    marginTop: 10,
-    padding: 10,
     borderRadius: 5,
   },
-  body: {
-    paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding,
-  },
+ 
   dropdown: {
     backgroundColor: theme.COLORS.WHITE,
     borderRadius: theme.SIZES.INPUT_BORDER_RADIUS - 3,
@@ -213,13 +204,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginBottom: 10,
   },
-  title: {
-    marginBottom: 10,
-    color: "white",
-    textAlign: "center",
-    fontStyle: "italic",
-    fontSize: 24,
-  },
+ 
   newNote: {
     backgroundColor: "#fff",
     alignSelf: "flex-end",

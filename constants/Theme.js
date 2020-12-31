@@ -32,8 +32,8 @@ export default {
   },
   ICONS:{
     DEFAULT:{
-      WIDTH:30,
-      HEIGHT:30
+      WIDTH:25,
+      HEIGHT:25
     },
     MENU:{
       WIDTH:20,

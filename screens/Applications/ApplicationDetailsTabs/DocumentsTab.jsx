@@ -1,5 +1,5 @@
 import { Block, Button, Input, Text, theme } from "galio-framework";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Picker } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
@@ -19,8 +19,8 @@ const documentTypes = [
 
 function DocumentsTab (props) {
   const [file, setFile]=useState(null);
-
 const {documents}=props.application;
+
 const {deleteDocument}=props;
   const pickDocumentHandle = () => {
     DocumentPicker.getDocumentAsync({
@@ -37,10 +37,8 @@ const {deleteDocument}=props;
       .catch((er) => console.log(er));
   };
   return (
-    <View style={{
-      paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
+    <View>
       
-      <Block style={GlobalStyle.block}>
         <Text style={{fontSize:GlobalStyle.SIZES.HEADING5}} color="white" center>
           Documents
         </Text>
@@ -55,9 +53,7 @@ const {deleteDocument}=props;
             deleteItem={deleteDocument}
           />
         ))}
-      </Block>
     
-      <Block style={GlobalStyle.scrollBottomPadding}></Block>
     </View>
   );
 }

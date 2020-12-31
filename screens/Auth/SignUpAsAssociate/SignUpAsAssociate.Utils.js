@@ -6,6 +6,8 @@ export function ValidateStep1({
   yearEstablished,
 }) {
   return new Promise((resolve, reject) => {
+    resolve(true);
+    return;
     try {
         if (!isEmailValid(email))reject({ errorCode: 1, message: "Invalid email address" });
         if (companyName.length == 0)reject({ errorCode: 1, message: "Invalid company name" });
@@ -31,7 +33,8 @@ export function ValidateStep2({
 }) {
   return new Promise((resolve, reject) => {
     try {
-    
+    resolve(true);
+    return;
       if (!firstName || firstName.length == 0)
         reject({ errorCode: 1, message: "Empty first name" });
       if (!lastName || lastName.length == 0)
@@ -61,6 +64,7 @@ export function ValidateStep3({ recruitCountries, educationalIntitues }) {
   return new Promise((resolve, reject) => {
     try {
       resolve(true);
+      return;
       if (!recruitCountries || recruitCountries.length == 0)
         reject({ errorCode: 1, message: "Empty recruit countries" });
       if (!educationalIntitues || educationalIntitues.length == 0)

@@ -1,6 +1,6 @@
 import { Block, Button, Text } from "galio-framework";
 import React from "react";
-import { SafeAreaView, StyleSheet, View } from "react-native";
+import { Alert, SafeAreaView, StyleSheet, View } from "react-native";
 import { Modal } from "react-native";
 import { KeyboardAvoidingView } from "react-native";
 import { Dimensions, ScrollView } from "react-native";
@@ -207,21 +207,73 @@ class ApplicationDetails extends React.Component {
     };
   }
 
-  handleChange = (value, name) => {
+
+//#region NOTICE BOARD
+handleApplicationStatusUpdate = (newStatus) => {
+        let application = this.state.application;
+        application.applicationStatus = newStatus;
+        this.setState({ application });
+};
+handleUpdateStatusPress=()=>{
+  Alert.alert("Status updated", "Application status updated successfully.");
+}
+//#endregion
+
+//#region  
+handleUpdateProfilePress=()=>{
+  Alert.alert("Profile Updated","Profile has been updated");
+}
+//#endregion
+
+
+handleChange = (value, name) => {
     let application = this.state.application;
     application[name] = value;
     this.setState({ application });
   };
 
-  handleDeleteDocument = (id) => {
-    let application = this.state.application;
-    application.documents = application.documents.filter((x) => x.id != id);
-    this.setState({ application });
+  handleDeleteDocument = (id, callback) => {
+    Alert.alert(
+      "Confirm Delete",
+      "Are you sure you want to continue?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => { let application = this.state.application;
+          callback();
+          setTimeout(() => {
+            application.documents = application.documents.filter((x) => x.id != id);
+          this.setState({ application });
+          }, 1000);
+        }}
+      ],
+      { cancelable: false }
+    );   
   };
-  handleDeleteOffer = (id) => {
-    let application = this.state.application;
-    application.offers = application.offers.filter((x) => x.id != id);
-    this.setState({ application });
+  handleDeleteOffer = (id,callback) => {
+    Alert.alert(
+      "Confirm Delete",
+      "Are you sure you want to continue?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => { 
+          let application = this.state.application;
+          callback();
+          setTimeout(() => {
+            application.offers = application.offers.filter((x) => x.id != id);
+          this.setState({ application });
+          }, 1000);
+        }}
+      ],
+      { cancelable: false }
+    );   
   };
 
   handleUpdateGender = (newValue) => {
@@ -234,12 +286,9 @@ class ApplicationDetails extends React.Component {
     application.maritalStatus = newValue;
     this.setState({ application });
   };
-  handleApplicationStatusUpdate = (newStatus) => {
-    let application = this.state.application;
-    application.applicationStatus = newStatus;
-    this.setState({ application });
-  };
+
   handleAddFollowUp = (newFollowUp) => {
+    if(!newFollowUp)return;
     let application = this.state.application;
     application.followUps.push(newFollowUp);
     this.setState({ application });
@@ -314,6 +363,7 @@ class ApplicationDetails extends React.Component {
                 updateStatus={this.handleApplicationStatusUpdate}
                 addFollowUp={this.handleAddFollowUp}
                 addNote={this.handleAddNote}
+                handleUpdateStatusPress={this.handleUpdateStatusPress}
               />
             ) : this.state.activeTab === Tabs.Profile ? (
               <ProfileTab
@@ -321,6 +371,7 @@ class ApplicationDetails extends React.Component {
                 handleChange={this.handleChange}
                 updateMaritalStatus={this.handleUpdateMaritalStatus}
                 updateGender={this.handleUpdateGender}
+                handleUpdateProfilePress={this.handleUpdateProfilePress}
               />
             ) : // ) : this.state.activeTab === Tabs.Course ? (
             //   <CourseTab />
@@ -338,7 +389,7 @@ class ApplicationDetails extends React.Component {
               <TravelInformation />
             ) : null}
             <Toast isShow={this.state.isShow}>{this.state.toastMessage}</Toast>
-            {/* <Block style={{ minHeight: 200 }}></Block> */}
+            <Block style={GlobalStyle.scrollBottomPadding}></Block>
           </ScrollView>
           {this.state.activeTab === Tabs.Documents ||
           this.state.activeTab === Tabs.Offers ? (
@@ -380,6 +431,7 @@ export default ApplicationDetails;
 const styles = StyleSheet.create({
   container: {
     height: GlobalStyle.SIZES.PageHeight - GlobalStyle.SIZES.NavBarHeight,
+    paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding,
     flex: 1,
   },
   floatingButton: {

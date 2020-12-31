@@ -33,7 +33,7 @@ function ProfileTab(props) {
   const {studentName, fatherName, phone, email,passportNumber
     ,passportExpiryDate, landline, dateOfBirth, gender, nationality,
   maritalStatus,address}=props.application;
-const {handleChange, updateGender, updateMaritalStatus}=props;
+const {handleChange, updateGender, updateMaritalStatus, handleUpdateProfilePress}=props;
   
   const showMode = (currentMode) => {
     setShow(true);
@@ -53,7 +53,7 @@ const {handleChange, updateGender, updateMaritalStatus}=props;
 
   
   return (
-        <Block style={{ paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
+        <Block>
           <Block style={GlobalStyle.block}>
               <LabelledInput 
               label="Student Name"
@@ -126,7 +126,7 @@ const {handleChange, updateGender, updateMaritalStatus}=props;
                 value={address}
                 onChange={(text)=>handleChange(text,'address')}
               />
-              <Button style={styles.btnUpdate}>Update</Button>
+              <Button style={styles.btnUpdate} onPress={handleUpdateProfilePress}>Update</Button>
             </Block>
             {show && (
               <DateTimePicker
@@ -138,7 +138,6 @@ const {handleChange, updateGender, updateMaritalStatus}=props;
                 onChange={onChange}
               />
             )}
-            <Block style={GlobalStyle.scrollBottomPadding}></Block>
             </Block>
   );
 }

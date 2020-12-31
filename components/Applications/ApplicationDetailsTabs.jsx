@@ -121,9 +121,10 @@ export default ApplicationDetailsTabs;
 const styles = StyleSheet.create({
   container: {
     width: width,
-    backgroundColor: theme.COLORS.WHITE,
+    backgroundColor: "transparent",
     zIndex: 2,
-    height:GlobalStyle.SIZES.NavBarHeight
+    height:GlobalStyle.SIZES.NavBarHeight,
+    
   },
   shadow: {
     shadowColor: theme.COLORS.BLACK,
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   menu: {
-    paddingHorizontal: theme.SIZES.BASE * 2.5,
+    paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding,
     paddingTop: 8,
     paddingBottom: 16,
   },

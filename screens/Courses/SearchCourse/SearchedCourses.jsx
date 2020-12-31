@@ -21,42 +21,42 @@ class SearchedCourses extends React.Component {
     };
   }
 
-  componentDidMount() { 
+  componentDidMount() {
     const { country, course, institute, advanced } = this.props.route.params;
-    console.log(country, course,institute);
+    console.log(country, course, institute);
     //if (advanced) {
     //} else {
-      CourseService.SearchCourse(country, course, institute)
-        .then((res) => {
-          this.setState({ loading: false, data: res });
-        })
-        .catch((err) => {
-          console.log(err)
-          this.setState({ loading: false, error: err });
-        });
-   // }
+    CourseService.SearchCourse(country, course, institute)
+      .then((res) => {
+        this.setState({ loading: false, data: res });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({ loading: false, error: err });
+      });
+    // }
   }
 
-
-renderItems=()=>{
-  let data=this.state.data;
-  return data.map(x=> <SearchedCoursesItem item={x}/>)
-}
-
+  renderItems = () => {
+    let data = this.state.data;
+    return data.map((x, index) => <SearchedCoursesItem item={x} key={index} />);
+  };
 
   render = () => {
     return (
-<Background>
-            <Block style={{paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
-              {this.state.loading ? (
-                <View><Text>Loading</Text></View>
-              ) : (
-                <React.Fragment>
-                 {this.renderItems()}
-                </React.Fragment>
-              )}
-            </Block>
-            </Background>
+      <Background>
+        <Block
+          style={{ paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding }}
+        >
+          {this.state.loading ? (
+            <View>
+              <Text>Loading</Text>
+            </View>
+          ) : (
+            <React.Fragment>{this.renderItems()}</React.Fragment>
+          )}
+        </Block>
+      </Background>
     );
   };
 }

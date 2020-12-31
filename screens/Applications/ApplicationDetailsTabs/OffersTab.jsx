@@ -11,9 +11,7 @@ function OffersTab(props) {
   const {offers}=props.application;
 const {deleteOffer}=props;
   return (
-    <View style={{
-      paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
-      <Block style={GlobalStyle.block}>
+    <View>
         <Text style={{fontSize:GlobalStyle.SIZES.HEADING5}} color="white" center>
           Documents
         </Text>
@@ -28,8 +26,6 @@ const {deleteOffer}=props;
             deleteItem={deleteOffer}
           />
         ))}
-      </Block>
-            <Block style={GlobalStyle.scrollBottomPadding}></Block>
     </View>
   );
 }

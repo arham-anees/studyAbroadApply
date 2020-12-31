@@ -9,7 +9,7 @@ const GlobalStyle = {
     textTertiary: "#fff",
     primary: "purple",
     secondary: "light-blue",
-    textLight: "#fffd",
+    textLight: "#fff",
     textOrange: "#ed7700",
     textDark:"#000",
     error:"red",
@@ -18,6 +18,7 @@ const GlobalStyle = {
     green: "#04870b",
     red: "#A62D2D",
     white: "#fffd",
+    whiteFaded: "#ffffff99",
     sky: "#3A8CEB",
     orange: "#FF9806",
     white: "#fffd",
@@ -37,6 +38,14 @@ const GlobalStyle = {
     color: "white",
     textAlign: "center",
     fontSize: 24,
+    borderBottomWidth:1,
+    borderBottomColor:"#fff",
+    textTransform: "capitalize",
+  },
+  blockLine:{
+    height:1,
+    backgroundColor:"#fff",
+    marginBottom:10
   },
   scrollBottomPadding: {
     height: 100,

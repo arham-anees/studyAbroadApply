@@ -31,16 +31,15 @@ class DrawerItem extends React.Component {
         break;
     }
     return (
-      <View style={{backgroundColor:"#fff",
-      borderRadius:10,
-      padding:3}}>
-      <CustomIcon
-        source={source}
-        style={{
-          width: Theme.ICONS.MENU.WIDTH,
-          height: Theme.ICONS.MENU.HEIGHT,
-        }}
-      /></View>
+      <View style={{ backgroundColor: "#fff", borderRadius: 10, padding: 3 }}>
+        <CustomIcon
+          source={source}
+          style={{
+            width: Theme.ICONS.MENU.WIDTH,
+            height: Theme.ICONS.MENU.HEIGHT,
+          }}
+        />
+      </View>
     );
 
   };

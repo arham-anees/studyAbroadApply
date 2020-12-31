@@ -1,11 +1,10 @@
 import React from "react";
-import { Easing, Animated, Dimensions } from "react-native";
+import { Easing, Animated, Dimensions  } from "react-native";
 
-import { createStackNavigator } from "@react-navigation/stack";
+import { CardStyleInterpolators,createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { Block } from "galio-framework";
 
 // screens
 import Home from "../screens/Home";
@@ -13,8 +12,6 @@ import Onboarding from "../screens/Onboarding";
 import Pro from "../screens/Pro";
 import Profile from "../screens/Profile";
 import Register from "../screens/Register";
-// import Elements from "../screens/Elements";
-import Articles from "../screens/Articles";
 import SignIn from "../screens/Auth/SignIn/SignIn";
 import SignUpAsStudent from "../screens/Auth/SignUpAsStudent/SignUpAsStudent";
 import SignUpAsAssociate from "../screens/Auth/SignUpAsAssociate/SignUpAsAssociate";
@@ -23,15 +20,14 @@ import ApplicationDetails from "../screens/Applications/ApplicationDetails";
 import CustomDrawerContent from "./Menu";
 
 // header for screens
-import { Icon, Header } from "../components";
-import { argonTheme, tabs } from "../constants";
+import { Header } from "../components";
 import Applications from "../screens/Applications/Applications";
 
 import SearchCourse from "../screens/Courses/SearchCourse/SearchCourse";
 import SearchedCourses from "../screens/Courses/SearchCourse/SearchedCourses";
 import Notifications from "../screens/Notifications/Notification";
 import HeaderChild from "../components/HeaderChild";
-import NewDocument from "../screens/Applications/NewDocument";
+import { fromLeft } from 'react-navigation-transitions';
 
 const { width } = Dimensions.get("screen");
 
@@ -39,49 +35,17 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
 
-// function ElementsStack(props) {
-//   return (
-//     <Stack.Navigator mode="card" headerMode="screen">
-//       <Stack.Screen
-//         name="Elements"
-//         component={Home}
-//         options={{
-//           header: ({ navigation, scene }) => (
-//             <Header title="Elements" navigation={navigation} scene={scene} />
-//           ),
-//           cardStyle: { backgroundColor: "#F8F9FE" },
-//         }}
-//       />
-//       <Stack.Screen
-//         name="Pro"
-//         component={Pro}
-//         options={{
-//           header: ({ navigation, scene }) => (
-//             <Header
-//               title=""
-//               back
-//               white
-//               transparent
-//               navigation={navigation}
-//               scene={scene}
-//             />
-//           ),
-//           headerTransparent: true,
-//         }}
-//       />
-//     </Stack.Navigator>
-//   );
-// }
-
 function ApplicationStack(props) {
   return (
-    <Stack.Navigator headerMode="screen">
+    <Stack.Navigator headerMode="screen"  screenOptions={{
+      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+    }}>
       <Stack.Screen
         name="Applications"
         component={Applications}
         options={{
           header: ({ navigation, scene }) => (
-            <HeaderChild
+            <Header
               title="Applications"
               navigation={navigation}
               scene={scene}
@@ -109,13 +73,15 @@ function ApplicationStack(props) {
 }
 function CourseStack(props) {
   return (
-    <Stack.Navigator headerMode="screen">
+    <Stack.Navigator headerMode="screen"  screenOptions={{
+      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+    }}>
       <Stack.Screen
         name="Courses"
         component={SearchCourse}
         options={{
           header: ({ navigation, scene }) => (
-            <HeaderChild
+            <Header
               title="Search Courses"
               navigation={navigation}
               scene={scene}
@@ -143,7 +109,9 @@ function CourseStack(props) {
 }
 function NotificationStack(props) {
   return (
-    <Stack.Navigator headerMode="screen">
+    <Stack.Navigator headerMode="screen"  screenOptions={{
+      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+    }}>
       <Stack.Screen
         name="Notifications"
         component={Notifications}
@@ -158,20 +126,15 @@ function NotificationStack(props) {
           cardStyle: { backgroundColor: "#F8F9FE" },
         }}
       />
-      {/* <Stack.Screen
-        name="SearchedCourses"
-        component={SearchedCourses}
-        options={{
-          cardStyle: { backgroundColor: "#F8F9FE" },
-        }}
-      /> */}
     </Stack.Navigator>
   );
 }
 
 function ProfileStack(props) {
   return (
-    <Stack.Navigator initialRouteName="Profile" mode="card" headerMode="screen">
+    <Stack.Navigator initialRouteName="Profile" mode="card" headerMode="screen"  screenOptions={{
+      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+    }}>
       <Stack.Screen
         name="Profile"
         component={Profile}
@@ -212,7 +175,9 @@ function ProfileStack(props) {
 
 function HomeStack(props) {
   return (
-    <Stack.Navigator mode="card" headerMode="screen">
+    <Stack.Navigator mode="card" headerMode="screen"  screenOptions={{
+      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+    }}>
       <Stack.Screen
         name="Home"
         component={Home}
@@ -235,7 +200,10 @@ function HomeStack(props) {
 
 function AuthStack(props) {
   return (
-    <Stack.Navigator mode="card" headerMode="screen">
+    <Stack.Navigator mode="card" headerMode="screen" 
+    screenOptions={{
+      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+    }}>
       <Stack.Screen
         name="SignIn"
         component={SignIn}
@@ -267,7 +235,9 @@ function AuthStack(props) {
 
 export function OnboardingStack(props) {
   return (
-    <Stack.Navigator mode="card" headerMode="none">
+    <Stack.Navigator mode="card" headerMode="none"  screenOptions={{
+      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+    }}>
       <Stack.Screen
         name="Onboarding"
         component={Onboarding}
@@ -310,13 +280,19 @@ export default function AppStack(props) {
         },
       }}
       initialRouteName="Auth"
+     
+      backBehavior="history"
+      drawerType={Dimensions.get("screen").width >= 768 ? 'permanent' : 'back'}
+      lazy
     >
       <Drawer.Screen name="Home" component={HomeStack} />
       <Drawer.Screen name="Applications" component={ApplicationStack} />
       <Drawer.Screen name="Courses" component={CourseStack} />
       <Drawer.Screen name="Profile" component={ProfileStack} />
       <Drawer.Screen name="Account" component={Register} />
-      <Drawer.Screen name="Notifications" component={NotificationStack} />
+      <Drawer.Screen name="Notifications" component={NotificationStack} options={{
+      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+    }}/>
       <Drawer.Screen name="Auth" component={AuthStack} />
     </Drawer.Navigator>
   );

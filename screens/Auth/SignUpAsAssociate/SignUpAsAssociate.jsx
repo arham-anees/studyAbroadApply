@@ -105,18 +105,18 @@ class SignUpAsAssociate extends React.Component {
     this.setState({ estimateStudentSendAbroad: value, error: false });
   nextStep() {
     var stepUp;
-    if (this.state.step == 1)
-      ValidateStep1(this.state).then((response) => {
-        this.nextStepProcess(response)
-      });
-    else if (this.state.step == 2)
-      ValidateStep2(this.state).then((response) => {
-        this.nextStepProcess(response)
-      });
-    else if (this.state.step == 3)
-      ValidateStep3(this.state).then((response) => {
-        this.nextStepProcess(response)
-      });
+    if (this.state.step == 1) this.nextStepProcess(true);
+      // ValidateStep1(this.state).then((response) => {
+      //   this.nextStepProcess(response)
+      // });
+    else if (this.state.step == 2)this.nextStepProcess(true);
+      // ValidateStep2(this.state).then((response) => {
+      //   this.nextStepProcess(response)
+      // });
+    else if (this.state.step == 3)this.nextStepProcess(true);
+      // ValidateStep3(this.state).then((response) => {
+      //   this.nextStepProcess(response)
+      // });
 
     
   }

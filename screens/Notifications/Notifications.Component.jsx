@@ -29,7 +29,7 @@ export default NotificationItem;
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    backgroundColor: GlobalStyle.bg.white,
+    backgroundColor: GlobalStyle.bg.whiteFaded,
     margin: 5,
     borderRadius: 2,
   },
@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: GlobalStyle.SIZES.HEADING6,
-    fontStyle: "italic",
     fontWeight: "bold",
   },
 });

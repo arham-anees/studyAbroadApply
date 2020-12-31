@@ -1,5 +1,6 @@
 import { Block, Button, Input, Switch, Text } from "galio-framework";
 import React from "react";
+import { Animated } from "react-native";
 import { ImageBackground } from "react-native";
 import { Dimensions } from "react-native";
 import { View } from "react-native";
@@ -29,6 +30,7 @@ class SearchCourse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      fadeAnim: new Animated.Value(0),
       searchFitler:{
         country:1,
         institute:1,
@@ -39,7 +41,37 @@ class SearchCourse extends React.Component {
       }
     };
   }
+  fadeIn = () => {
+    // Will change fadeAnim value to 1 in 5 seconds
+    Animated.timing(this.state.fadeAnim, {
+      toValue: 1,
+      duration: 1000
+    }).start();
+  };
 
+  fadeOut = () => {
+    // Will change fadeAnim value to 1 in 5 seconds
+    Animated.timing(this.state.fadeAnim, {
+      toValue: 0,
+      duration: 0
+    }).start();
+  };
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("focus", () => {
+      // The screen is focused
+      // Call any action
+      this.fadeOut();
+      this.fadeIn();
+    });
+  }
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+    this.fadeOut();
+  }
   handleAdvanced = (val) => {
     let searchFitler=this.state.searchFitler;
     searchFitler.advanced=val;
@@ -55,6 +87,7 @@ class SearchCourse extends React.Component {
   render = () => {
     return (
  <Background>
+   <Animated.View style={{opacity:this.state.fadeAnim}}>
    <Block style={{paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding}}>
             <Block style={styles.block}>
               <Text style={styles.blockTitle}>Search Course</Text>
@@ -86,7 +119,8 @@ class SearchCourse extends React.Component {
                   thumbColor={this.state.searchFitler.advanced?GlobalStyle.color.textLight:null}
                 />
               </Block></Block>
-            </Block></Background>
+            </Block>
+            </Animated.View></Background>
     );
   };
 }
