@@ -1,6 +1,6 @@
 import LocalStorage from "../helper/LocalStorage";
 import Messages from "../helper/Messages";
-import Axios from "./Axios";
+import Fetch from "./Axios";
 import Urls from "./Urls";
 
 function Login({ username, password }) {
@@ -8,12 +8,12 @@ function Login({ username, password }) {
     try {
         console.log("it's working")
       const url=Urls.Login;
-      Axios.Get(url+`?username=${username}&password=${password}`)//call authentication method
+      Fetch.Get(url+`?username=${username}&password=${password}`)//call authentication method
         .then((response) => {//if call is successful
+          //console.log(response);
           if (response == null) reject(Messages.FailedLogin);//if authentication is failed
           else {//if authentication is successful
             LocalStorage.SetToken(response.data);//store token
-         
             resolve(true);//
           }
         })

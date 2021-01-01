@@ -7,6 +7,7 @@ import argonTheme from "../constants/Theme";
 import Icons from "../constants/Icons";
 import CustomIcon from "../Icons/BellIcon";
 import Theme from "../constants/Theme";
+import LocalStorage from "../helper/LocalStorage";
 
 class DrawerItem extends React.Component {
   renderIcon = () => {
@@ -44,6 +45,11 @@ class DrawerItem extends React.Component {
 
   };
 
+  SignOut=(navigation)=>{
+    LocalStorage.ClearToken();
+    navigation.navigate("SignIn");
+  }
+
   render() {
     const { focused, title, navigation } = this.props;
 
@@ -57,7 +63,7 @@ class DrawerItem extends React.Component {
         style={{ height: 60 }}
         onPress={() =>
           title == "Sign Out"
-            ? navigation.navigate("SignIn")
+            ? this.SignOut(navigation)
             : navigation.navigate(title)
         }
       >

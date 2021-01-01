@@ -13,6 +13,7 @@ import { ScrollView } from "react-native";
 
 import AuthService from "../../../services/AuthService";
 import Background from "../../../components/Background";
+import LocalStorage from "../../../helper/LocalStorage";
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -23,6 +24,13 @@ class SignIn extends React.Component {
       error: false,
       isSubmitted: false,
     };
+  }
+  async CheckStatuc() {
+    console.log("SignIn Check Status");
+    var result =await LocalStorage.GetToken();
+    if(result){
+      this.props.navigation.navigate("Home")
+    }
   }
   handleSignUpStudentPress = () =>
     this.props.navigation.navigate("SignUpAsStudent");
@@ -52,7 +60,9 @@ class SignIn extends React.Component {
         this.setState({ isSubmitted: false, error: true });
       });
   };
-  render = () => (
+  render (){ 
+    this.CheckStatuc();
+    return(
     <Block style={styles.container}>
       <Background fullscreen>
         <StatusBar />
@@ -115,7 +125,7 @@ class SignIn extends React.Component {
         </Block>
       </Background>
     </Block>
-  );
+  );}
 }
 
 export default SignIn;

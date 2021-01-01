@@ -22,16 +22,22 @@ function GetToken(){
     return _Get(LocalName.token);
 }
 function ClearToken(){
-    _Set(LocalName.token,null)
+    _Set(LocalName.token,null);
+    //console.log(_Get(LocalName.token));
 }
 
 //#region PRIVATE GET SET
-function _Get(name){
-    return JSON.parse(AsyncStorage.getItem(name));
+function _Get(name) {
+  try {
+    return AsyncStorage.getItem(name);
+  } catch (e) {
+    console.log("Error LocalStorage: " + e);
+    return null;
+  }
 }
 
-function _Set(name, value){
-    return AsyncStorage.getItem(name, JSON.stringify(value));
+async function _Set(name, value){
+    return await AsyncStorage.setItem(name, value);
 }
 
 //#endregion

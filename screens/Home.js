@@ -22,6 +22,7 @@ import GlobalStyle from "../GlobalStyles";
 import Background from "../components/Background";
 import { View } from "react-native";
 import { Animated } from "react-native";
+import GraphsDataService from "../services/GraphDataService";
 
 const { height, width } = Dimensions.get("screen");
 class Home extends React.Component {
@@ -56,7 +57,13 @@ class Home extends React.Component {
       this.fadeOut();
       this.fadeIn();
     });
+
+    
+
   }
+  // componentDidUpdate(){
+  //   GraphsDataService.GetHomePageGraphsData();
+  // }
   render() {
     return (
       <Background>

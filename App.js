@@ -13,11 +13,11 @@ enableScreens();
 
 import Screens from "./navigation/Screens";
 import { Images, articles, argonTheme } from "./constants";
-Sentry.init({
-  dsn: 'https://367ddf64e23f4dfa9a654f873eb6aa36@o478857.ingest.sentry.io/5522026',
-  enableInExpoDevelopment: true,
-  debug: true, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
-});
+// Sentry.init({
+//   dsn: 'https://367ddf64e23f4dfa9a654f873eb6aa36@o478857.ingest.sentry.io/5522026',
+//   enableInExpoDevelopment: true,
+//   debug: true, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+// });
 // cache app images
 const assetImages = [
   Images.Onboarding,
