@@ -1,8 +1,8 @@
-import Axios from "./Axios";
+import Fetch from "./Axios";
 import Urls from "./Urls";
 
 function GetHomePageGraphsData(){
-    Axios.Get(Urls.HomeGraphs)
+    Fetch.Get(Urls.HomeGraphs)
     .then(res=>{
         console.log(res)
     })

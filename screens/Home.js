@@ -57,14 +57,14 @@ class Home extends React.Component {
       this.fadeOut();
       this.fadeIn();
     });
-
-    
-
   }
-  // componentDidUpdate(){
-  //   GraphsDataService.GetHomePageGraphsData();
-  // }
+  getData(){
+    try{
+    GraphsDataService.GetHomePageGraphsData();
+    }catch(e){console.log(e)}
+  }
   render() {
+    this.getData();
     return (
       <Background>
         <Animated.View style={{opacity:this.state.fadeAnim}}>

@@ -1,17 +1,22 @@
 import axios from'axios'; 
+import LocalStorage from '../helper/LocalStorage';
 
  function Get(url) {
   return new Promise(async(resolve, reject) => {
     try {
       console.log(new Date() + ": GET: " + url);
-
       axios
-        .get(url,{method:"GET", headers:{"content-type":"application/json"}})
+        .get(url, {
+          method: "GET",
+          headers: { "content-type": "application/json; charset=utf-8" },
+        })
         .then((x) => {
           console.log(new Date() + ": RESPONSE: " + x);
           resolve(x.data);
         })
-        .catch((err) => reject(err));
+        .catch((err) => {
+          console.log("ERROR: "+err);
+          reject(err)});
 
       // var response = fetch(url,{method:"GET",credentials:'include',
       // headers: {'Content-Type': 'application/json', },});

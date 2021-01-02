@@ -6,6 +6,7 @@ import { Asset } from "expo-asset";
 import { Block, GalioProvider } from "galio-framework";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Sentry from 'sentry-expo';
+import axios from 'axios';
 
 // Before rendering any navigation stack
 import { enableScreens } from "react-native-screens";
@@ -13,11 +14,23 @@ enableScreens();
 
 import Screens from "./navigation/Screens";
 import { Images, articles, argonTheme } from "./constants";
+import LocalStorage from "./helper/LocalStorage";
 // Sentry.init({
 //   dsn: 'https://367ddf64e23f4dfa9a654f873eb6aa36@o478857.ingest.sentry.io/5522026',
 //   enableInExpoDevelopment: true,
 //   debug: true, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
 // });
+
+//set interceptors
+axios.interceptors.request.use(async config=>{
+  const token=await LocalStorage.GetToken();
+  console.log("Interceptor Request: Token: "+token);
+  if(token){
+    config.headers["Authorization"]="Bearer "+token;
+  }
+  console.log("Request: Headers:"+JSON.stringify(config));
+  return config;
+},err=>Promise.reject(err));
 // cache app images
 const assetImages = [
   Images.Onboarding,
