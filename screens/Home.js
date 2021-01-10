@@ -23,15 +23,20 @@ import Background from "../components/Background";
 import { View } from "react-native";
 import { Animated } from "react-native";
 import GraphsDataService from "../services/GraphDataService";
+import { Alert } from "react-native";
+import HomeUtils from './Home.Utils';
 
 const { height, width } = Dimensions.get("screen");
 class Home extends React.Component {
   constructor(props){
     super(props);
+    this.back_Button_Press = this.back_Button_Press.bind(this);
     this.state={
-      fadeAnim: new Animated.Value(0)
+      fadeAnim: new Animated.Value(0),
+      pieChartData:[]
     }
     
+    this.fadeOut();
   }
   fadeIn = () => {
     // Will change fadeAnim value to 1 in 5 seconds
@@ -54,27 +59,65 @@ class Home extends React.Component {
     this.focusListener = navigation.addListener("focus", () => {
       // The screen is focused
       // Call any action
-      this.fadeOut();
+      
       this.fadeIn();
     });
+    this.getData();
+  }
+
+
+  componentWillMount() {
+      BackHandler.addEventListener('hardwareBackPress', this.back_Button_Press);
+    }
+  componentWillUnmount() {
+   
+      BackHandler.removeEventListener('hardwareBackPress', this.back_Button_Press);
+    }
+  back_Button_Press = () => {
+
+    // Put your own code here, which you want to exexute on back button press.
+    Alert.alert(
+      ' Exit From App ',
+      ' Do you want to exit From App ?',
+      [
+        { text: 'Yes', onPress: () => BackHandler.exitApp() },
+        { text: 'No', onPress: () => console.log('NO Pressed') }
+      ],
+      { cancelable: false },
+    );
+ 
+    // Return true to enable back button over ride.
+    return true;
   }
   getData(){
     try{
-    GraphsDataService.GetHomePageGraphsData();
+    GraphsDataService.GetHomePageGraphsData()
+    .then(x=>{
+      //console.log(JSON.stringify(x["PieChartDataList"]))
+      let pieChartData=HomeUtils.MapPieChartData(x["PieChartDataList"]);
+      let barChartData=HomeUtils.MapBarChartData(x);
+      let lineChartData=HomeUtils.MapLineChartData(x);
+      //console.log("line Chart Data: ",lineChartData);
+      this.setState({pieChartData, barChartData,lineChartData});
+    });
     }catch(e){console.log(e)}
   }
   render() {
-    this.getData();
     return (
       <Background>
-        <Animated.View style={{opacity:this.state.fadeAnim}}>
-        <View style={{padding:GlobalStyle.SIZES.PageNormalPadding}}>
-            <AppStatusByCountry />
-            <LineChart />
-            <ProgressBarByCountry />
+        <Animated.View style={{ opacity: this.state.fadeAnim }}>
+          <View style={{ padding: GlobalStyle.SIZES.PageNormalPadding }}>
+            <AppStatusByCountry data={this.state.pieChartData} />
+            {this.state.lineChartData && this.state.lineChartData.length > 0 ? (
+              <LineChart data={this.state.lineChartData} />
+            ) : null}
+           
+            {this.state.barChartData && this.state.barChartData.length > 0 ? (
+              <ProgressBarByCountry data={this.state.barChartData} />
+            ) : null}
             {/* <CountryApplicationsProgressChart /> */}
-            </View>
-            </Animated.View>
+          </View>
+        </Animated.View>
       </Background>
     );
   }

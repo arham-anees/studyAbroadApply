@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import GlobalStyle from "../../GlobalStyles";
 import ProgressBarByCountryItem from "./ProgressBarByCountry.Component";
 
-const data = [
+const data2 = [
   {
     country: "Pakistan",
     sentToCounselor: 10,
@@ -36,21 +36,34 @@ const data = [
 ];
 
 class ProgressBarByCountry extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      data:[]
+    }
+  }
+
+  componentDidMount() {
+      const {data} = this.props;
+      console.log("data :",data);
+      this.setState({data})
+  }
   redDot = { ...styles.dot, backgroundColor: GlobalStyle.STATUSCOLOR.NewApplication };
   orangeDot = { ...styles.dot, backgroundColor: GlobalStyle.STATUSCOLOR.SentToInstitute };
   skyDot = { ...styles.dot, backgroundColor: GlobalStyle.STATUSCOLOR.SentToCounsellor};
   render = () => {
     return (
-      <View>
+      <View>{
+        this.state.data?
         <View style={GlobalStyle.block}>
-          {data
+          {this.state.data
             .sort(function (a, b) {
               return b.progress - a.progress;
             })
             .map((item, index) => (
               <ProgressBarByCountryItem
                 item={item}
-                totalApp={100}
+                totalApp={this.state.data[0].progress}
                 number={index + 1}
                 key={index}
               />
@@ -71,7 +84,7 @@ class ProgressBarByCountry extends React.Component {
             </Block>
           </Block>
         </View>
-      </View>
+  :null}</View>
     );
   };
 }

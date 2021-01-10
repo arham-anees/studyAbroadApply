@@ -5,32 +5,25 @@ import { LineChart } from "react-native-chart-kit";
 import GlobalStyle from "../../GlobalStyles";
 
 function LineChartCustom(props) {
+  const {data}=props;
+  let labels=[];
+  let values=[];
+  data.forEach(element => {
+    labels.push(element.country);
+    values.push(element.value);
+  });
   return (
     <View>
       <View style={[GlobalStyle.block,{padding:0,height:250}]}>
         <View style={Styles.chart}>
           <LineChart
-            verticalLabelRotation={-45}
-            horizontalLabelRotation={-45}
+            verticalLabelRotation={-25}
+            horizontalLabelRotation={0}
             data={{
-              labels: [
-                "Hungary",
-                "Malaysia",
-                "Turkey",
-                "Uzbekistan",
-                "North Cyprus",
-                "United Kingdom",
-              ],
+              labels,
               datasets: [
                 {
-                  data: [
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                  ],
+                  data: values,
                 },
               ],
             }}
@@ -46,11 +39,14 @@ function LineChartCustom(props) {
               color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
               style: {
                 borderRadius: 16,
+                backgroundColor:"red",
+                overflow:"visible"
               },
             }}
             bezier
             style={{
-              borderRadius: 16,
+              
+              overflow:"visible"
             }}
           />
         </View>

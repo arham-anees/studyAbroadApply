@@ -19,13 +19,14 @@ class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "faraz@mail.com",
-      password: "123465",
+      username: '',//"faraz@mail.com",
+      password: '',//"123465",
       error: false,
       isSubmitted: false,
     };
   }
-  async CheckStatuc() {
+  async CheckStatus() {
+    return;
     console.log("SignIn Check Status");
     var result =await LocalStorage.GetToken();
     if(result){
@@ -61,7 +62,7 @@ class SignIn extends React.Component {
       });
   };
   render (){ 
-    this.CheckStatuc();
+    this.CheckStatus();
     return(
     <Block style={styles.container}>
       <Background fullscreen>

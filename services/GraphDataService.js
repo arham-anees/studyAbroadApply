@@ -1,12 +1,19 @@
 import Fetch from "./Axios";
 import Urls from "./Urls";
 
-function GetHomePageGraphsData(){
-    Fetch.Get(Urls.HomeGraphs)
-    .then(res=>{
-        console.log(res)
-    })
-    .catch(err=>console.log(err));
+function GetHomePageGraphsData() {
+  return new Promise((resolve, reject) => {
+    Fetch.Post({ url: Urls.HomeGraphs })
+      .then((res) => {
+        //debugger;
+        // console.log("*******************************************");
+        // console.log(res["PieChartDataList"]);
+        // console.log("*******************************************");
+
+        resolve(res);
+      })
+      .catch((err) => console.log(err));
+  });
 }
 
 

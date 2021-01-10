@@ -11,7 +11,8 @@ const Colors = [
 ];
 
 function AppStatusByCountryDoughnutChart(props) {
-  const data = [
+  const {data} = props;
+  const temp=[
     {
       key: 1,
       amount: 50,

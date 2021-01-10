@@ -49,20 +49,23 @@ function Post({ data, url }) {
   return new Promise((resolve, reject) => {
     try {
       console.log(new Date() + ": POST: " + url);
-      // axios({
-      //   method: "POST",
-      //   url,
-      //   data,
-      // })
-      //   .then((res) => {
-      //     console.log(new Date() + ": Response:" + res);
-      //     resolve(res);
-      //   })
-      //   .catch((err) => {
-      //     console.log(new Date() + ": " + err);
-      //     reject(err);
-      //   });
-      reject(false);
+      axios.post(url,{
+        data,
+      })
+        .then((res) => {
+          console.log(new Date() + ": Response: OK");
+          console.log(JSON.stringify(res.status))
+          if(res.status==200){
+          resolve(res.data);
+          }
+          else{
+            resolve(red.status)
+          }
+        })
+        .catch((err) => {
+          console.log(new Date() + ": " + err);
+          reject(err);
+        });
     } catch (e) {
       reject(e);
     }

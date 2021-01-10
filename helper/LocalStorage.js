@@ -22,7 +22,9 @@ function GetToken(){
     return _Get(LocalName.token);
 }
 function ClearToken(){
-    _Set(LocalName.token,null);
+    AsyncStorage.removeItem(LocalName.token);
+    //debugger
+    //_Set(LocalName.token,null);
     //console.log(_Get(LocalName.token));
 }
 

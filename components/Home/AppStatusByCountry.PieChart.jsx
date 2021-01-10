@@ -12,11 +12,12 @@ const Colors = [
   GlobalStyle.STATUSCOLOR.VisaIssued,
 ];
 function AppStatusByCountry(props) {
+  const {data}=props;
   return (
     <View>
       <View style={GlobalStyle.block}>
         <View style={Styles.card}>
-          <AppStatusByCountryDoughnutChart />
+          <AppStatusByCountryDoughnutChart data={data}/>
           <View style={Styles.legendContainer}>
             <Block row space={"between"}>
               <Block row>
