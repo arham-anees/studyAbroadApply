@@ -10,6 +10,7 @@ import CustomIcon from "../../../Icons/BellIcon";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { KeyboardAvoidingView } from "react-native";
 import TextCustom from '../../../components/TextCustom';
+import ApplicationService from "../../../services/ApplicationService";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -47,17 +48,26 @@ function Note({ sender, note }) {
   );
 }
 
+
 function NoticeBoardTab(props) {
   const [openNewNote, setOpenNewNote] = useState(false);
   const [newNote, setNewNote] = useState("");
+  const [notes, setNotes]=useState([]);
 
   const [date, setDate] = useState(Date.now());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
   let { application } = props;
-  const { addFollowUp, updateStatus, addNote, handleUpdateStatusPress } = props;
-
+  const { addFollowUp, updateStatus, addNote, handleUpdateStatusPress, applicationId } = props;
+try {
+  
+  ApplicationService.GetApplicationNotes(applicationId)
+    .then((x) => {console.log(x)})
+    .catch((err) => console.log(err));
+} catch (err) {
+  console.log(err);
+}
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
@@ -96,7 +106,7 @@ function NoticeBoardTab(props) {
               onChange={updateStatus}
             />
             <Block center>
-              <Button style={styles.updateStatusBtn} onPress={handleUpdateStatusPress}>Update Status</Button>
+              <Button style={styles.updateStatusBtn} onPress={handleUpdateStatusPress} disable color={"#a0a0a0"}>Update Status</Button>
             </Block>
           </Block>
         </Block>
@@ -119,7 +129,7 @@ function NoticeBoardTab(props) {
                 onChange={onChange}
               />
             )}
-            <Button style={styles.updateStatusBtn} onPress={showDatepicker}>
+            <Button style={styles.updateStatusBtn} onPress={showDatepicker} disable color={"#a0a0a0"}>
               Add Next Follow Up Date
             </Button>
           </Block>

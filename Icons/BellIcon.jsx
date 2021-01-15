@@ -1,33 +1,34 @@
+import { Block, theme } from 'galio-framework';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { Image } from 'react-native';
+import { argonTheme } from '../constants';
 import Icons from '../constants/Icons';
 import Theme from '../constants/Theme';
 
+const CustomIconImage=(props)=>{
+  return  <Image
+  resizeMode="contain"
+  style={{
+    height: Theme.ICONS.DEFAULT.WIDTH,
+    width: Theme.ICONS.DEFAULT.HEIGHT,
+  }}
+  {...props}
+/>
+}
 const CustomIcon = (props) => {
     const onPress=props.onPress;
     return (
       <React.Fragment>
         {onPress != null ? (
           <TouchableOpacity onPress={onPress}>
-            <Image
-              resizeMode="contain"
-              style={{
-                height: Theme.ICONS.DEFAULT.WIDTH,
-                width: Theme.ICONS.DEFAULT.HEIGHT,
-              }}
-              {...props}
-            />
+           <CustomIconImage {...props}/>
           </TouchableOpacity>
         ) : (
-          <Image
-            resizeMode="contain"
-            style={{
-              height: Theme.ICONS.DEFAULT.WIDTH,
-              width: Theme.ICONS.DEFAULT.HEIGHT,
-            }}
-            {...props}
-          />
+          <>
+          <CustomIconImage {...props}/>
+
+</>
         )}
       </React.Fragment>
     );

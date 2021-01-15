@@ -13,6 +13,7 @@ function Login({ username, password }) {
           //console.log(response);
           if (response == null) reject(Messages.FailedLogin);//if authentication is failed
           else {//if authentication is successful
+            console.log(response);
             LocalStorage.SetToken(response.data);//store token
             resolve(true);//
           }

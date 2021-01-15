@@ -29,6 +29,7 @@ class ApplicationDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      applicationId:this.props.route.params.appId,
       activeTab: Tabs.NoticeBoard,
       showModal: false,
       isShow: false,
@@ -359,6 +360,7 @@ handleChange = (value, name) => {
           <ScrollView style={styles.container}>
             {this.state.activeTab === Tabs.NoticeBoard ? (
               <NoticeBoardTab
+              applicationId={this.state.applicationId}
                 application={this.state.application}
                 updateStatus={this.handleApplicationStatusUpdate}
                 addFollowUp={this.handleAddFollowUp}
@@ -367,6 +369,7 @@ handleChange = (value, name) => {
               />
             ) : this.state.activeTab === Tabs.Profile ? (
               <ProfileTab
+              applicationId={this.state.applicationId}
                 application={this.state.application}
                 handleChange={this.handleChange}
                 updateMaritalStatus={this.handleUpdateMaritalStatus}
@@ -377,16 +380,18 @@ handleChange = (value, name) => {
             //   <CourseTab />
             this.state.activeTab === Tabs.Documents ? (
               <DocumentsTab
+              applicationId={this.state.applicationId}
                 application={this.state.application}
                 deleteDocument={this.handleDeleteDocument}
               />
             ) : this.state.activeTab === Tabs.Offers ? (
               <OffersTab
+              applicationId={this.state.applicationId}
                 application={this.state.application}
                 deleteOffer={this.handleDeleteOffer}
               />
             ) : this.state.activeTab === Tabs.TravelInformation ? (
-              <TravelInformation />
+              <TravelInformation applicationId={this.state.applicationId}/>
             ) : null}
             <Toast isShow={this.state.isShow}>{this.state.toastMessage}</Toast>
             <Block style={GlobalStyle.scrollBottomPadding}></Block>

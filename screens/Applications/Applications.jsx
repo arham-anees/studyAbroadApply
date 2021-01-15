@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { ImageBackground, ScrollView } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { ImageBackground, ScrollView, Text } from "react-native";
 import { Dimensions } from "react-native";
 import { View } from "react-native";
 import ApplicationItem from "../../components/Applications/Application.Component";
@@ -7,6 +7,10 @@ import ApplicationItem from "../../components/Applications/Application.Component
 import styles from "./Applications.Style";
 import Background from "../../components/Background";
 import { Animated } from "react-native";
+
+import ApplicationService from '../../services/ApplicationService';
+import LocalStorage from '../../helper/LocalStorage'; 
+import TextCustom from "../../components/TextCustom";
 const data = [
   {
     name: "Imran Khan",
@@ -42,44 +46,104 @@ const data = [
     institute: "International Islamic University Islamabad",
   },
 ];
-function Applications(props) {
-  const {navigation} =props;
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const fadeIn=()=>{
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 1000
-    }).start();
+class Applications extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      fadeAnim: new Animated.Value(0),
+      appList:[]
+    }
+    this.navigation =this.props;
+    this.fadeOut();
   }
-  const fadeOut=()=>{
-    Animated.timing(fadeAnim, {
+
+ 
+  fadeIn = () => {
+    // Will change fadeAnim value to 1 in 5 seconds
+    Animated.timing(this.state.fadeAnim, {
+      toValue: 1,
+      duration: 500
+    }).start();
+  };
+
+  fadeOut = () => {
+    // Will change fadeAnim value to 1 in 5 seconds
+    Animated.timing(this.state.fadeAnim, {
       toValue: 0,
       duration: 0
     }).start();
-  }
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      // The screen is focused
-      // Call any action
-      fadeOut();
-      fadeIn();
+  };
+  MapApplicationData(data){
+    try{
+    var resultData = [];
+    console.log("purifying browse application data");
+    data.forEach((x) => {
+      resultData.push({
+        id:x.ApplicationID,
+        name: x.StudentName,
+        status: x.StatusName,
+        statusId: 1,
+        level: x.LevelName,
+        date: x.ApplicationDate,
+        course: x.CourseName,
+        institute: x.InstitutionName,
+        createdBy:x.CreatedBy,
+        createdByRoleName:x.RoleName,
+        intake:x.InTakeName,
+        totalUnread:x.TotalUnread
+      });
     });
+    
+    //console.log(resultData);
+    
+    return resultData;
+  }catch{
+    return [];
+  }
+    } 
 
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, []);
+  componentDidMount() {
+    this.fadeIn();
 
-  return (
+    LocalStorage.GetAppList().then(x=>{
+      try {
+        let localData = JSON.parse(x);
+        //console.log("Data from local",localData)
+        this.setState({ appList: localData });
+      } catch (err) {
+        console.log(err);
+      }
+    })
+    
+
+      ApplicationService.BrowseApplications()
+        .then((response) => {
+          let result = this.MapApplicationData(response);
+          //debugger
+          LocalStorage.SetAppList(result);
+          if(result!=this.state.appList)this.setState({appList:result});
+        })
+        .catch((err) => console.log(err));
+  }
+
+render=()=> (
     <Background>
-      <Animated.View style={{opacity:fadeAnim}}>
-      <View style={styles.container}>
-        {data.map((item, index) => (
-          <ApplicationItem props={{ ...props, item, index }} key={index} />
-        ))}
-      </View>
+      <Animated.View style={{ opacity: this.state.fadeAnim }}>
+        <View style={styles.container}>
+          {this.state.appList.length > 0 ? (
+            this.state.appList.map((item, index) => (
+              <ApplicationItem props={{ ...this.props, item, index }} key={index} />
+            ))
+          ) : (
+            <View><TextCustom>No application found</TextCustom></View>
+          )}
+        </View>
       </Animated.View>
     </Background>
   );
 }
 
 export default Applications;
+
+
+

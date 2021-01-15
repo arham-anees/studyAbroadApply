@@ -11,11 +11,13 @@ import LocalStorage from '../helper/LocalStorage';
           headers: { "content-type": "application/json; charset=utf-8" },
         })
         .then((x) => {
-          console.log(new Date() + ": RESPONSE: " + x);
+          //console.log(new Date() + ": RESPONSE: " + x);
+          debugger
           resolve(x.data);
         })
         .catch((err) => {
-          console.log("ERROR: "+err);
+          //console.log("ERROR: "+err);
+          debugger
           reject(err)});
 
       // var response = fetch(url,{method:"GET",credentials:'include',

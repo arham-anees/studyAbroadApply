@@ -1,8 +1,21 @@
 import { AsyncStorage } from "react-native";
 
 const LocalName={
-    user:"user",
-    token:"authToken"
+    user:"@user",
+    token:"@authToken",
+    appList:"@applicattionsList"
+}
+
+function SetAppList(list) {
+  _Set(LocalName.appList,JSON.stringify(list));
+}
+function GetAppList() {
+    try{
+  return _Get(LocalName.appList);
+    }catch(err){
+        var temp=_Get(LocalName.appList);
+        return [];
+    }
 }
 
 function SetUser(value){
@@ -29,9 +42,10 @@ function ClearToken(){
 }
 
 //#region PRIVATE GET SET
-function _Get(name) {
+async function _Get(name) {
   try {
-    return AsyncStorage.getItem(name);
+      //return window.localStorage.getItem(name);
+     return await AsyncStorage.getItem(name);
   } catch (e) {
     console.log("Error LocalStorage: " + e);
     return null;
@@ -39,6 +53,7 @@ function _Get(name) {
 }
 
 async function _Set(name, value){
+    //return window.localStorage.setItem(name, value);
     return await AsyncStorage.setItem(name, value);
 }
 
@@ -50,6 +65,8 @@ const LocalStorage={
     GetUser,
     SetToken,
     GetToken,
-    ClearToken
+    ClearToken,
+    GetAppList,
+    SetAppList
 }
 export default LocalStorage;

@@ -19,27 +19,33 @@ class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',//"faraz@mail.com",
-      password: '',//"123465",
+      username: "faraz@mail.com",
+      password: "123465",
       error: false,
       isSubmitted: false,
+      networkError:false
     };
   }
   async CheckStatus() {
-    return;
+    //return;
     console.log("SignIn Check Status");
-    var result =await LocalStorage.GetToken();
-    if(result){
-      this.props.navigation.navigate("Home")
-    }
+    var result =LocalStorage.GetToken();
+    //debugger
+    //console.log(result);
+    result.then((x) => {
+      try{if (x.length>100) {
+        this.props.navigation.navigate("Home");
+      }
+    }catch{}
+    });
   }
   handleSignUpStudentPress = () =>
     this.props.navigation.navigate("SignUpAsStudent");
   handleSignUpAssociatePress = () =>
     this.props.navigation.navigate("SignUpAsAssociate");
   handlePasswordChange = (value) =>
-    this.setState({ error: false, password: value });
-  handleUsernameChange = (value) => this.setState({ error: false, username: value });
+    this.setState({ error: false,networkError:false, password: value });
+  handleUsernameChange = (value) => this.setState({ error: false,networkError:false, username: value });
   handleSubmit = () => {
     this.setState({ isSubmitted: true });
     if (this.state.username.length == 0 || this.state.password.length == 0) {
@@ -51,14 +57,15 @@ class SignIn extends React.Component {
       .then((response) => {
         if (response == true) {
           this.setState({ isSubmitted: false });
-          this.props.navigation.navigate("Home");
+          console.log(response)
+          //this.props.navigation.navigate("Home");
         } else {
           this.setState({ isSubmitted: false, error: true });
         }
       })
       .catch((err) => {
         console.log("Error: "+err);
-        this.setState({ isSubmitted: false, error: true });
+        this.setState({ isSubmitted: false, networkError: true });
       });
   };
   render (){ 
@@ -92,6 +99,9 @@ class SignIn extends React.Component {
 
           {this.state.error ? (
             <Text style={styles.error}>Incorrect email or password</Text>
+          ) : null}
+          {this.state.networkError ? (
+            <Text style={styles.error}>Request failed. Please try again later</Text>
           ) : null}
           <Button
             style={[
