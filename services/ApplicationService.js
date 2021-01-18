@@ -26,19 +26,18 @@ function BrowseApplications() {
 function GetApplicationNotes(applicationId) {
   return new Promise((resolve, reject) => {
     try {
-      const url = Urls.GetAppNotes+"?applicationId="+applicationId;
-      Fetch.Get({ url }) //call authentication method
-        .then((response) => {
-          //if call is successful
+      const url=Urls.GetAppNotes;
+      Fetch.Get(url+`?applicationId=${applicationId}`)//call authentication method
+        .then((response) => {//if call is successful
           //console.log(response);
-          debugger
-          if (response == null) reject(Messages.FailedLogin);
-          else {
+          if (response == null) reject(Messages.FailedLog);//if authentication is failed
+          //else {//if authentication is successful
             //console.log(response);
-            resolve(response.data);
-          }
+            //LocalStorage.SetToken(response.data);//store token
+            resolve(response);//
+          //}
         })
-        .catch((err) => {debugger;reject(err)}); //throw error
+        .catch((err) => {console.log("ERROR: ",err);reject(err)});//throw error
     } catch (e) {
       reject(e);
     }

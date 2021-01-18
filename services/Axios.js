@@ -5,43 +5,20 @@ import LocalStorage from '../helper/LocalStorage';
   return new Promise(async(resolve, reject) => {
     try {
       console.log(new Date() + ": GET: " + url);
+      debugger
       axios
         .get(url, {
           method: "GET",
           headers: { "content-type": "application/json; charset=utf-8" },
         })
         .then((x) => {
-          //console.log(new Date() + ": RESPONSE: " + x);
-          debugger
+          console.log(new Date() + ": RESPONSE: " + (x));
           resolve(x.data);
         })
         .catch((err) => {
           //console.log("ERROR: "+err);
-          debugger
           reject(err)});
 
-      // var response = fetch(url,{method:"GET",credentials:'include',
-      // headers: {'Content-Type': 'application/json', },});
-      // //debugger
-      // var json = response.json();
-      // console.log(new Date() + ": Response:" + JSON.stringify(json));
-      // resolve(json);
-      // fetch(url, {
-      //   method: "GET", // *GET, POST, PUT, DELETE, etc.
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     // 'Content-Type': 'application/x-www-form-urlencoded',
-      //   },
-      // })
-      //   .then(res=>{console.log(JSON.stringify(res.data))})
-      //   .then((result) => {
-      //     console.log(new Date() + ": Response:" + JSON.stringify(result));
-      //     resolve(false);
-      //   })
-      //   .catch((err) => {
-      //     console.log(new Date() + ": " + err);
-      //     reject(err);
-      //   });
     } catch (e) {
       reject(e);
     }

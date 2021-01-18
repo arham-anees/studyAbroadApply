@@ -6,7 +6,7 @@ import Urls from "./Urls";
 function Login({ username, password }) {
   return new Promise((resolve, reject) => {
     try {
-        console.log("it's working")
+      
       const url=Urls.Login;
       Fetch.Get(url+`?username=${username}&password=${password}`)//call authentication method
         .then((response) => {//if call is successful

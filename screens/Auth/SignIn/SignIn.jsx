@@ -19,8 +19,8 @@ class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "faraz@mail.com",
-      password: "123465",
+      username: "",//"faraz@mail.com",
+      password: "",//"123465",
       error: false,
       isSubmitted: false,
       networkError:false

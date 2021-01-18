@@ -22,20 +22,24 @@ const applicationStatus = [
   { name: "Refund Acknowledged", value: 5 },
 ];
 
-function Note({ sender, note }) {
+function Note({ sender, note, date }) {
   return (
+    <Block 
+    style={{
+      borderWidth: 0.5,
+      padding: 5,
+      borderColor: "#fff",
+      marginBottom: 10,
+      borderRadius: 5,
+    }}> 
     <Block
       row
-      style={{
-        borderWidth: 0.5,
-        padding: 5,
-        borderColor: "#fff",
-        marginBottom: 10,
-        borderRadius: 5,
-      }}
+      space="between"
     >
       <TextCustom>{sender} :</TextCustom>
-      <TextCustom
+      <TextCustom>{date}</TextCustom>
+    </Block>
+    <TextCustom
         style={{
           paddingLeft: 10,
           flex: 1,
@@ -60,14 +64,14 @@ function NoticeBoardTab(props) {
 
   let { application } = props;
   const { addFollowUp, updateStatus, addNote, handleUpdateStatusPress, applicationId } = props;
-try {
-  
-  ApplicationService.GetApplicationNotes(applicationId)
-    .then((x) => {console.log(x)})
-    .catch((err) => console.log(err));
-} catch (err) {
-  console.log(err);
-}
+
+  const loadNotes=() => {
+    try {
+     
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
@@ -89,7 +93,7 @@ try {
   const showDatepicker = () => {
     showMode("date");
   };
-
+  loadNotes();
   return (
     <KeyboardAvoidingView>
       <Block center style={styles.statusBar}>
@@ -138,7 +142,7 @@ try {
           <Text style={GlobalStyle.blockTitle}>Application Notes</Text>
           <Block>
             {application.notes.map((x, index) => (
-              <Note key={index} sender={x.sender} note={x.note} />
+              <Note key={index} sender={x.sender} note={x.note} date={x.date} />
             ))}
           </Block>
           {openNewNote ? (

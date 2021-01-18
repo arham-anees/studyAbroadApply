@@ -9,6 +9,7 @@ import Background from "../../components/Background";
 import Toast from "../../components/Toast";
 import Images from "../../constants/Images";
 import GlobalStyle from "../../GlobalStyles";
+import ApplicationService from "../../services/ApplicationService";
 import DocumentsTab from "./ApplicationDetailsTabs/DocumentsTab";
 import NoticeBoardTab from "./ApplicationDetailsTabs/NoticeBoardTab";
 import OffersTab from "./ApplicationDetailsTabs/OffersTab";
@@ -49,11 +50,7 @@ class ApplicationDetails extends React.Component {
         address: "Tordher, Swabi",
         applicationStatus: 2,
         followUps: [1607449959571, 1605447859571],
-        notes: [
-          { sender: "Faraz", note: "this is test note 1" },
-          { sender: "Ahmad", note: "this is test note 2" },
-          { sender: "Ibrar", note: "this is test note 3" },
-        ],
+        notes: [],
         documents: [
           {
             id: 1,
@@ -207,7 +204,38 @@ class ApplicationDetails extends React.Component {
       },
     };
   }
+componentDidMount() {
+  ApplicationService.GetApplicationNotes(this.state.applicationId)
+  .then((x) => {
+    console.log("notes: ",JSON.stringify(x));
+    var mappedData=this.mapNotes(x);
+    var application=this.state.application;
+application.notes=mappedData;
+    this.setState({application});
+  })
+  .catch((err) => {
+    console.log("ERROR: ",JSON.stringify(err));
+  });
+}
 
+mapNotes=(data)=>{
+  try{
+    var mappedData=[];
+    data.forEach(element => {
+      mappedData.push({
+        sender:element.UserName,
+        note:element.Message,
+        date:element.CreationDate,
+        isVisibleToStudents:element.IsVisableToStudents
+      })
+    });
+    console.log("mapped notes", mappedData);
+    return mappedData;
+  }
+  catch(err){
+    return [];
+  }
+}
 
 //#region NOTICE BOARD
 handleApplicationStatusUpdate = (newStatus) => {

@@ -24,7 +24,7 @@ import LocalStorage from "./helper/LocalStorage";
 //set interceptors
 axios.interceptors.request.use(async config=>{
   const token=await LocalStorage.GetToken();
-  console.log("Interceptor Request: Token: "+token);
+  //console.log("Interceptor Request: Token: "+token);
   if(token){
     config.headers["Authorization"]="Bearer "+token;
   }
