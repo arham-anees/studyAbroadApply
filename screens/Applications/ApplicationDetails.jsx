@@ -30,27 +30,14 @@ class ApplicationDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      applicationId:this.props.route.params.appId,
+      applicationId: this.props.route.params.appId,
       activeTab: Tabs.NoticeBoard,
       showModal: false,
       isShow: false,
-      toastMessage: "this is test toast message",
+      toastMessage: "",
       application: {
-        studentName: "Ahmad Raza",
-        fatherName: "Hamid Ali",
-        email: "ahmad@mail.com",
-        phone: "03001212123",
-        passportNumber: "",
-        passportExpiryDate: Date.now(),
-        landline: "",
-        dateOfBirth: Date.now(),
-        gender: 1,
-        nationality: "Pakistan",
-        maritalStatus: 2,
-        address: "Tordher, Swabi",
         applicationStatus: 2,
         followUps: [1607449959571, 1605447859571],
-        notes: [],
         documents: [
           {
             id: 1,
@@ -204,58 +191,45 @@ class ApplicationDetails extends React.Component {
       },
     };
   }
-componentDidMount() {
-  ApplicationService.GetApplicationNotes(this.state.applicationId)
-  .then((x) => {
-    console.log("notes: ",JSON.stringify(x));
-    var mappedData=this.mapNotes(x);
-    var application=this.state.application;
-application.notes=mappedData;
-    this.setState({application});
-  })
-  .catch((err) => {
-    console.log("ERROR: ",JSON.stringify(err));
-  });
-}
 
-mapNotes=(data)=>{
-  try{
-    var mappedData=[];
-    data.forEach(element => {
-      mappedData.push({
-        sender:element.UserName,
-        note:element.Message,
-        date:element.CreationDate,
-        isVisibleToStudents:element.IsVisableToStudents
+  componentDidMount() {
+    ApplicationService.GetCourse(this.state.applicationId)
+      .then((x) => {
+        x=x.MyCourse;
+        var course = {
+          name: x.CourseName,
+          institute: x.InstituteName,
+          country: x.CountryName,
+          intake: x.InTakeName,
+          level: x.LevelName,
+        };
+
+        this.setState({
+          profileId: x.ProfileID,
+          userId:x.UserID,
+          intakeId:x.IntakeID,
+          courseId:x.CourseID,
+          countryId:x.CountryID,
+          course
+        });
+        console.log("course: ",x);
       })
-    });
-    console.log("mapped notes", mappedData);
-    return mappedData;
+      .catch((err) => console.log(err));
   }
-  catch(err){
-    return [];
-  }
-}
 
-//#region NOTICE BOARD
-handleApplicationStatusUpdate = (newStatus) => {
-        let application = this.state.application;
-        application.applicationStatus = newStatus;
-        this.setState({ application });
-};
-handleUpdateStatusPress=()=>{
-  Alert.alert("Status updated", "Application status updated successfully.");
-}
-//#endregion
-
-//#region  
-handleUpdateProfilePress=()=>{
-  Alert.alert("Profile Updated","Profile has been updated");
-}
-//#endregion
+  //#region NOTICE BOARD
+  handleApplicationStatusUpdate = (newStatus) => {
+    let application = this.state.application;
+    application.applicationStatus = newStatus;
+    this.setState({ application });
+  };
+  handleUpdateStatusPress = () => {
+    Alert.alert("Status updated", "Application status updated successfully.");
+  };
+  //#endregion
 
 
-handleChange = (value, name) => {
+  handleChange = (value, name) => {
     let application = this.state.application;
     application[name] = value;
     this.setState({ application });
@@ -269,20 +243,26 @@ handleChange = (value, name) => {
         {
           text: "Cancel",
           onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
+          style: "cancel",
         },
-        { text: "OK", onPress: () => { let application = this.state.application;
-          callback();
-          setTimeout(() => {
-            application.documents = application.documents.filter((x) => x.id != id);
-          this.setState({ application });
-          }, 1000);
-        }}
+        {
+          text: "OK",
+          onPress: () => {
+            let application = this.state.application;
+            callback();
+            setTimeout(() => {
+              application.documents = application.documents.filter(
+                (x) => x.id != id
+              );
+              this.setState({ application });
+            }, 1000);
+          },
+        },
       ],
       { cancelable: false }
-    );   
+    );
   };
-  handleDeleteOffer = (id,callback) => {
+  handleDeleteOffer = (id, callback) => {
     Alert.alert(
       "Confirm Delete",
       "Are you sure you want to continue?",
@@ -290,42 +270,45 @@ handleChange = (value, name) => {
         {
           text: "Cancel",
           onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
+          style: "cancel",
         },
-        { text: "OK", onPress: () => { 
-          let application = this.state.application;
-          callback();
-          setTimeout(() => {
-            application.offers = application.offers.filter((x) => x.id != id);
-          this.setState({ application });
-          }, 1000);
-        }}
+        {
+          text: "OK",
+          onPress: () => {
+            let application = this.state.application;
+            callback();
+            setTimeout(() => {
+              application.offers = application.offers.filter((x) => x.id != id);
+              this.setState({ application });
+            }, 1000);
+          },
+        },
       ],
       { cancelable: false }
-    );   
+    );
   };
 
-  handleUpdateGender = (newValue) => {
-    let application = this.state.application;
-    application.gender = newValue;
-    this.setState({ application });
-  };
-  handleUpdateMaritalStatus = (newValue) => {
-    let application = this.state.application;
-    application.maritalStatus = newValue;
-    this.setState({ application });
-  };
+  // handleUpdateGender = (newValue) => {
+  //   let application = this.state.application;
+  //   application.gender = newValue;
+  //   this.setState({ application });
+  // };
+  // handleUpdateMaritalStatus = (newValue) => {
+  //   let application = this.state.application;
+  //   application.maritalStatus = newValue;
+  //   this.setState({ application });
+  // };
 
   handleAddFollowUp = (newFollowUp) => {
-    if(!newFollowUp)return;
+    if (!newFollowUp) return;
     let application = this.state.application;
     application.followUps.push(newFollowUp);
     this.setState({ application });
   };
-  handleAddNote = ({ sender, note }) => {
-    let application = this.state.application;
-    application.notes.push({ sender, note });
-  };
+  // handleAddNote = ({ sender, note }) => {
+  //   let application = this.state.application;
+  //   application.notes.push({ sender, note });
+  // };
 
   onTabChange = (id) => {
     this.setState({ activeTab: id });
@@ -340,7 +323,7 @@ handleChange = (value, name) => {
       ) {
         this.setState({ showModal: true });
       } else if (this.state.activeTab === Tabs.Offers) {
-        console.log("Offers");
+        //console.log("Offers");
       }
     } catch (e) {}
   };
@@ -358,7 +341,7 @@ handleChange = (value, name) => {
     }
 
     if (title.length == 0) {
-      console.log("title is not provided");
+      //console.log("title is not provided");
       isValid = false;
     }
 
@@ -375,6 +358,8 @@ handleChange = (value, name) => {
   };
 
   render() {
+    //console.log(this.state);
+
     return (
       <Background noScroll>
         <ApplicationDetailsTabs
@@ -388,7 +373,7 @@ handleChange = (value, name) => {
           <ScrollView style={styles.container}>
             {this.state.activeTab === Tabs.NoticeBoard ? (
               <NoticeBoardTab
-              applicationId={this.state.applicationId}
+                applicationId={this.state.applicationId}
                 application={this.state.application}
                 updateStatus={this.handleApplicationStatusUpdate}
                 addFollowUp={this.handleAddFollowUp}
@@ -397,29 +382,26 @@ handleChange = (value, name) => {
               />
             ) : this.state.activeTab === Tabs.Profile ? (
               <ProfileTab
-              applicationId={this.state.applicationId}
+                applicationId={this.state.applicationId}
+                profileId={this.state.profileId}
                 application={this.state.application}
-                handleChange={this.handleChange}
-                updateMaritalStatus={this.handleUpdateMaritalStatus}
-                updateGender={this.handleUpdateGender}
-                handleUpdateProfilePress={this.handleUpdateProfilePress}
               />
             ) : // ) : this.state.activeTab === Tabs.Course ? (
             //   <CourseTab />
             this.state.activeTab === Tabs.Documents ? (
               <DocumentsTab
-              applicationId={this.state.applicationId}
+                applicationId={this.state.applicationId}
                 application={this.state.application}
                 deleteDocument={this.handleDeleteDocument}
               />
             ) : this.state.activeTab === Tabs.Offers ? (
               <OffersTab
-              applicationId={this.state.applicationId}
+                applicationId={this.state.applicationId}
                 application={this.state.application}
                 deleteOffer={this.handleDeleteOffer}
               />
             ) : this.state.activeTab === Tabs.TravelInformation ? (
-              <TravelInformation applicationId={this.state.applicationId}/>
+              <TravelInformation applicationId={this.state.applicationId} item={this.state.course}/>
             ) : null}
             <Toast isShow={this.state.isShow}>{this.state.toastMessage}</Toast>
             <Block style={GlobalStyle.scrollBottomPadding}></Block>

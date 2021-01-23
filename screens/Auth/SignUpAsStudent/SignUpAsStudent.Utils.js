@@ -20,7 +20,7 @@ export function HandleSignUp({
       Email = Email.trim();
       Password = Password.trim();
       ConfirmPassword = ConfirmPassword.trim();
-console.log(Password,ConfirmPassword)
+      //console.log(Password,ConfirmPassword)
       if (!isEmailValid(Email)) reject({errorCode:2,message:"Invalid email address"});
       else if (!isPasswordValid(Password)) reject({errorCode:3, message:"Password does not match required criteria. Please enter alphabets only at least 6."});
       else if (Password !== ConfirmPassword) reject({errorCode:4, message:"Password does not match."});
@@ -35,7 +35,7 @@ console.log(Password,ConfirmPassword)
           if (response) {
             resolve(true);
           } else {
-            console.log("rejected")
+            //console.log("rejected")
             reject({errorCode:-1, message:"Failed to create your account. Please try again later."});
           }
         })

@@ -4,8 +4,8 @@ import LocalStorage from '../helper/LocalStorage';
  function Get(url) {
   return new Promise(async(resolve, reject) => {
     try {
-      console.log(new Date() + ": GET: " + url);
-      debugger
+      //console.log(new Date() + ": GET: " + url);
+      //debugger
       axios
         .get(url, {
           method: "GET",
@@ -13,10 +13,13 @@ import LocalStorage from '../helper/LocalStorage';
         })
         .then((x) => {
           console.log(new Date() + ": RESPONSE: " + (x));
+          if(x.status==200){
           resolve(x.data);
+          }
+          else reject(x.status);
         })
         .catch((err) => {
-          //console.log("ERROR: "+err);
+          console.log("ERROR: "+err);
           reject(err)});
 
     } catch (e) {
@@ -28,21 +31,20 @@ function Post({ data, url }) {
   return new Promise((resolve, reject) => {
     try {
       console.log(new Date() + ": POST: " + url);
-      axios.post(url,{
-        data,
-      })
+      axios
+        .post(url, {
+          data,
+        })
         .then((res) => {
-          console.log(new Date() + ": Response: OK");
-          console.log(JSON.stringify(res.status))
-          if(res.status==200){
-          resolve(res.data);
-          }
-          else{
-            resolve(red.status)
+          console.log(new Date() + ": Response: " + JSON.stringify(res.status));
+          if (res.status == 200) {
+            resolve(res.data);
+          } else {
+            reject(res.status);
           }
         })
         .catch((err) => {
-          console.log(new Date() + ": " + err);
+          console.log(new Date() + ": ERROR: " + err);
           reject(err);
         });
     } catch (e) {

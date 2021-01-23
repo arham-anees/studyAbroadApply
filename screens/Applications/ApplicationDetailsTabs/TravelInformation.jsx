@@ -15,14 +15,16 @@ const travelDocuments = {
   contactNumberAbroad: "0300-0000000",
 };
 
-var item = {
-  course: "BSc Business Administration & Management",
-  intake: "February 2021",
-  level: "Bachelor's",
-  institute: "Budapest Metropolitan University",
-  country: "Hungary",
-};
+// var item = {
+//   course: "BSc Business Administration & Management",
+//   intake: "February 2021",
+//   level: "Bachelor's",
+//   institute: "Budapest Metropolitan University",
+//   country: "Hungary",
+// };
+
 function TravelInformation(props) {
+  const {item}=props;
   return (
     <View>
       <Block style={styles.block}>
@@ -32,7 +34,7 @@ function TravelInformation(props) {
         <Block style={styles.line}></Block>
         <Block row>
           <TextCustom style={styles.title}>Course</TextCustom>
-          <TextCustom style={styles.info}>{item.course}</TextCustom>
+          <TextCustom style={styles.info}>{item.name}</TextCustom>
         </Block>
 
         <Block row>

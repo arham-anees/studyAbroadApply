@@ -19,16 +19,18 @@ class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",//"faraz@mail.com",
-      password: "",//"123465",
+      username: "faraz@mail.com",
+      password: "123465",
       error: false,
       isSubmitted: false,
       networkError:false
     };
   }
   async CheckStatus() {
+    
+    //this.handleSubmit();
     //return;
-    console.log("SignIn Check Status");
+    //console.log("SignIn Check Status");
     var result =LocalStorage.GetToken();
     //debugger
     //console.log(result);

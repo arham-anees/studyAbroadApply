@@ -30,7 +30,7 @@ function GetApplicationNotes(applicationId) {
       Fetch.Get(url+`?applicationId=${applicationId}`)//call authentication method
         .then((response) => {//if call is successful
           //console.log(response);
-          if (response == null) reject(Messages.FailedLog);//if authentication is failed
+          if (response == null) reject(Messages.RequestFailed);//if authentication is failed
           //else {//if authentication is successful
             //console.log(response);
             //LocalStorage.SetToken(response.data);//store token
@@ -44,11 +44,70 @@ function GetApplicationNotes(applicationId) {
   });
 }
 
+function GetApplicationStatus(applicationId){
+  return new Promise((resolve, reject) => {
+    try {
+      const url = Urls.GetApplicationStatus+"?ApplicationID="+applicationId;
+      Fetch.Post({ url }) //call authentication method
+        .then((response) => {
+          //console.log(response);
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            resolve(response);          
+          }
+        })
+        .catch((err) => reject(err)); //throw error
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
 
+function GetCourse(applicationId){
+  return new Promise((resolve, reject) => {
+    try {
+      const url = Urls.GetAppCompIds+"?applicationId="+applicationId;
+      Fetch.Post({ url }) //call authentication method
+        .then((response) => {
+          //console.log(response);
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            resolve(response);          
+          }
+        })
+        .catch((err) => reject(err)); //throw error
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+
+function GetProfileData(profileId){
+  return new Promise((resolve, reject) => {
+    try {
+      const url = Urls.GetProfile+"?profileId="+profileId;
+      Fetch.Post({ url }) //call authentication method
+        .then((response) => {
+          //console.log(response);
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            resolve(response);          
+          }
+        })
+        .catch((err) => reject(err)); //throw error
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
 
 const ApplicationService={
     BrowseApplications,
-    GetApplicationNotes
+    GetApplicationNotes,
+    GetApplicationStatus,
+    GetCourse,
+    GetProfileData
 }
 
 export default ApplicationService;

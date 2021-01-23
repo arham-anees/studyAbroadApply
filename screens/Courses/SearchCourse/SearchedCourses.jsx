@@ -23,7 +23,7 @@ class SearchedCourses extends React.Component {
 
   componentDidMount() {
     const { country, course, institute, advanced } = this.props.route.params;
-    console.log(country, course, institute);
+    //console.log(country, course, institute);
     //if (advanced) {
     //} else {
     CourseService.SearchCourse(country, course, institute)

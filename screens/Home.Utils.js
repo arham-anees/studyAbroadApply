@@ -35,7 +35,7 @@ function MapLineChartData(data){
         //   data.IndexWithData_NewApplication_Data2[i][1],
       });
     }
-    console.log("bar chart data: ",lineChartData);
+    //console.log("bar chart data: ",lineChartData);
     return lineChartData;
 }
 

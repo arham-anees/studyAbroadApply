@@ -75,8 +75,9 @@ class Applications extends React.Component {
   };
   MapApplicationData(data){
     try{
+      if(!data || data.length==0)return null;
     var resultData = [];
-    console.log("purifying browse application data");
+    //console.log("purifying browse application data");
     data.forEach((x) => {
       resultData.push({
         id:x.ApplicationID,
@@ -120,8 +121,10 @@ class Applications extends React.Component {
         .then((response) => {
           let result = this.MapApplicationData(response);
           //debugger
+          if(result!=null){
           LocalStorage.SetAppList(result);
           if(result!=this.state.appList)this.setState({appList:result});
+          }
         })
         .catch((err) => console.log(err));
   }

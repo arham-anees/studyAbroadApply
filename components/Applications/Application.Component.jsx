@@ -12,7 +12,7 @@ function ApplicationItem({ props }) {
   //console.log(props);
   let statusBackground = GlobalStyle.STATUSBACKGROUND[item.statusId - 1];
   return (
-    <TouchableOpacity onPress={() => navigation.navigate("ApplicationDetails",{appId:item.id})}>
+    <TouchableOpacity onPress={() => navigation.push("ApplicationDetails",{appId:item.id})}>
       <View
         title={(props.index + 1).toString()}
         titleColor="white"
