@@ -1,21 +1,84 @@
 import { Block, Button, Input, Text, theme } from "galio-framework";
 import React from "react";
-import { Picker } from "react-native";
+import { Alert, Picker } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
 import DocumentItem from "../../../components/Applications/DocumentItem";
 import GlobalStyle from "../../../GlobalStyles";
+import ApplicationService from "../../../services/ApplicationService";
 
 
-function OffersTab(props) {
-  const {offers}=props.application;
-const {deleteOffer}=props;
-  return (
+class OffersTab extends React.Component{
+constructor(props){
+  super(props);
+  this.state={
+    offers:[]
+  }
+}
+
+componentDidMount() {
+  let appId = this.props.applicationId;
+  if (appId > 0) {
+    ApplicationService.GetOffers(appId)
+      .then((x) => {
+        console.log("offers: ",x);
+        this.setState({offers:this.mapItems(x)});
+      })
+      .catch((err) => console.log(err));
+  }
+}
+
+
+mapItems=(data)=>{
+  try{
+    let mappedData=[];
+    data.forEach(x=>{
+      mappedData.push({
+        name:x.FileName,
+        category:x.DocumentCategoryName,
+        date:x.CreationDate,
+        id:x.DocumentID
+      })
+    });
+    return mappedData;
+
+  }
+  catch(err){
+    console.log(err);
+  }
+  return [];
+}
+deleteOffer = (id, callback) => {
+  Alert.alert(
+    "Confirm Delete",
+    "Are you sure you want to continue?",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => {
+          let offers = this.state.offers;
+          callback();
+          setTimeout(() => {
+            offers = offers.filter((x) => x.id != id);
+            this.setState({ offers });
+          }, 1000);
+        },
+      },
+    ],
+    { cancelable: false }
+  );
+};
+render=()=> (
     <View>
         <Text style={{fontSize:GlobalStyle.SIZES.HEADING5}} color="white" center>
           Documents
         </Text>
-        {offers.map((item, index) => (
+        {this.state.offers.map((item, index) => (
           <DocumentItem
             name={item.name}
             number={index + 1}
@@ -23,7 +86,7 @@ const {deleteOffer}=props;
             date={item.date}
             id={item.id}
             key={index}
-            deleteItem={deleteOffer}
+            deleteItem={this.deleteOffer}
           />
         ))}
     </View>

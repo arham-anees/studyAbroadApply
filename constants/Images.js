@@ -10,6 +10,11 @@ const ArgonLogo = require("../assets/imgs/argonlogo.png");
 const iOSLogo = require("../assets/imgs/ios.png");
 const androidLogo = require("../assets/imgs/android.png");
 const Background = require("../assets/imgs/background.png");
+const Add = require("../assets/imgs/add.png");
+const Backward = require("../assets/imgs/backarrow.png");
+const Forward = require("../assets/imgs/forwardarrow.png");
+const SkipToStart = require("../assets/imgs/skiptostart.png");
+const SkipToEnd = require("../assets/imgs/skiptoend.png");
 
 // internet imgs
 
@@ -42,5 +47,10 @@ export default {
   ArgonLogo,
   iOSLogo,
   androidLogo,
-  Background
+  Background,
+  Add,
+  Backward,
+  Forward,
+  SkipToEnd,
+  SkipToStart
 };

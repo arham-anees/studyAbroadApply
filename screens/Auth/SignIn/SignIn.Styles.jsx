@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     shadowOpacity: 0,
     marginBottom: 10,
+    margin:0
   },
   logo: {
     width: width/10*8,

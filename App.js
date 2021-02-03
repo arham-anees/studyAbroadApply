@@ -16,6 +16,11 @@ enableScreens();
 import Screens from "./navigation/Screens";
 import { Images, articles, argonTheme } from "./constants";
 import LocalStorage from "./helper/LocalStorage";
+
+
+//#region SENTRY
+
+
 try{
 Sentry.init({
   dsn: 'https://367ddf64e23f4dfa9a654f873eb6aa36@o478857.ingest.sentry.io/5522026',
@@ -29,7 +34,12 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 }catch{}
-//set interceptors
+
+
+//#endregion
+
+
+//#region set interceptors
 axios.interceptors.request.use(async config=>{
   const token=await LocalStorage.GetToken();
   //console.log("Interceptor Request: Token: "+token);
@@ -39,6 +49,8 @@ axios.interceptors.request.use(async config=>{
   //console.log("Request: Headers:"+JSON.stringify(config));
   return config;
 },err=>Promise.reject(err));
+//#endregion
+
 // cache app images
 const assetImages = [
   Images.Onboarding,

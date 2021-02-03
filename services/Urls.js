@@ -7,6 +7,13 @@ const Urls = {
   GetApplicationStatus:basicUrl+"application/PopulateApplicationStatus",
   GetAppCompIds:basicUrl+"application/course",
   GetProfile:basicUrl+"Application/PopulateProfile",
+  GetDocs:basicUrl+"Application/PopulateApplicationDocument",
+  GetCountriesList:basicUrl+"Application/GetCountryList",
+  GetCoursesList:basicUrl+"Application/GetCourseList",
+  GetCourseDisciplineList:basicUrl+"Application/GetCourseDisciplineList",
+  GetInstituteList:basicUrl+"Application/GetInstituteList",
+  GetLevelList:basicUrl+"Application/GetLevelList",
+  GetIntakeList:basicUrl+"Application/GetIntakesList",
 };
 
 export default Urls;

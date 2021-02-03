@@ -6,16 +6,18 @@ import { argonTheme } from '../constants';
 import Icons from '../constants/Icons';
 import Theme from '../constants/Theme';
 
-const CustomIconImage=(props)=>{
-  return  <Image
-  resizeMode="contain"
-  style={{
-    height: Theme.ICONS.DEFAULT.WIDTH,
-    width: Theme.ICONS.DEFAULT.HEIGHT,
-  }}
-  {...props}
-/>
-}
+const CustomIconImage = (props) => {
+  return (
+    <Image
+      resizeMode="contain"
+      style={{
+        height: Theme.ICONS.DEFAULT.WIDTH,
+        width: Theme.ICONS.DEFAULT.HEIGHT,
+      }}
+      {...props}
+    />
+  );
+};
 const CustomIcon = (props) => {
     const onPress=props.onPress;
     return (

@@ -1,7 +1,6 @@
-import { Block, Button, Checkbox, Input, Text, theme } from "galio-framework";
-import React, { useState } from "react";
-import { Picker } from "react-native";
-import { Dimensions } from "react-native";
+import { Block, Button, Input, Text, theme } from "galio-framework";
+import React from "react";
+import {  CheckBox, Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
 import DropDown from "../../../components/DropDown";
 import Icons from "../../../constants/Icons";
@@ -54,9 +53,6 @@ function Note({ sender, note, date }) {
 
 
 class NoticeBoardTab extends React.Component {
-  // const [openNewNote, setOpenNewNote] = useState(false);
-  // const [newNote, setNewNote] = useState("");
-  // const [notes, setNotes]=useState([]);
 constructor(props){
   super(props);
   this.state={
@@ -67,7 +63,8 @@ constructor(props){
     notes:[],
     followUps:[],
     openNewNote:false,
-    newNote:""
+    newNote:"",
+    visibleToStudent:true
   }
 }
 
@@ -146,6 +143,10 @@ addNote=()=>{}
   showDatepicker = () => {
     this.showMode("date");
   };
+
+  handleCheckValChange=()=>{
+    this.setState({visibleToStudent:!this.state.visibleToStudent})
+  }
   render(){
   return (
     <KeyboardAvoidingView>
@@ -163,7 +164,14 @@ addNote=()=>{}
               onChange={this.updateStatus}
             />
             <Block center>
-              <Button style={styles.updateStatusBtn} onPress={this.handleUpdateStatusPress} disable color={"#a0a0a0"}>Update Status</Button>
+              <Button
+                style={styles.updateStatusBtn}
+                onPress={this.handleUpdateStatusPress}
+                disable
+                color={"#a0a0a0"}
+              >
+                Update Status
+              </Button>
             </Block>
           </Block>
         </Block>
@@ -186,7 +194,12 @@ addNote=()=>{}
                 onChange={this.onChange}
               />
             )}
-            <Button style={styles.updateStatusBtn} onPress={this.showDatepicker} disable color={"#a0a0a0"}>
+            <Button
+              style={styles.updateStatusBtn}
+              onPress={this.showDatepicker}
+              disable
+              color={"#a0a0a0"}
+            >
               Add Next Follow Up Date
             </Button>
           </Block>
@@ -194,26 +207,45 @@ addNote=()=>{}
         <Block style={GlobalStyle.block}>
           <Text style={GlobalStyle.blockTitle}>Application Notes</Text>
           <Block>
-            {this.state.notes.length>0?this.state.notes.map((x, index) => (
-              <Note key={index} sender={x.sender} note={x.note} date={x.date} />
-            )):<TextCustom>Sorry, no notes found for this application</TextCustom>}
+            {this.state.notes.length > 0 ? (
+              this.state.notes.map((x, index) => (
+                <Note
+                  key={index}
+                  sender={x.sender}
+                  note={x.note}
+                  date={x.date}
+                />
+              ))
+            ) : (
+              <TextCustom>
+                Sorry, no notes found for this application
+              </TextCustom>
+            )}
           </Block>
           {this.state.openNewNote ? (
             <Block>
-              <Checkbox
-                color="white"
-                label="Is visible to students"
-                icon
-                iconColor="black"
-                labelStyle={{ color: "white" }}
-              />
+              <Block row style={{alignItems:"center"}}>
+                <View
+                  style={{ backgroundColor: "#fff", margin: 0, padding: 0, borderRadius:5, marginRight:5 }}
+                >
+                  <CheckBox
+                    color="white"
+                    label=""
+                    iconColor="black"
+                    onValueChange={this.handleCheckValChange}
+                    value={this.state.visibleToStudent}
+                    style={{ margin: 0, padding: 0 }}
+                  />
+                </View>
+                <TextCustom>Is visible to students</TextCustom>
+                </Block>
               <Block row middle space="between">
                 <Block flex>
                   <Input
                     placeholder={"Note"}
                     value={this.state.newNote}
                     color={"black"}
-                    onChangeText={(text) => this.setState({newNote:text})}
+                    onChangeText={(text) => this.setState({ newNote: text })}
                   />
                 </Block>
                 <Block style={styles.iconBlock} middle disabled={true}>
@@ -225,8 +257,16 @@ addNote=()=>{}
               </Block>
             </Block>
           ) : (
-            <Block center >
-              <Button  style={styles.updateStatusBtn} onPress={() => this.setState({openNewNote:true})} >Add Note</Button>
+            <Block center>
+              <Button
+                style={styles.updateStatusBtn}
+                onPress={() => this.setState({ openNewNote: true })}
+                
+              disable
+              color={"#a0a0a0"}
+              >
+                Add Note
+              </Button>
             </Block>
           )}
         </Block>

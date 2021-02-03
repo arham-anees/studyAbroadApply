@@ -3,11 +3,19 @@ import { AsyncStorage } from "react-native";
 const LocalName={
     user:"@user",
     token:"@authToken",
-    appList:"@applicattionsList"
+    appList:"@applicattionsList",
+    appListFirstList:"@applicattionsListFirstList"
 }
 
 function SetAppList(list) {
-  _Set(LocalName.appList,JSON.stringify(list));
+  try {
+    let firstPageApps = [];
+    list.slice([0], [10]).map((item, i) => {
+      firstPageApps.push(item);
+    });
+    SetAppFirstPage(firstPageApps);
+  } catch {}
+  _Set(LocalName.appList, JSON.stringify(list));
 }
 function GetAppList() {
     try{
@@ -17,6 +25,19 @@ function GetAppList() {
         return [];
     }
 }
+
+
+function SetAppFirstPage(list) {
+    _Set(LocalName.appListFirstList,JSON.stringify(list));
+  }
+  function GetAppFirstPage() {
+      try{
+    return _Get(LocalName.appListFirstList);
+      }catch(err){
+          var temp=_Get(LocalName.appList);
+          return [];
+      }
+  }
 
 function SetUser(value){
     _Set(LocalName.user, value);
@@ -67,6 +88,8 @@ const LocalStorage={
     GetToken,
     ClearToken,
     GetAppList,
-    SetAppList
+    SetAppList,
+    GetAppFirstPage,
+    SetAppFirstPage
 }
 export default LocalStorage;

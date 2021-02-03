@@ -8,6 +8,7 @@ import Icons from "../constants/Icons";
 import CustomIcon from "../Icons/BellIcon";
 import Theme from "../constants/Theme";
 import LocalStorage from "../helper/LocalStorage";
+import { CommonActions } from "@react-navigation/native";
 
 class DrawerItem extends React.Component {
   renderIcon = () => {
@@ -47,7 +48,13 @@ class DrawerItem extends React.Component {
 
   SignOut=(navigation)=>{
     LocalStorage.ClearToken();
-    navigation.navigate("SignIn");
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: "Auth" }]
+      }));
+//debugger
+    //navigation.push("SignIn");
   }
 
   render() {

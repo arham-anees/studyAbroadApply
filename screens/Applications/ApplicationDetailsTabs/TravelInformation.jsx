@@ -8,11 +8,11 @@ import TextCustom from '../../../components/TextCustom';
 const {width}=Dimensions.get("screen");
 
 const travelDocuments = {
-  arrivalTime: "10:20 PM",
-  arrivalDate: "10/10/2020",
-  flightNumber: "123asd",
+  arrivalTime: "-",
+  arrivalDate: "-",
+  flightNumber: "-",
   proposedAccomodation: "-",
-  contactNumberAbroad: "0300-0000000",
+  contactNumberAbroad: "-",
 };
 
 // var item = {

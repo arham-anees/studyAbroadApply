@@ -101,13 +101,40 @@ function GetProfileData(profileId){
     }
   });
 }
+function _GetDocuments(applicationId, type){
+  return new Promise((resolve, reject) => {
+    try {
+      const url = Urls.GetDocs+"?type="+type+"&applicationId="+applicationId;
+      Fetch.Post({ url }) 
+        .then((response) => {
+          //console.log(response);
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            resolve(response);          
+          }
+        })
+        .catch((err) => reject(err)); //throw error
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+ function GetDocuments(applicationId){
+   return _GetDocuments(applicationId, 1);
+ }
+ function GetOffers(applicationId){
+   return _GetDocuments(applicationId, 2);
+ }
+
 
 const ApplicationService={
     BrowseApplications,
     GetApplicationNotes,
     GetApplicationStatus,
     GetCourse,
-    GetProfileData
+    GetProfileData,
+    GetDocuments,
+    GetOffers
 }
 
 export default ApplicationService;
