@@ -6,6 +6,7 @@ const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   btn: {
     width: "100%",
+    margin:0
   },
   input: {
     width: width - 110,

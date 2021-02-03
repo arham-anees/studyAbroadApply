@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { Picker, StyleSheet } from "react-native";
 import GlobalStyle from "../GlobalStyles";
 
-function DropDown({label,list, onChange,selectedValue, textColor}) {
+function DropDown({label,list, onChange,selectedValue, textColor,disabled}) {
   // console.log(props.list)
  
   if(!selectedValue)selectedValue=list[0];
@@ -16,6 +16,7 @@ function DropDown({label,list, onChange,selectedValue, textColor}) {
           mode={"dropdown"}
           onValueChange={onChange}
           selectedValue={selectedValue}
+          enabled={!disabled}
         >
           {list
             ? list.map((item, index) => (

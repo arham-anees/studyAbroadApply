@@ -209,6 +209,8 @@ class ProfileTab extends React.Component {
           <Button
             style={styles.btnUpdate}
             onPress={this.handleUpdateProfilePress}
+            disable
+            color={"#a0a0a0"}
           >
             Update
           </Button>
@@ -231,6 +233,7 @@ export default ProfileTab;
 
 const styles = StyleSheet.create({
   btnUpdate: {
-    width:"100%"
+    width:"100%",
+    margin:0
   },
 });

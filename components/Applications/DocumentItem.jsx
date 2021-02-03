@@ -10,7 +10,9 @@ import { Animated } from "react-native";
 
 const { width } = Dimensions.get("screen");
 const itemWidth=120;
+
 function DocumentItem(props) {
+  const {id,number, name, category, date}=props;
   const fadeAnim = useRef(new Animated.Value(itemWidth)).current;
   const fadeOut = () => {
     Animated.timing(fadeAnim, {
@@ -23,16 +25,15 @@ function DocumentItem(props) {
     duration: 0
   }).start();
   const {deleteItem}=props;
-  const {id,number, name, category, date}=props;
   return (
     <Animated.View style={{ height: fadeAnim, overflow:"hidden"}}>
       <View style={GlobalStyle.block}>
       <Block row >
         <TextCustom style={{fontWeight:"bold"}}>{number}. </TextCustom>
-        <TextCustom style={{fontWeight:"bold"}}>{name.toUpperCase()}</TextCustom>
+        <TextCustom style={{fontWeight:"bold"}}>{category.toUpperCase()}</TextCustom>
       </Block>
       <Block row space="between" margin={5}>
-        <TextCustom>{category}</TextCustom>
+        <TextCustom style={{maxWidth:"80%"}}>{name.slice(0,30).toLowerCase()}{name.length>30?"...":""}</TextCustom>
         <TextCustom>{date}</TextCustom>
       </Block>
       <Block row space="around" style={{borderTopWidth:0.5, paddingTop:10}}>

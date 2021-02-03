@@ -289,9 +289,7 @@ export default function AppStack(props) {
       <Drawer.Screen name="Courses" component={CourseStack} />
       <Drawer.Screen name="Profile" component={ProfileStack} />
       <Drawer.Screen name="Account" component={Register} />
-      <Drawer.Screen name="Notifications" component={NotificationStack} options={{
-      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-    }}/>
+      <Drawer.Screen name="Notifications" component={NotificationStack} options={{cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS}}/>
       <Drawer.Screen name="Auth" component={AuthStack} />
     </Drawer.Navigator>
   );

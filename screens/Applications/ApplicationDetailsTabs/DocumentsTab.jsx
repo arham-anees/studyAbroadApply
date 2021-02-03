@@ -1,12 +1,14 @@
 import { Block, Button, Input, Text, theme } from "galio-framework";
 import React, { useEffect, useRef, useState } from "react";
-import { Picker } from "react-native";
+import { Alert, Picker } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
 import DocumentItem from "../../../components/Applications/DocumentItem";
 import * as DocumentPicker from "expo-document-picker";
 import GlobalStyle from "../../../GlobalStyles";
 import { ScrollView } from "react-native";
+import TextCustom from "../../../components/TextCustom";
+import ApplicationService from "../../../services/ApplicationService";
 
 const { width } = Dimensions.get("screen");
 
@@ -17,45 +19,117 @@ const documentTypes = [
   { value: 4, name: "Bachelors Degree / Transcript" },
 ];
 
-function DocumentsTab (props) {
-  const [file, setFile]=useState(null);
-const {documents}=props.application;
+class DocumentsTab extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      file: null,
+      documents: [],
+      applicationId: 0,
+    };
+  }
 
-const {deleteDocument}=props;
-  const pickDocumentHandle = () => {
+  componentDidMount() {
+    let appId = this.props.applicationId;
+    if (appId > 0) {
+      ApplicationService.GetDocuments(appId)
+        .then((x) => {
+          console.log("Documents: ",x);
+          this.setState({documents:this.mapItens(x)});
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+
+mapItens=(data)=>{
+  try{
+    let mappedData=[];
+    data.forEach(x=>{
+      mappedData.push({
+        name:x.FileName,
+        category:x.DocumentCategoryName,
+        date:x.CreationDate,
+        id:x.DocumentID
+      })
+    });
+    return mappedData;
+
+  }
+  catch(err){
+    console.log(err);
+  }
+  return [];
+}
+
+  deleteDocument = (id, callback) => {
+    Alert.alert(
+      "Confirm Delete",
+      "Are you sure you want to continue?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            let documents = this.state.documents;
+            callback();
+            setTimeout(() => {
+              documents = documents.filter((x) => x.id != id);
+              this.setState({ documents });
+            }, 1000);
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+  pickDocumentHandle = () => {
     DocumentPicker.getDocumentAsync({
       type: "*/*",
       copyToCacheDirectory: false,
     })
       .then((result) => {
         if (result.type === "success") {
-          this.setState({ file: result, file: result.name });
+          this.setState({ file: result, filename: result.name });
         } else {
           this.refs.toast.show("hello world");
         }
       })
       .catch((er) => console.log(er));
   };
-  return (
-    <View>
-      
-        <Text style={{fontSize:GlobalStyle.SIZES.HEADING5}} color="white" center>
+  render() {
+    return (
+      <View>
+        <Text
+          style={{ fontSize: GlobalStyle.SIZES.HEADING5 }}
+          color="white"
+          center
+        >
           Documents
         </Text>
-        {documents.map((item, index) => (
-          <DocumentItem
-            name={item.name}
-            number={index + 1}
-            category={item.category}
-            date={item.date}
-            id={item.id}
-            key={index}
-            deleteItem={deleteDocument}
-          />
-        ))}
-    
-    </View>
-  );
+        {this.state.documents.length > 0 ? (
+          this.state.documents.map((item, index) => (
+            <DocumentItem
+              name={item.name}
+              number={index + 1}
+              category={item.category}
+              date={item.date}
+              id={item.id}
+              key={index}
+              deleteItem={this.deleteDocument}
+            />
+          ))
+        ) : (
+          <View>
+            <TextCustom>No document found</TextCustom>
+          </View>
+        )}
+      </View>
+    );
+  }
 }
 
 export default DocumentsTab;
