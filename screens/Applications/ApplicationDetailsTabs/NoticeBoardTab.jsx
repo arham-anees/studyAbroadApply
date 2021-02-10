@@ -106,6 +106,7 @@ mapNotes=(data)=>{
     return mappedData;
   }
   catch(err){
+    console.log("Error in mapping data",err);
     return [];
   }
 }
@@ -128,7 +129,6 @@ componentDidMount() {
 
   ApplicationService.GetApplicationStatus(applicationId)
   .then(x=>{
-    console.log(x)
     this.setState({statusName:x.ResponseMessage, statusId:x.ResponseID, isStatusUpdating:false})
   })
   .catch(err=>{
@@ -136,7 +136,7 @@ componentDidMount() {
     console.log(err);
   });
 
-  this.loadNotes();
+  this.loadNotes(applicationId);
 }
 
 handleUpdateStatusPress=()=>{
@@ -151,7 +151,7 @@ handleUpdateStatusPress=()=>{
         this.setState({isStatusUpdating:true});
         ApplicationService.UpdateApplicationStatus(this.state.statusId,this.state.applicationId)
           .then(x=>{
-            console.log(x);
+            //console.log(x);
             this.setState({statusName:x.ResponseMessage, statusId:x.ResponseID, isStatusUpdating:false})
           })
           .catch(e=>{
@@ -164,7 +164,7 @@ handleUpdateStatusPress=()=>{
 }
 
 _MapAppStatus=(data)=>{
- console.log(data);
+ //console.log(data);
  let mappedData=[];
  data.forEach(x=>{
    mappedData.push({
@@ -177,15 +177,6 @@ _MapAppStatus=(data)=>{
 updateStatus=()=>{}
 addFollowUp=()=>{}
 addNote=()=>{}
-
-
-  loadNotes=() => {
-    try {
-     
-    } catch (err) {
-      console.log(err);
-    }
-  };
   onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     this.setState({show:Platform.OS === "ios"})
@@ -193,8 +184,9 @@ addNote=()=>{}
     this.addFollowUp(selectedDate);
   };
 
-loadNotes=()=>{
-  ApplicationService.GetApplicationNotes(this.state.applicationId)
+loadNotes=(applicationId)=>{
+  if(!applicationId)applicationId=this.state.applicationId;
+  ApplicationService.GetApplicationNotes(applicationId)
   .then((x) => {
     //console.log("notes: ",JSON.stringify(x));
     var mappedData=this.mapNotes(x);
@@ -213,7 +205,7 @@ loadNotes=()=>{
     this.setState({settingNote:true});
     ApplicationService.SetNewNote(this.state.applicationId.toString(), this.state.newNote, this.state.visibleToStudent.toString())
     .then(x=>{
-      console.log(x);
+      //console.log(x);
       this.setState({newNote:'',visibleToStudent:true,openNewNote:false, settingNote:false })
       this.loadNotes();
     })
