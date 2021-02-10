@@ -1,19 +1,24 @@
 const basicUrl = "http://mobileapi.studyabroadapply.com/";
+const baseAppUrl=basicUrl+"/application/";
 const Urls = {
   Login: basicUrl + "account/Login",
   HomeGraphs:basicUrl +"Home/GetGraphsData",
-  BrowseApplications:basicUrl+"application/browseApplication",
-  GetAppNotes:basicUrl+"application/GetApplicationNotes",
-  GetApplicationStatus:basicUrl+"application/PopulateApplicationStatus",
-  GetAppCompIds:basicUrl+"application/course",
-  GetProfile:basicUrl+"Application/PopulateProfile",
-  GetDocs:basicUrl+"Application/PopulateApplicationDocument",
-  GetCountriesList:basicUrl+"Application/GetCountryList",
-  GetCoursesList:basicUrl+"Application/GetCourseList",
-  GetCourseDisciplineList:basicUrl+"Application/GetCourseDisciplineList",
-  GetInstituteList:basicUrl+"Application/GetInstituteList",
-  GetLevelList:basicUrl+"Application/GetLevelList",
-  GetIntakeList:basicUrl+"Application/GetIntakesList",
+  BrowseApplications:baseAppUrl+"browseApplication",
+  GetAppNotes:baseAppUrl+"GetApplicationNotes",
+  GetApplicationStatus:baseAppUrl+"PopulateApplicationStatus",
+  GetAppCompIds:baseAppUrl+"course",
+  GetProfile:baseAppUrl+"PopulateProfile",
+  GetDocs:baseAppUrl+"PopulateApplicationDocument",
+  GetCountriesList:baseAppUrl+"GetCountryList",
+  GetCoursesList:baseAppUrl+"GetCourseList",
+  GetCourseDisciplineList:baseAppUrl+"GetCourseDisciplineList",
+  GetInstituteList:baseAppUrl+"GetInstituteList",
+  GetLevelList:baseAppUrl+"GetLevelList",
+  GetIntakeList:baseAppUrl+"GetIntakesList",
+  UpdateAppStatus:baseAppUrl+"UpdateApplicationStatus",
+  GetStatusList:baseAppUrl+"getapplicationStatusList",
+  GetTravelInfo:baseAppUrl+"PopulateTravalInformation",
+  SetNote:baseAppUrl+"InsertApplicationNotes"
 };
 
 export default Urls;

@@ -4,83 +4,97 @@ import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
 import GlobalStyle from "../../../GlobalStyles";
 import TextCustom from '../../../components/TextCustom';
+import ApplicationService from "../../../services/ApplicationService";
+import { Rect } from "react-native-svg";
+import Svg from "react-native-svg";
 
 const {width}=Dimensions.get("screen");
 
-const travelDocuments = {
-  arrivalTime: "-",
-  arrivalDate: "-",
-  flightNumber: "-",
-  proposedAccomodation: "-",
-  contactNumberAbroad: "-",
-};
 
-// var item = {
-//   course: "BSc Business Administration & Management",
-//   intake: "February 2021",
-//   level: "Bachelor's",
-//   institute: "Budapest Metropolitan University",
-//   country: "Hungary",
-// };
+class TravelInformation extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      arrivalTime: "-",
+      arrivalDate: "-",
+      flightNumber: "-",
+      proposedAccomodation: "-",
+      contactNumberAbroad: "-",
+      isLoading: true,
+    };
+  }
+  componentDidMount() {
+    const { applicationId } = this.props;
+    ApplicationService.GetTravelInfo(0, applicationId)
+    .then((x) => {
+      this.setState({
+        arrivalTime: x.ArrivalTime == null ? "-" : x.ArrivalTime,
+        arrivalDate: x.ArrivalDate == null ? "-" : x.ArrivalDate,
+        flightNumber: x.FlightNumber == null ? "-" : x.FlightNumber,
+        proposedAccomodation:
+          x.ProposedAccommodation == null ? "-" : x.ProposedAccommodation,
+        contactNumberAbroad: x.AbroadContact == null ? "-" : x.AbroadContact,
+        isLoading: false,
+      });
+    })
+    .catch(err=>{});
+  }
 
-function TravelInformation(props) {
-  const {item}=props;
-  return (
+  render = () => (
     <View>
-      <Block style={styles.block}>
-        <Text color={GlobalStyle.color.textLight} center h5>
-          Course
-        </Text>
-        <Block style={styles.line}></Block>
-        <Block row>
-          <TextCustom style={styles.title}>Course</TextCustom>
-          <TextCustom style={styles.info}>{item.name}</TextCustom>
-        </Block>
-
-        <Block row>
-          <TextCustom style={styles.title}>Intake</TextCustom>
-          <TextCustom style={styles.info}>{item.intake}</TextCustom>
-        </Block>
-        <Block row>
-          <TextCustom style={styles.title}>Level</TextCustom>
-          <TextCustom style={styles.info}>{item.level}</TextCustom>
-        </Block>
-        <Block row>
-          <TextCustom style={styles.title}>Institute</TextCustom>
-          <TextCustom style={styles.info}>{item.institute}</TextCustom>
-        </Block>
-        <Block row>
-          <TextCustom style={styles.title}>Country</TextCustom>
-          <TextCustom style={styles.info}>{item.country}</TextCustom>
-        </Block>
-      </Block>
       <Block style={styles.block}>
         <TextCustom color={GlobalStyle.color.textLight} center h5>
           Travel Information
         </TextCustom>
         <Block style={styles.line}></Block>
-        <Block row>
-          <TextCustom style={styles.title}>Arrival Date</TextCustom>
-          <TextCustom  style={styles.info}>{travelDocuments.arrivalDate}</TextCustom>
-        </Block>
-        <Block row>
-          <TextCustom style={styles.title}>Arrival Time</TextCustom>
-          <TextCustom style={styles.info}>{travelDocuments.arrivalTime}</TextCustom>
-        </Block>
-        <Block row>
-          <TextCustom style={styles.title}>Flight Number</TextCustom>
-          <TextCustom style={styles.info}>{travelDocuments.flightNumber}</TextCustom>
-        </Block>
-        <Block row>
-          <TextCustom style={styles.title}>Proposed Accomodation</TextCustom>
-          <TextCustom style={styles.info}>
-            {travelDocuments.proposedAccomodation}
-          </TextCustom>
-        </Block>
-        <Block row>
-          <TextCustom style={styles.title}>Contact Number Abroad</TextCustom>
-          <TextCustom style={styles.info}>{travelDocuments.contactNumberAbroad}</TextCustom>
-        </Block>
+        {this.state.isLoading ? (
+          <Block>
+            <Svg height={130} width="100%" fill={"grey"}>
+              <Rect x="0" y="0" rx="4" ry="4" width="100%" height="20" />
+              <Rect x="0" y="24" rx="4" ry="4" width="100%" height="20" />
+              <Rect x="0" y="48" rx="4" ry="4" width="100%" height="20" />
+              <Rect x="0" y="72" rx="4" ry="4" width="100%" height="20" />
+              <Rect x="0" y="96" rx="4" ry="4" width="100%" height="20" />
+            </Svg>
+          </Block>
+        ) : (
+          <Block>
+            <Block row>
+              <TextCustom style={styles.title}>Arrival Date</TextCustom>
+              <TextCustom style={styles.info}>
+                {this.state.arrivalDate}
+              </TextCustom>
+            </Block>
+            <Block row>
+              <TextCustom style={styles.title}>Arrival Time</TextCustom>
+              <TextCustom style={styles.info}>
+                {this.state.arrivalTime}
+              </TextCustom>
+            </Block>
+            <Block row>
+              <TextCustom style={styles.title}>Flight Number</TextCustom>
+              <TextCustom style={styles.info}>
+                {this.state.flightNumber}
+              </TextCustom>
+            </Block>
+            <Block row>
+              <TextCustom style={styles.title}>
+                Proposed Accomodation
+              </TextCustom>
+              <TextCustom style={styles.info}>
+                {this.state.proposedAccomodation}
+              </TextCustom>
+            </Block>
+            <Block row>
+              <TextCustom style={styles.title}>
+                Contact Number Abroad
+              </TextCustom>
+              <TextCustom style={styles.info}>
+                {this.state.contactNumberAbroad}
+              </TextCustom>
+            </Block>
+          </Block>
+        )}
       </Block>
     </View>
   );

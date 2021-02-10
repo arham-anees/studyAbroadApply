@@ -20,6 +20,7 @@ import LocalStorage from '../helper/LocalStorage';
         })
         .catch((err) => {
           console.log("ERROR: "+err);
+          console.log(url);
           reject(err)});
 
     } catch (e) {
@@ -32,9 +33,7 @@ function Post({ data, url }) {
     try {
       console.log(new Date() + ": POST: " + url);
       axios
-        .post(url, {
-          data,
-        })
+        .post(url,data)
         .then((res) => {
           console.log(new Date() + ": Response: " + JSON.stringify(res.status));
           if (res.status == 200) {
@@ -45,6 +44,7 @@ function Post({ data, url }) {
         })
         .catch((err) => {
           console.log(new Date() + ": ERROR: " + err);
+          console.log(url);
           reject(err);
         });
     } catch (e) {

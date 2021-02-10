@@ -81,7 +81,81 @@ function GetCourse(applicationId){
     }
   });
 }
+function GetTravelInfo(statusId, applicationId){
+  return new Promise((resolve, reject) => {
+    try {
+      const url = Urls.GetTravelInfo + "?statusId=" + statusId + "&applicationId=" + applicationId;
+      Fetch.Post({ url }) //call authentication method
+        .then((response) => {
+          //console.log(response);
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            resolve(response);          
+          }
+        })
+        .catch((err) => reject(err)); //throw error
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
 
+
+function UpdateApplicationStatus(statusId, applicationId){
+  return new Promise((resolve, reject) => {
+    try {
+      const url = Urls.UpdateAppStatus + "?statusId=" + statusId + "&applicationId=" + applicationId;
+      Fetch.Post({ url }) //call authentication method
+        .then((response) => {
+          //console.log(response);
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            resolve(response);          
+          }
+        })
+        .catch((err) => reject(err)); //throw error
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+function SetNewNote(applicationId, message, isVisibleToStudents){
+    return new Promise((resolve, reject) => {
+    try {
+      const url = Urls.SetNote;// + "?statusId=" + statusId + "&applicationId=" + applicationId;
+      Fetch.Post({ url,data:{"ApplicationID":applicationId,"Message":message, "IsVisibleToStudents":isVisibleToStudents }}) //call authentication method
+        .then((response) => {
+          //console.log(response);
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            resolve(response);          
+          }
+        })
+        .catch((err) => reject(err)); //throw error
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+function GetStatusList(){
+  return new Promise((resolve, reject) => {
+    try {
+      const url = Urls.GetStatusList;
+      Fetch.Get( url) 
+        .then((response) => {
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            resolve(response);          
+          }
+        })
+        .catch((err) => reject(err)); //throw error
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
 
 function GetProfileData(profileId){
   return new Promise((resolve, reject) => {
@@ -119,6 +193,7 @@ function _GetDocuments(applicationId, type){
     }
   });
 }
+
  function GetDocuments(applicationId){
    return _GetDocuments(applicationId, 1);
  }
@@ -134,7 +209,11 @@ const ApplicationService={
     GetCourse,
     GetProfileData,
     GetDocuments,
-    GetOffers
+    GetOffers,
+    UpdateApplicationStatus,
+    GetStatusList,
+    GetTravelInfo,
+    SetNewNote
 }
 
 export default ApplicationService;

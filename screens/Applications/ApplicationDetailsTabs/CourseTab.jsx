@@ -6,6 +6,8 @@ import { StyleSheet, View } from "react-native";
 import { Input } from "../../../components";
 import DropDown from "../../../components/DropDown";
 import SelectCountry from "../../../components/SelectCountry";
+import TextCustom from "../../../components/TextCustom";
+import GlobalStyle from "../../../GlobalStyles";
 
 const { width } = Dimensions.get("screen");
 const countries = [
@@ -60,35 +62,37 @@ var item = {
 };
 function CourseTab(props) {
   const [openApplyForm, setApplyForm] = useState(false);
+  const {item}=props;
   return (
     <View>
-      <Block style={styles.block}>
-        <Text color="white" center style={{fontSize:GlobalStyle.SIZES.HEADING5}}>
+       <Block style={styles.block}>
+        <Text color={GlobalStyle.color.textLight} center h5>
           Course
         </Text>
+        <Block style={styles.line}></Block>
         <Block row>
-          <Text style={styles.title}>COURSE</Text>
-          <Text style={styles.info}>{item.course}</Text>
+          <TextCustom style={styles.title}>Course</TextCustom>
+          <TextCustom style={styles.info}>{item.name}</TextCustom>
         </Block>
 
         <Block row>
-          <Text style={styles.title}>INTAKE</Text>
-          <Text style={styles.info}>{item.intake}</Text>
+          <TextCustom style={styles.title}>Intake</TextCustom>
+          <TextCustom style={styles.info}>{item.intake}</TextCustom>
         </Block>
         <Block row>
-          <Text style={styles.title}>LEVEL</Text>
-          <Text style={styles.info}>{item.level}</Text>
+          <TextCustom style={styles.title}>Level</TextCustom>
+          <TextCustom style={styles.info}>{item.level}</TextCustom>
         </Block>
         <Block row>
-          <Text style={styles.title}>INSTITUTE</Text>
-          <Text style={styles.info}>{item.institute}</Text>
+          <TextCustom style={styles.title}>Institute</TextCustom>
+          <TextCustom style={styles.info}>{item.institute}</TextCustom>
         </Block>
         <Block row>
-          <Text style={styles.title}>COUNTRY</Text>
-          <Text style={styles.info}>{item.country}</Text>
+          <TextCustom style={styles.title}>Country</TextCustom>
+          <TextCustom style={styles.info}>{item.country}</TextCustom>
         </Block>
       </Block>
-      {/* {openApplyForm ? (
+     {/* {openApplyForm ? (
         <Block style={styles.block}>
           <Text center h5 color="white">
             Select your course and location to apply
@@ -145,4 +149,9 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 10,
   },
+  line:{
+    height:1,
+    backgroundColor:GlobalStyle.color.textLight,
+    marginBottom:10
+  }
 });

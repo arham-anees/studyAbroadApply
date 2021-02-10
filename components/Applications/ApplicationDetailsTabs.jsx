@@ -8,10 +8,11 @@ import GlobalStyle from "../../GlobalStyles";
 
 const defaultMenu = [
   { id: "noticeBoard", title: "Notice Board" },
+  { id: "course", title: "Course" },
   { id: "profile", title: "Profile" },
   { id: "documents", title: "Documents" },
   { id: "offers", title: "Offers" },
-  { id: "travelInformation", title: "Others" },
+  { id: "travelInformation", title: "Travel Information" },
 ];
 
 class ApplicationDetailsTabs extends React.Component {

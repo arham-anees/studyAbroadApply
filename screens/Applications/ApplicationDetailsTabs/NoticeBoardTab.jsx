@@ -1,6 +1,6 @@
 import { Block, Button, Input, Text, theme } from "galio-framework";
 import React from "react";
-import {  CheckBox, Dimensions } from "react-native";
+import {  Alert, CheckBox, Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
 import DropDown from "../../../components/DropDown";
 import Icons from "../../../constants/Icons";
@@ -10,16 +10,12 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { KeyboardAvoidingView } from "react-native";
 import TextCustom from '../../../components/TextCustom';
 import ApplicationService from "../../../services/ApplicationService";
+import Svg from "react-native-svg";
+import { Rect } from "react-native-svg";
 
 const { height, width } = Dimensions.get("screen");
 
-const applicationStatus = [
-  { name: "Application Status", value: 1 },
-  { name: "Application Sent to Institute", value: 2 },
-  { name: "Application Sent to Student Counsellor", value: 3 },
-  { name: "New Application Application Submitted", value: 4 },
-  { name: "Refund Acknowledged", value: 5 },
-];
+var applicationStatus = [];
 
 function Note({ sender, note, date }) {
   return (
@@ -51,11 +47,34 @@ function Note({ sender, note, date }) {
   );
 }
 
+function NoteSkeleton() {
+  return (
+    <Block>
+    <Block
+      style={{
+        borderWidth: 0.5,
+        padding: 5,
+        borderColor: "#fff",
+        marginBottom: 10,
+        borderRadius: 5,
+      }}
+    >
+      <Svg height={70} width="100%" fill={"grey"}>
+        <Rect x="0" y="0" rx="4" ry="4" width="100%" height="20" />
+        <Rect x="0" y="30" rx="4" ry="4" width="100%" height="40" />
+      </Svg>
+    </Block>
+    </Block>
+  );
+}
+
 
 class NoticeBoardTab extends React.Component {
 constructor(props){
   super(props);
   this.state={
+    applicationId:0,
+    statusId:0,
     data:Date.now(),
     mode:"date",
     show:false,
@@ -64,7 +83,10 @@ constructor(props){
     followUps:[],
     openNewNote:false,
     newNote:"",
-    visibleToStudent:true
+    visibleToStudent:true,
+    isStatusUpdating:true,
+    isLoadingNotes:true,
+    settingNote:false
   }
 }
 
@@ -87,30 +109,71 @@ mapNotes=(data)=>{
     return [];
   }
 }
+
 componentDidMount() {
   let { application } = this.props;
   const { applicationId } = this.props;
 
-  ApplicationService.GetApplicationNotes(applicationId)
-  .then((x) => {
-    //console.log("notes: ",JSON.stringify(x));
-    var mappedData=this.mapNotes(x);
-    this.setState({notes:mappedData});
+  this.setState({applicationId});
+
+
+  ApplicationService.GetStatusList()
+  .then(x=>{
+    this._MapAppStatus(x);
   })
-  .catch((err) => {
-    console.log("ERROR: ",JSON.stringify(err));
+  .catch(err=>{
+    console.log(err);
   });
 
 
   ApplicationService.GetApplicationStatus(applicationId)
   .then(x=>{
-    this.setState({statusName:x.ResponseMessage})
+    console.log(x)
+    this.setState({statusName:x.ResponseMessage, statusId:x.ResponseID, isStatusUpdating:false})
   })
   .catch(err=>{
-    console.log(err)
-  })
+    this.setState({isStatusUpdating:false});
+    console.log(err);
+  });
+
+  this.loadNotes();
 }
-handleUpdateStatusPress=()=>{}
+
+handleUpdateStatusPress=()=>{
+  Alert.alert("Confirm","Are you sure to update application status?",[
+    {
+      text:"Cancel",
+      style:"cancel"
+    },
+    {
+      text:"Update",
+      onPress:()=>{
+        this.setState({isStatusUpdating:true});
+        ApplicationService.UpdateApplicationStatus(this.state.statusId,this.state.applicationId)
+          .then(x=>{
+            console.log(x);
+            this.setState({statusName:x.ResponseMessage, statusId:x.ResponseID, isStatusUpdating:false})
+          })
+          .catch(e=>{
+            this.setState({isStatusUpdating:false});
+            console.log(e);
+          })
+      }
+    }
+  ]);
+}
+
+_MapAppStatus=(data)=>{
+ console.log(data);
+ let mappedData=[];
+ data.forEach(x=>{
+   mappedData.push({
+     name:x.Value,
+     value:x.Key
+   });
+ })
+ applicationStatus=mappedData;
+}
 updateStatus=()=>{}
 addFollowUp=()=>{}
 addNote=()=>{}
@@ -130,10 +193,37 @@ addNote=()=>{}
     this.addFollowUp(selectedDate);
   };
 
+loadNotes=()=>{
+  ApplicationService.GetApplicationNotes(this.state.applicationId)
+  .then((x) => {
+    //console.log("notes: ",JSON.stringify(x));
+    var mappedData=this.mapNotes(x);
+    this.setState({notes:mappedData, isLoadingNotes:false});
+  })
+  .catch((err) => {
+    this.setState({isLoadingNotes:false,notes:[]})
+    console.log("ERROR: ",JSON.stringify(err));
+  });
+}
+
   handleAddNotePress = () => {
+    if(this.state.settingNote)return;
     if(this.state.newNote=="")return;
-    this.addNote({ sender: "test", note: newNote });
-    this.setState({openNewNote:false, newNote:""});
+    // this.addNote({ sender: "test", note: newNote });
+    this.setState({settingNote:true});
+    ApplicationService.SetNewNote(this.state.applicationId.toString(), this.state.newNote, this.state.visibleToStudent.toString())
+    .then(x=>{
+      console.log(x);
+      this.setState({newNote:'',visibleToStudent:true,openNewNote:false, settingNote:false })
+      this.loadNotes();
+    })
+    .catch(err=>{
+      this.setState({settingNote:false})
+      Alert.alert("Operation Failed","Failed to save note. Please try again later.",[{
+        text:"OK",
+        style:"cancel"
+      }])
+    })
   };
 
   showMode = (currentMode) => {
@@ -147,6 +237,11 @@ addNote=()=>{}
   handleCheckValChange=()=>{
     this.setState({visibleToStudent:!this.state.visibleToStudent})
   }
+
+  updateStatus=(val)=>{
+    this.setState({statusId:val})
+  }
+
   render(){
   return (
     <KeyboardAvoidingView>
@@ -160,15 +255,18 @@ addNote=()=>{}
             <DropDown
               list={applicationStatus}
               label={"Application Status"}
-              selectedValue={0}
+              selectedValue={this.state.statusId}
               onChange={this.updateStatus}
+              disabled={applicationStatus.length===0}
             />
             <Block center>
               <Button
                 style={styles.updateStatusBtn}
                 onPress={this.handleUpdateStatusPress}
-                disable
-                color={"#a0a0a0"}
+                // disable
+                // color={"#a0a0a0"}
+                loading={this.state.isStatusUpdating ? true : false}
+                disabled={this.state.isStatusUpdating ? true : false}
               >
                 Update Status
               </Button>
@@ -207,7 +305,14 @@ addNote=()=>{}
         <Block style={GlobalStyle.block}>
           <Text style={GlobalStyle.blockTitle}>Application Notes</Text>
           <Block>
-            {this.state.notes.length > 0 ? (
+            {this.state.isLoadingNotes?
+            <Block>
+            <NoteSkeleton/>
+            <NoteSkeleton/>
+            <NoteSkeleton/>
+            </Block>
+            :
+            this.state.notes.length > 0 ? (
               this.state.notes.map((x, index) => (
                 <Note
                   key={index}
@@ -248,7 +353,7 @@ addNote=()=>{}
                     onChangeText={(text) => this.setState({ newNote: text })}
                   />
                 </Block>
-                <Block style={styles.iconBlock} middle disabled={true}>
+                <Block style={[styles.iconBlock]} middle opacity={this.state.settingNote?0.5:1}>
                   <CustomIcon
                     source={Icons.Send}
                     onPress={this.handleAddNotePress}
@@ -261,9 +366,6 @@ addNote=()=>{}
               <Button
                 style={styles.updateStatusBtn}
                 onPress={() => this.setState({ openNewNote: true })}
-                
-              disable
-              color={"#a0a0a0"}
               >
                 Add Note
               </Button>

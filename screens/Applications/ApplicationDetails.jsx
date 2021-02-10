@@ -14,6 +14,7 @@ import GlobalStyle from "../../GlobalStyles";
 import CustomIcon from "../../Icons/BellIcon";
 import ApplicationService from "../../services/ApplicationService";
 import DocumentsTab from "./ApplicationDetailsTabs/DocumentsTab";
+import CourseTab from './ApplicationDetailsTabs/CourseTab';
 import NoticeBoardTab from "./ApplicationDetailsTabs/NoticeBoardTab";
 import OffersTab from "./ApplicationDetailsTabs/OffersTab";
 import ProfileTab from "./ApplicationDetailsTabs/ProfileTab";
@@ -25,6 +26,7 @@ const { height, width } = Dimensions.get("screen");
 const Tabs = {
   NoticeBoard: "noticeBoard",
   Profile: "profile",
+  Course: "course",
   Documents: "documents",
   Offers: "offers",
   TravelInformation: "travelInformation",
@@ -339,8 +341,8 @@ class ApplicationDetails extends React.Component {
                 profileId={this.state.profileId}
                 application={this.state.application}
               />
-            ) : // ) : this.state.activeTab === Tabs.Course ? (
-            //   <CourseTab />
+            ) :  this.state.activeTab === Tabs.Course ? (
+              <CourseTab item={this.state.course}/>):
             this.state.activeTab === Tabs.Documents ? (
               <DocumentsTab applicationId={this.state.applicationId}/>
             ) : this.state.activeTab === Tabs.Offers ? (
@@ -350,7 +352,7 @@ class ApplicationDetails extends React.Component {
                 deleteOffer={this.handleDeleteOffer}
               />
             ) : this.state.activeTab === Tabs.TravelInformation ? (
-              <TravelInformation applicationId={this.state.applicationId} item={this.state.course}/>
+              <TravelInformation applicationId={this.state.applicationId} />
             ) : null}
             <Toast isShow={this.state.isShow}>{this.state.toastMessage}</Toast>
             <Block style={GlobalStyle.scrollBottomPadding}></Block>
