@@ -16,6 +16,7 @@ import LocalStorage from '../helper/LocalStorage';
           if(x.status==200){
           resolve(x.data);
           }
+         
           else reject(x.status);
         })
         .catch((err) => {
