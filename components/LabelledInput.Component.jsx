@@ -7,6 +7,7 @@ class LabelledInput extends React.Component {
     ? this.props.textColor
     : GlobalStyle.color.textLight;
     disabled=this.props.disabled;
+    inputStyle=this.props.inputStyle;
   render (){
     return (
       <Block>
@@ -23,7 +24,10 @@ class LabelledInput extends React.Component {
             this.props.error ? { borderColor: "red", borderWidth: 2 } : null,
             this.disabled?{opacity:0.8}:null,
             { color: "black" },
+            this.inputStyle,
+            
           ]}
+          onBlur={this.props.onBlur}
           onChangeText={this.props.onChange}
           onFocus={this.props.onFocus}
           onKeyPress={this.props.onKeyPress}

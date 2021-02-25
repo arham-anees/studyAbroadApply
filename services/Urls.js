@@ -18,7 +18,9 @@ const Urls = {
   UpdateAppStatus:baseAppUrl+"UpdateApplicationStatus",
   GetStatusList:baseAppUrl+"getapplicationStatusList",
   GetTravelInfo:baseAppUrl+"PopulateTravalInformation",
-  SetNote:baseAppUrl+"InsertApplicationNotes"
+  SetNote:baseAppUrl+"InsertApplicationNotes",
+  SearchCourse:basicUrl+"search/coursebyname",
+  GetCourseAutoFill:basicUrl+"search/courseautofill"
 };
 
 export default Urls;

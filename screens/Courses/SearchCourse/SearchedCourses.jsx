@@ -8,6 +8,7 @@ import CourseService from "../../../services/CourseService";
 import SearchedCoursesItem from "./SearchedCourses.Component";
 import Background from '../../../components/Background';
 import GlobalStyle from "../../../GlobalStyles";
+import TextCustom from "../../../components/TextCustom";
 
 const { width, height } = Dimensions.get("window");
 
@@ -22,23 +23,26 @@ class SearchedCourses extends React.Component {
   }
 
   componentDidMount() {
-    const { country, course, institute, advanced } = this.props.route.params;
+    const { items } = this.props.route.params;
+    this.setState({data:items, loading:false});
+    //console.log(this.props.route.params);
     //console.log(country, course, institute);
     //if (advanced) {
     //} else {
-    CourseService.SearchCourse(country, course, institute)
-      .then((res) => {
-        this.setState({ loading: false, data: res });
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({ loading: false, error: err });
-      });
+    // CourseService.SearchCourse(country, course, institute)
+    //   .then((res) => {
+    //     this.setState({ loading: false, data: res });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     this.setState({ loading: false, error: err });
+    //   });
     // }
   }
 
   renderItems = () => {
     let data = this.state.data;
+    if(data.length==0)return <TextCustom>No Course found</TextCustom>
     return data.map((x, index) => <SearchedCoursesItem item={x} key={index} />);
   };
 

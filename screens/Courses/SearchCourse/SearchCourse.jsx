@@ -15,17 +15,8 @@ import SearchService from "../../../services/SearchService";
 
 const { width, height } = Dimensions.get("window");
 import styles from "./SearchCourse.Styles";
+import AutoComplete from "../../../components/AutoComplete";
 
-const institutes = [
-  { value: 1, name: "IIUI1" },
-  { value: 2, name: "IIUI2" },
-  { value: 3, name: "IIUI3" },
-  { value: 4, name: "IIUI4" },
-  { value: 5, name: "IIUI5" },
-  { value: 6, name: "IIUI6" },
-  { value: 7, name: "IIUI7" },
-  { value: 8, name: "IIUI8" },
-];
 
 class SearchCourse extends React.Component {
   constructor(props) {
@@ -43,14 +34,21 @@ class SearchCourse extends React.Component {
         level: 0,
         course: 0,
         intake: 0,
+        courseDisciplineName: "",
+        courseDisciplineId: 0,
+        courseName: "",
         advanced: false,
       },
+      coursesListAdv: [],
+      disciplinesList: [],
+
+      isLoading:false,
 
       instituteStatus: false,
       levelStatus: false,
       courseStatus: false,
       intakeStatus: false,
-      btnStatus:false
+      btnStatus: false,
     };
   }
 
@@ -88,48 +86,36 @@ class SearchCourse extends React.Component {
 
   componentDidMount() {
     const { navigation } = this.props;
-    // this.focusListener = navigation.addListener("focus", () => {
-    //   // The screen is focused
-    //   // Call any action
-    //   this.fadeOut();
-    //   this.fadeIn();
-    // });
     this.fadeIn();
-
-    // SearchService.GetCourses()
-    //   .then((x) => this.setState({ coursesList: this._mapData(x, "Course") }))
-    //   .then((err) => {
-    //     console.log(err);
-    //   });
-
-    // SearchService.GetDisciplines()
-    //   .then((x) =>
-    //     this.setState({
-    //       disciplinesList: this._mapData(x, "Course Discipline"),
-    //     })
-    //   )
-    //   .then((err) => {
-    //     console.log(err);
-    //   });
+    let disciplinesList = [];
+    let coursesListAdv = [];
+    SearchService.GetCourseAutoFill()
+      .then((x) => {
+        x.forEach((course) => {
+          course.DisciplineList.forEach((disc) => {
+            if (!disciplinesList.includes(disc))
+              disciplinesList.push({ id: 0, text: disc.Value });
+          });
+          if (!coursesListAdv.includes(course.Value))
+          coursesListAdv.push({ id: 0, text: course.Value });
+        });
+        this.setState({ disciplinesList, coursesListAdv });
+      })
+      .catch((err) => console.log(err));
   }
 
-  componentWillUnmount() {
-    // Remove the event listener
-    //this.focusListener.remove();
-  }
   handleAdvanced = (val) => {
     let searchFitler = this.state.searchFitler;
     searchFitler.advanced = !searchFitler.advanced;
     //console.log(val);
     this.setState(searchFitler);
   };
-//#region CHANGE SELECTION 
+  //#region CHANGE SELECTION
   handleChange = (name, val) => {
     let searchFitler = this.state.searchFitler;
     searchFitler[name] = val;
     this.setState(searchFitler);
   };
-
 
   handleIntakwSelection = (val) => {
     let searchFitler = this.state.searchFitler;
@@ -143,16 +129,12 @@ class SearchCourse extends React.Component {
     searchFitler["country"] = val;
     this.setState(searchFitler);
 
-    //console.log("sending request to get institutes");
     SearchService.GetInstitutes(this.state.searchFitler.country)
       .then((x) => {
-        //console.log(x);
         this.setState({ instituteList: this._mapData(x, "Institute") });
         this.resetSelection(2);
       })
-      .then((err) => {
-        //console.log(err);
-      });
+      .then((err) => {});
   };
 
   handleInstituteSelection = (val) => {
@@ -162,13 +144,10 @@ class SearchCourse extends React.Component {
 
     SearchService.GetLevels(this.state.searchFitler.institute)
       .then((x) => {
-        //console.log(x);
         this.setState({ levelList: this._mapData(x, "Level") });
         this.resetSelection(3);
       })
-      .then((err) => {
-        //console.log(err);
-      });
+      .then((err) => {});
   };
 
   handleLevelSelection = (val) => {
@@ -181,13 +160,10 @@ class SearchCourse extends React.Component {
       this.state.searchFitler.institute
     )
       .then((x) => {
-        //console.log(x);
         this.setState({ coursesList: this._mapData(x, "Course") });
         this.resetSelection(4);
       })
-      .then((err) => {
-        //console.log(err);
-      });
+      .then((err) => {});
   };
 
   handleCourseSelection = (val) => {
@@ -195,29 +171,21 @@ class SearchCourse extends React.Component {
     searchFitler["course"] = val;
     this.setState(searchFitler);
 
-    SearchService.GetIntakes(
-      this.state.searchFitler.institute
-    )
+    SearchService.GetIntakes(this.state.searchFitler.institute)
       .then((x) => {
-        //console.log(x);
-        try{
-        this.setState({ intakeList: this._mapData(x, "Intakes") });
-        }
-        catch{
-          this.setState({intakeList:[{value:0, name:"Select Intake"}]})
+        try {
+          this.setState({ intakeList: this._mapData(x, "Intakes") });
+        } catch {
+          this.setState({ intakeList: [{ value: 0, name: "Select Intake" }] });
         }
         this.resetSelection(5);
       })
-      .then((err) => {
-        //console.log(err);
-      });
+      .then((err) => {});
   };
-//#endregion
-
+  //#endregion
 
   //this method enablles
   resetSelection = (level) => {
-    
     if (!level) level = 0;
     if (level == 0) {
       if (this.state.searchFitler.country == 0) level = 1;
@@ -225,15 +193,14 @@ class SearchCourse extends React.Component {
       else if (this.state.searchFitler.level == 0) level = 3;
       else if (this.state.searchFitler.course == 0) level = 4;
       else if (this.state.searchFitler.intake == 0) level = 5;
-      else level=6;
+      else level = 6;
     }
     let searchFilter = this.state.searchFitler;
-    let { coursesList, levelList, instituteList,intakeList } = this.state;
+    let { coursesList, levelList, instituteList, intakeList } = this.state;
     let instituteStatus = true;
     let levelStatus = true;
     let courseStatus = true;
     let intakeStatus = true;
-    let btnStatus=true;
     switch (level) {
       case 0:
       case 1:
@@ -251,9 +218,7 @@ class SearchCourse extends React.Component {
       case 4:
         intakeStatus = false;
         searchFilter.course = 0;
-        intakeList= [{ value: 0, name: "" }];;
-      case 5:
-        btnStatus=false;
+        intakeList = [{ value: 0, name: "" }];
     }
     this.setState({
       coursesList,
@@ -264,72 +229,117 @@ class SearchCourse extends React.Component {
       courseStatus,
       intakeStatus,
       intakeList,
-      btnStatus
     });
   };
 
-
+  searchCourse = () => {
+    try {
+      this.setState({isLoading:true});
+      const searchFilter = this.state.searchFitler;
+      SearchService.Search({
+        searchTypeId: searchFilter.advanced ? 2 : 1,
+        levelId: searchFilter.level,
+        instituteId: searchFilter.institute,
+        countryId: searchFilter.country,
+        intakeId: searchFilter.intake,
+        courseDisciplineId: searchFilter.courseDisciplineId,
+        courseName: searchFilter.courseName,
+        courseDisciplineName: searchFilter.courseDisciplineName,
+      })
+        .then((x) => {
+          this.setState({isLoading:false});
+          this.props.navigation.navigate({
+            name: "SearchedCourses",
+            params: { items: x },
+          });
+        })
+        .catch((err) => {console.log(err);
+          this.setState({isLoading:true});});
+    } catch {
+      this.setState({isLoading:true});
+    }
+  };
+  updateCourse = (id, text) => {
+    let searchFitler = this.state.searchFitler;
+    searchFitler["courseDisciplineId"] = id;
+    searchFitler["courseDisciplineName"] = text;
+    this.setState(searchFitler);
+  };
+  updateCourseDiscipline = (id, text) => {
+    let searchFitler = this.state.searchFitler;
+    searchFitler["course"] = id;
+    searchFitler["courseName"] = text;
+    this.setState(searchFitler);
+  };
   render = () => {
-    //console.log(this.state.searchFitler);
+    console.log(this.state);
     return (
       <Background>
-        <Animated.View style={{ opacity: this.state.fadeAnim }}>
+        <Animated.View style={{ opacity: this.state.fadeAnim, flex: 1 }}>
           <Block
-            style={{ paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding }}
+            style={[
+              { paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding },
+              styles.container,
+            ]}
           >
             <Block style={styles.block}>
               <Text style={styles.blockTitle}>Search Course</Text>
-              <SelectCountry
-                onChange={(val) => this.handleCountrySelection(val)}
-                selectedValue={this.state.searchFitler.country}
-              />
-              {/* {this.state.searchFitler.advanced ? (
-                <React.Fragment> */}
-              <DropDown
-                list={this.state.instituteList}
-                label="Institutes"
-                onChange={(val) => this.handleInstituteSelection(val)}
-                selectedValue={this.state.searchFitler.institute}
-                disabled={!this.state.instituteStatus}
-              />
-              <DropDown
-                list={this.state.levelList}
-                label="Level"
-                onChange={(val) => this.handleLevelSelection(val)}
-                selectedValue={this.state.searchFitler.level}
-                disabled={!this.state.levelStatus}
-              />
-              {/* </React.Fragment>
-              ) : null} */}
-              <DropDown
-                list={this.state.coursesList}
-                label="Courses"
-                onChange={(val) => this.handleCourseSelection(val)}
-                selectedValue={this.state.searchFitler.course}
-                disabled={!this.state.courseStatus}
-              />
-              <DropDown
-                list={this.state.intakeList}
-                label="Intakes"
-                onChange={(val) => this.handleIntakwSelection(val)}
-                selectedValue={this.state.searchFitler.intake}
-                disabled={!this.state.intakeStatus}
-              />
 
-              <Button
-                style={styles.btn}
-                //onPress={() =>
-                  // this.props.navigation.push({
-                  //   name: "SearchedCourses",
-                  //   params: { ...this.state.searchFitler },
-                  // })
-                //}
-                color={!this.state.btnStatus ? "#a0a0a0" : "primary"}
-                disabled={!this.state.btnStatus}
-              >
-                Search
-              </Button>
-              {/* <Block row space="between" style={styles.advancedSearch}>
+              {this.state.searchFitler.advanced ? (
+                <Block>
+                  <AutoComplete
+                    label="Course Discipline"
+                    update={this.updateCourseDiscipline}
+                    list={this.state.disciplinesList}
+                  />
+                  <AutoComplete
+                    label="Course"
+                    update={this.updateCourse}
+                    list={this.state.coursesListAdv}
+                  />
+                </Block>
+              ) : (
+                <Block>
+                  <SelectCountry
+                    onChange={(val) => this.handleCountrySelection(val)}
+                    selectedValue={this.state.searchFitler.country}
+                  />
+                  {/* {this.state.searchFitler.advanced ? (
+                <React.Fragment> */}
+                  <DropDown
+                    list={this.state.instituteList}
+                    label="Institutes"
+                    onChange={(val) => this.handleInstituteSelection(val)}
+                    selectedValue={this.state.searchFitler.institute}
+                    disabled={!this.state.instituteStatus}
+                  />
+                  <DropDown
+                    list={this.state.levelList}
+                    label="Level"
+                    onChange={(val) => this.handleLevelSelection(val)}
+                    selectedValue={this.state.searchFitler.level}
+                    disabled={!this.state.levelStatus}
+                  />
+                  {/* </React.Fragment>
+              ) : null} */}
+                  <DropDown
+                    list={this.state.coursesList}
+                    label="Courses"
+                    onChange={(val) => this.handleCourseSelection(val)}
+                    selectedValue={this.state.searchFitler.course}
+                    disabled={!this.state.courseStatus}
+                  />
+                  <DropDown
+                    list={this.state.intakeList}
+                    label="Intakes"
+                    onChange={(val) => this.handleIntakwSelection(val)}
+                    selectedValue={this.state.searchFitler.intake}
+                    disabled={!this.state.intakeStatus}
+                  />
+                </Block>
+              )}
+
+              <Block row space="between" style={styles.advancedSearch}>
                 <Text color={GlobalStyle.color.textLight}>Advanced Search</Text>
                 <Switch
                   onChange={this.handleAdvanced}
@@ -343,7 +353,17 @@ class SearchCourse extends React.Component {
                       : null
                   }
                 />
-              </Block> */}
+              </Block>
+              <Button
+                style={styles.btn}
+                onPress={() => this.searchCourse()}
+                color={"primary"}
+                
+            loading={this.state.isLoading}
+            disabled={this.state.isLoading}
+              >
+                Search
+              </Button>
             </Block>
           </Block>
         </Animated.View>

@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   logoBox:{
-    height:height/10*4,
+    height:height/10*5,
     display:"flex",
     justifyContent:"center",
   },

@@ -108,16 +108,16 @@ class SignIn extends React.Component {
           <Button
             style={[
               styles.button,
-              { marginBottom: 20 },
+              {marginTop:15},
               this.state.isSubmitted ? {} : null,
             ]}
             onPress={this.handleSubmit}
-            loading={this.state.isSubmitted ? true : false}
-            disabled={this.state.isSubmitted ? true : false}
+            loading={this.state.isSubmitted}
+            disabled={this.state.isSubmitted}
           >
             Sign In
           </Button>
-
+{/* 
           <Button
             style={styles.button}
             color={argonTheme.COLORS.SECONDARY}
@@ -134,7 +134,7 @@ class SignIn extends React.Component {
             textStyle={{ color: argonTheme.COLORS.BLACK }}
           >
             Sign Up As Associate
-          </Button>
+          </Button> */}
         </Block>
       </Background>
     </Block>

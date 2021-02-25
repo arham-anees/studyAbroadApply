@@ -12,36 +12,37 @@ import GlobalStyle from "../../../GlobalStyles";
 const { width, height } = Dimensions.get("window");
 
 function SearchedCoursesItem(props) {
-  const {title, university, country, city, intake, duration, annualFee, feeCurrency,courseDeadline, id}=props;
+  console.log(props)
+  const {InstituteName, CountryName, CityName, InTakeName, CourseName,Duration,CourseDescription, CourseFee, DeadLine,  id}=props.item;
   return (
       <Block style={GlobalStyle.block}>
       <TextCustom style={GlobalStyle.blockTitle}>
-      bachelor of Environmental Science
+      {CourseName}
         </TextCustom>
         <TextCustom center style={{fontSize:GlobalStyle.SIZES.HEADING6}}>
-          University of the Sunshine Coast
+        {InstituteName}
         </TextCustom>
         <Block row>
           <TextCustom style={ styles.infoField}>Country :</TextCustom>
-          <TextCustom style={ styles.infoField}>Australia</TextCustom>
+          <TextCustom style={ styles.infoField}>{CountryName}</TextCustom>
         </Block>
         <Block row>
           <TextCustom style={ styles.infoField}>City :</TextCustom>
-          <TextCustom style={ styles.infoField}>Queensland</TextCustom>
+          <TextCustom style={ styles.infoField}>{CityName}</TextCustom>
         </Block>
         <Block row>
           <TextCustom style={ styles.infoField}>Intakes :</TextCustom>
-          <TextCustom style={ styles.infoField}>-</TextCustom>
+          <TextCustom style={ styles.infoField}>{InTakeName}</TextCustom>
         </Block>
         <Block row>
           <TextCustom style={ styles.infoField}>Duration :</TextCustom>
-          <TextCustom style={ styles.infoField}>0 Year(s) 0 Month(s)</TextCustom>
+          <TextCustom style={ styles.infoField}>{Duration}</TextCustom>
         </Block>
         <Block row>
           <TextCustom style={ styles.infoField}>
             Course Fee (Per Year):
           </TextCustom>
-          <TextCustom style={ styles.infoField}>$0</TextCustom>
+          <TextCustom style={ styles.infoField}>{CourseFee!=undefined?CourseFee:"-"}</TextCustom>
         </Block>
         {/* <Block row>
           <Text style={ styles.infoField]}>Course Deadline :</Text>
@@ -49,9 +50,13 @@ function SearchedCoursesItem(props) {
         </Block> */}
         <Block row middle>
         <TextCustom style={ styles.infoField}>Course Deadline :</TextCustom>
-          <TextCustom style={ styles.infoField}>12/12/2020</TextCustom>
+          <TextCustom style={ styles.infoField}>{DeadLine?(new Date(DeadLine)).toISOString():"-"}</TextCustom>
         </Block>
-        <Button style={styles.btn} onPress={()=>Alert.alert("Applied for course","You have successfully for course")}>Apply For Course</Button>
+        <Button 
+        style={styles.btn}
+        color={true ? "#a0a0a0" : "primary"}
+                disabled={true}
+        onPress={()=>Alert.alert("Applied for course","You have successfully for course")}>Apply For Course</Button>
       </Block>
   );
 }
@@ -67,6 +72,7 @@ const styles = StyleSheet.create({
   },
 
   btn:{
+    margin:0,
     marginTop:4,
     width:"100%"
   }

@@ -121,6 +121,43 @@ function GetIntakes(instituteId){
 }
 
 
+function GetCourseAutoFill(){
+  return new Promise((resolve, reject) => {
+    try {
+      const url = Urls.GetCourseAutoFill;
+      Fetch.Post({ url , data:{CourseName:""}}) 
+        .then((response) => {
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            resolve(response);          
+          }
+        })
+        .catch((err) => reject(err)); //throw error
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+
+function Search(props){
+  return new Promise((resolve, reject) => {
+    try {
+       
+      const url = Urls.SearchCourse;
+      Fetch.Post({url,data:props} ) 
+        .then((response) => {
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            resolve(response);          
+          }
+        })
+        .catch((err) => reject(err)); //throw error
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
 
 
 const SearchService={
@@ -129,7 +166,9 @@ const SearchService={
     GetDisciplines,
     GetInstitutes,
     GetLevels,
-    GetIntakes
+    GetIntakes,
+    Search,
+    GetCourseAutoFill
 }
 
 export default SearchService;

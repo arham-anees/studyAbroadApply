@@ -4,9 +4,16 @@ import GlobalStyle from "../../../GlobalStyles";
 const { StyleSheet } = require("react-native");
 const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
+  container:{
+    flex:1
+  },
   btn: {
     width: "100%",
-    margin:0
+    margin:0,
+    zIndex:1,
+    position:"absolute",
+    bottom:10,
+    left:10
   },
   input: {
     width: width - 110,
@@ -16,7 +23,7 @@ const styles = StyleSheet.create({
   },
   block: GlobalStyle.block,
   blockTitle: GlobalStyle.blockTitle,
-  advancedSearch:{marginTop:15}
+  advancedSearch:{marginBottom:45},
 });
 
 export default styles;
