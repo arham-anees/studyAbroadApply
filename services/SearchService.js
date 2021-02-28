@@ -140,6 +140,26 @@ function GetCourseAutoFill(){
 }
 
 
+function ApplyForCourse(props){
+  return new Promise((resolve, reject) => {
+    try {
+      const url = Urls.GetCourseAutoFill;
+      Fetch.Post({ url , data:{...props}}) 
+        .then((response) => {
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            resolve(response);          
+          }
+        })
+        .catch((err) => reject(err)); //throw error
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+
+
 function Search(props){
   return new Promise((resolve, reject) => {
     try {
@@ -168,7 +188,8 @@ const SearchService={
     GetLevels,
     GetIntakes,
     Search,
-    GetCourseAutoFill
+    GetCourseAutoFill,
+    ApplyForCourse
 }
 
 export default SearchService;

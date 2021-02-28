@@ -10,12 +10,14 @@ function Login({ username, password }) {
       const url=Urls.Login;
       Fetch.Get(url+`?username=${username}&password=${password}`)//call authentication method
         .then((response) => {//if call is successful
-          //console.log(response);
           if (response == null) reject(Messages.FailedLogin);//if authentication is failed
           else {//if authentication is successful
-            console.log(response);
-            LocalStorage.SetToken(response.data);//store token
-            resolve(true);//
+            if (response.data) {
+              LocalStorage.SetToken(response.data); //store token
+              //console.log(response.data);
+              resolve(true); 
+            }
+            else resolve(false);
           }
         })
         .catch((err) => reject(err));//throw error

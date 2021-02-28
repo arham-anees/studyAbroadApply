@@ -5,11 +5,6 @@ function GetHomePageGraphsData() {
   return new Promise((resolve, reject) => {
     Fetch.Post({ url: Urls.HomeGraphs })
       .then((res) => {
-        //debugger;
-        // console.log("*******************************************");
-        // console.log(res["PieChartDataList"]);
-        // console.log("*******************************************");
-
         resolve(res);
       })
       .catch((err) => console.log(err));

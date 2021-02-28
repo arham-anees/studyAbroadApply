@@ -1,3 +1,4 @@
+import ApplicationService from "../../../services/ApplicationService";
 import AuthService from "../../../services/AuthService";
 
 const {
@@ -20,20 +21,19 @@ export function HandleSignUp({
       Email = Email.trim();
       Password = Password.trim();
       ConfirmPassword = ConfirmPassword.trim();
-      //console.log(Password,ConfirmPassword)
       if (!isEmailValid(Email)) reject({errorCode:2,message:"Invalid email address"});
       else if (!isPasswordValid(Password)) reject({errorCode:3, message:"Password does not match required criteria. Please enter alphabets only at least 6."});
       else if (Password !== ConfirmPassword) reject({errorCode:4, message:"Password does not match."});
       //call service method here
-      AuthService.RegisterStudent({
-        firstName: FirstName,
-        lastName: LastName,
-        email: Email,
-        password: Password,
+      ApplicationService.UpdateProfile({
+        FirstName,
+        LastName,
+        Email,
+        Password,
       })
         .then((response) => {
           if (response) {
-            resolve(true);
+          resolve(true)
           } else {
             //console.log("rejected")
             reject({errorCode:-1, message:"Failed to create your account. Please try again later."});

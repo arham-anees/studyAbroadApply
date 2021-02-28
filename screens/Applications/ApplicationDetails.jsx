@@ -217,7 +217,6 @@ class ApplicationDetails extends React.Component {
           countryId:x.CountryID,
           course
         });
-        console.log("course: ",x);
       })
       .catch((err) => console.log(err));
   }
@@ -278,7 +277,6 @@ class ApplicationDetails extends React.Component {
       ) {
         this.setState({ showModal: true });
       } else if (this.state.activeTab === Tabs.Offers) {
-        //console.log("Offers");
       }
     } catch (e) {}
   };
@@ -296,7 +294,6 @@ class ApplicationDetails extends React.Component {
     }
 
     if (title.length == 0) {
-      //console.log("title is not provided");
       isValid = false;
     }
 
@@ -313,8 +310,6 @@ class ApplicationDetails extends React.Component {
   };
 
   render() {
-    //console.log(this.state);
-
     return (
       <Background noScroll>
         <ApplicationDetailsTabs

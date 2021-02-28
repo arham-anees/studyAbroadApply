@@ -48,18 +48,17 @@ function GetUser(){
 }
 
 
-function SetToken(value){
-    _Set(LocalName.token, value);
+async function SetToken(value){
+    await _Set(LocalName.token, value);
 }
 
 function GetToken(){
     return _Get(LocalName.token);
 }
 function ClearToken(){
-    AsyncStorage.removeItem(LocalName.token);
+    //AsyncStorage.removeItem(LocalName.token);
     //debugger
-    //_Set(LocalName.token,null);
-    //console.log(_Get(LocalName.token));
+    return _Set(LocalName.token,'null');
 }
 
 //#region PRIVATE GET SET

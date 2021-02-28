@@ -1,5 +1,5 @@
 const basicUrl = "http://mobileapi.studyabroadapply.com/";
-const baseAppUrl=basicUrl+"/application/";
+const baseAppUrl=basicUrl+"application/";
 const Urls = {
   Login: basicUrl + "account/Login",
   HomeGraphs:basicUrl +"Home/GetGraphsData",
@@ -19,8 +19,10 @@ const Urls = {
   GetStatusList:baseAppUrl+"getapplicationStatusList",
   GetTravelInfo:baseAppUrl+"PopulateTravalInformation",
   SetNote:baseAppUrl+"InsertApplicationNotes",
+  CreateProfile:baseAppUrl+"updateProfile",
   SearchCourse:basicUrl+"search/coursebyname",
-  GetCourseAutoFill:basicUrl+"search/courseautofill"
+  GetCourseAutoFill:basicUrl+"search/courseautofill",
+  GetCourseAutoFill:basicUrl+"search/courseApply"
 };
 
 export default Urls;

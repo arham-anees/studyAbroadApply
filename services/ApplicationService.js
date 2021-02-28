@@ -8,7 +8,6 @@ function BrowseApplications() {
       Fetch.Post({ url }) //call authentication method
         .then((response) => {
           //if call is successful
-          //console.log(response);
           if (response == null) reject(Messages.FailedLogin);
           //if authentication is failed
           else {
@@ -29,10 +28,8 @@ function GetApplicationNotes(applicationId) {
       const url=Urls.GetAppNotes;
       Fetch.Get(url+`?applicationId=${applicationId}`)//call authentication method
         .then((response) => {//if call is successful
-          //console.log(response);
           if (response == null) reject(Messages.RequestFailed);//if authentication is failed
           //else {//if authentication is successful
-            //console.log(response);
             //LocalStorage.SetToken(response.data);//store token
             resolve(response);//
           //}
@@ -50,7 +47,6 @@ function GetApplicationStatus(applicationId){
       const url = Urls.GetApplicationStatus+"?ApplicationID="+applicationId;
       Fetch.Post({ url }) //call authentication method
         .then((response) => {
-          //console.log(response);
           if (response == null) reject(Messages.RequestFailed);
           else {
             resolve(response);          
@@ -69,7 +65,6 @@ function GetCourse(applicationId){
       const url = Urls.GetAppCompIds+"?applicationId="+applicationId;
       Fetch.Post({ url }) //call authentication method
         .then((response) => {
-          //console.log(response);
           if (response == null) reject(Messages.RequestFailed);
           else {
             resolve(response);          
@@ -87,7 +82,6 @@ function GetTravelInfo(statusId, applicationId){
       const url = Urls.GetTravelInfo + "?statusId=" + statusId + "&applicationId=" + applicationId;
       Fetch.Post({ url }) //call authentication method
         .then((response) => {
-          //console.log(response);
           if (response == null) reject(Messages.RequestFailed);
           else {
             resolve(response);          
@@ -107,7 +101,6 @@ function UpdateApplicationStatus(statusId, applicationId){
       const url = Urls.UpdateAppStatus + "?statusId=" + statusId + "&applicationId=" + applicationId;
       Fetch.Post({ url }) //call authentication method
         .then((response) => {
-          //console.log(response);
           if (response == null) reject(Messages.RequestFailed);
           else {
             resolve(response);          
@@ -126,7 +119,6 @@ function SetNewNote(applicationId, message, isVisibleToStudents){
       const url = Urls.SetNote;// + "?statusId=" + statusId + "&applicationId=" + applicationId;
       Fetch.Post({ url,data:{"ApplicationID":applicationId,"Message":message, "IsVisibleToStudents":isVisibleToStudents }}) //call authentication method
         .then((response) => {
-          //console.log(response);
           if (response == null) reject(Messages.RequestFailed);
           else {
             resolve(response);          
@@ -163,7 +155,25 @@ function GetProfileData(profileId){
       const url = Urls.GetProfile+"?profileId="+profileId;
       Fetch.Post({ url }) //call authentication method
         .then((response) => {
-          //console.log(response);
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            resolve(response);          
+          }
+        })
+        .catch((err) => reject(err)); //throw error
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+
+function UpdateProfile(data){
+  return new Promise((resolve, reject) => {
+    try {
+      const url = Urls.CreateProfile;
+      Fetch.Post({ url, data }) //call authentication method
+        .then((response) => {
           if (response == null) reject(Messages.RequestFailed);
           else {
             resolve(response);          
@@ -181,7 +191,6 @@ function _GetDocuments(applicationId, type){
       const url = Urls.GetDocs+"?type="+type+"&applicationId="+applicationId;
       Fetch.Post({ url }) 
         .then((response) => {
-          //console.log(response);
           if (response == null) reject(Messages.RequestFailed);
           else {
             resolve(response);          
@@ -213,7 +222,8 @@ const ApplicationService={
     UpdateApplicationStatus,
     GetStatusList,
     GetTravelInfo,
-    SetNewNote
+    SetNewNote,
+    UpdateProfile
 }
 
 export default ApplicationService;

@@ -16,7 +16,6 @@ class DrawerItem extends React.Component {
     let source = "";
     switch (title) {
       case "Home":
-       
         source = Icons.Home;
         break;
       case "Applications":
@@ -46,15 +45,17 @@ class DrawerItem extends React.Component {
 
   };
 
-  SignOut=(navigation)=>{
-    LocalStorage.ClearToken();
+  SignOut= async (navigation)=>{
+    await LocalStorage.ClearToken();
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
         routes: [{ name: "Auth" }]
       }));
-//debugger
-    //navigation.push("SignIn");
+      try{
+    navigation.push("Auth");}
+    catch{
+    navigation.navigate("Auth");}
   }
 
   render() {

@@ -15,6 +15,7 @@ const Backward = require("../assets/imgs/backarrow.png");
 const Forward = require("../assets/imgs/forwardarrow.png");
 const SkipToStart = require("../assets/imgs/skiptostart.png");
 const SkipToEnd = require("../assets/imgs/skiptoend.png");
+const Search = require("../assets/imgs/search.png");
 
 // internet imgs
 
@@ -52,5 +53,6 @@ export default {
   Backward,
   Forward,
   SkipToEnd,
-  SkipToStart
+  SkipToStart,
+  Search
 };

@@ -34,7 +34,6 @@ class DocumentsTab extends React.Component {
     if (appId > 0) {
       ApplicationService.GetDocuments(appId)
         .then((x) => {
-          console.log("Documents: ",x);
           this.setState({documents:this.mapItens(x)});
         })
         .catch((err) => console.log(err));

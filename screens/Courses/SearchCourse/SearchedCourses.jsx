@@ -1,6 +1,6 @@
 import { Block, Text } from "galio-framework";
 import React from "react";
-import { ImageBackground, ScrollView } from "react-native";
+import { Alert, ImageBackground, Linking, ScrollView } from "react-native";
 import { Dimensions } from "react-native";
 import { View } from "react-native";
 import { Images } from "../../../constants";
@@ -9,6 +9,9 @@ import SearchedCoursesItem from "./SearchedCourses.Component";
 import Background from '../../../components/Background';
 import GlobalStyle from "../../../GlobalStyles";
 import TextCustom from "../../../components/TextCustom";
+import SearchService from "../../../services/SearchService";
+import SearchedCourseLoading from "./SearchedCourseLoading.Component";
+import styles from "./SearchCourse.Styles";
 
 const { width, height } = Dimensions.get("window");
 
@@ -23,27 +26,59 @@ class SearchedCourses extends React.Component {
   }
 
   componentDidMount() {
-    const { items } = this.props.route.params;
-    this.setState({data:items, loading:false});
-    //console.log(this.props.route.params);
-    //console.log(country, course, institute);
-    //if (advanced) {
-    //} else {
-    // CourseService.SearchCourse(country, course, institute)
-    //   .then((res) => {
-    //     this.setState({ loading: false, data: res });
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     this.setState({ loading: false, error: err });
-    //   });
-    // }
+    const { searchFilter } = this.props.route.params;
+    this.setState({ searchFilter });
+
+    SearchService.Search({
+      searchTypeId: searchFilter.advanced ? 2 : 1,
+      levelId: searchFilter.level,
+      instituteId: searchFilter.institute,
+      countryId: searchFilter.country,
+      intakeId: searchFilter.intake,
+      courseDisciplineId: searchFilter.courseDisciplineId,
+      courseName: searchFilter.courseName,
+      courseDisciplineName: searchFilter.courseDisciplineName,
+    })
+      .then((x) => {
+        if(!x)x=[];
+        this.setState({ loading:false, data:x });
+            
+      })
+      .catch((err) => {console.log(err);
+        this.setState({loading:false});});
   }
+
+applyForCourse=(id)=>{
+  try{
+    let data=this.state.data;
+    if(data!=null){
+      let course = this.state.data.filter((x) => x.CourseID == id);
+      SearchService.ApplyForCourse({ ...course })
+        .then((response) => {
+          if(response=="/Application/Profile")
+          {
+            Alert.alert("Apply Successful","Successfully applied for selected course.");
+          }
+          else{
+            //pending
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    
+    
+  }
+  catch{
+
+  }
+}
 
   renderItems = () => {
     let data = this.state.data;
-    if(data.length==0)return <TextCustom>No Course found</TextCustom>
-    return data.map((x, index) => <SearchedCoursesItem item={x} key={index} />);
+    if(data.length==0)return <TextCustom style={styles.noCourse}>No Course found</TextCustom>
+    return data.map((x, index) => <SearchedCoursesItem item={x} key={index} applyForCourse={this.applyForCourse} />);
   };
 
   render = () => {
@@ -54,7 +89,9 @@ class SearchedCourses extends React.Component {
         >
           {this.state.loading ? (
             <View>
-              <Text>Loading</Text>
+              <SearchedCourseLoading />
+              <SearchedCourseLoading />
+              <SearchedCourseLoading />
             </View>
           ) : (
             <React.Fragment>{this.renderItems()}</React.Fragment>

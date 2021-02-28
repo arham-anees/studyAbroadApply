@@ -11,9 +11,10 @@ import { Animated } from "react-native";
 import ApplicationService from '../../services/ApplicationService';
 import LocalStorage from '../../helper/LocalStorage'; 
 import TextCustom from "../../components/TextCustom";
-import { Block, Button } from "galio-framework";
+import { Block, Button, Input } from "galio-framework";
 import CustomIcon from "../../Icons/BellIcon";
 import { Images } from "../../constants";
+import Icons from "../../constants/Icons";
 const data = [
   {
     name: "Imran Khan",
@@ -54,10 +55,12 @@ class Applications extends React.Component {
     super(props);
     this.state = {
       fadeAnim: new Animated.Value(0),
+      appFullList: [],
       appList: [],
       startIndex: 0,
       endIndex: 10,
       length: 10,
+      searchAppliation: "",
     };
     this.navigation = this.props;
     this.fadeOut();
@@ -79,33 +82,7 @@ class Applications extends React.Component {
     }).start();
   };
   MapApplicationData(data) {
-    try {
-      if (!data || data.length == 0) return null;
-      var resultData = [];
-      //console.log("purifying browse application data");
-      data.forEach((x) => {
-        resultData.push({
-          id: x.ApplicationID,
-          name: x.StudentName,
-          status: x.StatusName,
-          statusId: 1,
-          level: x.LevelName,
-          date: x.ApplicationDate,
-          course: x.CourseName,
-          institute: x.InstitutionName,
-          createdBy: x.CreatedBy,
-          createdByRoleName: x.RoleName,
-          intake: x.InTakeName,
-          totalUnread: x.TotalUnread,
-        });
-      });
-
-      //console.log(resultData);
-
-      return resultData;
-    } catch {
-      return [];
-    }
+    return data;
   }
 
   componentDidMount() {
@@ -114,9 +91,8 @@ class Applications extends React.Component {
     LocalStorage.GetAppFirstPage().then((x) => {
       try {
         let localData = JSON.parse(x);
-        if(!localData)localData=[];
-        //console.log("Data from local",localData)
-        this.setState({ appList: localData });
+        if (!localData) localData = [];
+        this.setState({ appList: localData, appFullList: localData });
       } catch (err) {
         console.log(err);
       }
@@ -128,7 +104,12 @@ class Applications extends React.Component {
         //debugger
         if (result != null) {
           LocalStorage.SetAppList(result);
-          if (result != this.state.appList) this.setState({ appList: result });
+          if (result != this.state.appList)
+            this.setState({
+              appList: result,
+              appFullList: result,
+              searchAppliation: "",
+            });
         }
       })
       .catch((err) => console.log(err));
@@ -139,7 +120,6 @@ class Applications extends React.Component {
     for (let i = this.state.startIndex; i < this.state.endIndex; i++) {
       if (this.state.appList.length > i) apps.push(this.state.appList[i]);
     }
-    //console.log(apps);
     return apps;
   }
 
@@ -154,13 +134,44 @@ class Applications extends React.Component {
   previousPage = () => {
     let length = this.state.length;
     let currStartIndex = this.state.startIndex;
-    if(currStartIndex-length>=0)this.setState({ startIndex: currStartIndex - length, endIndex:currStartIndex });
+    if (currStartIndex - length >= 0)
+      this.setState({
+        startIndex: currStartIndex - length,
+        endIndex: currStartIndex,
+      });
+  };
+
+  searchApplication = (searchTerm) => {
+    this.setState({ searchAppliation: searchTerm });
+    searchTerm=searchTerm.toLocaleLowerCase();
+    let filtered = this.state.appFullList.filter((x) =>
+      (x.StudentName?x.StudentName.toLocaleLowerCase().includes(searchTerm):false) ||
+      (x.InstitutionName?x.InstitutionName.toLocaleLowerCase().includes(searchTerm):false) ||
+      (x.CreatedBy?x.CreatedBy.toLocaleLowerCase().includes(searchTerm):false)
+    );
+    this.setState({ appList: filtered });
   };
 
   render = () => (
     <Background>
       <Animated.View style={{ opacity: this.state.fadeAnim }}>
         <View style={styles.container}>
+          <Block row middle space="between">
+            <Block flex>
+              <Input
+                placeholder={"Search Application"}
+                value={this.state.searchAppliation}
+                color={"black"}
+                onChangeText={(text) => this.searchApplication(text)}
+              />
+            </Block>
+            {/* <Block style={[styles.iconBlock]} middle opacity={this.state.settingNote?0.5:1}>
+                  <CustomIcon
+                    source={Images.Search}
+                    onPress={this.searchApplication}
+                  />
+                </Block> */}
+          </Block>
           {this.state.appList.length > 0 ? (
             this.getApplicationList().map((item, index) => {
               return (
@@ -175,13 +186,16 @@ class Applications extends React.Component {
               <TextCustom>No application found</TextCustom>
             </View>
           )}
-            <Block row center style={{marginTop:10}}>
-              <CustomIcon source={Images.Backward} onPress={this.previousPage}/>
-              <TextCustom style={{marginLeft:20,marginRight:20}}>
-              From {this.state.startIndex + 1} to {this.state.endIndex} off{" "}
-              {this.state.appList.length}
+          <Block row center style={{ marginTop: 10 }}>
+            <CustomIcon source={Images.Backward} onPress={this.previousPage} />
+            <TextCustom style={{ marginLeft: 20, marginRight: 20 }}>
+              From {this.state.startIndex + 1} to{" "}
+              {this.state.endIndex > this.state.appList.length
+                ? this.state.appList.length
+                : this.state.endIndex}{" "}
+              off {this.state.appList.length}
             </TextCustom>
-              <CustomIcon source={Images.Forward}onPress={this.nextPage}/>
+            <CustomIcon source={Images.Forward} onPress={this.nextPage} />
           </Block>
         </View>
       </Animated.View>

@@ -20,7 +20,6 @@ class AutoComplete extends React.Component {
 
   componentDidMount() {
     const { list } = this.props;
-    console.log("list", list);
     if (list.length > 0) {
       this.setState({ list });
     }
@@ -33,7 +32,6 @@ class AutoComplete extends React.Component {
   changeText = (text) => {
     this.setState({ inputVal: text, inputOption: 0 });
     this.filterList();
-    //console.log(this.props.updateCourse);
     this.updateParent(0, text);
   };
 
@@ -46,9 +44,7 @@ class AutoComplete extends React.Component {
       this.setState({ filteredList: [] });
       return;
     }
-    console.log(this.state);
     let newList = [];
-    console.log(this.state.list);
     this.state.list.forEach((x) => {
       if (x.text) {
         if (
@@ -63,7 +59,6 @@ class AutoComplete extends React.Component {
   };
 
   selectOption = (id) => {
-    //console.log(text);
     let item = this.state.list.filter((x) => x.id == id)[0];
     this.setState({ inputVal: item.text, inputOption: id, filteredList: [] });
     this.updateParent(id, item.text);

@@ -24,20 +24,22 @@ class ProfileTab extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      studentName: "",
-      fatherName: "",
-      phone: "",
-      email: "",
+      FullName: "",
+      LastName:"",
+      FirstName:"",
+      FatherName: "",
+      Cell: "",
+      Email: "",
       passportNumber: "",
-      passportExpiryDate: "",
-      _passportExpiryDate:new Date(),
-      landline: "",
-      dateOfBirth: "",
-      _dateOfBirth:new Date(),
-      gender: "",
-      nationality: "",
-      maritalStatus: 1,
-      address: "",
+      ExpiryDate: "",
+      _ExpiryDate:new Date(),
+      LandLine: "",
+      DateOfBirth: "",
+      _DateOfBirth:new Date(),
+      GenderName: "",
+      NationalityName: "",
+      MartialStatusName: 1,
+      Address: "",
       date: "",
       mode: "date",
       show: false,
@@ -46,35 +48,62 @@ class ProfileTab extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ profileId: this.props.profileId });
-    ApplicationService.GetProfileData(this.props.profileId)
-      .then((x) => {
-        console.log("profile: ",x);
+
+    this.setState({ ProfileID : this.props.ProfileID  });
+      ApplicationService.GetCourse(this.props.applicationId)
+      .then((y) => {
+        y=y.MyCourse;
         this.setState({
-          studentName: x.FullName,
-          fatherName: x.FatherName,
-          email: x.Email,
-          phone: x.Cell,
-          passportNumber: "",
-          passportExpiryDate: x.ExpiryDate,
-          _passportExpiryDate:new Date(),
-          landline: x.LandLine,
-          dateOfBirth: x.DateOfBirth,
-          gender: x.GenderName,
-          nationality: x.NationalityName,
-          maritalStatus: x.MartialStatusName,
-          address: x.Address,
+          ProfileID: y.ProfileID,
+        });
+        ApplicationService.GetProfileData(y.ProfileID )
+        .then((x) => {
+          this.setState({
+            FullName: x.FullName,
+            FirstName:x.FirstName,
+            LastName:x.LastName,
+            FatherName: x.FatherName,
+            Email: x.Email,
+            Cell: x.Cell,
+            passportNumber: "",
+            ExpiryDate: x.ExpiryDate,
+            _ExpiryDate:new Date(x.ExpiryDate),
+            LandLine: x.LandLine,
+            DateOfBirth: x.DateOfBirth,
+            GenderName: x.GenderName,
+            NationalityName: x.NationalityName,
+            MartialStatusName: x.MartialStatusName,
+            Address: x.Address,
+          })
         })
+        .then((err) => console.log(err));
       })
-      .then((err) => console.log(err));
+      .catch((err) => console.log(err));
+    
+   
   }
 
 
-  handleChange = (val, name) => {};
+  handleChange = (val, name) => {
+    try{
+      let profile=this.state;
+      profile[name]=val;
+      this.setState({...profile});
+    }
+    catch{}
+  };
   updateGender = (val) => {};
   updateMaritalStatus = (val) => {};
   handleUpdateProfilePress = () => {
-    Alert.alert("Profile Updated", "Profile has been updated");
+    Alert.alert("Profile Updated", "Profile has been updated",[{text:"Yes",onPress:()=>{
+      console.log("state",this.state);
+      ApplicationService.UpdateProfile(this.state)
+      .then(x=>{
+        if(x.ResponseStatus) Alert.alert("Profile Updated", "Profile has been updated");
+        else Alert.alert("Profile Update Failed", "Failed to update profile. Please try again later.");
+      })
+      .catch(err=>console.log(err));
+    }}, {text:"No"}]);
   };
 
   showMode = (currentMode) => {
@@ -89,11 +118,11 @@ class ProfileTab extends React.Component {
     this.setState({ show: Platform.OS === "ios" });
     if (this.state.dateIndex == 1) {
       this.setState({
-        passportExpiryDate: selectedDate,
-        _passportExpiryDate: selectedDate,
+        ExpiryDate: selectedDate,
+        _ExpiryDate: selectedDate,
       });
     } else if (this.state.dateIndex == 2)
-      this.setState({ dateOfBirth: selectedDate, _dateOfBirth: selectedDate });
+      this.setState({ DateOfBirth: selectedDate, _DateOfBirth: selectedDate });
   };
 
   render() {
@@ -101,67 +130,61 @@ class ProfileTab extends React.Component {
       <Block>
         <Block style={GlobalStyle.block}>
           <LabelledInput
-            label="Student Name"
-            value={this.state.studentName}
+            label="First Name"
+            value={this.state.FirstName}
             iconname="person"
             iconfamily="Fontisto"
-            disabled
-            onChange={(text) => this.handleChange(text, "studentName")}
+            onChange={(text) => this.handleChange(text, "FirstName")}
+          />
+          <LabelledInput
+            label="Last Name"
+            value={this.state.LastName}
+            iconname="person"
+            iconfamily="Fontisto"
+            onChange={(text) => this.handleChange(text, "LastName")}
           />
           <LabelledInput
             label="Father Name"
             iconname="person"
             iconfamily="Fontisto"
-            value={this.state.fatherName}
-            disabled
-            onChange={(text) => this.handleChange(text, "fatherName")}
+            value={this.state.FatherName}
+            onChange={(text) => this.handleChange(text, "FatherName")}
           />
           <LabelledInput
             label="Email"
             iconname="key"
             iconfamily="Entypo"
-            value={this.state.email}
-            disabled
-            onChange={(text) => this.handleChange(text, "email")}
+            value={this.state.Email}
+            onChange={(text) => this.handleChange(text, "Email")}
           />
           <LabelledInput
             label="Passport Number"
             iconname="key"
             iconfamily="Entypo"
             value={this.state.passportNumber}
-            disabled
             onChange={(text) => this.handleChange(text, "passportNumber")}
           />
-          {/* <LabelledInput
-                label="Expiry Date"
-                iconname="key"
-                iconfamily="Entypo"
-                value={passportExpiryDate}
-                onChange={(text)=>handleChange(text,'passportExpiryDate')}
-              /> */}
           <ButtonTextBox
-            value={new Date(this.state.passportExpiryDate).toDateString()}
+            value={new Date(this.state.ExpiryDate).toDateString()}
             label={"Expiry Date"}
             onPress={() => this.showDatepicker(1)}
           />
           <LabelledInput
-            label="Landline"
+            label="LandLine"
             iconname="key"
             iconfamily="Entypo"
-            value={this.state.landline}
-            disabled
-            onChange={(text) => this.handleChange(text, "landline")}
+            value={this.state.LandLine}
+            onChange={(text) => this.handleChange(text, "LandLine")}
           />
           <LabelledInput
             label="Cell Number"
             iconname="key"
             iconfamily="Entypo"
-            value={this.state.phone}
-            disabled
-            onChange={(text) => this.handleChange(text, "phone")}
+            value={this.state.Cell}
+            onChange={(text) => this.handleChange(text, "Cell")}
           />
           <ButtonTextBox
-            value={this.state.dateOfBirth}
+            value={this.state.DateOfBirth}
             label={"Date Of Birth"}
             onPress={() => this.showDatepicker(2)}
           />
@@ -169,48 +192,26 @@ class ProfileTab extends React.Component {
             label="Gender"
             iconname="key"
             iconfamily="Entypo"
-            value={this.state.phone}
-            disabled
-            onChange={(text) => this.handleChange(text, "phone")}
+            value={this.state.GenderName}
+            onChange={(text) => this.handleChange(text, "GenderName")}
           />
-          {/* <ButtonTextBox
-            value={this.state.gender}
-            label={"Gender"}
-            onPress={() => this.showDatepicker(2)}
-          /> */}
-          {/* <DropDown
-            list={Genders}
-            label={"Gender"}
-            selectedValue={this.gender}
-            onChange={this.updateGender}
-          /> */}
           <LabelledInput
             label="Nationality"
             iconname="key"
             iconfamily="Entypo"
-            value={this.state.nationality}
-            disabled
-            onChange={(text) => this.handleChange(text, "nationality")}
+            value={this.state.NationalityName}
+            onChange={(text) => this.handleChange(text, "NationalityName")}
           />
-          {/* <DropDown
-            list={MaritalStatuses}
-            label={"Marital Status"}
-            selectedValue={this.maritalStatus}
-            onChange={this.updateMaritalStatus}
-          /> */}
           <LabelledInput
             label="Address"
             iconname="key"
             iconfamily="Entypo"
-            value={this.state.address}
-            disabled
-            onChange={(text) => this.handleChange(text, "address")}
+            value={this.state.Address}
+            onChange={(text) => this.handleChange(text, "Address")}
           />
           <Button
             style={styles.btnUpdate}
             onPress={this.handleUpdateProfilePress}
-            disable
-            color={"#a0a0a0"}
           >
             Update
           </Button>
@@ -218,7 +219,7 @@ class ProfileTab extends React.Component {
         {this.state.show && (
           <DateTimePicker
             testID="dateTimePicker"
-            value={this.state.dateIndex==1?this.state._passportExpiryDate:this.state._dateOfBirth}
+            value={this.state.dateIndex==1?this.state._ExpiryDate:this.state._DateOfBirth}
             mode={this.state.mode}
             is24Hour={true}
             display="default"

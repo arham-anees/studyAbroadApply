@@ -7,7 +7,6 @@ import { Dimensions } from "react-native";
 import Theme from "../../constants/Theme";
 const { width } = Dimensions.get("screen");
 function ProgressBarByCountryItem(props) {
-   //console.log(props.item);
    const progressCustomStyles = {
     backgroundColor:GlobalStyle.color.textLight, 
   };

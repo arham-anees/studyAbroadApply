@@ -55,6 +55,7 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.back_Button_Press);
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("focus", () => {
       // The screen is focused
@@ -66,9 +67,6 @@ class Home extends React.Component {
   }
 
 
-  componentWillMount() {
-      BackHandler.addEventListener('hardwareBackPress', this.back_Button_Press);
-    }
   componentWillUnmount() {
    
       BackHandler.removeEventListener('hardwareBackPress', this.back_Button_Press);
@@ -93,11 +91,9 @@ class Home extends React.Component {
     try{
     GraphsDataService.GetHomePageGraphsData()
     .then(x=>{
-      //console.log(JSON.stringify(x["PieChartDataList"]))
       let pieChartData=HomeUtils.MapPieChartData(x["PieChartDataList"]);
       let barChartData=HomeUtils.MapBarChartData(x);
       let lineChartData=HomeUtils.MapLineChartData(x);
-      //console.log("line Chart Data: ",lineChartData);
       this.setState({pieChartData, barChartData,lineChartData});
     });
     }catch(e){console.log(e)}

@@ -21,7 +21,6 @@ componentDidMount() {
   if (appId > 0) {
     ApplicationService.GetOffers(appId)
       .then((x) => {
-        console.log("offers: ",x);
         this.setState({offers:this.mapItems(x)});
       })
       .catch((err) => console.log(err));

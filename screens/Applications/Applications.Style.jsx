@@ -1,3 +1,4 @@
+import { theme } from "galio-framework";
 import GlobalStyle from "../../GlobalStyles";
 
 const { StyleSheet } = require("react-native");
@@ -7,6 +8,13 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding
+  },
+  iconBlock: {
+    width: 50,
+    marginLeft: 5,
+    backgroundColor: "white",
+    height: theme.SIZES.INPUT_HEIGHT,
+    borderRadius: theme.SIZES.INPUT_BORDER_RADIUS,
   },
 });
 

@@ -23,11 +23,13 @@ class ApplicationDetailsTabs extends React.Component {
 
   state = {
     active: null,
+    loadStatus:false
   };
 
   componentDidMount() {
-    const { initialIndex } = this.props;
+    const { initialIndex, loadStatus } = this.props;
     initialIndex && this.selectMenu(initialIndex);
+    this.setState({loadStatus});
   }
 
   animatedValue = new Animated.Value(1);

@@ -39,6 +39,7 @@
     "react-native-chart-kit": "^6.6.1",
     "react-native-date-picker": "^3.2.5",
     "react-native-gesture-handler": "~1.6.0",
+    "react-native-navigation": "^7.11.0",
     "react-native-progress-bar-animated": "^1.0.6",
     "react-native-reanimated": "~1.7.0",
     "react-native-safe-area-context": "0.7.3",

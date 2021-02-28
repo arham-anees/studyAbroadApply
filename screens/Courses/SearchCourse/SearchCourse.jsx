@@ -1,19 +1,12 @@
 import { Block, Button, Input, Switch, Text } from "galio-framework";
 import React from "react";
-import { Alert, Animated } from "react-native";
-import { ImageBackground } from "react-native";
-import { Dimensions } from "react-native";
-import { View } from "react-native";
-import { ScrollView } from "react-native";
+import {  Animated } from "react-native";
 import Background from "../../../components/Background";
 import DropDown from "../../../components/DropDown";
-import LabelledInput from "../../../components/LabelledInput.Component";
 import SelectCountry from "../../../components/SelectCountry";
-import { Images } from "../../../constants";
 import GlobalStyle from "../../../GlobalStyles";
 import SearchService from "../../../services/SearchService";
 
-const { width, height } = Dimensions.get("window");
 import styles from "./SearchCourse.Styles";
 import AutoComplete from "../../../components/AutoComplete";
 
@@ -91,23 +84,28 @@ class SearchCourse extends React.Component {
     let coursesListAdv = [];
     SearchService.GetCourseAutoFill()
       .then((x) => {
-        x.forEach((course) => {
-          course.DisciplineList.forEach((disc) => {
-            if (!disciplinesList.includes(disc))
-              disciplinesList.push({ id: 0, text: disc.Value });
-          });
-          if (!coursesListAdv.includes(course.Value))
-          coursesListAdv.push({ id: 0, text: course.Value });
-        });
-        this.setState({ disciplinesList, coursesListAdv });
+        try {
+          if (x != null && x.length > 0) {
+            x.forEach((course) => {
+              course.DisciplineList.forEach((disc) => {
+                if (!disciplinesList.includes(disc))
+                  disciplinesList.push({ id: 0, text: disc.Value });
+              });
+              if (!coursesListAdv.includes(course.Value))
+                coursesListAdv.push({ id: 0, text: course.Value });
+            });
+            this.setState({ disciplinesList, coursesListAdv });
+          }
+        } catch {
+          this.setState({ disciplinesList:[], coursesListAdv:null });
+        }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {console.log(err);this.setState({ disciplinesList:[], coursesListAdv:null });});
   }
 
   handleAdvanced = (val) => {
     let searchFitler = this.state.searchFitler;
     searchFitler.advanced = !searchFitler.advanced;
-    //console.log(val);
     this.setState(searchFitler);
   };
   //#region CHANGE SELECTION
@@ -233,31 +231,12 @@ class SearchCourse extends React.Component {
   };
 
   searchCourse = () => {
-    try {
-      this.setState({isLoading:true});
       const searchFilter = this.state.searchFitler;
-      SearchService.Search({
-        searchTypeId: searchFilter.advanced ? 2 : 1,
-        levelId: searchFilter.level,
-        instituteId: searchFilter.institute,
-        countryId: searchFilter.country,
-        intakeId: searchFilter.intake,
-        courseDisciplineId: searchFilter.courseDisciplineId,
-        courseName: searchFilter.courseName,
-        courseDisciplineName: searchFilter.courseDisciplineName,
-      })
-        .then((x) => {
-          this.setState({isLoading:false});
-          this.props.navigation.navigate({
-            name: "SearchedCourses",
-            params: { items: x },
-          });
-        })
-        .catch((err) => {console.log(err);
-          this.setState({isLoading:true});});
-    } catch {
-      this.setState({isLoading:true});
-    }
+      this.props.navigation.navigate({
+        name: "SearchedCourses",
+        params: { searchFilter },
+      });
+
   };
   updateCourse = (id, text) => {
     let searchFitler = this.state.searchFitler;
@@ -272,7 +251,6 @@ class SearchCourse extends React.Component {
     this.setState(searchFitler);
   };
   render = () => {
-    console.log(this.state);
     return (
       <Background>
         <Animated.View style={{ opacity: this.state.fadeAnim, flex: 1 }}>
@@ -358,9 +336,6 @@ class SearchCourse extends React.Component {
                 style={styles.btn}
                 onPress={() => this.searchCourse()}
                 color={"primary"}
-                
-            loading={this.state.isLoading}
-            disabled={this.state.isLoading}
               >
                 Search
               </Button>

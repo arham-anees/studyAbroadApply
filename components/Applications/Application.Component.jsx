@@ -9,16 +9,15 @@ import { argonTheme } from "../../constants";
 
 function ApplicationItem({ props }) {
   const { item, navigation } = props;
-  //console.log(props);
-  let statusBackground = GlobalStyle.STATUSBACKGROUND[item.statusId - 1];
+  let statusBackground = GlobalStyle.STATUSBACKGROUND[0];
   return (
-    <TouchableOpacity onPress={() => navigation.push("ApplicationDetails",{appId:item.id})}>
+    <TouchableOpacity onPress={() => navigation.push("ApplicationDetails",{appId:item.ApplicationID})}>
       <View
         title={(props.index + 1).toString()}
         titleColor="white"
         style={GlobalStyle.block}
       >
-        <TextCustom style={GlobalStyle.blockTitle}>{item.name}</TextCustom>
+        <TextCustom style={GlobalStyle.blockTitle}>{item.StudentName}</TextCustom>
         <Block style={styles.bgStatus}>
           <TextCustom
             style={{
@@ -27,37 +26,37 @@ function ApplicationItem({ props }) {
               borderRadius: 2,
             }}
           >
-            {item.status}
+            {item.StatusName}
           </TextCustom>
         </Block>
         <Block left>
           <Block row middle>
-            <TextCustom>{item.course},</TextCustom>
-            <TextCustom> {item.level}</TextCustom>
+            <TextCustom>{item.CourseName},</TextCustom>
+            <TextCustom> {item.LevelName}</TextCustom>
           </Block>
           <Block row middle>
-            <TextCustom>{item.institute}</TextCustom>
+            <TextCustom>{item.InstitutionName}</TextCustom>
           </Block>
 
           <Block>
             <Block row>
               <TextCustom style={styles.title}>Application Date: </TextCustom>
-              <TextCustom>{item.date}</TextCustom>
+              <TextCustom>{item.ApplicationDate}</TextCustom>
             </Block>
             <Block row>
               <TextCustom style={styles.title}>Intake</TextCustom>
-              <TextCustom>{item.intake}</TextCustom>
+              <TextCustom>{item.InTakeName}</TextCustom>
             </Block>
             <Block row>
               <TextCustom style={styles.title}>Created By</TextCustom>
               <TextCustom style={styles.text}>
-                {item.createdBy} ({item.createdByRoleName})
+                {item.CreatedBy} ({item.RoleName})
               </TextCustom>
             </Block>
             <Block row space="evenly" style={styles.footer}>
               <View>
                 <CustomIcon source={Icons.Email} />
-                { item.totalUnread>0?<Block middle style={styles.notify} ></Block>:null}
+                { item.TotalUnread>0?<Block middle style={styles.notify} ></Block>:null}
               </View>
               <CustomIcon source={Icons.Settings} />
             </Block>

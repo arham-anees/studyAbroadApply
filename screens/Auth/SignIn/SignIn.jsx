@@ -14,32 +14,30 @@ import { ScrollView } from "react-native";
 import AuthService from "../../../services/AuthService";
 import Background from "../../../components/Background";
 import LocalStorage from "../../../helper/LocalStorage";
+import { CommonActions } from "@react-navigation/native";
 
 class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "faraz@mail.com",
-      password: "123",
+      username: "",//"faraz@mail.com",
+      password: "",//"123",
       error: false,
       isSubmitted: false,
       networkError:false
     };
-  }
-  async CheckStatus() {
     
-    //this.handleSubmit();
-    //return;
-    //console.log("SignIn Check Status");
-    var result =LocalStorage.GetToken();
-    //debugger
-    //console.log(result);
-    result.then((x) => {
-      try{if (x.length>100) {
+  }
+  
+  async CheckStatus() {
+
+    var result =await LocalStorage.GetToken();
+      // console.log(this.props.navigation);
+      // console.log(result);
+      try{if (result.length>100) {
         this.props.navigation.navigate("Home");
       }
     }catch{}
-    });
   }
   handleSignUpStudentPress = () =>
     this.props.navigation.navigate("SignUpAsStudent");
@@ -49,21 +47,23 @@ class SignIn extends React.Component {
     this.setState({ error: false,networkError:false, password: value });
   handleUsernameChange = (value) => this.setState({ error: false,networkError:false, username: value });
   handleSubmit = () => {
-    this.setState({ isSubmitted: true });
     if (this.state.username.length == 0 || this.state.password.length == 0) {
       this.setState({ error: true, isSubmitted: false });
       return;
     }
+
+    this.setState({ isSubmitted: true });
+
     //call service
     AuthService.Login(this.state)
       .then((response) => {
-        if (response == true) {
-          this.setState({ isSubmitted: false });
-          console.log(response)
-          //this.props.navigation.navigate("Home");
-        } else {
-          this.setState({ isSubmitted: false, error: true });
-        }
+        setTimeout(() => {
+          if (response == true) {
+            this.setState({ isSubmitted: false });
+          } else {
+            this.setState({ isSubmitted: false, error: true });
+          }
+        }, 1000);
       })
       .catch((err) => {
         console.log("Error: "+err);
@@ -117,7 +117,7 @@ class SignIn extends React.Component {
           >
             Sign In
           </Button>
-{/* 
+ 
           <Button
             style={styles.button}
             color={argonTheme.COLORS.SECONDARY}
@@ -126,7 +126,7 @@ class SignIn extends React.Component {
           >
             Sign Up As Student
           </Button>
-
+{/*
           <Button
             style={styles.button}
             color={argonTheme.COLORS.SECONDARY}

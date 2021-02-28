@@ -15,12 +15,10 @@ function MapPieChartData(data){
             svg: { fill: Colors[index] }
         })
     });
-    //console.log("mapped data: ",pieChartData);
     return pieChartData;
 }
 
 function MapLineChartData(data){
-    //console.log("Map Line Chart Data: ",data);
     let lineChartData=[];
     let length=data.IndexWithCompanyName_Data1.length;
     for (let i = 0; i < length; i++) {
@@ -35,7 +33,6 @@ function MapLineChartData(data){
         //   data.IndexWithData_NewApplication_Data2[i][1],
       });
     }
-    //console.log("bar chart data: ",lineChartData);
     return lineChartData;
 }
 
@@ -55,7 +52,6 @@ function MapBarChartData(data){
           data.IndexWithData_NewApplication_Data2[i][1],
       });
     }
-    //console.log("bar chart data: ",barChartData);
     return barChartData;
 }
 

@@ -102,11 +102,9 @@ mapNotes=(data)=>{
         isVisibleToStudents:element.IsVisableToStudents
       })
     });
-    //console.log("mapped notes", mappedData);
     return mappedData;
   }
   catch(err){
-    console.log("Error in mapping data",err);
     return [];
   }
 }
@@ -151,12 +149,10 @@ handleUpdateStatusPress=()=>{
         this.setState({isStatusUpdating:true});
         ApplicationService.UpdateApplicationStatus(this.state.statusId,this.state.applicationId)
           .then(x=>{
-            //console.log(x);
             this.setState({statusName:x.ResponseMessage, statusId:x.ResponseID, isStatusUpdating:false})
           })
           .catch(e=>{
             this.setState({isStatusUpdating:false});
-            console.log(e);
           })
       }
     }
@@ -164,7 +160,6 @@ handleUpdateStatusPress=()=>{
 }
 
 _MapAppStatus=(data)=>{
- //console.log(data);
  let mappedData=[];
  data.forEach(x=>{
    mappedData.push({
@@ -188,7 +183,6 @@ loadNotes=(applicationId)=>{
   if(!applicationId)applicationId=this.state.applicationId;
   ApplicationService.GetApplicationNotes(applicationId)
   .then((x) => {
-    //console.log("notes: ",JSON.stringify(x));
     var mappedData=this.mapNotes(x);
     this.setState({notes:mappedData, isLoadingNotes:false});
   })
@@ -205,7 +199,6 @@ loadNotes=(applicationId)=>{
     this.setState({settingNote:true});
     ApplicationService.SetNewNote(this.state.applicationId.toString(), this.state.newNote, this.state.visibleToStudent.toString())
     .then(x=>{
-      //console.log(x);
       this.setState({newNote:'',visibleToStudent:true,openNewNote:false, settingNote:false })
       this.loadNotes();
     })

@@ -42,11 +42,10 @@ Sentry.init({
 //#region set interceptors
 axios.interceptors.request.use(async config=>{
   const token=await LocalStorage.GetToken();
-  //console.log("Interceptor Request: Token: "+token);
   if(token){
     config.headers["Authorization"]="Bearer "+token;
   }
-  //console.log("Request: Headers:"+JSON.stringify(config));
+  console.log(config);
   return config;
 },err=>Promise.reject(err));
 //#endregion
@@ -151,7 +150,6 @@ export default (props) => {
 //   _handleLoadingError = error => {
 //     // In this case, you might want to report the error to your error
 //     // reporting service, for example Sentry
-//     console.warn(error);
 //   };
 
 //   _handleFinishLoading = () => {

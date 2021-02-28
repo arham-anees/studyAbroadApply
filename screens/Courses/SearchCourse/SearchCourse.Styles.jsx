@@ -24,6 +24,11 @@ const styles = StyleSheet.create({
   block: GlobalStyle.block,
   blockTitle: GlobalStyle.blockTitle,
   advancedSearch:{marginBottom:45},
+  noCourse:{
+    textAlign:"center",
+    fontSize:20,
+    marginTop:20
+  }
 });
 
 export default styles;

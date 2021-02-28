@@ -1,5 +1,5 @@
 import React from "react";
-import { Easing, Animated, Dimensions  } from "react-native";
+import { Dimensions } from "react-native";
 
 import { CardStyleInterpolators,createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -8,10 +8,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // screens
 import Home from "../screens/Home";
-import Onboarding from "../screens/Onboarding";
-import Pro from "../screens/Pro";
-import Profile from "../screens/Profile";
-import Register from "../screens/Register";
 import SignIn from "../screens/Auth/SignIn/SignIn";
 import SignUpAsStudent from "../screens/Auth/SignUpAsStudent/SignUpAsStudent";
 import SignUpAsAssociate from "../screens/Auth/SignUpAsAssociate/SignUpAsAssociate";
@@ -288,7 +284,6 @@ export default function AppStack(props) {
       <Drawer.Screen name="Applications" component={ApplicationStack} />
       <Drawer.Screen name="Courses" component={CourseStack} />
       <Drawer.Screen name="Profile" component={ProfileStack} />
-      <Drawer.Screen name="Account" component={Register} />
       <Drawer.Screen name="Notifications" component={NotificationStack} options={{cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS}}/>
       <Drawer.Screen name="Auth" component={AuthStack} />
     </Drawer.Navigator>
