@@ -45,7 +45,6 @@ class ProgressBarByCountry extends React.Component {
 
   componentDidMount() {
       const {data} = this.props;
-      console.log("data :",data);
       this.setState({data})
   }
   redDot = { ...styles.dot, backgroundColor: GlobalStyle.STATUSCOLOR.NewApplication };

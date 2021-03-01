@@ -1,7 +1,6 @@
 import React from "react";
-// import { useSafeArea } from "react-native-safe-area-context";
 import { ScrollView, StyleSheet, Image } from "react-native";
-import { Block, Text, theme } from "galio-framework";
+import { Block, theme } from "galio-framework";
 
 import Images from "../constants/Images";
 import { DrawerItem as DrawerCustomItem } from "../components";

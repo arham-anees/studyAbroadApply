@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Image, View } from "react-native";
+import { View } from "react-native";
 import { AppLoading } from "expo";
 import { useFonts } from "@use-expo/font";
-import { Asset } from "expo-asset";
 import { Block, GalioProvider } from "galio-framework";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Sentry from "@sentry/react";
@@ -14,7 +13,7 @@ import { enableScreens } from "react-native-screens";
 enableScreens();
 
 import Screens from "./navigation/Screens";
-import { Images, articles, argonTheme } from "./constants";
+import { Images,  argonTheme } from "./constants";
 import LocalStorage from "./helper/LocalStorage";
 
 
@@ -45,7 +44,6 @@ axios.interceptors.request.use(async config=>{
   if(token){
     config.headers["Authorization"]="Bearer "+token;
   }
-  console.log(config);
   return config;
 },err=>Promise.reject(err));
 //#endregion
@@ -55,21 +53,11 @@ const assetImages = [
   Images.Onboarding,
   Images.LogoOnboarding,
   Images.Logo,
-  Images.Pro,
-  Images.ArgonLogo,
-  Images.iOSLogo,
-  Images.androidLogo,
 ];
-
-// cache product images
-articles.map((article) => assetImages.push(article.image));
-
 function cacheImages(images) {
   return images.map((image) => {
     if (typeof image === "string") {
       return Image.prefetch(image);
-    } else {
-      return Asset.fromModule(image).downloadAsync();
     }
   });
 }

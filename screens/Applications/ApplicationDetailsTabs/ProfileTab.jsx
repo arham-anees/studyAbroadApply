@@ -95,8 +95,7 @@ class ProfileTab extends React.Component {
   updateGender = (val) => {};
   updateMaritalStatus = (val) => {};
   handleUpdateProfilePress = () => {
-    Alert.alert("Profile Updated", "Profile has been updated",[{text:"Yes",onPress:()=>{
-      console.log("state",this.state);
+    Alert.alert("Profile Updated", "Profile update is irreversible Process. Are you sure you want to update?",[{text:"Yes",onPress:()=>{
       ApplicationService.UpdateProfile(this.state)
       .then(x=>{
         if(x.ResponseStatus) Alert.alert("Profile Updated", "Profile has been updated");

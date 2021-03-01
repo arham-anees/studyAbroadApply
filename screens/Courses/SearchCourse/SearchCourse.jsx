@@ -94,6 +94,7 @@ class SearchCourse extends React.Component {
               if (!coursesListAdv.includes(course.Value))
                 coursesListAdv.push({ id: 0, text: course.Value });
             });
+            //console.log(disciplinesList,coursesListAdv);
             this.setState({ disciplinesList, coursesListAdv });
           }
         } catch {

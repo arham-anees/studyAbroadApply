@@ -143,7 +143,7 @@ function GetCourseAutoFill(){
 function ApplyForCourse(props){
   return new Promise((resolve, reject) => {
     try {
-      const url = Urls.GetCourseAutoFill;
+      const url = Urls.CourseApply;
       Fetch.Post({ url , data:{...props}}) 
         .then((response) => {
           if (response == null) reject(Messages.RequestFailed);

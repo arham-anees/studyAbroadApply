@@ -10,6 +10,11 @@ const { width, height } = Dimensions.get("window");
 
 function SearchedCoursesItem(props) {
   const {InstituteName, CountryName, CityName, InTakeName, CourseName,Duration,CourseDescription, CourseFee, DeadLine,  CourseID}=props.item;
+  let date="-";
+  try {
+    date = new Date(DeadLine).toLocaleDateString();
+    if(date.includes("nvalid"))date="-"
+  } catch {}
   return (
       <Block style={GlobalStyle.block}>
       <TextCustom style={GlobalStyle.blockTitle}>
@@ -42,7 +47,7 @@ function SearchedCoursesItem(props) {
         </Block>
         <Block row middle>
         <TextCustom style={ styles.infoField}>Course Deadline :</TextCustom>
-          <TextCustom style={ styles.infoField}>{DeadLine?(new Date(DeadLine)).toISOString():"-"}</TextCustom>
+          <TextCustom style={ styles.infoField}>{date}</TextCustom>
         </Block>
         <Button 
         style={styles.btn}

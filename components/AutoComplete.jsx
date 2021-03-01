@@ -20,8 +20,11 @@ class AutoComplete extends React.Component {
 
   componentDidMount() {
     const { list } = this.props;
-    if (list.length > 0) {
+    if (list && list.length > 0) {
       this.setState({ list });
+    }
+    else{
+      this.setState({ list:[] });
     }
   }
 

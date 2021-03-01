@@ -42,6 +42,7 @@ class DocumentsTab extends React.Component {
 
 mapItens=(data)=>{
   try{
+    //console.log(data);
     let mappedData=[];
     data.forEach(x=>{
       mappedData.push({
@@ -92,6 +93,7 @@ mapItens=(data)=>{
     })
       .then((result) => {
         if (result.type === "success") {
+          //console.log(result);
           this.setState({ file: result, filename: result.name });
         } else {
           this.refs.toast.show("hello world");

@@ -48,8 +48,8 @@ function GetUser(){
 }
 
 
-async function SetToken(value){
-    await _Set(LocalName.token, value);
+function SetToken(value, callback){
+    return _Set(LocalName.token, value, callback);
 }
 
 function GetToken(){
@@ -72,9 +72,9 @@ async function _Get(name) {
   }
 }
 
-async function _Set(name, value){
+async function _Set(name, value, callback){
     //return window.localStorage.setItem(name, value);
-    return await AsyncStorage.setItem(name, value);
+    return await AsyncStorage.setItem(name, value, callback);
 }
 
 //#endregion

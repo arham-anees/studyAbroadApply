@@ -3,21 +3,29 @@ import Messages from "../helper/Messages";
 import Fetch from "./Axios";
 import Urls from "./Urls";
 
-function Login({ username, password }) {
+function Login({ username, password }, callback) {
   return new Promise((resolve, reject) => {
     try {
       
       const url=Urls.Login;
       Fetch.Get(url+`?username=${username}&password=${password}`)//call authentication method
-        .then((response) => {//if call is successful
+        .then(async (response) => {//if call is successful
           if (response == null) reject(Messages.FailedLogin);//if authentication is failed
           else {//if authentication is successful
+            //console.log(response);
             if (response.data) {
-              LocalStorage.SetToken(response.data); //store token
+              //console.log(new Date());
+              LocalStorage.SetToken(response.data, callback) //store token
+                .then((x) => {
+                  resolve(response.data);
+                  //console.log(new Date());
+                })
+                .catch((err) => {
+                  resolve(response.data);
+                });
               //console.log(response.data);
-              resolve(true); 
             }
-            else resolve(false);
+            else resolve(null);
           }
         })
         .catch((err) => reject(err));//throw error

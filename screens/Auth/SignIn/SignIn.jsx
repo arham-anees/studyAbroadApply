@@ -1,20 +1,16 @@
 import React from "react";
-import { ImageBackground, Image, StatusBar, Dimensions } from "react-native";
+import { StatusBar } from "react-native";
 import { Block, Button, Text, theme } from "galio-framework";
 
-const { height, width } = Dimensions.get("screen");
+import AuthToken from "../../../helper/Token";
 
 import styles from "./SignIn.Styles";
 
 import argonTheme from "../../../constants/Theme";
-import Images from "../../../constants/Images";
 import LabelledInput from "../../../components/LabelledInput.Component";
-import { ScrollView } from "react-native";
-
 import AuthService from "../../../services/AuthService";
 import Background from "../../../components/Background";
 import LocalStorage from "../../../helper/LocalStorage";
-import { CommonActions } from "@react-navigation/native";
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -35,7 +31,7 @@ class SignIn extends React.Component {
       // console.log(this.props.navigation);
       // console.log(result);
       try{if (result.length>100) {
-        this.props.navigation.navigate("Home");
+        //this.props.navigation.navigate("Home");
       }
     }catch{}
   }
@@ -57,18 +53,28 @@ class SignIn extends React.Component {
     //call service
     AuthService.Login(this.state)
       .then((response) => {
-        setTimeout(() => {
-          if (response == true) {
-            this.setState({ isSubmitted: false });
-          } else {
-            this.setState({ isSubmitted: false, error: true });
-          }
-        }, 1000);
+        if(response==null){
+          this.setState({ isSubmitted: false, error: true });
+        }
+        else{
+          this.setState({ isSubmitted: false });
+          AuthToken.SetAuthToken(response);
+          this.props.navigation.reset({
+            index: 0,
+            routes: [{ name: 'SignIn' }],
+          });
+          this.props.navigation.navigate("Home");
+        }
+          // if (response == true) {
+          //   this.setState({ isSubmitted: false });
+          // } else {
+          //   this.setState({ isSubmitted: false, error: true });
+          // }
       })
       .catch((err) => {
         console.log("Error: "+err);
         this.setState({ isSubmitted: false, networkError: true });
-      });
+      })
   };
   render (){ 
     this.CheckStatus();
