@@ -17,11 +17,11 @@ class SignUpAsStudent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      FirstName: "",
-      LastName: "",
-      Email: "",
-      Password: "",
-      ConfirmPassword: "",
+      FirstName: "asd",
+      LastName: "asd",
+      Email: "asd@sad.asd",
+      Password: "1231231",
+      ConfirmPassword: "1231231",
       error: -1,
       generalMessage: "",
     };

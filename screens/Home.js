@@ -25,6 +25,8 @@ import { Animated } from "react-native";
 import GraphsDataService from "../services/GraphDataService";
 import { Alert } from "react-native";
 import HomeUtils from './Home.Utils';
+import Svg from "react-native-svg";
+import { Rect } from "react-native-svg";
 
 const { height, width } = Dimensions.get("screen");
 class Home extends React.Component {
@@ -33,7 +35,9 @@ class Home extends React.Component {
     this.back_Button_Press = this.back_Button_Press.bind(this);
     this.state={
       fadeAnim: new Animated.Value(0),
-      pieChartData:[]
+      pieChartData:[],
+      lineChartData:[],
+      barChartData:[]
     }
     
     this.fadeOut();
@@ -104,14 +108,8 @@ class Home extends React.Component {
         <Animated.View style={{ opacity: this.state.fadeAnim }}>
           <View style={{ padding: GlobalStyle.SIZES.PageNormalPadding }}>
             <AppStatusByCountry data={this.state.pieChartData} />
-            {this.state.lineChartData && this.state.lineChartData.length > 0 ? (
-              <LineChart data={this.state.lineChartData} />
-            ) : null}
-           
-            {this.state.barChartData && this.state.barChartData.length > 0 ? (
+               <LineChart data={this.state.lineChartData} />
               <ProgressBarByCountry data={this.state.barChartData} />
-            ) : null}
-            {/* <CountryApplicationsProgressChart /> */}
           </View>
         </Animated.View>
       </Background>

@@ -22,7 +22,7 @@ export function HandleSignUp({
       Password = Password.trim();
       ConfirmPassword = ConfirmPassword.trim();
       if (!isEmailValid(Email)) reject({errorCode:2,message:"Invalid email address"});
-      else if (!isPasswordValid(Password)) reject({errorCode:3, message:"Password does not match required criteria. Please enter alphabets only at least 6."});
+      else if (!isPasswordValid(Password)) reject({errorCode:3, message:"Password does not match required criteria. Please enter alphabets and numbers only at least 6."});
       else if (Password !== ConfirmPassword) reject({errorCode:4, message:"Password does not match."});
       //call service method here
       ApplicationService.UpdateProfile({

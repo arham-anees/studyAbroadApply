@@ -37,7 +37,6 @@ function GetDisciplines(){
       });
 }
 
-
 function GetCourses(levelId, instituteId){
     return new Promise((resolve, reject) => {
         try {
@@ -58,8 +57,6 @@ function GetCourses(levelId, instituteId){
       });
 }
 
-
-
 function GetInstitutes(countryId){
     return new Promise((resolve, reject) => {
         try {
@@ -78,8 +75,6 @@ function GetInstitutes(countryId){
         }
       });
 }
-
-
 
 function GetLevels(instituteId){
     return new Promise((resolve, reject) => {
@@ -100,7 +95,6 @@ function GetLevels(instituteId){
       });
 }
 
-
 function GetIntakes(instituteId){
     return new Promise((resolve, reject) => {
         try {
@@ -120,7 +114,6 @@ function GetIntakes(instituteId){
       });
 }
 
-
 function GetCourseAutoFill(){
   return new Promise((resolve, reject) => {
     try {
@@ -138,7 +131,6 @@ function GetCourseAutoFill(){
     }
   });
 }
-
 
 function ApplyForCourse(props){
   return new Promise((resolve, reject) => {
@@ -158,15 +150,13 @@ function ApplyForCourse(props){
   });
 }
 
-
-
 function Search(props){
   return new Promise((resolve, reject) => {
-    try {
-       
+    try { 
       const url = Urls.SearchCourse;
       Fetch.Post({url,data:props} ) 
         .then((response) => {
+          //console.log("request ended:",new Date())
           if (response == null) reject(Messages.RequestFailed);
           else {
             resolve(response);          
