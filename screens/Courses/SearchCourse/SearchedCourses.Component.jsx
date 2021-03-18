@@ -1,20 +1,21 @@
-import { Block, Button, Text } from "galio-framework";
-import React from "react";
-import { Dimensions } from "react-native";
+import { Block, Button,  theme } from "galio-framework";
+import React, { useState } from "react";
+import { Picker, View } from "react-native";
 import { StyleSheet } from "react-native";
-import { Alert } from "react-native";
 import TextCustom from "../../../components/TextCustom";
 import GlobalStyle from "../../../GlobalStyles";
 
-const { width, height } = Dimensions.get("window");
 
 function SearchedCoursesItem(props) {
-  const {InstituteName, CountryName, CityName, InTakeName, CourseName,Duration,CourseDescription, CourseFee, DeadLine,  CourseID}=props.item;
-  let date="-";
-  try {
-    date = new Date(DeadLine).toLocaleDateString();
-    if(date.includes("nvalid"))date="-"
-  } catch {}
+  const [intake, setIntake]=useState(0);
+  const {InstituteName, CountryName, CityName, CourseName,Duration,CourseDescription,intakeList, CourseFee, DeadLine,  CourseID}=props.item;
+
+let date="-";
+ 
+try {
+  date = new Date(DeadLine).toLocaleDateString();
+  if(date.includes("nvalid"))date="-"
+} catch {}
   return (
       <Block style={GlobalStyle.block}>
       <TextCustom style={GlobalStyle.blockTitle}>
@@ -31,9 +32,24 @@ function SearchedCoursesItem(props) {
           <TextCustom style={ styles.infoField}>City :</TextCustom>
           <TextCustom style={ styles.infoField}>{CityName}</TextCustom>
         </Block>
-        <Block row>
+        <Block row middle>
           <TextCustom style={ styles.infoField}>Intakes :</TextCustom>
-          <TextCustom style={ styles.infoField}>{InTakeName}</TextCustom>
+          <View style={styles.dropdown}>
+          <Picker
+          mode={"dropdown"}
+          selectedValue={intake}
+          enabled={true}
+          style={styles.dd}
+          onValueChange={val=>setIntake(val)}
+        >
+          {intakeList
+            ? intakeList.map((item, index) => (
+                <Picker.Item label={item.name} value={item.value} key={index} />
+              ))
+            : null}
+        </Picker>
+        </View>
+          {/* <DropDown style={ {...styles.infoField, width:"100%"}} label="test" selectedValue={0} list={intakeList} noLabel/> */}
         </Block>
         <Block row>
           <TextCustom style={ styles.infoField}>Duration :</TextCustom>
@@ -51,7 +67,7 @@ function SearchedCoursesItem(props) {
         </Block>
         <Button 
         style={styles.btn}
-        onPress={()=>props.applyForCourse(CourseID)}>Apply For Course</Button>
+        onPress={()=>{console.log("test");props.applyForCourse(CourseID, intake)}}>Apply For Course</Button>
       </Block>
   );
 }
@@ -70,5 +86,20 @@ const styles = StyleSheet.create({
     margin:0,
     marginTop:4,
     width:"100%"
+  },
+  dropdown: {
+    backgroundColor: theme.COLORS.WHITE,
+    borderRadius: theme.SIZES.INPUT_BORDER_RADIUS - 3,
+    borderWidth: theme.SIZES.INPUT_BORDER_WIDTH,
+    borderColor: theme.COLORS.INPUT,
+    height: theme.SIZES.INPUT_HEIGHT/2,
+    marginVertical: 0,
+    overflow: "hidden",
+    marginTop: 10,
+    width:"50%"
+    // width: width - 100,
+  },
+  dd:{
+    height: theme.SIZES.INPUT_HEIGHT/2,
   }
 });

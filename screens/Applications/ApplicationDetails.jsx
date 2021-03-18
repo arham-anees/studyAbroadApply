@@ -1,14 +1,12 @@
 import { Block, Button, Text } from "galio-framework";
 import React from "react";
-import { Alert, SafeAreaView, StyleSheet, View } from "react-native";
+import { Alert,  StyleSheet, View } from "react-native";
 import { Modal } from "react-native";
 import { KeyboardAvoidingView } from "react-native";
 import { Dimensions, ScrollView } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import ApplicationDetailsTabs from "../../components/Applications/ApplicationDetailsTabs";
 import Background from "../../components/Background";
 import Toast from "../../components/Toast";
-import Icons from "../../constants/Icons";
 import Images from "../../constants/Images";
 import GlobalStyle from "../../GlobalStyles";
 import CustomIcon from "../../Icons/BellIcon";
@@ -21,7 +19,6 @@ import ProfileTab from "./ApplicationDetailsTabs/ProfileTab";
 import TravelInformation from "./ApplicationDetailsTabs/TravelInformation";
 import NewDocument from "./NewDocument";
 
-const { height, width } = Dimensions.get("screen");
 
 const Tabs = {
   NoticeBoard: "noticeBoard",
@@ -43,156 +40,8 @@ class ApplicationDetails extends React.Component {
       application: {
         applicationStatus: 2,
         followUps: [1607449959571, 1605447859571],
-        documents: [
-          {
-            id: 1,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 2,
-            name: "Passport",
-            category: "Passport",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 3,
-            name: "Bachelors Degree / Transcript",
-            category: "Bachelors Degree / Transcript",
-            date: "Oct 29 2020",
-          },
-          { id: 4, name: "HSSC", category: "HSSC", date: "Oct 29 2020" },
-          {
-            id: 5,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 6,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 7,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 8,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 9,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 10,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 11,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 12,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 13,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-        ],
-        offers: [
-          {
-            id: 1,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 2,
-            name: "Passport",
-            category: "Passport",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 3,
-            name: "Bachelors Degree / Transcript",
-            category: "Bachelors Degree / Transcript",
-            date: "Oct 29 2020",
-          },
-          { id: 4, name: "HSSC", category: "HSSC", date: "Oct 29 2020" },
-          {
-            id: 5,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 6,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 7,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 8,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 9,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 10,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 11,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 12,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-          {
-            id: 13,
-            name: "CV",
-            category: "Curriculum Vitae",
-            date: "Oct 29 2020",
-          },
-        ],
+        documents: [],
+        offers: [],
       },
     };
   }
@@ -240,7 +89,7 @@ class ApplicationDetails extends React.Component {
   };
 
 
-  handleDeleteOffer 
+  //handleDeleteOffer 
 
   // handleUpdateGender = (newValue) => {
   //   let application = this.state.application;
@@ -252,7 +101,32 @@ class ApplicationDetails extends React.Component {
   //   application.maritalStatus = newValue;
   //   this.setState({ application });
   // };
-
+  handleUpdateProfilePress = (props) => {
+    Alert.alert(
+      "Profile Updated",
+      "Profile update is irreversible Process. Are you sure you want to update?",
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+            ApplicationService.UpdateProfile(props)
+              .then((x) => {
+                console.log(x);
+                if (x.ResponseStatus)
+                  Alert.alert("Profile Updated", "Profile has been updated");
+                else
+                  Alert.alert(
+                    "Profile Update Failed",
+                    "Failed to update profile. Please try again later."
+                  );
+              })
+              .catch((err) => console.log(err));
+          },
+        },
+        { text: "No" },
+      ]
+    );
+  };
   handleAddFollowUp = (newFollowUp) => {
     if (!newFollowUp) return;
     let application = this.state.application;
@@ -335,6 +209,7 @@ class ApplicationDetails extends React.Component {
                 applicationId={this.state.applicationId}
                 profileId={this.state.profileId}
                 application={this.state.application}
+                handleUpdateProfilePress={this.handleUpdateProfilePress}
               />
             ) :  this.state.activeTab === Tabs.Course ? (
               <CourseTab item={this.state.course}/>):

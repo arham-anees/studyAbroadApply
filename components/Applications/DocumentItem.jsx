@@ -11,14 +11,15 @@ import { Animated } from "react-native";
 const { width } = Dimensions.get("screen");
 const itemWidth=120;
 
-function DownloadFile(fileName){
+function DownloadFile(fileName,ApplicationID){
   try{
-  Linking.openURL("https://www.studyabroadapply.com/"+fileName);
+  Linking.openURL("http://www.studyabroadapply.com/documents/"+ApplicationID+"/"+fileName);
   }catch{}
 }
 
 function DocumentItem(props) {
-  const {id,number, name, category, date}=props;
+  const {id,number, name, category, date, ApplicationID}=props;
+  
   const fadeAnim = useRef(new Animated.Value(itemWidth)).current;
   const fadeOut = () => {
     Animated.timing(fadeAnim, {
@@ -43,7 +44,7 @@ function DocumentItem(props) {
         <TextCustom>{date}</TextCustom>
       </Block>
       <Block row space="around" style={{borderTopWidth:0.5, paddingTop:10}}>
-        <CustomIcon source={Icons.Download}  onPress={()=>DownloadFile(name)}/>
+        <CustomIcon source={Icons.Download}  onPress={()=>DownloadFile(name, ApplicationID)}/>
           <CustomIcon source={Icons.Trash} onPress={()=>deleteItem(id, fadeOut)}/>
       </Block>
       </View>

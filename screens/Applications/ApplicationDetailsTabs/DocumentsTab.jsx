@@ -1,23 +1,12 @@
-import { Block, Button, Input, Text, theme } from "galio-framework";
-import React, { useEffect, useRef, useState } from "react";
-import { Alert, Picker } from "react-native";
-import { Dimensions } from "react-native";
+import {  Text, theme } from "galio-framework";
+import React from "react";
+import { Alert } from "react-native";
 import { StyleSheet, View } from "react-native";
 import DocumentItem from "../../../components/Applications/DocumentItem";
 import * as DocumentPicker from "expo-document-picker";
 import GlobalStyle from "../../../GlobalStyles";
-import { ScrollView } from "react-native";
 import TextCustom from "../../../components/TextCustom";
 import ApplicationService from "../../../services/ApplicationService";
-
-const { width } = Dimensions.get("screen");
-
-const documentTypes = [
-  { value: 1, name: "Bachelors Degree / Transcript" },
-  { value: 2, name: "Passport" },
-  { value: 3, name: "CV" },
-  { value: 4, name: "Bachelors Degree / Transcript" },
-];
 
 class DocumentsTab extends React.Component {
   constructor(props) {
@@ -42,16 +31,18 @@ class DocumentsTab extends React.Component {
 
 mapItens=(data)=>{
   try{
-    //console.log(data);
+    console.log(data);
     let mappedData=[];
     data.forEach(x=>{
       mappedData.push({
         name:x.FileName,
         category:x.DocumentCategoryName,
         date:x.CreationDate,
-        id:x.DocumentID
+        id:x.DocumentID,
+        ApplicationID:x.ApplicationID
       })
     });
+    //console.log(mappedData);
     return mappedData;
 
   }
@@ -102,6 +93,7 @@ mapItens=(data)=>{
       .catch((er) => console.log(er));
   };
   render() {
+    //console.log(this.state.documents)
     return (
       <View>
         <Text
@@ -119,6 +111,7 @@ mapItens=(data)=>{
               category={item.category}
               date={item.date}
               id={item.id}
+              ApplicationID={item.ApplicationID}
               key={index}
               deleteItem={this.deleteDocument}
             />

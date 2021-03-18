@@ -45,6 +45,7 @@ axios.interceptors.request.use(async config=>{
     config.headers["Authorization"]="Bearer "+token;
   }
   //console.log("request Start:",new Date())
+  //console.log(config);
   return config;
 },err=>Promise.reject(err));
 //#endregion

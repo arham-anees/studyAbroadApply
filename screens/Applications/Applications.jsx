@@ -15,41 +15,7 @@ import { Block, Button, Input } from "galio-framework";
 import CustomIcon from "../../Icons/BellIcon";
 import { Images } from "../../constants";
 import Icons from "../../constants/Icons";
-const data = [
-  {
-    name: "Imran Khan",
-    status: "New Application",
-    statusId:1,
-    level: "Bachelors",
-    date: "1/12/2020",
-    course: "Software Engineering",
-    institute: "International Islamic University Islamabad",
-  },
-  {
-    name: "Ahmad Raza",
-    status: "Sent To Counsellor",    statusId:2,
-    level: "Bachelors",
-    date: "1/12/2020",
-    course: "Software Engineering",
-    institute: "International Islamic University Islamabad",
-  },
-  {
-    name: "Ibrar Akhtar",
-    status: "In Progress",    statusId:3,
-    level: "Bachelors",
-    date: "1/12/2020",
-    course: "Software Engineering",
-    institute: "International Islamic University Islamabad",
-  },
-  {
-    name: "Tauseef Rehman",
-    status: "Visa Issued",    statusId:4,
-    level: "Bachelors",
-    date: "1/12/2020",
-    course: "Software Engineering",
-    institute: "International Islamic University Islamabad",
-  },
-];
+
 class Applications extends React.Component {
   constructor(props) {
     super(props);
@@ -85,9 +51,12 @@ class Applications extends React.Component {
     return data;
   }
 
+  componentWillUnmount() {
+    //this._unsubscribe();
+  }
   componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {    
     this.fadeIn();
-
     LocalStorage.GetAppFirstPage().then((x) => {
       try {
         let localData = JSON.parse(x);
@@ -113,6 +82,7 @@ class Applications extends React.Component {
         }
       })
       .catch((err) => console.log(err));
+    });
   }
 
   getApplicationList() {
@@ -152,8 +122,8 @@ class Applications extends React.Component {
     this.setState({ appList: filtered });
   };
 
-  render = () => (
-    <Background>
+  render(){
+    return <Background>
       <Animated.View style={{ opacity: this.state.fadeAnim }}>
         <View style={styles.container}>
           <Block row middle space="between">
@@ -200,7 +170,7 @@ class Applications extends React.Component {
         </View>
       </Animated.View>
     </Background>
-  );
+  }
 }
 
 export default Applications;

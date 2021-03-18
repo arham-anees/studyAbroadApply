@@ -1,10 +1,11 @@
 import React from "react";
 
+import { RadioButton } from 'react-native-paper';
 import { ImageBackground, Image, StatusBar, Dimensions } from "react-native";
 import { Block, Button, Text, theme } from "galio-framework";
 
 const { height, width } = Dimensions.get("screen");
-
+import { Radio } from 'galio-framework';
 import styles from "./SignUpAsStudent.Styles";
 import argonTheme from "../../../constants/Theme";
 import Images from "../../../constants/Images";
@@ -12,6 +13,8 @@ import LabelledInput from "../../../components/LabelledInput.Component";
 
 import { HandleSignUp } from "./SignUpAsStudent.Utils";
 import Background from "../../../components/Background";
+import TextCustom from "../../../components/TextCustom";
+import GlobalStyle from "../../../GlobalStyles";
 
 class SignUpAsStudent extends React.Component {
   constructor(props) {
@@ -24,13 +27,17 @@ class SignUpAsStudent extends React.Component {
       ConfirmPassword: "1231231",
       error: -1,
       generalMessage: "",
+      Gender: "1"
     };
   }
 
   handleSignUp = () => {
     HandleSignUp(this.state)
-      .then((x) => {this.props.navigation.navigate("Home")})
-      .catch((e) => {
+      .then(x => {
+        debugger;
+        this.props.navigation.navigate("Home");
+      })
+      .catch(e => {
         try {
           let errorCode = parseInt(e.errorCode);
           this.setState({ error: errorCode, generalMessage: e.message });
@@ -39,15 +46,17 @@ class SignUpAsStudent extends React.Component {
         }
       });
   };
-  handleFirstNameChange = (value) =>
+  handleFirstNameChange = value =>
     this.setState({ FirstName: value, generalMessage: "", error: -1 });
-  handleLastNameChange = (value) =>
+  handleGenderChange = value =>
+    this.setState({ Gender: value, generalMessage: "", error: -1 });
+  handleLastNameChange = value =>
     this.setState({ LastName: value, generalMessage: "", error: -1 });
-  handleEmailChange = (value) =>
+  handleEmailChange = value =>
     this.setState({ Email: value, generalMessage: "", error: -1 });
-  handlePasswordChange = (value) =>
+  handlePasswordChange = value =>
     this.setState({ Password: value, generalMessage: "", error: -1 });
-  handleConfirmPasswordChange = (value) =>
+  handleConfirmPasswordChange = value =>
     this.setState({ ConfirmPassword: value, generalMessage: "", error: -1 });
   render = () => (
     <Background fullscreen>
@@ -91,7 +100,6 @@ class SignUpAsStudent extends React.Component {
           value={this.state.Password}
           password
           required
-
         />
         <LabelledInput
           label="Confirm Password"
@@ -102,8 +110,24 @@ class SignUpAsStudent extends React.Component {
           error={this.state.error === 4}
           value={this.state.ConfirmPassword}
           required
-          
         />
+        <Block>
+          <TextCustom>Gender*</TextCustom>
+          <RadioButton.Group
+            onValueChange={value => this.handleGenderChange(value)}
+            value={this.state.Gender}
+          >
+            <RadioButton.Item label="Male" value="1" 
+            color={GlobalStyle.color.textLight}
+            labelStyle={{color:GlobalStyle.color.textLight}}
+            uncheckedColor={GlobalStyle.color.textLight}/>
+            <RadioButton.Item label="Female" value="2" 
+            color={GlobalStyle.color.textLight}
+            uncheckedColor={GlobalStyle.color.textLight}
+            labelStyle={{color:GlobalStyle.color.textLight}}/>
+          </RadioButton.Group>
+        </Block>
+
         {this.state.generalMessage.length > 0 ? (
           <Text style={styles.error}>{this.state.generalMessage}</Text>
         ) : null}

@@ -42,21 +42,37 @@ class DrawerItem extends React.Component {
         />
       </View>
     );
-
   };
 
-  SignOut= async (navigation)=>{
+  SignOut = async (navigation) => {
     await LocalStorage.ClearToken();
+    //console.log(navigation);
+    //navigation.popToTop();
+    // navigation.dispatch(state => {
+    //     // Remove the home route from the stack
+    //     const routes = state.routes;//.filter(r => r.name == 'Auth');
+    //     //state.history=state.history.filter(h=>h.type!="route" || h.key.includes("Auth"))
+    //     //console.log(history)
+    //   return CommonActions.reset({
+    //     index: 0,
+    //     routes:[{name:"Auth"}]
+    //   });
+    // });
+    //navigation.goBack();
+    //return;
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [{ name: "Auth" }]
-      }));
-      try{
-    navigation.push("Auth");}
-    catch{
-    navigation.navigate("Auth");}
-  }
+        key:null,
+        routes: [{ name: "Auth"}],
+      })
+    );
+    try {
+      navigation.push("Auth");
+    } catch {
+      navigation.navigate("Auth");
+    }
+  };
 
   render() {
     const { focused, title, navigation } = this.props;

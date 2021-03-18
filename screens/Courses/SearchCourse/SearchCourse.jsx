@@ -1,6 +1,6 @@
-import { Block, Button, Input, Switch, Text } from "galio-framework";
+import { Block, Button,  Switch, Text } from "galio-framework";
 import React from "react";
-import {  Animated } from "react-native";
+import { Animated } from "react-native";
 import Background from "../../../components/Background";
 import DropDown from "../../../components/DropDown";
 import SelectCountry from "../../../components/SelectCountry";
@@ -9,6 +9,9 @@ import SearchService from "../../../services/SearchService";
 
 import styles from "./SearchCourse.Styles";
 import AutoComplete from "../../../components/AutoComplete";
+import SearchedCoursesItem from "./SearchedCourses.Component";
+import TextCustom from "../../../components/TextCustom";
+import Loading from "../../../components/Loading";
 
 
 class SearchCourse extends React.Component {
@@ -26,7 +29,6 @@ class SearchCourse extends React.Component {
         institute: 0,
         level: 0,
         course: 0,
-        intake: 0,
         courseDisciplineName: "",
         courseDisciplineId: 0,
         courseName: "",
@@ -34,14 +36,14 @@ class SearchCourse extends React.Component {
       },
       coursesListAdv: [],
       disciplinesList: [],
-
       isLoading:false,
-
       instituteStatus: false,
       levelStatus: false,
       courseStatus: false,
       intakeStatus: false,
       btnStatus: false,
+      isSearched:false,
+      searchResult:[]
     };
   }
 
@@ -78,7 +80,6 @@ class SearchCourse extends React.Component {
   };
 
   componentDidMount() {
-    const { navigation } = this.props;
     this.fadeIn();
     let disciplinesList = [];
     let coursesListAdv = [];
@@ -231,12 +232,36 @@ class SearchCourse extends React.Component {
     });
   };
 
+  renderSearchedItems = () => {
+    let data = this.state.searchResult;
+    if(data.length==0)return <TextCustom style={styles.noCourse}>No Course found</TextCustom>
+    return data.map((x, index) => <SearchedCoursesItem item={x} key={index} applyForCourse={this.applyForCourse} />);
+  };
+
   searchCourse = () => {
       const searchFilter = this.state.searchFitler;
       this.props.navigation.navigate({
         name: "SearchedCourses",
         params: { searchFilter },
       });
+      return;
+      this.setState({ isLoading:true });
+    SearchService.Search({
+      searchTypeId: searchFilter.advanced ? 2 : 1,
+      levelId: searchFilter.level,
+      instituteId: searchFilter.institute,
+      countryId: searchFilter.country,
+      courseDisciplineId: searchFilter.courseDisciplineId,
+      courseName: searchFilter.courseName,
+      courseDisciplineName: searchFilter.courseDisciplineName,
+    })
+      .then((x) => {
+        if(!x)x=[];
+        this.setState({ isLoading:false, searchResult:x,isSearched:true });
+            
+      })
+      .catch((err) => {console.log(err);
+        this.setState({isLoading:false,isSearched:true});});
 
   };
   updateCourse = (id, text) => {
@@ -253,6 +278,8 @@ class SearchCourse extends React.Component {
   };
   render = () => {
     return (
+      <React.Fragment>
+        <Loading isActive={this.state.isLoading}/>
       <Background>
         <Animated.View style={{ opacity: this.state.fadeAnim, flex: 1 }}>
           <Block
@@ -263,7 +290,10 @@ class SearchCourse extends React.Component {
           >
             <Block style={styles.block}>
               <Text style={styles.blockTitle}>Search Course</Text>
-
+              <SelectCountry
+                    onChange={(val) => this.handleCountrySelection(val)}
+                    selectedValue={this.state.searchFitler.country}
+                  />
               {this.state.searchFitler.advanced ? (
                 <Block>
                   <AutoComplete
@@ -279,10 +309,7 @@ class SearchCourse extends React.Component {
                 </Block>
               ) : (
                 <Block>
-                  <SelectCountry
-                    onChange={(val) => this.handleCountrySelection(val)}
-                    selectedValue={this.state.searchFitler.country}
-                  />
+                 
                   {/* {this.state.searchFitler.advanced ? (
                 <React.Fragment> */}
                   <DropDown
@@ -308,13 +335,13 @@ class SearchCourse extends React.Component {
                     selectedValue={this.state.searchFitler.course}
                     disabled={!this.state.courseStatus}
                   />
-                  <DropDown
+                  {/* <DropDown
                     list={this.state.intakeList}
                     label="Intakes"
                     onChange={(val) => this.handleIntakwSelection(val)}
                     selectedValue={this.state.searchFitler.intake}
                     disabled={!this.state.intakeStatus}
-                  />
+                  /> */}
                 </Block>
               )}
 
@@ -343,8 +370,9 @@ class SearchCourse extends React.Component {
             </Block>
           </Block>
         </Animated.View>
-      </Background>
+      </Background></React.Fragment>
     );
   };
+ 
 }
 export default SearchCourse;

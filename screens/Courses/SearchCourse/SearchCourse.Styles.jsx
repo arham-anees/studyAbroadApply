@@ -2,10 +2,11 @@ import { Dimensions } from "react-native";
 import GlobalStyle from "../../../GlobalStyles";
 
 const { StyleSheet } = require("react-native");
-const { width } = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container:{
-    flex:1
+    flex:1,
+    minHeight:height
   },
   btn: {
     width: "100%",

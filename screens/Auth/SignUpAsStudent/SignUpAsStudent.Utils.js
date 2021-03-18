@@ -25,13 +25,14 @@ export function HandleSignUp({
       else if (!isPasswordValid(Password)) reject({errorCode:3, message:"Password does not match required criteria. Please enter alphabets and numbers only at least 6."});
       else if (Password !== ConfirmPassword) reject({errorCode:4, message:"Password does not match."});
       //call service method here
-      ApplicationService.UpdateProfile({
+      AuthService.RegisterStudent({
         FirstName,
         LastName,
         Email,
         Password,
       })
         .then((response) => {
+          debugger
           if (response) {
           resolve(true)
           } else {
@@ -40,6 +41,8 @@ export function HandleSignUp({
           }
         })
         .catch((err) => {
+          debugger
+          console.log(err)
           reject(err);
         });
     } catch (e) {

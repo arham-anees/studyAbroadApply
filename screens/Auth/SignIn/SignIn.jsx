@@ -5,12 +5,14 @@ import { Block, Button, Text, theme } from "galio-framework";
 import AuthToken from "../../../helper/Token";
 
 import styles from "./SignIn.Styles";
-
+import Loading from '../../../components/Loading';
 import argonTheme from "../../../constants/Theme";
 import LabelledInput from "../../../components/LabelledInput.Component";
 import AuthService from "../../../services/AuthService";
 import Background from "../../../components/Background";
 import LocalStorage from "../../../helper/LocalStorage";
+import { CommonActions, StackActions } from "@react-navigation/routers";
+import { NavigationActions } from "@react-navigation/compat";
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -24,14 +26,15 @@ class SignIn extends React.Component {
     };
     
   }
-  
+  componentDidMount(){
+  }
   async CheckStatus() {
 
     var result =await LocalStorage.GetToken();
       // console.log(this.props.navigation);
       // console.log(result);
       try{if (result.length>100) {
-        //this.props.navigation.navigate("Home");
+        //this.props.navigation.push("Home");
       }
     }catch{}
   }
@@ -53,6 +56,7 @@ class SignIn extends React.Component {
     //call service
     AuthService.Login(this.state)
       .then((response) => {
+        console.log("response received");
         if(response==null){
           this.setState({ isSubmitted: false, error: true });
         }
@@ -61,15 +65,25 @@ class SignIn extends React.Component {
           AuthToken.SetAuthToken(response);
           this.props.navigation.reset({
             index: 0,
-            routes: [{ name: 'SignIn' }],
+            routes: [{ name: 'Home' }],
           });
           this.props.navigation.navigate("Home");
-        }
-          // if (response == true) {
-          //   this.setState({ isSubmitted: false });
-          // } else {
-          //   this.setState({ isSubmitted: false, error: true });
+          //this.props.navigation.dispatch(state=>console.log(state));
+          // this.props.navigation.dispatch(state=>{
+          //   // const routes =
+          //   // console.log(routes)
+          //   return CommonActions.reset({
+          //     ...state,
+          //     routeNames:["Home"],
+          //     routes:[{name:"Home"}],
+          //     index: 0,
+          //   });
           // }
+          // );
+          //this.props.navigation.push("Home");
+          //this.props.navigation.navigate("Home");
+          
+        }
       })
       .catch((err) => {
         console.log("Error: "+err);
@@ -78,6 +92,7 @@ class SignIn extends React.Component {
   };
   render (){ 
     this.CheckStatus();
+    
     return(
     <Block style={styles.container}>
       <Background fullscreen>
@@ -88,18 +103,15 @@ class SignIn extends React.Component {
         <Block space="between" style={styles.padded}>
           <LabelledInput
             label="Username"
-            iconname="person"
-            iconfamily="Fontisto"
             onChange={this.handleUsernameChange}
             value={this.state.username}
           required
           error={this.state.emailError}
+          type={"email-address"}
           />
           <LabelledInput
             label="Password"
             password
-            iconname="key"
-            iconfamily="Entypo"
             onChange={this.handlePasswordChange}
             value={this.state.password}
           required
@@ -132,15 +144,6 @@ class SignIn extends React.Component {
           >
             Sign Up As Student
           </Button>
-{/*
-          <Button
-            style={styles.button}
-            color={argonTheme.COLORS.SECONDARY}
-            onPress={this.handleSignUpAssociatePress}
-            textStyle={{ color: argonTheme.COLORS.BLACK }}
-          >
-            Sign Up As Associate
-          </Button> */}
         </Block>
       </Background>
     </Block>

@@ -156,9 +156,9 @@ function Search(props){
       const url = Urls.SearchCourse;
       Fetch.Post({url,data:props} ) 
         .then((response) => {
-          //console.log("request ended:",new Date())
           if (response == null) reject(Messages.RequestFailed);
           else {
+            //console.log(response)
             resolve(response);          
           }
         })

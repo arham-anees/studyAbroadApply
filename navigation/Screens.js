@@ -12,6 +12,7 @@ import SignIn from "../screens/Auth/SignIn/SignIn";
 import SignUpAsStudent from "../screens/Auth/SignUpAsStudent/SignUpAsStudent";
 import SignUpAsAssociate from "../screens/Auth/SignUpAsAssociate/SignUpAsAssociate";
 import ApplicationDetails from "../screens/Applications/ApplicationDetails";
+import CreateProfile from "../screens/CreateProfile";
 // drawer
 import CustomDrawerContent from "./Menu";
 
@@ -92,6 +93,20 @@ function CourseStack(props) {
           header: ({ navigation, scene }) => (
             <HeaderChild
               title="Search Results"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="CreateProfile"
+        component={CreateProfile}
+        options={{
+          header: ({ navigation, scene }) => (
+            <HeaderChild
+              title="Create Profile"
               navigation={navigation}
               scene={scene}
             />

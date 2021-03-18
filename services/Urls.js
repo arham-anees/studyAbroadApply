@@ -22,7 +22,8 @@ const Urls = {
   CreateProfile:baseAppUrl+"updateProfile",
   SearchCourse:basicUrl+"search/coursebyname",
   GetCourseAutoFill:basicUrl+"search/courseautofill",
-  CourseApply:basicUrl+"search/courseApply"
+  CourseApply:basicUrl+"search/courseApply",
+  RegisterStudent:basicUrl + "account/signup"
 };
 
 export default Urls;

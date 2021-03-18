@@ -8,6 +8,7 @@ class LabelledInput extends React.Component {
     : GlobalStyle.color.textLight;
     disabled=this.props.disabled;
     inputStyle=this.props.inputStyle;
+    type=this.props.type?this.props.type:"default";
   render (){
     return (
       <Block>
@@ -34,6 +35,7 @@ class LabelledInput extends React.Component {
           color={"black"}
           password={this.props.password ? true : false}
           editable={!this.disabled}
+          keyboardType={this.type}
         />
       </Block>
     );}

@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { Picker, StyleSheet } from "react-native";
 import GlobalStyle from "../GlobalStyles";
 
-function DropDown({label,list, onChange,selectedValue, textColor,disabled}) {
+function DropDown({label,list, onChange,selectedValue, textColor,disabled, noLabel}) {
 
  
   if(!selectedValue)selectedValue=list[0];

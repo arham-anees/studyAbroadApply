@@ -37,44 +37,39 @@ const data2 = [
   },
 ];
 
-class ProgressBarByCountry extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [],
-    };
-  }
-
-  componentDidMount() {
-    const { data } = this.props;
-    this.setState({ data });
-  }
-  redDot = {
+function ProgressBarByCountry (props) {
+  
+  // componentDidMount() {
+  //   const { data } = this.props;
+  //   console.log("========================================================");
+  //   console.log(data)
+  //   this.setState({ data });
+  // }
+  const redDot = {
     ...styles.dot,
     backgroundColor: GlobalStyle.STATUSCOLOR.NewApplication,
   };
-  orangeDot = {
+  const orangeDot = {
     ...styles.dot,
     backgroundColor: GlobalStyle.STATUSCOLOR.SentToInstitute,
   };
-  skyDot = {
+  const skyDot = {
     ...styles.dot,
     backgroundColor: GlobalStyle.STATUSCOLOR.SentToCounsellor,
   };
-  render = () => {
     return (
       <View>
         <View style={GlobalStyle.block}>
-          {this.state.data.length>0 ? (
+          {props.data.length > 0 ? (
             <View>
-              {this.state.data
+              {props.data
                 .sort(function (a, b) {
                   return b.progress - a.progress;
                 })
                 .map((item, index) => (
                   <ProgressBarByCountryItem
                     item={item}
-                    totalApp={this.state.data[0].progress}
+                    totalApp={props.data[0].progress}
                     number={index + 1}
                     key={index}
                   />
@@ -90,22 +85,21 @@ class ProgressBarByCountry extends React.Component {
             </Block>}
         <Block left>
           <Block row middle>
-            <Block style={this.skyDot}></Block>
+            <Block style={skyDot}></Block>
             <Text color={GlobalStyle.color.textLight}>Send To Counselor</Text>
           </Block>
           <Block row middle>
-            <Block style={this.orangeDot}></Block>
+            <Block style={orangeDot}></Block>
             <Text color={GlobalStyle.color.textLight}>Send To Institute</Text>
           </Block>
           <Block row middle>
-            <Block style={this.redDot}></Block>
+            <Block style={redDot}></Block>
             <Text color={GlobalStyle.color.textLight}>New Applications</Text>
           </Block>
         </Block>
         </View>
       </View>
     );
-  };
 }
 
 

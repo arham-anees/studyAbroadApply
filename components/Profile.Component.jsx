@@ -1,15 +1,16 @@
 import { Block, Button } from "galio-framework";
 import React from "react";
-import { Alert, StyleSheet, View } from "react-native";
-import DropDown from "../../../components/DropDown";
-import LabelledInput from "../../../components/LabelledInput.Component";
-import GlobalStyle from "../../../GlobalStyles";
-import ButtonTextBox from '../../../components/ButtonTextBox.Component';
+import { StyleSheet } from "react-native";
+import GlobalStyle from "../GlobalStyles";
+import ButtonTextBox from "./ButtonTextBox.Component";
+import LabelledInput from "./LabelledInput.Component";
+
 import DateTimePicker from "@react-native-community/datetimepicker";
-import ApplicationService from "../../../services/ApplicationService";
+import { Alert } from "react-native";
+import ApplicationService from "../services/ApplicationService";
 
 
-class ProfileTab extends React.Component {
+class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,11 +24,9 @@ class ProfileTab extends React.Component {
       ExpiryDate: "",
       _ExpiryDate: new Date(),
       LandLine: "",
-      DateOfBirth: "",
+      DateOfBirth:"",
       _DateOfBirth: new Date(),
-      GenderName: "",
       NationalityName: "",
-      MartialStatusName: 1,
       Address: "",
       date: "",
       mode: "date",
@@ -36,58 +35,55 @@ class ProfileTab extends React.Component {
     };
   }
 
+  componentWillUnmount() {
+    //this._unsubscribe();
+  }
   componentDidMount() {
-    this.setState({ ProfileID: this.props.ProfileID });
-    ApplicationService.GetCourse(this.props.applicationId)
-      .then((y) => {
-        y = y.MyCourse;
-        this.setState({
-          ProfileID: y.ProfileID,
-        });
-        ApplicationService.GetProfileData(y.ProfileID)
-          .then((x) => {
-            console.log(x);
-            this.setState({
-              FullName: x.FullName,
-              FirstName: x.FirstName,
-              LastName: x.LastName,
-              FatherName: x.FatherName,
-              Email: x.Email,
-              Cell: x.Cell,
-              PassportNumber: x.PassportNumber,
-              ExpiryDate: x.ExpiryDate,
-              _ExpiryDate: new Date(x.ExpiryDate),
-              LandLine: x.LandLine,
-              DateOfBirth: x.DateOfBirth,
-              _DateOfBirth: new Date(x.DateOfBirth),
-              GenderName: x.GenderName,
-              NationalityName: x.NationalityName,
-              MartialStatusName: x.MartialStatusName,
-              Address: x.Address,
-            });
-          })
-          .then((err) => console.log(err));
-      })
-      .catch((err) => console.log(err));
+    //this._unsubscribe = this.props.navigation.addListener('focus', () => {    
+        let {FirstName, LastName, FatherName, Cell,LandLine, PassportNumber, ExpiryDate, DateOfBirth, NationalityName,
+        Address}=this.props;
+        FirstName=FirstName?FirstName:"";
+        LastName=LastName?LastName:"";
+        FatherName=FatherName?FatherName:"";
+        Cell=Cell?Cell:"";
+        LandLine=LandLine?LandLine:"";
+        PassportNumber=PassportNumber?PassportNumber:"";
+        ExpiryDate=ExpiryDate?ExpiryDate:"";
+        DateOfBirth=DateOfBirth?DateOfBirth:"";
+        Address=Address?Address:"";
+        this.setState({FirstName, LastName, FatherName, Cell,LandLine, PassportNumber, _ExpiryDate:new Date(ExpiryDate), _DateOfBirth:new Date(DateOfBirth), NationalityName,
+             Address})
+    //})
+
   }
 
   handleChange = (val, name) => {
-    try {
-      let profile = this.state;
-      profile[name] = val;
-      this.setState({ ...profile });
-    } catch {}
+    try{
+      let profile=this.state;
+      profile[name]=val;
+      this.setState({...profile});
+    }
+    catch{}
   };
   updateGender = (val) => {};
   updateMaritalStatus = (val) => {};
- 
+  handleUpdateProfilePress = () => {
+    Alert.alert("Profile Updated", "Profile update is irreversible Process. Are you sure you want to update?",[{text:"Yes",onPress:()=>{
+      ApplicationService.UpdateProfile(this.state)
+      .then(x=>{
+        if(x.ResponseStatus) Alert.alert("Profile Updated", "Profile has been updated");
+        else Alert.alert("Profile Update Failed", "Failed to update profile. Please try again later.");
+      })
+      .catch(err=>console.log(err));
+    }}, {text:"No"}]);
+  };
 
   showMode = (currentMode) => {
     this.setState({ show: true, mode: currentMode });
   };
 
   showDatepicker = (newDateIndex) => {
-    this.setState({ mode: "date", dateIndex: newDateIndex, show: true });
+    this.setState({ mode: "date", dateIndex: newDateIndex, show:true });
   };
   onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -129,7 +125,7 @@ class ProfileTab extends React.Component {
           <LabelledInput
             label="Passport Number"
             value={this.state.PassportNumber}
-            onChange={(text) => this.handleChange(text, "PassportNumber")}
+            onChange={(text) => this.handleChange(text, "passportNumber")}
           />
           <ButtonTextBox
             value={new Date(this.state.ExpiryDate).toDateString()}
@@ -146,10 +142,10 @@ class ProfileTab extends React.Component {
             label="Cell Number"
             value={this.state.Cell}
             onChange={(text) => this.handleChange(text, "Cell")}
-            type={"numeric"}
+            type={"numeric"}            
           />
           <ButtonTextBox
-            value={new Date(this.state.DateOfBirth).toDateString()}
+            value={this.state.DateOfBirth}
             label={"Date Of Birth"}
             onPress={() => this.showDatepicker(2)}
           />
@@ -170,7 +166,7 @@ class ProfileTab extends React.Component {
           />
           <Button
             style={styles.btnUpdate}
-            onPress={()=>this.props.handleUpdateProfilePress({...this.state})}
+            onPress={this.handleUpdateProfilePress}
           >
             Update
           </Button>
@@ -178,11 +174,7 @@ class ProfileTab extends React.Component {
         {this.state.show && (
           <DateTimePicker
             testID="dateTimePicker"
-            value={
-              this.state.dateIndex == 1
-                ? this.state._ExpiryDate
-                : this.state._DateOfBirth
-            }
+            value={this.state.dateIndex==1?this.state._ExpiryDate:this.state._DateOfBirth}
             mode={this.state.mode}
             is24Hour={true}
             display="default"
@@ -193,11 +185,11 @@ class ProfileTab extends React.Component {
     );
   }
 }
-export default ProfileTab;
+export default Profile;
 
 const styles = StyleSheet.create({
   btnUpdate: {
-    width:"100%",
-    margin:0
+    width: "100%",
+    margin: 0,
   },
 });

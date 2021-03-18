@@ -12,37 +12,55 @@ function Login({ username, password }, callback) {
         .then(async (response) => {//if call is successful
           if (response == null) reject(Messages.FailedLogin);//if authentication is failed
           else {//if authentication is successful
-            //console.log(response);
+            console.log(response);
             if (response.data) {
               //console.log(new Date());
               LocalStorage.SetToken(response.data, callback) //store token
                 .then((x) => {
+                  console.log("saved response");
                   resolve(response.data);
                   //console.log(new Date());
                 })
                 .catch((err) => {
-                  resolve(response.data);
+                  console.log(err);
+                  reject(response.data);
                 });
               //console.log(response.data);
             }
             else resolve(null);
           }
         })
-        .catch((err) => reject(err));//throw error
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });//throw error
     } catch (e) {
       reject(e);
     }
   });
 }
 
-function RegisterStudent({ firstName, lastName, email, password }) {
+function RegisterStudent(data) {
   return new Promise((resolve, reject) => {
     try {
-      resolve(true);
+      debugger
+      const url = Urls.RegisterStudent;
+      Fetch.Post({ url, data }) //call authentication method
+        .then((response) => {
+          console.log(response);
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            resolve(response);          
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err)}); //throw error
     } catch (e) {
       reject(e);
     }
   });
+
 }
 
 function RegisterAssociate({
