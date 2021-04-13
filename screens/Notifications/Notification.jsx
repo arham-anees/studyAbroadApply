@@ -1,26 +1,37 @@
+import { Block } from "galio-framework";
 import React from "react";
-import { Animated, Dimensions, ImageBackground, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { Animated, Dimensions, StyleSheet, View } from "react-native";
+import { Alert } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import Background from "../../components/Background";
+import Loading from "../../components/Loading";
+import TextCustom from "../../components/TextCustom";
 import { Images } from "../../constants";
 import GlobalStyle from "../../GlobalStyles";
+import CustomIcon from "../../Icons/BellIcon";
+import ApplicationService from "../../services/ApplicationService";
+import NotificationService from "../../services/NotificationService";
 import NotificationItem from "./Notifications.Component";
 
-const { width, height } = Dimensions.get("window");
 class Notifications extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      fadeAnim: new Animated.Value(0)
-    }
-    
+    this.state = {
+      fadeAnim: new Animated.Value(0),
+      data: [],
+      isLoading: false,
+      dataToShow: [],
+      startIndex: 0,
+      endIndex: 25,
+      length: 25,
+    };
   }
+
   fadeIn = () => {
     // Will change fadeAnim value to 1 in 5 seconds
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
-      duration: 1000
+      duration: 1000,
     }).start();
   };
 
@@ -28,7 +39,7 @@ class Notifications extends React.Component {
     // Will change fadeAnim value to 1 in 5 seconds
     Animated.timing(this.state.fadeAnim, {
       toValue: 0,
-      duration: 0
+      duration: 0,
     }).start();
   };
 
@@ -37,69 +48,224 @@ class Notifications extends React.Component {
     this.focusListener = navigation.addListener("focus", () => {
       // The screen is focused
       // Call any action
-      this.fadeOut();
-      this.fadeIn();
+      // this.fadeOut();
+      // this.fadeIn();
+      this.setState({ isLoading: true });
+      NotificationService.GetNotificationsList({ IsRequiredCount: 0 })
+        .then((x) => {
+          //console.log(x);
+          let data = [];
+          x.forEach((item) => {
+            data.push({
+              name: item.Name,
+              notificationText: item.Message,
+              date: item.CreationDate,
+              ApplicationID: item.ApplicationID,
+              isRead: item.IsRead,
+            });
+          });
+          data.sort(
+            (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+          );
+          this.setState({ data, isLoading: false });
+          if (this.state.dataToShow.length == 0) {
+            this.setState({
+              dataToShow: data.slice(0, this.state.length),
+              startIndex: 0,
+              endIndex: this.state.length,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.setState({ isLoading: false });
+        });
     });
   }
 
+  nextPage = () => {
+    let length = this.state.length;
+    let currStartIndex = this.state.startIndex + length;
+    let listLength = this.state.data.length;
+    let endIndex = currStartIndex + length;
+    if (endIndex > listLength) endIndex = listLength;
+    let dataToShow = this.state.data.slice(currStartIndex, endIndex);
+    this.setState({ startIndex: currStartIndex, endIndex, dataToShow });
+  };
+  previousPage = () => {
+    let length = this.state.length;
+    let currStartIndex = this.state.startIndex;
+    let dataToShow = this.state.data.slice(
+      currStartIndex - length,
+      currStartIndex
+    );
+    if (currStartIndex - length >= 0)
+      this.setState({
+        startIndex: currStartIndex - length,
+        endIndex: currStartIndex,
+        dataToShow,
+      });
+  };
   componentWillUnmount() {
     // Remove the event listener
-    this.focusListener.remove();
-    this.fadeOut();
+    try {
+      this.focusListener.remove();
+      //this.fadeOut();
+    } catch {}
   }
-  data = [
-    {
-      name: "Faraz Jehangir",
-      notificationText: "Please send his offer",
-      date: "Nov 05 2020",
-    },
-    {
-      name: "Jalal Haider",
-      notificationText: "Please send his offer",
-      date: "Nov 15 2020",
-    },
-    {
-      name: "Danyal Khan",
-      notificationText: "Please send his offer",
-      date: "Nov 05 2020",
-    },
-    {
-      name: "Imran Khan",
-      notificationText: "Please send his offer",
-      date: "Nov 05 2020",
-    },
-    {
-      name: "Ahmad Raza",
-      notificationText: "Please send his offer",
-      date: "Nov 05 2020",
-    },
-    {
-      name: "Ibrar Akhtar",
-      notificationText: "Please send his offer",
-      date: "Nov 05 2020",
-    },
-    {
-      name: "Tauseef Rehman",
-      notificationText: "Please send his offer",
-      date: "Nov 05 2020",
-    },
-    {
-      name: "Farrukh Javaid",
-      notificationText: "Please send his offer",
-      date: "Nov 05 2020",
-    },
-  ];
+
+  //#region ACTIONS
+  deleteNotification = (id, callback) => {
+    Alert.alert(
+      "Confirm Delete",
+      "Are you sure you want to continue?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            NotificationService.DeleteNotification(id)
+              .then((x) => {
+                callback();
+                setTimeout(() => {
+                  try {
+                    notifs = this.state.data;
+                    notifs = notifs.filter((x) => x.ApplicationID != id);
+                    this.setState({ data: notifs });
+                  } catch {}
+                }, 1000);
+              })
+              .catch((err) => {
+                console.log(err);
+                Alert.alert(
+                  "Failed",
+                  "Failed to delete notification. Please try again later."
+                );
+              });
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+  markAllAsRead = () => {
+    Alert.alert(
+      "Confirm",
+      "Are you sure you want to continue?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            NotificationService.MarkAllNotificationAsRead()
+              .then((x) => {
+                Alert.alert(
+                  "Done",
+                  "All notifications are marked as read successfully"
+                );
+              })
+              .catch((err) => {
+                console.log(err);
+                Alert.alert(
+                  "Failed",
+                  "Failed to mark all notifications as read. Please try again later."
+                );
+              });
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+  //#endregion
+
   render = () => (
-    <Background>
-      <Animated.View style={{opacity:this.state.fadeAnim}}>
-      <View style={{ paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding }}>
-        <View style={GlobalStyle.block}>
-          {this.data.map((item, index) => (
-            <NotificationItem item={item} key={index} />
-          ))}
-        </View>
+    <Background fullscreen>
+      <View
+        style={{
+          minHeight: GlobalStyle.SIZES.PageHeight,
+        }}
+      >
+        <Loading
+          isActive={this.state.isLoading && this.state.data.length == 0}
+        />
+        <Animated.View style={{ opacity: 1 }}>
+          <View
+            style={{ paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding }}
+          >
+            <View style={GlobalStyle.block}>
+              {this.state.data.length > 0 ? (
+                <View style={styles.markAsRead}>
+                  <TouchableOpacity onPress={this.markAllAsRead}>
+                    <TextCustom>Mark All As Read</TextCustom>
+                  </TouchableOpacity>
+                </View>
+              ) : null}
+
+              {this.state.isLoading && this.state.data.length == 0 ? (
+                <Block middle>
+                  <TextCustom>Loading Notifications</TextCustom>
+                </Block>
+              ) : this.state.data.length == 0 ? (
+                <Block middle>
+                  <TextCustom>No Notifications</TextCustom>
+                </Block>
+              ) : (
+                <>
+                  {this.state.dataToShow.map((item, index) => (
+                    <NotificationItem
+                      item={item}
+                      navigation={this.props.navigation}
+                      key={index}
+                      deleteNotification={this.deleteNotification}
+                    />
+                  ))}
+                  <Block
+                    row
+                    center
+                    style={{ marginTop: 10, BackgroundColor: "red" }}
+                  >
+                    {this.state.startIndex > 0 ? (
+                      <CustomIcon
+                        source={Images.Backward}
+                        onPress={this.previousPage}
+                      />
+                    ) : null}
+                    <TextCustom
+                      style={{
+                        marginLeft: 20,
+                        marginRight: 20,
+                        textAlign: "center",
+                        flex: 1,
+                      }}
+                    >
+                      From {this.state.startIndex + 1} to{" "}
+                      {this.state.endIndex > this.state.data.length
+                        ? this.state.data.length
+                        : this.state.endIndex}{" "}
+                      off {this.state.data.length}
+                    </TextCustom>
+                    {this.state.endIndex < this.state.data.length ? (
+                      <CustomIcon
+                        source={Images.Forward}
+                        onPress={this.nextPage}
+                      />
+                    ) : null}
+                  </Block>
+                </>
+              )}
+            </View>
+          </View>
+        </Animated.View>
       </View>
-      </Animated.View>
     </Background>
   );
 }
@@ -108,4 +274,8 @@ export default Notifications;
 
 const styles = StyleSheet.create({
   container: { margin: 10 },
+  markAsRead: {
+    padding: 0,
+    marginLeft: "auto",
+  },
 });

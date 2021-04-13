@@ -11,13 +11,19 @@ function ApplicationItem({ props }) {
   const { item, navigation } = props;
   let statusBackground = GlobalStyle.STATUSBACKGROUND[0];
   return (
-    <TouchableOpacity onPress={() => navigation.push("ApplicationDetails",{appId:item.ApplicationID})}>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.push("ApplicationDetails", { appId: item.ApplicationID })
+      }
+    >
       <View
         title={(props.index + 1).toString()}
         titleColor="white"
         style={GlobalStyle.block}
       >
-        <TextCustom style={GlobalStyle.blockTitle}>{item.StudentName}</TextCustom>
+        <TextCustom style={GlobalStyle.blockTitle}>
+          {item.StudentName}
+        </TextCustom>
         <Block style={styles.bgStatus}>
           <TextCustom
             style={{
@@ -30,7 +36,7 @@ function ApplicationItem({ props }) {
           </TextCustom>
         </Block>
         <Block left>
-          <Block row middle>
+          <Block row middle style={{ flexWrap: "wrap" }}>
             <TextCustom>{item.CourseName},</TextCustom>
             <TextCustom> {item.LevelName}</TextCustom>
           </Block>
@@ -56,7 +62,9 @@ function ApplicationItem({ props }) {
             <Block row space="evenly" style={styles.footer}>
               <View>
                 <CustomIcon source={Icons.Email} />
-                { item.TotalUnread>0?<Block middle style={styles.notify} ></Block>:null}
+                {item.TotalUnread > 0 ? (
+                  <Block middle style={styles.notify}></Block>
+                ) : null}
               </View>
               <CustomIcon source={Icons.Settings} />
             </Block>
@@ -71,11 +79,10 @@ export default ApplicationItem;
 
 const styles = StyleSheet.create({
   bgStatus: {
-    
     paddingVertical: 3,
     width: "100%",
     textAlignVertical: "center",
-    textAlign:"center"
+    textAlign: "center",
   },
   footer: {
     width: "100%",
@@ -88,10 +95,10 @@ const styles = StyleSheet.create({
     width: "50%",
     fontWeight: "bold",
   },
-  text:{
-    width:"50%"
+  text: {
+    width: "50%",
   },
-  notify:{
+  notify: {
     backgroundColor: argonTheme.COLORS.LABEL,
     borderRadius: 4,
     height: theme.SIZES.BASE / 1.5,
@@ -99,5 +106,5 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     right: -5,
-  }
+  },
 });

@@ -3,53 +3,75 @@ import React from "react";
 import { RadioButton } from 'react-native-paper';
 import { ImageBackground, Image, StatusBar, Dimensions } from "react-native";
 import { Block, Button, Text, theme } from "galio-framework";
+import AuthToken from "../../../helper/Token";
 
-const { height, width } = Dimensions.get("screen");
-import { Radio } from 'galio-framework';
 import styles from "./SignUpAsStudent.Styles";
 import argonTheme from "../../../constants/Theme";
-import Images from "../../../constants/Images";
 import LabelledInput from "../../../components/LabelledInput.Component";
 
 import { HandleSignUp } from "./SignUpAsStudent.Utils";
 import Background from "../../../components/Background";
 import TextCustom from "../../../components/TextCustom";
 import GlobalStyle from "../../../GlobalStyles";
+import AuthService from "../../../services/AuthService";
 
 class SignUpAsStudent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      FirstName: "asd",
-      LastName: "asd",
-      Email: "asd@sad.asd",
-      Password: "1231231",
-      ConfirmPassword: "1231231",
+      FirstName:'',// "asd",
+      LastName: '',//"asd",
+      Email: '',//"asd@sad.asd",
+      Password: '',//"1231231",
+      ConfirmPassword: '',//"1231231",
       error: -1,
       generalMessage: "",
-      Gender: "1"
+      Gender: "1",
+      isLoading:false
     };
   }
 
   handleSignUp = () => {
+    this.setState({isLoading:true});
+
     HandleSignUp(this.state)
       .then(x => {
-        debugger;
-        this.props.navigation.navigate("Home");
+        AuthService.Login({username:this.state.Email, password:this.state.Password})
+        .then(response=>{
+          try{
+          if(response==null){
+            this.setState({ generalMessage: "failed to login" ,isLoading:false});
+          }
+          else {
+            AuthToken.SetAuthToken(response);
+            this.props.navigation.reset({
+              index: 0,
+              routes: [{ name: 'Home' }],
+            });
+            this.setState({isLoading:false});
+            this.props.navigation.navigate("Home");
+          }
+        }catch(err){
+          this.setState({isLoading:false,generalMessage:err});
+        }
+        })
+        //this.props.navigation.navigate("Home");
       })
       .catch(e => {
         try {
           let errorCode = parseInt(e.errorCode);
-          this.setState({ error: errorCode, generalMessage: e.message });
+          this.setState({ error: errorCode, generalMessage: e.message,isLoading:false });
         } catch (err) {
-          this.setState({ generalMessage: err });
+          console.log("error message",err);
+          this.setState({ generalMessage: err,error:-1 ,isLoading:false});
         }
       });
   };
   handleFirstNameChange = value =>
     this.setState({ FirstName: value, generalMessage: "", error: -1 });
   handleGenderChange = value =>
-    this.setState({ Gender: value, generalMessage: "", error: -1 });
+    {//this.setState({ Gender: value, generalMessage: "", error: -1 });
+  }
   handleLastNameChange = value =>
     this.setState({ LastName: value, generalMessage: "", error: -1 });
   handleEmailChange = value =>
@@ -121,7 +143,7 @@ class SignUpAsStudent extends React.Component {
             color={GlobalStyle.color.textLight}
             labelStyle={{color:GlobalStyle.color.textLight}}
             uncheckedColor={GlobalStyle.color.textLight}/>
-            <RadioButton.Item label="Female" value="2" 
+            <RadioButton.Item label="Female" value="0" 
             color={GlobalStyle.color.textLight}
             uncheckedColor={GlobalStyle.color.textLight}
             labelStyle={{color:GlobalStyle.color.textLight}}/>
@@ -135,6 +157,7 @@ class SignUpAsStudent extends React.Component {
         <Button
           style={[styles.button, { marginBottom: 20 }]}
           onPress={this.handleSignUp}
+          loading={this.state.isLoading}
         >
           Sign Up
         </Button>

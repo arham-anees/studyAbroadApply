@@ -46,6 +46,11 @@ class DrawerItem extends React.Component {
 
   SignOut = async (navigation) => {
     await LocalStorage.ClearToken();
+    try {
+      clearInterval(global.notifs);
+    } catch {
+      console.log("failed to clear interval");
+    }
     //console.log(navigation);
     //navigation.popToTop();
     // navigation.dispatch(state => {
@@ -63,8 +68,8 @@ class DrawerItem extends React.Component {
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
-        key:null,
-        routes: [{ name: "Auth"}],
+        key: null,
+        routes: [{ name: "Auth" }],
       })
     );
     try {

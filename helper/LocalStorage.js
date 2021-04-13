@@ -1,11 +1,13 @@
 import { AsyncStorage } from "react-native";
 
-const LocalName={
-    user:"@user",
-    token:"@authToken",
-    appList:"@applicattionsList",
-    appListFirstList:"@applicattionsListFirstList"
-}
+const LocalName = {
+  user: "@user",
+  token: "@authToken",
+  tokenStoreTime: "@tokenStoreTime",
+  appList: "@applicattionsList",
+  appListFirstList: "@applicattionsListFirstList",
+  userInfo: "@userinfo",
+};
 
 function SetAppList(list) {
   try {
@@ -18,77 +20,96 @@ function SetAppList(list) {
   _Set(LocalName.appList, JSON.stringify(list));
 }
 function GetAppList() {
-    try{
-  return _Get(LocalName.appList);
-    }catch(err){
-        var temp=_Get(LocalName.appList);
-        return [];
-    }
+  try {
+    return _Get(LocalName.appList);
+  } catch (err) {
+    var temp = _Get(LocalName.appList);
+    return [];
+  }
 }
 
+function SetUserInfo(list) {
+  _Set(LocalName.userInfo, JSON.stringify(list));
+}
+function GetUserInfo() {
+  try {
+    return _Get(LocalName.userInfo);
+  } catch (err) {
+    var temp = _Get(LocalName.userInfo);
+    return [];
+  }
+}
 
 function SetAppFirstPage(list) {
-    _Set(LocalName.appListFirstList,JSON.stringify(list));
-  }
-  function GetAppFirstPage() {
-      try{
+  _Set(LocalName.appListFirstList, JSON.stringify(list));
+}
+function GetAppFirstPage() {
+  try {
     return _Get(LocalName.appListFirstList);
-      }catch(err){
-          var temp=_Get(LocalName.appList);
-          return [];
-      }
+  } catch (err) {
+    var temp = _Get(LocalName.appList);
+    return [];
   }
-
-function SetUser(value){
-    _Set(LocalName.user, value);
 }
 
-function GetUser(){
-    return _Get(LocalName.user);
+function SetUser(value) {
+  _Set(LocalName.user, value);
 }
 
-
-function SetToken(value, callback){
-    return _Set(LocalName.token, value, callback);
+function GetUser() {
+  return _Get(LocalName.user);
 }
 
-function GetToken(){
-    return _Get(LocalName.token);
+function SetToken(value, callback) {
+  _Set(LocalName.tokenStoreTime, new Date().getTime());
+  return _Set(LocalName.token, value, callback);
 }
-function ClearToken(){
-    //AsyncStorage.removeItem(LocalName.token);
-    //debugger
-    return _Set(LocalName.token,'null');
+
+function GetToken() {
+  //  let time=await _Get(LocalName.tokenStoreTime);
+  //  if(new Date(time).)
+  return _Get(LocalName.token);
+}
+function ClearToken() {
+  AsyncStorage.removeItem(LocalName.token);
+  AsyncStorage.removeItem(LocalName.user);
+  AsyncStorage.removeItem(LocalName.userInfo);
+  AsyncStorage.removeItem(LocalName.appList);
+  AsyncStorage.removeItem(LocalName.appListFirstList);
+  AsyncStorage.removeItem(LocalName.tokenStoreTime);
+  //debugger
+  return _Set(LocalName.token, "null");
 }
 
 //#region PRIVATE GET SET
 async function _Get(name) {
   try {
-      //return window.localStorage.getItem(name);
-     return await AsyncStorage.getItem(name);
+    //return window.localStorage.getItem(name);
+    return await AsyncStorage.getItem(name);
   } catch (e) {
     console.log("Error LocalStorage: " + e);
     return null;
   }
 }
 
-async function _Set(name, value, callback){
-    //return window.localStorage.setItem(name, value);
-    return await AsyncStorage.setItem(name, value, callback);
+async function _Set(name, value, callback) {
+  //return window.localStorage.setItem(name, value);
+  return await AsyncStorage.setItem(name, value, callback);
 }
 
 //#endregion
 
-
-const LocalStorage={
-    SetUser,
-    GetUser,
-    SetToken,
-    GetToken,
-    ClearToken,
-    GetAppList,
-    SetAppList,
-    GetAppFirstPage,
-    SetAppFirstPage
-}
+const LocalStorage = {
+  SetUser,
+  GetUser,
+  SetToken,
+  GetToken,
+  ClearToken,
+  GetAppList,
+  SetAppList,
+  GetAppFirstPage,
+  SetAppFirstPage,
+  GetUserInfo,
+  SetUserInfo,
+};
 export default LocalStorage;

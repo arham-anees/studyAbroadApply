@@ -16,35 +16,43 @@ import DropDown from "./DropDown";
 // ];
 
 export default class SelectCountry extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      countries:[{name:"Select Country", value:0}]
-    }
-  }  
-  
+    this.state = {
+      countries: [{ name: "Select Country", value: 0 }],
+    };
+  }
+
   componentDidMount() {
     SearchService.GetCountries()
-      .then((x) => this.setState({countries:this._mapCountries(x)}))
+      .then((x) => {
+        this.setState({ countries: this._mapCountries(x) });
+        this.props.onChange(this.state.countries[0].value);
+      })
       .then((err) => {
         // Alert.alert(
         //   "Failed to load countries list from. Please try again later"
         // );
       });
   }
-  _mapCountries=(countries)=>{
-    try{
-      let mappedCountries=[{value:0, name:"Select Country"}];
-      countries.forEach(x=>{
+  _mapCountries = (countries) => {
+    try {
+      let mappedCountries = [];
+      if (this.props.value == 1)
+        mappedCountries.push({ value: 0, name: "Select Country" });
+      countries.forEach((x) => {
         mappedCountries.push({
-          value:x.Key,
-          name:x.Value
+          value: x.Key,
+          name: x.Value,
         });
       });
       return mappedCountries;
-    }
-    catch{}
+    } catch {}
     return [];
+  };
+  render() {
+    return (
+      <DropDown list={this.state.countries} label="Countries" {...this.props} />
+    );
   }
-  render(){return <DropDown list={this.state.countries} label="Countries" {...this.props}/>}
 }

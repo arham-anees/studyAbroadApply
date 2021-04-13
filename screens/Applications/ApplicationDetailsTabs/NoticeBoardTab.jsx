@@ -1,6 +1,11 @@
 import { Block, Button, Input, Text, theme } from "galio-framework";
 import React from "react";
-import {  Alert, CheckBox, Dimensions } from "react-native";
+import {
+  Alert,
+  CheckBox,
+  Dimensions,
+  TouchableHighlightBase,
+} from "react-native";
 import { StyleSheet, View } from "react-native";
 import DropDown from "../../../components/DropDown";
 import Icons from "../../../constants/Icons";
@@ -8,33 +13,39 @@ import GlobalStyle from "../../../GlobalStyles";
 import CustomIcon from "../../../Icons/BellIcon";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { KeyboardAvoidingView } from "react-native";
-import TextCustom from '../../../components/TextCustom';
+import TextCustom from "../../../components/TextCustom";
 import ApplicationService from "../../../services/ApplicationService";
 import Svg from "react-native-svg";
 import { Rect } from "react-native-svg";
+import LocalStorage from "../../../helper/LocalStorage";
+import Role from "../../../helper/Role";
 
 const { height, width } = Dimensions.get("screen");
 
 var applicationStatus = [];
 
 function Note({ sender, note, date }) {
+  try {
+    sender = sender.trim();
+  } catch {}
+  try {
+    note = note.trim();
+  } catch {}
   return (
-    <Block 
-    style={{
-      borderWidth: 0.5,
-      padding: 5,
-      borderColor: "#fff",
-      marginBottom: 10,
-      borderRadius: 5,
-    }}> 
     <Block
-      row
-      space="between"
+      style={{
+        borderWidth: 0.5,
+        padding: 5,
+        borderColor: "#fff",
+        marginBottom: 10,
+        borderRadius: 5,
+      }}
     >
-      <TextCustom>{sender} :</TextCustom>
-      <TextCustom>{date}</TextCustom>
-    </Block>
-    <TextCustom
+      <Block row space="between">
+        <TextCustom>{sender} :</TextCustom>
+        <TextCustom>{date}</TextCustom>
+      </Block>
+      <TextCustom
         style={{
           paddingLeft: 10,
           flex: 1,
@@ -50,317 +61,374 @@ function Note({ sender, note, date }) {
 function NoteSkeleton() {
   return (
     <Block>
-    <Block
-      style={{
-        borderWidth: 0.5,
-        padding: 5,
-        borderColor: "#fff",
-        marginBottom: 10,
-        borderRadius: 5,
-      }}
-    >
-      <Svg height={70} width="100%" fill={"grey"}>
-        <Rect x="0" y="0" rx="4" ry="4" width="100%" height="20" />
-        <Rect x="0" y="30" rx="4" ry="4" width="100%" height="40" />
-      </Svg>
-    </Block>
+      <Block
+        style={{
+          borderWidth: 0.5,
+          padding: 5,
+          borderColor: "#fff",
+          marginBottom: 10,
+          borderRadius: 5,
+        }}
+      >
+        <Svg height={70} width="100%" fill={"grey"}>
+          <Rect x="0" y="0" rx="4" ry="4" width="100%" height="20" />
+          <Rect x="0" y="30" rx="4" ry="4" width="100%" height="40" />
+        </Svg>
+      </Block>
     </Block>
   );
 }
 
-
 class NoticeBoardTab extends React.Component {
-constructor(props){
-  super(props);
-  this.state={
-    applicationId:0,
-    statusId:0,
-    data:Date.now(),
-    mode:"date",
-    show:false,
-    statusName:"",
-    notes:[],
-    followUps:[],
-    openNewNote:false,
-    newNote:"",
-    visibleToStudent:true,
-    isStatusUpdating:true,
-    isLoadingNotes:true,
-    settingNote:false
+  constructor(props) {
+    super(props);
+    this.state = {
+      applicationId: 0,
+      statusId: 0,
+      date: new Date(),
+      mode: "date",
+      show: false,
+      statusName: "",
+      notes: [],
+      followUps: [],
+      openNewNote: false,
+      newNote: "",
+      visibleToStudent: true,
+      isStatusUpdating: true,
+      disableUpdateBtn: true,
+      isLoadingNotes: true,
+      settingNote: false,
+      allowUpdateStatus: true,
+      isStudent: true,
+    };
   }
-}
 
-
-mapNotes=(data)=>{
-  try{
-    var mappedData=[];
-    data.forEach(element => {
-      mappedData.push({
-        sender:element.UserName,
-        note:element.Message,
-        date:element.CreationDate,
-        isVisibleToStudents:element.IsVisableToStudents
-      })
-    });
-    return mappedData;
-  }
-  catch(err){
-    return [];
-  }
-}
-
-componentDidMount() {
-  let { application } = this.props;
-  const { applicationId } = this.props;
-
-  this.setState({applicationId});
-
-
-  ApplicationService.GetStatusList()
-  .then(x=>{
-    this._MapAppStatus(x);
-  })
-  .catch(err=>{
-    console.log(err);
-  });
-
-
-  ApplicationService.GetApplicationStatus(applicationId)
-  .then(x=>{
-    this.setState({statusName:x.ResponseMessage, statusId:x.ResponseID, isStatusUpdating:false})
-  })
-  .catch(err=>{
-    this.setState({isStatusUpdating:false});
-    console.log(err);
-  });
-
-  this.loadNotes(applicationId);
-}
-
-handleUpdateStatusPress=()=>{
-  Alert.alert("Confirm","Are you sure to update application status?",[
-    {
-      text:"Cancel",
-      style:"cancel"
-    },
-    {
-      text:"Update",
-      onPress:()=>{
-        this.setState({isStatusUpdating:true});
-        ApplicationService.UpdateApplicationStatus(this.state.statusId,this.state.applicationId)
-          .then(x=>{
-            this.setState({statusName:x.ResponseMessage, statusId:x.ResponseID, isStatusUpdating:false})
-          })
-          .catch(e=>{
-            this.setState({isStatusUpdating:false});
-          })
-      }
+  mapNotes = (data) => {
+    try {
+      var mappedData = [];
+      data.forEach((element) => {
+        mappedData.push({
+          sender: element.UserName,
+          note: element.Message,
+          date: element.CreationDate,
+          isVisibleToStudents: element.IsVisableToStudents,
+        });
+      });
+      if (this.state.isStudent)
+        return mappedData.some((x) => x.isVisibleToStudents);
+      return mappedData;
+    } catch (err) {
+      return [];
     }
-  ]);
-}
+  };
 
-_MapAppStatus=(data)=>{
- let mappedData=[];
- data.forEach(x=>{
-   mappedData.push({
-     name:x.Value,
-     value:x.Key
-   });
- })
- applicationStatus=mappedData;
-}
-updateStatus=()=>{}
-addFollowUp=()=>{}
-addNote=()=>{}
+  componentDidMount() {
+    const { applicationId } = this.props;
+
+    LocalStorage.GetUserInfo().then((x) => {
+      this.setState({ isStudent: x.RoleID == Role.Student });
+    });
+    this.setState({ applicationId });
+
+    ApplicationService.GetStatusList()
+      .then((x) => {
+        this._MapAppStatus(x);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    ApplicationService.GetApplicationStatus(applicationId)
+      .then((x) => {
+        this.setState({
+          statusName: x.ResponseMessage,
+          statusId: x.ResponseID,
+          isStatusUpdating: false,
+        });
+      })
+      .catch((err) => {
+        this.setState({ isStatusUpdating: false });
+        console.log(err);
+      });
+
+    LocalStorage.GetUserInfo()
+      .then((x) => {
+        if (
+          x.RoleID == Role.Administrator ||
+          x.RoleID == Role.Institute ||
+          x.RoleID == Role.StudentCounselor
+        )
+          this.setState({ allowUpdateStatus: true });
+      })
+      .catch((err) => {
+        console.log("error: ", err);
+      });
+
+    this.loadNotes(applicationId);
+  }
+
+  handleUpdateStatusPress = () => {
+    Alert.alert("Confirm", "Are you sure to update application status?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Update",
+        onPress: () => {
+          this.setState({ isStatusUpdating: true });
+          ApplicationService.UpdateApplicationStatus(
+            this.state.statusId,
+            this.state.applicationId
+          )
+            .then((x) => {
+              this.setState({
+                statusName: x.ResponseMessage,
+                statusId: x.ResponseID,
+                isStatusUpdating: false,
+              });
+            })
+            .catch((e) => {
+              this.setState({ isStatusUpdating: false });
+            });
+        },
+      },
+    ]);
+  };
+
+  _MapAppStatus = (data) => {
+    let mappedData = [];
+    data.forEach((x) => {
+      mappedData.push({
+        name: x.Value,
+        value: x.Key,
+      });
+    });
+    applicationStatus = mappedData;
+  };
+  updateStatus = () => {};
+  addFollowUp = () => {};
+  addNote = () => {};
   onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    this.setState({show:Platform.OS === "ios"})
+    this.setState({ show: Platform.OS === "ios" });
     //setShow();
     this.addFollowUp(selectedDate);
   };
 
-loadNotes=(applicationId)=>{
-  if(!applicationId)applicationId=this.state.applicationId;
-  ApplicationService.GetApplicationNotes(applicationId)
-  .then((x) => {
-    var mappedData=this.mapNotes(x);
-    this.setState({notes:mappedData, isLoadingNotes:false});
-  })
-  .catch((err) => {
-    this.setState({isLoadingNotes:false,notes:[]})
-    console.log("ERROR: ",JSON.stringify(err));
-  });
-}
+  loadNotes = (applicationId) => {
+    if (!applicationId) applicationId = this.state.applicationId;
+    ApplicationService.GetApplicationNotes(applicationId)
+      .then((x) => {
+        var mappedData = this.mapNotes(x);
+        this.setState({ notes: mappedData, isLoadingNotes: false });
+      })
+      .catch((err) => {
+        this.setState({ isLoadingNotes: false, notes: [] });
+        console.log("ERROR: ", JSON.stringify(err));
+      });
+  };
 
   handleAddNotePress = () => {
-    if(this.state.settingNote)return;
-    if(this.state.newNote=="")return;
+    if (this.state.settingNote) return;
+    if (this.state.newNote == "") return;
     // this.addNote({ sender: "test", note: newNote });
-    this.setState({settingNote:true});
-    ApplicationService.SetNewNote(this.state.applicationId.toString(), this.state.newNote, this.state.visibleToStudent.toString())
-    .then(x=>{
-      this.setState({newNote:'',visibleToStudent:true,openNewNote:false, settingNote:false })
-      this.loadNotes();
-    })
-    .catch(err=>{
-      this.setState({settingNote:false})
-      Alert.alert("Operation Failed","Failed to save note. Please try again later.",[{
-        text:"OK",
-        style:"cancel"
-      }])
-    })
+    this.setState({ settingNote: true });
+    ApplicationService.SetNewNote(
+      this.state.applicationId.toString(),
+      this.state.newNote,
+      this.state.visibleToStudent.toString()
+    )
+      .then((x) => {
+        this.setState({
+          newNote: "",
+          visibleToStudent: true,
+          openNewNote: false,
+          settingNote: false,
+        });
+        this.loadNotes();
+      })
+      .catch((err) => {
+        this.setState({ settingNote: false });
+        Alert.alert(
+          "Operation Failed",
+          "Failed to save note. Please try again later.",
+          [
+            {
+              text: "OK",
+              style: "cancel",
+            },
+          ]
+        );
+      });
   };
 
   showMode = (currentMode) => {
-    this.setState({show:true, mode:currentMode});    
+    this.setState({ show: true, mode: currentMode });
   };
 
   showDatepicker = () => {
     this.showMode("date");
   };
 
-  handleCheckValChange=()=>{
-    this.setState({visibleToStudent:!this.state.visibleToStudent})
-  }
+  handleCheckValChange = () => {
+    this.setState({ visibleToStudent: !this.state.visibleToStudent });
+  };
 
-  updateStatus=(val)=>{
-    this.setState({statusId:val})
-  }
+  updateStatus = (val) => {
+    this.setState({ statusId: val });
+  };
 
-  render(){
-  return (
-    <KeyboardAvoidingView>
-      <Block center style={styles.statusBar}>
-        <TextCustom>{this.state.statusName}</TextCustom>
-      </Block>
-      <View>
-        <Block style={GlobalStyle.block}>
-          <Text style={GlobalStyle.blockTitle}>Update Status</Text>
-          <Block>
-            <DropDown
-              list={applicationStatus}
-              label={"Application Status"}
-              selectedValue={this.state.statusId}
-              onChange={this.updateStatus}
-              disabled={applicationStatus.length===0}
-            />
-            <Block center>
-              <Button
-                style={styles.updateStatusBtn}
-                onPress={this.handleUpdateStatusPress}
-                // disable
-                // color={"#a0a0a0"}
-                loading={this.state.isStatusUpdating ? true : false}
-                disabled={this.state.isStatusUpdating ? true : false}
-              >
-                Update Status
-              </Button>
-            </Block>
-          </Block>
+  render() {
+    return (
+      <KeyboardAvoidingView>
+        <Block center style={styles.statusBar}>
+          <TextCustom>{this.state.statusName}</TextCustom>
         </Block>
-        <Block style={GlobalStyle.block}>
-          <Text style={GlobalStyle.blockTitle}>Follow Up</Text>
-          {this.state.followUps.map((x, index) => (
-            <Block row space="between" key={index}>
-              <TextCustom>Next Follow Up</TextCustom>
-              <TextCustom>{new Date(x).toDateString()}</TextCustom>
-            </Block>
-          ))}
-          <Block row center>
-            {this.state.show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={this.state.date}
-                mode={this.state.mode}
-                is24Hour={true}
-                display="default"
-                onChange={this.onChange}
-              />
-            )}
-            <Button
-              style={styles.updateStatusBtn}
-              onPress={this.showDatepicker}
-              disable
-              color={"#a0a0a0"}
-            >
-              Add Next Follow Up Date
-            </Button>
-          </Block>
-        </Block>
-        <Block style={GlobalStyle.block}>
-          <Text style={GlobalStyle.blockTitle}>Application Notes</Text>
-          <Block>
-            {this.state.isLoadingNotes?
-            <Block>
-            <NoteSkeleton/>
-            <NoteSkeleton/>
-            <NoteSkeleton/>
-            </Block>
-            :
-            this.state.notes.length > 0 ? (
-              this.state.notes.map((x, index) => (
-                <Note
-                  key={index}
-                  sender={x.sender}
-                  note={x.note}
-                  date={x.date}
+        <View>
+          {this.state.allowUpdateStatus ? (
+            <Block style={GlobalStyle.block}>
+              <Text style={GlobalStyle.blockTitle}>Update Status</Text>
+              <Block>
+                <DropDown
+                  list={applicationStatus}
+                  label={"Application Status"}
+                  selectedValue={this.state.statusId}
+                  onChange={this.updateStatus}
+                  disabled={applicationStatus.length === 0}
                 />
-              ))
-            ) : (
-              <TextCustom>
-                Sorry, no notes found for this application
-              </TextCustom>
-            )}
-          </Block>
-          {this.state.openNewNote ? (
-            <Block>
-              <Block row style={{alignItems:"center"}}>
-                <View
-                  style={{ backgroundColor: "#fff", margin: 0, padding: 0, borderRadius:5, marginRight:5 }}
-                >
-                  <CheckBox
-                    color="white"
-                    label=""
-                    iconColor="black"
-                    onValueChange={this.handleCheckValChange}
-                    value={this.state.visibleToStudent}
-                    style={{ margin: 0, padding: 0 }}
-                  />
-                </View>
-                <TextCustom>Is visible to students</TextCustom>
-                </Block>
-              <Block row middle space="between">
-                <Block flex>
-                  <Input
-                    placeholder={"Note"}
-                    value={this.state.newNote}
-                    color={"black"}
-                    onChangeText={(text) => this.setState({ newNote: text })}
-                  />
-                </Block>
-                <Block style={[styles.iconBlock]} middle opacity={this.state.settingNote?0.5:1}>
-                  <CustomIcon
-                    source={Icons.Send}
-                    onPress={this.handleAddNotePress}
-                  />
+                <Block center>
+                  <Button
+                    style={styles.updateStatusBtn}
+                    onPress={this.handleUpdateStatusPress}
+                    // disable
+                    color={this.state.allowUpdateStatus ? "primary" : "#a0a0a0"}
+                    loading={this.state.isStatusUpdating ? true : false}
+                    disabled={
+                      this.state.isStatusUpdating ||
+                      this.state.allowUpdateStatus
+                        ? true
+                        : false
+                    }
+                  >
+                    Update Status
+                  </Button>
                 </Block>
               </Block>
             </Block>
-          ) : (
-            <Block center>
+          ) : null}
+          {/* <Block style={GlobalStyle.block}>
+            <Text style={GlobalStyle.blockTitle}>Follow Up</Text>
+            {this.state.followUps.map((x, index) => (
+              <Block row space="between" key={index}>
+                <TextCustom>Next Follow Up</TextCustom>
+                <TextCustom>{new Date(x).toDateString()}</TextCustom>
+              </Block>
+            ))}
+            <Block row center>
+              {this.state.show && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={this.state.date}
+                  mode={this.state.mode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={this.onChange}
+                />
+              )}
               <Button
                 style={styles.updateStatusBtn}
-                onPress={() => this.setState({ openNewNote: true })}
+                onPress={this.showDatepicker}
+                disable
+                color={"#a0a0a0"}
               >
-                Add Note
+                Next Follow Up Date
               </Button>
             </Block>
-          )}
-        </Block>
-      </View>
-    </KeyboardAvoidingView>
-  );
-          }
+          </Block> */}
+          <Block style={GlobalStyle.block}>
+            <Text style={GlobalStyle.blockTitle}>Application Notes</Text>
+            <Block>
+              {this.state.isLoadingNotes ? (
+                <Block>
+                  <NoteSkeleton />
+                  <NoteSkeleton />
+                  <NoteSkeleton />
+                </Block>
+              ) : this.state.notes.length > 0 ? (
+                this.state.notes.map((x, index) => (
+                  <Note
+                    key={index}
+                    sender={x.sender}
+                    note={x.note}
+                    date={x.date}
+                  />
+                ))
+              ) : (
+                <TextCustom>
+                  Sorry, no notes found for this application
+                </TextCustom>
+              )}
+            </Block>
+            {this.state.openNewNote ? (
+              <Block>
+                <Block row style={{ alignItems: "center" }}>
+                  <View
+                    style={{
+                      backgroundColor: "#fff",
+                      margin: 0,
+                      padding: 0,
+                      borderRadius: 5,
+                      marginRight: 5,
+                    }}
+                  >
+                    <CheckBox
+                      color="white"
+                      label=""
+                      iconColor="black"
+                      onValueChange={this.handleCheckValChange}
+                      value={this.state.visibleToStudent}
+                      style={{ margin: 0, padding: 0 }}
+                    />
+                  </View>
+                  <TextCustom>Is visible to students</TextCustom>
+                </Block>
+                <Block row middle space="between">
+                  <Block flex>
+                    <Input
+                      placeholder={"Note"}
+                      value={this.state.newNote}
+                      color={"black"}
+                      onChangeText={(text) => this.setState({ newNote: text })}
+                    />
+                  </Block>
+                  <Block
+                    style={[styles.iconBlock]}
+                    middle
+                    opacity={this.state.settingNote ? 0.5 : 1}
+                  >
+                    <CustomIcon
+                      source={Icons.Send}
+                      onPress={this.handleAddNotePress}
+                    />
+                  </Block>
+                </Block>
+              </Block>
+            ) : (
+              <Block center>
+                <Button
+                  style={styles.updateStatusBtn}
+                  onPress={() => this.setState({ openNewNote: true })}
+                >
+                  Add Note
+                </Button>
+              </Block>
+            )}
+          </Block>
+        </View>
+      </KeyboardAvoidingView>
+    );
+  }
 }
 
 export default NoticeBoardTab;
@@ -371,7 +439,7 @@ const styles = StyleSheet.create({
     width: width,
     borderRadius: 5,
   },
- 
+
   dropdown: {
     backgroundColor: theme.COLORS.WHITE,
     borderRadius: theme.SIZES.INPUT_BORDER_RADIUS - 3,
@@ -399,7 +467,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginBottom: 10,
   },
- 
+
   newNote: {
     backgroundColor: "#fff",
     alignSelf: "flex-end",

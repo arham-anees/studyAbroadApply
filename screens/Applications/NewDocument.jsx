@@ -18,20 +18,24 @@ const documentTypes = [
 const NewDocument = (props) => {
   const [title, setTitle]=useState('');
   const [category, setCategory]=useState(1);
-  const [file, setFile]=useState(null);
-  const {closeModal,submitModal}=props;
-  const [titleError,setTitleError]=useState(false);
-  const [fileError,setFileError]=useState(false);
-  const pickDoc=()=>{
+  const [file, setFile] = useState(null);
+  const { closeModal, submitModal } = props;
+  const [titleError, setTitleError] = useState(false);
+  const [fileError, setFileError] = useState(false);
+  const pickDoc = () => {
     DocumentPicker.getDocumentAsync({
-      type:"*/*"
-    }).then(x=>{if(x.type=="success")setFile(x)})
-    .catch(err=>console.log(err));
-  }
+      type: "*/*",
+    })
+      .then((x) => {
+        console.log(x);
+        if (x.type == "success") setFile(x);
+      })
+      .catch((err) => console.log(err));
+  };
 
-  const submit=()=>{
-    let isValid=true;
-    if (file == null) {      
+  const submit = () => {
+    let isValid = true;
+    if (file == null) {
       setFileError(true);
       isValid = false;
     }
@@ -41,9 +45,17 @@ const NewDocument = (props) => {
       isValid = false;
     }
 
-    let categoryName=documentTypes.filter(x=>x.value==category)[0].name;
-    if(isValid)submitModal({ title, category:categoryName, file })
-  }
+    let categoryName = documentTypes.filter((x) => x.value == category)[0].name;
+    if (isValid) {
+      console.log("submitting file", file);
+      submitModal({
+        title,
+        category: categoryName,
+        file,
+        IsInstituteDocuments: props.offer ? 1 : 0,
+      });
+    }
+  };
     return (
       <Block style={styles.container}>
         <Text center style={{fontSize:GlobalStyle.SIZES.HEADING5}}>

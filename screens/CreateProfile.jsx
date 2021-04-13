@@ -8,24 +8,30 @@ import ApplicationService from "../services/ApplicationService";
 import SearchService from "../services/SearchService";
 import ProfileTab from "./Applications/ApplicationDetailsTabs/ProfileTab";
 
-
-
 class CreateProfile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      NationalityList: [],
+    };
+  }
   handleUpdateProfilePress = (props) => {
-      console.log(props);
-    ApplicationService.UpdateProfile({...props, ProfileId:0})
+    //console.log(props);
+    ApplicationService.UpdateProfile({ ...props, ProfileID: 0 })
       .then((x) => {
-        console.log(x);
-        if (x.ResponseStatus){
-            SearchService.ApplyForCourse({...this.props.route.params,ProfileID:x.ResponseID})
-            .then(x=>{
-                console.log("create profile",x);
-                if(x.ResponseID>0){
-                    Alert.alert("Applied","successfully applied for course");
-                }
-            })
-        }
-        else
+        //console.log(x);
+        if (x.ResponseStatus) {
+          //console.log("params for course apply",{...this.props.route.params.course,ProfileID:x.ResponseID});
+          SearchService.ApplyForCourseApp({
+            ...this.props.route.params.course,
+            ProfileID: x.ResponseID,
+          }).then((x) => {
+            //console.log("create profile",x);
+            if (x.ResponseID > 0) {
+              Alert.alert("Applied", "successfully applied for course");
+            }
+          });
+        } else
           Alert.alert(
             "Profile Update Failed",
             "Failed to update profile. Please try again later."
@@ -33,9 +39,7 @@ class CreateProfile extends React.Component {
       })
       .catch((err) => console.log(err));
   };
-  componentDidMount(){
-      //console.log(this.props.route.params)
-  }
+  componentDidMount() {}
   render() {
     return (
       <Background>
@@ -51,6 +55,5 @@ class CreateProfile extends React.Component {
     );
   }
 }
-
 
 export default CreateProfile;

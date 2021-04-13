@@ -67,6 +67,7 @@ function ApplicationStack(props) {
     </Stack.Navigator>
   );
 }
+
 function CourseStack(props) {
   return (
     <Stack.Navigator headerMode="screen"  screenOptions={{

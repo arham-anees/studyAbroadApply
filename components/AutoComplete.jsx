@@ -5,7 +5,6 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import TextCustom from "./TextCustom";
 import { StyleSheet, Text } from "react-native";
 
-
 class AutoComplete extends React.Component {
   constructor(props) {
     super(props);
@@ -22,9 +21,8 @@ class AutoComplete extends React.Component {
     const { list } = this.props;
     if (list && list.length > 0) {
       this.setState({ list });
-    }
-    else{
-      this.setState({ list:[] });
+    } else {
+      this.setState({ list: [] });
     }
   }
 
@@ -47,17 +45,11 @@ class AutoComplete extends React.Component {
       this.setState({ filteredList: [] });
       return;
     }
-    let newList = [];
-    this.state.list.forEach((x) => {
-      if (x.text) {
-        if (
-          x.text
-            .toLocaleLowerCase()
-            .includes(this.state.inputVal.toLocaleLowerCase())
-        )
-          newList.push(x);
-      }
-    });
+    let newList = this.state.list.some((x) =>
+      x.text
+        .toLocaleLowerCase()
+        .includes(this.state.inputVal.toLocaleLowerCase())
+    );
     this.setState({ filteredList: newList });
   };
 
@@ -100,22 +92,21 @@ class AutoComplete extends React.Component {
 
 export default AutoComplete;
 
+const styles = StyleSheet.create({
+  itemWrapper: {
+    backgroundColor: "#fffd",
+    padding: 5,
+    borderRadius: 5,
+    marginBottom: 10,
+    width: "95%",
+    marginTop: -10,
+    maxHeight: 150,
+    shadowOpacity: 0.8,
+  },
 
-const styles=StyleSheet.create({
-    itemWrapper:{
-        backgroundColor:"#fffd",
-        padding:5,
-        borderRadius:5,
-        marginBottom:10,
-        width:"95%",
-        marginTop:-10,
-        maxHeight:150,
-        shadowOpacity:0.8
-    },
-   
-    item:{
-        borderBottomColor:"grey",
-        borderBottomWidth:1,
-        padding:5
-    }
-})
+  item: {
+    borderBottomColor: "grey",
+    borderBottomWidth: 1,
+    padding: 5,
+  },
+});

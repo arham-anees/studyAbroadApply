@@ -1,53 +1,83 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withNavigation } from "@react-navigation/compat";
 import {
   TouchableOpacity,
   StyleSheet,
   Platform,
   Dimensions,
+  AppRegistry,
 } from "react-native";
 import { Button, Block, NavBar, Text, theme } from "galio-framework";
 
-import Icon from "./Icon";
-import Input from "./Input";
 import Tabs from "./Tabs";
 import argonTheme from "../constants/Theme";
-import { Image } from "react-native";
 import CustomIcon from "../Icons/BellIcon";
 import Icons from "../constants/Icons";
 import GlobalStyle from "../GlobalStyles";
+import TextCustom from "./TextCustom";
+import ApplicationService from "../services/ApplicationService";
+import NotificationService from "../services/NotificationService";
 
 const { height, width } = Dimensions.get("window");
 const iPhoneX = () =>
   Platform.OS === "ios" &&
   (height === 812 || width === 812 || height === 896 || width === 896);
 
-const BellButton = ({ isWhite, style, navigation }) => (
+const BellButton = ({ isWhite, style, navigation, count }) => (
   <TouchableOpacity
     style={[styles.button, style]}
     onPress={() => navigation.navigate("Notifications")}
   >
-    <CustomIcon source={Icons.Bell} 
-            style={{width:25, height:25}}/>
-    <Block middle style={styles.notify} />
+    <CustomIcon source={Icons.Bell} style={{ width: 25, height: 25 }} />
+    {count > 0 ? <TextCustom style={styles.notify}>{count}</TextCustom> : null}
   </TouchableOpacity>
 );
 
-
 class Header extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      notifCount: 0,
+    };
+  }
+
+  componentDidMount() {
+    NotificationService.GetNotificationsList({ IsRequiredCount: 1 })
+      .then((x) => {
+        //console.log(x.length);
+        this.setState({ notifCount: x.length });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({ notifCount: 0 });
+      });
+    global.notifs = setInterval(() => {
+      NotificationService.GetNotificationsList({ IsRequiredCount: 1 })
+        .then((x) => {
+          //console.log(x.length);
+          this.setState({ notifCount: x.length });
+        })
+        .catch((err) => {
+          console.log(err);
+          this.setState({ notifCount: 0 });
+        });
+    }, 60000);
+  }
   handleLeftPress = () => {
     const { back, navigation } = this.props;
     return back ? navigation.goBack() : navigation.openDrawer();
   };
+
   renderRight = () => {
     const { white, title, navigation } = this.props;
-        return [
-          <BellButton
-            key="chat-home"
-            navigation={navigation}
-            isWhite={white}
-          />,
-        ];
+    return [
+      <BellButton
+        key="chat-home"
+        navigation={navigation}
+        isWhite={white}
+        count={this.state.notifCount}
+      />,
+    ];
   };
   renderTabs = () => {
     const { tabs, tabIndex, navigation } = this.props;
@@ -66,11 +96,7 @@ class Header extends React.Component {
   renderHeader = () => {
     const { search, options, tabs } = this.props;
     if (search || tabs || options) {
-      return (
-        <Block center>
-          {tabs ? this.renderTabs() : null}
-        </Block>
-      );
+      return <Block center>{tabs ? this.renderTabs() : null}</Block>;
     }
   };
   render() {
@@ -113,8 +139,11 @@ class Header extends React.Component {
           right={this.renderRight()}
           rightStyle={{ alignItems: "center" }}
           left={
-            <CustomIcon source={Icons.Menu} style={{width:25,height:25}} 
-            onPress={this.handleLeftPress} />
+            <CustomIcon
+              source={Icons.Menu}
+              style={{ width: 25, height: 25 }}
+              onPress={this.handleLeftPress}
+            />
           }
           leftStyle={{ paddingVertical: 12, flex: 0.2 }}
           titleStyle={[
@@ -139,14 +168,14 @@ const styles = StyleSheet.create({
     width: "100%",
     fontSize: 16,
     fontWeight: "bold",
-    marginLeft:10
+    marginLeft: 10,
   },
   navbar: {
     paddingVertical: 0,
     paddingBottom: theme.SIZES.BASE * 1.5,
     paddingTop: theme.SIZES.BASE,
     zIndex: 5,
-    height:GlobalStyle.SIZES.NavBarHeight
+    height: GlobalStyle.SIZES.NavBarHeight,
   },
   shadow: {
     backgroundColor: theme.COLORS.WHITE,
@@ -158,12 +187,12 @@ const styles = StyleSheet.create({
   },
   notify: {
     backgroundColor: argonTheme.COLORS.LABEL,
-    borderRadius: 4,
-    height: theme.SIZES.BASE / 2,
-    width: theme.SIZES.BASE / 2,
+    borderRadius: 8,
     position: "absolute",
     top: 9,
-    right: 12,
+    left: 27,
+    paddingHorizontal: 3,
+    fontSize: 10,
   },
   header: {
     backgroundColor: theme.COLORS.WHITE,

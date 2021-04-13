@@ -12,7 +12,6 @@ import CustomIcon from "../../../Icons/BellIcon";
 import DropDown from "../../../components/DropDown";
 import Loading from "../../../components/Loading";
 
-
 class SearchedCourses extends React.Component {
   constructor(props) {
     super(props);
@@ -28,13 +27,11 @@ class SearchedCourses extends React.Component {
       countries: [],
       levels: [],
       institutes: [],
-      displayData:[]
+      displayData: [],
+      errorMessage: "",
     };
   }
   applyForCourse = (id, intakeId) => {
-    //console.log("APPly " +this.props);
-    //this.props.navigation.navigate("CreateProfile");
-    //return;
     try {
       if (intakeId == 0) {
         Alert.alert("Select Intake", "Please select an intake before apply.");
@@ -43,19 +40,25 @@ class SearchedCourses extends React.Component {
       let data = this.state.data;
       if (data != null) {
         let course = this.state.data.filter((x) => x.CourseID == id)[0];
-        course={...course,IntakeID :intakeId};
+        course = { ...course, IntakeID: intakeId };
+        this.setState({ loading: true });
         SearchService.ApplyForCourse({ ...course })
           .then((response) => {
             console.log(response);
             if (response == "/Application/Profile") {
-              this.props.navigation.navigate("CreateProfile",{course})
+              this.props.navigation.navigate("CreateProfile", { course });
               //Alert.alert("Apply Successful", "create profile here");
-            } else if(response=="/Application/BrowseApplication"){
+            } else if (response == "/Application/BrowseApplication") {
               this.props.navigation.navigate("Applications");
             }
+            this.setState({ loading: false });
           })
           .catch((err) => {
             console.log(err);
+            this.setState({ loading: true });
+            Alert.alert(
+              "An unexpected error occurred while applying for course"
+            );
           });
       }
     } catch {}
@@ -64,7 +67,7 @@ class SearchedCourses extends React.Component {
   componentDidMount() {
     const { searchFilter } = this.props.route.params;
     SearchService.Search({
-      searchTypeId: searchFilter.advanced ? 2 : 1,
+      searchTypeId: searchFilter.advanced ? 1 : 0,
       levelId: searchFilter.level,
       instituteId: searchFilter.institute,
       countryId: searchFilter.country,
@@ -106,7 +109,7 @@ class SearchedCourses extends React.Component {
           institutes,
           countries,
           data: x,
-          displayData:x,
+          displayData: x,
           loading: false,
         });
       })
@@ -115,14 +118,20 @@ class SearchedCourses extends React.Component {
         this.setState({ loading: false });
       });
   }
-  filterData=()=>{
+  filterData = () => {
     var newData = this.state.data;
-    if (this.state.institute > 0) newData = newData.filter((x) => x.InstituteID == this.state.institute);
-    if (this.state.country > 0) newData = newData.filter((x) => x.CountryID == this.state.country);
-    if (this.state.level > 0) newData = newData.filter((x) => x.LevelID == this.state.level);
-    this.setState({ totalItems: newData.length, displayData:newData });
-  }
+    if (this.state.institute > 0)
+      newData = newData.filter((x) => x.InstituteID == this.state.institute);
+    if (this.state.country > 0)
+      newData = newData.filter((x) => x.CountryID == this.state.country);
+    if (this.state.level > 0)
+      newData = newData.filter((x) => x.LevelID == this.state.level);
+    this.setState({ totalItems: newData.length, displayData: newData });
+  };
   renderItems = () => {
+    if (this.state.loading)
+      return <TextCustom style={styles.noCourse}></TextCustom>;
+
     if (this.state.data.length == 0)
       return <TextCustom style={styles.noCourse}>No Course found</TextCustom>;
     var newData = this.state.displayData;
@@ -137,10 +146,10 @@ class SearchedCourses extends React.Component {
             value: x.CourseIntakeList[i].IntakeID,
           });
         }
-      } catch (e){}
+      } catch (e) {}
       return (
         <SearchedCoursesItem
-          item={{...x,intakeList:_intakeList}}
+          item={{ ...x, intakeList: _intakeList }}
           key={index}
           applyForCourse={this.applyForCourse}
         />
@@ -159,7 +168,7 @@ class SearchedCourses extends React.Component {
   };
   render = () => (
     <Background>
-    <Loading isActive={this.state.loading} />
+      <Loading isActive={this.state.loading} />
       <Block
         style={[
           { paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding },
@@ -170,14 +179,20 @@ class SearchedCourses extends React.Component {
           <DropDown
             list={this.state.countries}
             label="Countries"
-            onChange={(val) => {this.setState({ country: val });this.filterData()}}
+            onChange={(val) => {
+              this.setState({ country: val });
+              this.filterData();
+            }}
             selectedValue={this.state.countries}
             disabled={this.state.countries.length == 1}
           />
           <DropDown
             list={this.state.institutes}
             label="Institutes"
-            onChange={(val) => {this.setState({ institute: val });this.filterData()}}
+            onChange={(val) => {
+              this.setState({ institute: val });
+              this.filterData();
+            }}
             selectedValue={this.state.institute}
             disabled={this.state.institutes.length == 1}
           />
@@ -185,25 +200,38 @@ class SearchedCourses extends React.Component {
           <DropDown
             list={this.state.levels}
             label="Levels"
-            onChange={(val) => {this.setState({ level: val });this.filterData()}}
+            onChange={(val) => {
+              this.setState({ level: val });
+              this.filterData();
+            }}
             selectedValue={this.state.level}
             disabled={this.state.levels.length == 1}
           />
         </Block>
         <React.Fragment>{this.renderItems()}</React.Fragment>
-        <Block row center style={{ marginTop: 10 }}>
-          <CustomIcon source={Images.Backward} onPress={this.previousPage} />
-          <TextCustom style={{ marginLeft: 20, marginRight: 20 }}>
-            From {this.state.start + 1} to{" "}
-            {this.state.end > this.state.totalItems
-              ? this.state.totalItems
-              : this.state.end}{" "}
-            off {this.state.totalItems}
-          </TextCustom>
-          <CustomIcon source={Images.Forward} onPress={this.nextPage} />
-        </Block>
+        {this.state.data.length > 0 ? (
+          <Block row center style={{ marginTop: 10 }}>
+            <CustomIcon source={Images.Backward} onPress={this.previousPage} />
+            <TextCustom
+              style={{
+                marginLeft: 20,
+                marginRight: 20,
+                textAlign: "center",
+                flex: 1,
+              }}
+            >
+              From {this.state.start + 1} to{" "}
+              {this.state.end > this.state.totalItems
+                ? this.state.totalItems
+                : this.state.end}{" "}
+              off {this.state.totalItems}
+            </TextCustom>
+            <CustomIcon source={Images.Forward} onPress={this.nextPage} />
+          </Block>
+        ) : null}
       </Block>
-    </Background>);
+    </Background>
+  );
 }
 
 export default SearchedCourses;

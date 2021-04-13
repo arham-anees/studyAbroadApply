@@ -3,43 +3,11 @@ import React from "react";
 import { PieChart } from "react-native-svg-charts";
 import { Text } from "react-native-svg";
 import GlobalStyle from "../../GlobalStyles";
-const Colors = [
-  "rgb(0, 143, 251)",
-  "rgb(0, 227, 150)",
-  "rgb(254, 176, 25)",
-  "rgb(255, 69, 96)",
-];
 
 function AppStatusByCountryDoughnutChart(props) {
-  const {data} = props;
-  const temp=[
-    {
-      key: 1,
-      amount: 50,
-      label: "In Progress",
-      svg: { fill: Colors[0] },
-    },
-    {
-      key: 2,
-      amount: 40,
-      label: "New Application Submitted",
-      svg: { fill: Colors[1] },
-    },
-    {
-      key: 3,
-      amount: 20,
-      label: "Pending With Institute",
-      svg: { fill: Colors[2] },
-    },
-    {
-      key: 4,
-      amount: 45,
-      label: "Visa Issued",
-      svg: { fill: Colors[3] },
-    },
-  ];
+  const { data } = props;
 
-  const Labels = ({ slices, height, width }) => {
+  const Labels = ({ slices }) => {
     return slices.map((slice, index) => {
       const { labelCentroid, pieCentroid, data } = slice;
       return (

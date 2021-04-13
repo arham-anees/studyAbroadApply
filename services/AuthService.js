@@ -6,61 +6,69 @@ import Urls from "./Urls";
 function Login({ username, password }, callback) {
   return new Promise((resolve, reject) => {
     try {
-      
-      const url=Urls.Login;
-      Fetch.Get(url+`?username=${username}&password=${password}`)//call authentication method
-        .then(async (response) => {//if call is successful
-          if (response == null) reject(Messages.FailedLogin);//if authentication is failed
-          else {//if authentication is successful
-            console.log(response);
+      const url = Urls.Login + `?username=${username}&password=${password}`;
+      //console.log(url);
+      Fetch.Get(url) //call authentication method
+        .then(async (response) => {
+          //if call is successful
+          if (response == null) reject(Messages.FailedLogin);
+          //if authentication is failed
+          else {
+            //if authentication is successful
+            //console.log(response);
             if (response.data) {
-              //console.log(new Date());
               LocalStorage.SetToken(response.data, callback) //store token
                 .then((x) => {
-                  console.log("saved response");
-                  resolve(response.data);
-                  //console.log(new Date());
+                  //console.log("saved response");
+                  resolve(response);
                 })
                 .catch((err) => {
                   console.log(err);
                   reject(response.data);
                 });
               //console.log(response.data);
-            }
-            else resolve(null);
+            } else resolve(null);
           }
         })
         .catch((err) => {
           //console.log(err);
-          reject(err)
-        });//throw error
+          reject(err);
+        }); //throw error
     } catch (e) {
       reject(e);
     }
   });
 }
 
-function RegisterStudent(data) {
+function RegisterStudent({ FirstName, LastName, Email, Password, Gender }) {
   return new Promise((resolve, reject) => {
     try {
-      debugger
-      const url = Urls.RegisterStudent;
-      Fetch.Post({ url, data }) //call authentication method
+      const url =
+        Urls.RegisterStudent +
+        `?Email=${Email}&gender=${Gender}&password=${Password}&firstName=${FirstName}&lastName=${LastName}`;
+      console.log(url);
+      Fetch.Post({ url }) //call authentication method
         .then((response) => {
-          console.log(response);
+          console.log("response:", response);
           if (response == null) reject(Messages.RequestFailed);
           else {
-            resolve(response);          
+            //if(response.ResponseStatus){
+            resolve(response);
+            ///}
+            //else {
+            //   console.log("request failed",response.ResponseMessage)
+            //   reject(response.ReponseMessage);
+            // }
           }
         })
         .catch((err) => {
-          console.log(err);
-          reject(err)}); //throw error
+          console.log("error", err);
+          reject(err);
+        }); //throw error
     } catch (e) {
       reject(e);
     }
   });
-
 }
 
 function RegisterAssociate({

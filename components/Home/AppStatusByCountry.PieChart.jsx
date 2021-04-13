@@ -3,6 +3,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import GlobalStyle from "../../GlobalStyles";
+import TextCustom from "../TextCustom";
 import AppStatusByCountryDoughnutChart from "./AppStatusByCountry.DoughnutChart";
 // import { Text } from "galio-framework";
 const Colors = [
@@ -12,12 +13,18 @@ const Colors = [
   GlobalStyle.STATUSCOLOR.VisaIssued,
 ];
 function AppStatusByCountry(props) {
-  const {data}=props;
+  const { data } = props;
   return (
     <View>
       <View style={GlobalStyle.block}>
         <View style={Styles.card}>
-          <AppStatusByCountryDoughnutChart data={data}/>
+          {!props.isLoading && props.data.length == 0 ? (
+            <View style={Styles.centerAll}>
+              <TextCustom>Not enough data for graph</TextCustom>
+            </View>
+          ) : (
+            <AppStatusByCountryDoughnutChart data={data} />
+          )}
           <View style={Styles.legendContainer}>
             <Block row space={"between"}>
               <Block row>
@@ -84,5 +91,10 @@ const Styles = StyleSheet.create({
   },
   legendTitle: {
     color: GlobalStyle.color.textLight,
+  },
+  centerAll: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

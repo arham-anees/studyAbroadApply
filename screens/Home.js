@@ -24,9 +24,8 @@ class Home extends React.Component {
       pieChartData: [],
       lineChartData: [],
       barChartData: [],
-      isLoading:true
+      isLoading: true,
     };
-
     this.fadeOut();
   }
   fadeIn = () => {
@@ -49,21 +48,23 @@ class Home extends React.Component {
     BackHandler.addEventListener("hardwareBackPress", this.back_Button_Press);
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("focus", () => {
-      this.setState({isLoading:true,pieChartData: [],
-        lineChartData: [],
-        barChartData: [],})
-    this.fadeIn();
-    this.getData();
+      this.setState({
+        isLoading: true,
+      });
+      this.fadeIn();
+      this.getData();
     });
   }
-
   componentWillUnmount() {
-    BackHandler.removeEventListener(
-      "hardwareBackPress",
-      this.back_Button_Press
-    );
-    this.props.navigation.removeListener("focus");
+    try {
+      BackHandler.removeEventListener(
+        "hardwareBackPress",
+        this.back_Button_Press
+      );
+      this.props.navigation.removeListener("focus");
+    } catch {}
   }
+
   back_Button_Press = () => {
     Alert.alert(
       "Exit From App ",
@@ -76,34 +77,63 @@ class Home extends React.Component {
     );
     return true;
   };
+
   getData() {
     try {
-      console.log("getting data");
-      GraphsDataService.GetHomePageGraphsData().then((x) => {
-        let pieChartData = HomeUtils.MapPieChartData(x["PieChartDataList"]);
-        let barChartData = HomeUtils.MapBarChartData(x);
-        let lineChartData = HomeUtils.MapLineChartData(x);
-        this.setState({ pieChartData, barChartData, lineChartData,isLoading:false });
-      })
-      .catch(err=>{
-        this.setState({isLoading:false});
-        Alert.alert("failed to load data.");
-      });
+      //console.log("getting data");
+      GraphsDataService.GetHomePageGraphsData()
+        .then((x) => {
+          let pieChartData = HomeUtils.MapPieChartData(x["PieChartDataList"]);
+          let barChartData = HomeUtils.MapBarChartData(x);
+          let lineChartData = HomeUtils.MapLineChartData(x);
+          this.setState({
+            pieChartData,
+            barChartData,
+            lineChartData,
+            isLoading: false,
+          });
+        })
+        .catch((err) => {
+          this.setState({ isLoading: false });
+          Alert.alert("failed to load data.");
+        });
     } catch (e) {
-      this.setState({isLoading:false});
+      this.setState({ isLoading: false });
       Alert.alert("failed to load data.");
-      console.log(e);
     }
   }
+
   render() {
     return (
       <Background>
-      <Loading isActive={this.state.isLoading}/>
+        <Loading
+          isActive={
+            this.state.isLoading &&
+            this.state.barChartData.length == 0 &&
+            this.state.lineChartData.length == 0 &&
+            this.state.pieChartData.length == 0
+          }
+        />
         <Animated.View style={{ opacity: this.state.fadeAnim }}>
           <View style={{ padding: GlobalStyle.SIZES.PageNormalPadding }}>
-            <AppStatusByCountry data={this.state.pieChartData} />
-            <LineChart data={this.state.lineChartData} />
-            <ProgressBarByCountry data={this.state.barChartData} />
+            <AppStatusByCountry
+              data={this.state.pieChartData}
+              isLoading={
+                this.state.isLoading && this.state.pieChartData.length == 0
+              }
+            />
+            <LineChart
+              data={this.state.lineChartData}
+              isLoading={
+                this.state.isLoading && this.state.lineChartData.length == 0
+              }
+            />
+            <ProgressBarByCountry
+              data={this.state.barChartData}
+              isLoading={
+                this.state.isLoading && this.state.barChartData.length == 0
+              }
+            />
           </View>
         </Animated.View>
       </Background>

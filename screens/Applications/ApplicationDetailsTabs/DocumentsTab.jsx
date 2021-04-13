@@ -1,4 +1,4 @@
-import {  Text, theme } from "galio-framework";
+import { Text, theme } from "galio-framework";
 import React from "react";
 import { Alert } from "react-native";
 import { StyleSheet, View } from "react-native";
@@ -15,6 +15,7 @@ class DocumentsTab extends React.Component {
       file: null,
       documents: [],
       applicationId: 0,
+      isLoading: true,
     };
   }
 
@@ -23,34 +24,35 @@ class DocumentsTab extends React.Component {
     if (appId > 0) {
       ApplicationService.GetDocuments(appId)
         .then((x) => {
-          this.setState({documents:this.mapItens(x)});
+          this.setState({ documents: this.mapItens(x), isLoading: false });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          // console.log(err);
+          this.setState({ isLoading: false });
+        });
     }
   }
 
-mapItens=(data)=>{
-  try{
-    console.log(data);
-    let mappedData=[];
-    data.forEach(x=>{
-      mappedData.push({
-        name:x.FileName,
-        category:x.DocumentCategoryName,
-        date:x.CreationDate,
-        id:x.DocumentID,
-        ApplicationID:x.ApplicationID
-      })
-    });
-    //console.log(mappedData);
-    return mappedData;
-
-  }
-  catch(err){
-    console.log(err);
-  }
-  return [];
-}
+  mapItens = (data) => {
+    try {
+      console.log(data);
+      let mappedData = [];
+      data.forEach((x) => {
+        mappedData.push({
+          name: x.FileName,
+          category: x.DocumentCategoryName,
+          date: x.CreationDate,
+          id: x.DocumentID,
+          ApplicationID: x.ApplicationID,
+        });
+      });
+      //console.log(mappedData);
+      return mappedData;
+    } catch (err) {
+      console.log(err);
+    }
+    return [];
+  };
 
   deleteDocument = (id, callback) => {
     Alert.alert(
@@ -116,6 +118,10 @@ mapItens=(data)=>{
               deleteItem={this.deleteDocument}
             />
           ))
+        ) : this.state.isLoading ? (
+          <View>
+            <TextCustom>Loading documents...</TextCustom>
+          </View>
         ) : (
           <View>
             <TextCustom>No document found</TextCustom>
@@ -143,8 +149,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 5,
     borderRadius: 5,
-    
-    paddingHorizontal: theme.SIZES.BASE 
+
+    paddingHorizontal: theme.SIZES.BASE,
   },
   button: {
     height: 30,

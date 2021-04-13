@@ -1,6 +1,6 @@
 import { Block, Button, Text } from "galio-framework";
 import React from "react";
-import { Alert,  StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { Modal } from "react-native";
 import { KeyboardAvoidingView } from "react-native";
 import { Dimensions, ScrollView } from "react-native";
@@ -12,13 +12,15 @@ import GlobalStyle from "../../GlobalStyles";
 import CustomIcon from "../../Icons/BellIcon";
 import ApplicationService from "../../services/ApplicationService";
 import DocumentsTab from "./ApplicationDetailsTabs/DocumentsTab";
-import CourseTab from './ApplicationDetailsTabs/CourseTab';
+import CourseTab from "./ApplicationDetailsTabs/CourseTab";
 import NoticeBoardTab from "./ApplicationDetailsTabs/NoticeBoardTab";
 import OffersTab from "./ApplicationDetailsTabs/OffersTab";
 import ProfileTab from "./ApplicationDetailsTabs/ProfileTab";
 import TravelInformation from "./ApplicationDetailsTabs/TravelInformation";
 import NewDocument from "./NewDocument";
-
+import { debug } from "react-native-reanimated";
+import LocalStorage from "../../helper/LocalStorage";
+import Role from "../../helper/Role";
 
 const Tabs = {
   NoticeBoard: "noticeBoard",
@@ -36,6 +38,8 @@ class ApplicationDetails extends React.Component {
       activeTab: Tabs.NoticeBoard,
       showModal: false,
       isShow: false,
+      profileId: 0,
+      userId: 0,
       toastMessage: "",
       application: {
         applicationStatus: 2,
@@ -45,29 +49,35 @@ class ApplicationDetails extends React.Component {
       },
     };
   }
-
+  componentWillUnmount() {
+    try {
+      this.focusListener.remove();
+    } catch {}
+  }
   componentDidMount() {
-    ApplicationService.GetCourse(this.state.applicationId)
-      .then((x) => {
-        x=x.MyCourse;
-        var course = {
-          name: x.CourseName,
-          institute: x.InstituteName,
-          country: x.CountryName,
-          intake: x.InTakeName,
-          level: x.LevelName,
-        };
+    this.focusListener = this.props.navigation.addListener("focus", () => {
+      ApplicationService.GetCourse(this.state.applicationId)
+        .then((x) => {
+          x = x.MyCourse;
+          var course = {
+            name: x.CourseName,
+            institute: x.InstituteName,
+            country: x.CountryName,
+            intake: x.InTakeName,
+            level: x.LevelName,
+          };
 
-        this.setState({
-          profileId: x.ProfileID,
-          userId:x.UserID,
-          intakeId:x.IntakeID,
-          courseId:x.CourseID,
-          countryId:x.CountryID,
-          course
-        });
-      })
-      .catch((err) => console.log(err));
+          this.setState({
+            profileId: x.ProfileID,
+            userId: x.UserID,
+            intakeId: x.IntakeID,
+            courseId: x.CourseID,
+            countryId: x.CountryID,
+            course,
+          });
+        })
+        .catch((err) => console.log(err));
+    });
   }
 
   //#region NOTICE BOARD
@@ -81,26 +91,12 @@ class ApplicationDetails extends React.Component {
   };
   //#endregion
 
-
   handleChange = (value, name) => {
     let application = this.state.application;
     application[name] = value;
     this.setState({ application });
   };
 
-
-  //handleDeleteOffer 
-
-  // handleUpdateGender = (newValue) => {
-  //   let application = this.state.application;
-  //   application.gender = newValue;
-  //   this.setState({ application });
-  // };
-  // handleUpdateMaritalStatus = (newValue) => {
-  //   let application = this.state.application;
-  //   application.maritalStatus = newValue;
-  //   this.setState({ application });
-  // };
   handleUpdateProfilePress = (props) => {
     Alert.alert(
       "Profile Updated",
@@ -133,10 +129,6 @@ class ApplicationDetails extends React.Component {
     application.followUps.push(newFollowUp);
     this.setState({ application });
   };
-  // handleAddNote = ({ sender, note }) => {
-  //   let application = this.state.application;
-  //   application.notes.push({ sender, note });
-  // };
 
   onTabChange = (id) => {
     this.setState({ activeTab: id });
@@ -145,12 +137,21 @@ class ApplicationDetails extends React.Component {
     try {
       if (this.state.activeTab === Tabs.NoticeBoard) {
         this.setState({ showModal: true });
-      } else if (
-        this.state.activeTab === Tabs.Documents ||
-        this.state.activeTab === Tabs.Offers
-      ) {
+      } else if (this.state.activeTab === Tabs.Documents) {
         this.setState({ showModal: true });
       } else if (this.state.activeTab === Tabs.Offers) {
+        LocalStorage.GetUserInfo()
+          .then((x) => {
+            if (
+              x.RoleID == Role.Administrator ||
+              x.RoleID == Role.Institute ||
+              x.RoleID == Role.StudentCounselor
+            )
+              this.setState({ showModal: true });
+          })
+          .catch((err) => {
+            console.log("error: ", err);
+          });
       }
     } catch (e) {}
   };
@@ -159,14 +160,41 @@ class ApplicationDetails extends React.Component {
     this.setState({ showModal: false });
   };
   submitModal = (data) => {
-    const { title, category, file } = data;
-
+    console.log("submit modal");
+    const { title, category, file, IsInstituteDocuments } = data;
+    console.log("file", file);
     let isValid = true;
-    if (file == null) {
+    if (file != null) {
+      //Alert.alert("File Uploaded", "File uploaded successfully");
+      //return;
+
+      LocalStorage.GetUserInfo()
+        .then((userInfo) => {
+          console.log("submit modal 2");
+          ApplicationService.UploadFile({
+            file: file,
+            ApplicationID: this.state.applicationId,
+            StudentID: this.state.userId,
+            CurrentUserID: 1, //userInfo.UserID,
+            ProfileID: this.state.profileId,
+            IsInstituteDocuments,
+            Description: title,
+            DocumentCategoryID: category,
+          })
+            .then((x) => {
+              console.log("file uploaded", x);
+            })
+            .catch((err) => {
+              console.log("error in file upload", err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       this.setState({ isShow: true, toastMessage: "Please select a file" });
       return;
     }
-
+    console.log("submit modal 3");
     if (title.length == 0) {
       isValid = false;
     }
@@ -211,10 +239,10 @@ class ApplicationDetails extends React.Component {
                 application={this.state.application}
                 handleUpdateProfilePress={this.handleUpdateProfilePress}
               />
-            ) :  this.state.activeTab === Tabs.Course ? (
-              <CourseTab item={this.state.course}/>):
-            this.state.activeTab === Tabs.Documents ? (
-              <DocumentsTab applicationId={this.state.applicationId}/>
+            ) : this.state.activeTab === Tabs.Course ? (
+              <CourseTab item={this.state.course} />
+            ) : this.state.activeTab === Tabs.Documents ? (
+              <DocumentsTab applicationId={this.state.applicationId} />
             ) : this.state.activeTab === Tabs.Offers ? (
               <OffersTab
                 applicationId={this.state.applicationId}
@@ -229,20 +257,18 @@ class ApplicationDetails extends React.Component {
           </ScrollView>
           {this.state.activeTab === Tabs.Documents ||
           this.state.activeTab === Tabs.Offers ? (
-            <Button
-              style={styles.floatingButton}
-              onPress={this.AddNewHandle}
-            >
-              <CustomIcon source={Images.Add}/>
+            <Button style={styles.floatingButton} onPress={this.AddNewHandle}>
+              <CustomIcon source={Images.Add} />
             </Button>
-            // <TouchableOpacity style={styles.floatingButton} onPress={this.AddNewHandle}>
-            //   <CustomIcon source={Images.Add}/>
-            // </TouchableOpacity>
-          ) : null}
+          ) : // <TouchableOpacity style={styles.floatingButton} onPress={this.AddNewHandle}>
+          //   <CustomIcon source={Images.Add}/>
+          // </TouchableOpacity>
+          null}
           <Modal
             animationType="slide"
             transparent={true}
             visible={this.state.showModal}
+            offer={this.state.activeTab == Tabs.Offers}
           >
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
@@ -264,7 +290,7 @@ export default ApplicationDetails;
 const styles = StyleSheet.create({
   container: {
     height: GlobalStyle.SIZES.PageHeight - GlobalStyle.SIZES.NavBarHeight,
-    paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding,
+    paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding,
     flex: 1,
   },
   floatingButton: {
