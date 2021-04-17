@@ -119,11 +119,34 @@ function GetIntakes(instituteId) {
   });
 }
 
-function GetCourseAutoFill() {
+function GetCourseAutoFill(course, CountryID) {
   return new Promise((resolve, reject) => {
     try {
+      //console.log("course auto fill parameter:", CountryID);
+      console.log("request url:", Urls.GetCourseAutoFill);
+      if (!course) course = "";
       const url = Urls.GetCourseAutoFill;
-      Fetch.Post({ url, data: { CourseName: "" } })
+      Fetch.Post({ url, data: { CourseName: course, CountryID } })
+        .then((response) => {
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            resolve(response);
+          }
+        })
+        .catch((err) => reject(err)); //throw error
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+function GetDisciplineAutoFill(course, CountryID) {
+  return new Promise((resolve, reject) => {
+    try {
+      console.log("request url:", Urls.GetDisciplineAutoFill);
+      if (!course) course = "";
+      const url = Urls.GetDisciplineAutoFill;
+      Fetch.Post({ url, data: { CourseName: course, CountryID } })
         .then((response) => {
           if (response == null) reject(Messages.RequestFailed);
           else {
@@ -233,6 +256,7 @@ function Search(props) {
   return new Promise((resolve, reject) => {
     try {
       const url = Urls.SearchCourse;
+      console.log("request params:", props);
       Fetch.Post({ url, data: props })
         .then((response) => {
           if (response == null) reject(Messages.RequestFailed);
@@ -259,6 +283,7 @@ const SearchService = {
   GetCourseAutoFill,
   ApplyForCourse,
   ApplyForCourseApp,
+  GetDisciplineAutoFill,
 };
 
 export default SearchService;

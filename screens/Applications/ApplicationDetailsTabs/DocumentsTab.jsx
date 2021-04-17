@@ -115,6 +115,7 @@ class DocumentsTab extends React.Component {
               id={item.id}
               ApplicationID={item.ApplicationID}
               key={index}
+              roleId={this.props.roleId}
               deleteItem={this.deleteDocument}
             />
           ))

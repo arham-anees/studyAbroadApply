@@ -7,6 +7,7 @@ import CustomIcon from "../../Icons/BellIcon";
 import Icons from "../../constants/Icons";
 import TextCustom from "../../components/TextCustom";
 import { Animated } from "react-native";
+import Role from "../../helper/Role";
 
 const { width } = Dimensions.get("screen");
 const itemWidth = 120;
@@ -22,7 +23,7 @@ function DownloadFile(fileName, ApplicationID) {
   } catch {}
 }
 function DocumentItem(props) {
-  const { id, number, name, category, date, ApplicationID } = props;
+  const { id, number, name, category, date, ApplicationID, roleId } = props;
 
   const fadeAnim = useRef(new Animated.Value(itemWidth)).current;
   const fadeOut = () => {
@@ -63,10 +64,14 @@ function DocumentItem(props) {
             source={Icons.Download}
             onPress={() => DownloadFile(name, ApplicationID)}
           />
-          <CustomIcon
-            source={Icons.Trash}
-            onPress={() => deleteItem(id, fadeOut)}
-          />
+          {roleId == Role.Administrator ||
+          roleId == Role.Institute ||
+          roleId == Role.StudentCounselor ? (
+            <CustomIcon
+              source={Icons.Trash}
+              onPress={() => deleteItem(id, fadeOut)}
+            />
+          ) : null}
         </Block>
       </View>
     </Animated.View>

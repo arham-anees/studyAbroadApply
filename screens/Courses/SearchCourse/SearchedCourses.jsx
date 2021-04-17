@@ -55,7 +55,7 @@ class SearchedCourses extends React.Component {
           })
           .catch((err) => {
             console.log(err);
-            this.setState({ loading: true });
+            this.setState({ loading: false });
             Alert.alert(
               "An unexpected error occurred while applying for course"
             );
@@ -66,51 +66,54 @@ class SearchedCourses extends React.Component {
 
   componentDidMount() {
     const { searchFilter } = this.props.route.params;
+    console.log("search filter:", searchFilter);
     SearchService.Search({
-      searchTypeId: searchFilter.advanced ? 1 : 0,
+      searchTypeId: searchFilter.searchTypeId,
       levelId: searchFilter.level,
       instituteId: searchFilter.institute,
-      countryId: searchFilter.country,
+      CountryID: searchFilter.country,
       courseDisciplineId: searchFilter.courseDisciplineId,
-      courseName: searchFilter.courseName,
+      CourseName: searchFilter.courseName,
       courseDisciplineName: searchFilter.courseDisciplineName,
+      CourseOfferedID: !searchFilter.advanced
+        ? searchFilter.CourseOfferedID
+        : 0,
     })
       .then((x) => {
+        //console.log("Response: ", x);
         if (!x) x = [];
 
-        let institutes = [{ name: "All", value: 0 }];
-        let tempInsti = [];
-        x.forEach((x) => {
-          if (!tempInsti.includes(x.InstituteID)) {
-            tempInsti.push(x.InstituteID);
-            institutes.push({ name: x.InstituteName, value: x.InstituteID });
-          }
-        });
+        // let institutes = [{ name: "All", value: 0 }];
+        // let tempInsti = [];
+        // x.forEach((x) => {
+        //   if (!tempInsti.includes(x.InstituteID)) {
+        //     tempInsti.push(x.InstituteID);
+        //     institutes.push({ name: x.InstituteName, value: x.InstituteID });
+        //   }
+        // });
 
-        let countries = [{ name: "All", value: 0 }];
-        let tempcountry = [];
-        x.forEach((x) => {
-          if (!tempcountry.includes(x.CountryID)) {
-            tempcountry.push(x.CountryID);
-            countries.push({ name: x.CountryName, value: x.CountryID });
-          }
-        });
+        // let countries = [{ name: "All", value: 0 }];
+        // let tempcountry = [];
+        // x.forEach((x) => {
+        //   if (!tempcountry.includes(x.CountryID)) {
+        //     tempcountry.push(x.CountryID);
+        //     countries.push({ name: x.CountryName, value: x.CountryID });
+        //   }
+        //});
 
-        let levels = [{ name: "All", value: 0 }];
-        let tempLevels = [];
-        x.forEach((x) => {
-          if (!tempLevels.includes(x.LevelID)) {
-            tempLevels.push(x.LevelID);
-            levels.push({ name: x.LevelName, value: x.LevelID });
-          }
-        });
+        //let levels = [{ name: "All", value: 0 }];
+        // let tempLevels = [];
+        // x.forEach((x) => {
+        //   if (!tempLevels.includes(x.LevelID)) {
+        //     tempLevels.push(x.LevelID);
+        //     levels.push({ name: x.LevelName, value: x.LevelID });
+        //   }
+        // });
         this.setState({
-          levels,
-          institutes,
-          countries,
           data: x,
           displayData: x,
           loading: false,
+          totalItems: x.length,
         });
       })
       .catch((err) => {
@@ -126,7 +129,10 @@ class SearchedCourses extends React.Component {
       newData = newData.filter((x) => x.CountryID == this.state.country);
     if (this.state.level > 0)
       newData = newData.filter((x) => x.LevelID == this.state.level);
-    this.setState({ totalItems: newData.length, displayData: newData });
+    this.setState({
+      totalItems: newData.length,
+      displayData: newData,
+    });
   };
   renderItems = () => {
     if (this.state.loading)
@@ -166,72 +172,86 @@ class SearchedCourses extends React.Component {
       this.setState({ start: this.state.start + 10, end: this.state.end + 10 });
     }
   };
-  render = () => (
-    <Background>
-      <Loading isActive={this.state.loading} />
-      <Block
-        style={[
-          { paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding },
-          styles.container,
-        ]}
-      >
-        <Block style={GlobalStyle.block}>
-          <DropDown
-            list={this.state.countries}
-            label="Countries"
-            onChange={(val) => {
-              this.setState({ country: val });
-              this.filterData();
-            }}
-            selectedValue={this.state.countries}
-            disabled={this.state.countries.length == 1}
-          />
-          <DropDown
-            list={this.state.institutes}
-            label="Institutes"
-            onChange={(val) => {
-              this.setState({ institute: val });
-              this.filterData();
-            }}
-            selectedValue={this.state.institute}
-            disabled={this.state.institutes.length == 1}
-          />
+  render = () => {
+    // if (this.state.loading) {
+    //   return (
+    //     <Background>
+    //       <Loading isActive={true} />
+    //     </Background>
+    //   );
+    // }
 
-          <DropDown
-            list={this.state.levels}
-            label="Levels"
-            onChange={(val) => {
-              this.setState({ level: val });
-              this.filterData();
-            }}
-            selectedValue={this.state.level}
-            disabled={this.state.levels.length == 1}
-          />
+    return (
+      <Background>
+        <Loading isActive={this.state.loading} />
+        <Block
+          style={[
+            { paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding },
+            styles.container,
+          ]}
+        >
+          {/* {this.props.route.params.searchFilter.advanced && false ? (
+            <Block style={GlobalStyle.block}>
+              <DropDown
+                list={this.state.countries}
+                label="Countries"
+                onChange={(val) => {
+                  this.setState({ country: val });
+                  this.filterData();
+                }}
+                selectedValue={this.state.countries}
+                disabled={this.state.countries.length == 1}
+              />
+              <DropDown
+                list={this.state.institutes}
+                label="Institutes"
+                onChange={(val) => {
+                  this.setState({ institute: val });
+                  this.filterData();
+                }}
+                selectedValue={this.state.institute}
+                disabled={this.state.institutes.length == 1}
+              />
+              <DropDown
+                list={this.state.levels}
+                label="Levels"
+                onChange={(val) => {
+                  this.setState({ level: val });
+                  this.filterData();
+                }}
+                selectedValue={this.state.level}
+                disabled={this.state.levels.length == 1}
+              />
+            </Block>
+          ) : null} */}
+          <React.Fragment>{this.renderItems()}</React.Fragment>
+          {this.state.data.length > 0 ? (
+            <Block row center style={{ marginTop: 10 }}>
+              <CustomIcon
+                source={Images.Backward}
+                onPress={this.previousPage}
+              />
+              <TextCustom
+                style={{
+                  marginLeft: 20,
+                  marginRight: 20,
+                  textAlign: "center",
+                  flex: 1,
+                }}
+              >
+                From {this.state.start + 1} to{" "}
+                {this.state.end > this.state.totalItems
+                  ? this.state.totalItems
+                  : this.state.end}{" "}
+                off {this.state.totalItems}
+              </TextCustom>
+              <CustomIcon source={Images.Forward} onPress={this.nextPage} />
+            </Block>
+          ) : null}
         </Block>
-        <React.Fragment>{this.renderItems()}</React.Fragment>
-        {this.state.data.length > 0 ? (
-          <Block row center style={{ marginTop: 10 }}>
-            <CustomIcon source={Images.Backward} onPress={this.previousPage} />
-            <TextCustom
-              style={{
-                marginLeft: 20,
-                marginRight: 20,
-                textAlign: "center",
-                flex: 1,
-              }}
-            >
-              From {this.state.start + 1} to{" "}
-              {this.state.end > this.state.totalItems
-                ? this.state.totalItems
-                : this.state.end}{" "}
-              off {this.state.totalItems}
-            </TextCustom>
-            <CustomIcon source={Images.Forward} onPress={this.nextPage} />
-          </Block>
-        ) : null}
-      </Block>
-    </Background>
-  );
+      </Background>
+    );
+  };
 }
 
 export default SearchedCourses;

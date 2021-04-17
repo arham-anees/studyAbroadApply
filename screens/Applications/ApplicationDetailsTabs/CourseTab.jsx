@@ -10,62 +10,28 @@ import TextCustom from "../../../components/TextCustom";
 import GlobalStyle from "../../../GlobalStyles";
 
 const { width } = Dimensions.get("screen");
-const countries = [
-  { name: "Pakistan", value: 1 },
-  { name: "Pakistan", value: 2 },
-  { name: "Pakistan", value: 3 },
-  { name: "Pakistan", value: 4 },
-  { name: "Pakistan", value: 5 },
-  { name: "Pakistan", value: 6 },
-  { name: "Pakistan", value: 7 },
-  { name: "Pakistan", value: 8 },
-];
-const levels = [
-  { name: "Bachelors", value: 1 },
-  { name: "Bachelors", value: 2 },
-  { name: "Bachelors", value: 3 },
-  { name: "Bachelors", value: 4 },
-  { name: "Bachelors", value: 5 },
-  { name: "Bachelors", value: 6 },
-  { name: "Bachelors", value: 7 },
-  { name: "Bachelors", value: 8 },
-];
 
-const courses = [
-  { name: "courses", value: 1 },
-  { name: "courses", value: 2 },
-  { name: "courses", value: 3 },
-  { name: "courses", value: 4 },
-  { name: "courses", value: 5 },
-  { name: "courses", value: 6 },
-  { name: "courses", value: 7 },
-  { name: "courses", value: 8 },
-];
-
-const intakes = [
-  { name: "intake", value: 1 },
-  { name: "intake", value: 2 },
-  { name: "intake", value: 3 },
-  { name: "intake", value: 4 },
-  { name: "intake", value: 5 },
-  { name: "intake", value: 6 },
-  { name: "intake", value: 7 },
-  { name: "intake", value: 8 },
-];
-
-var item = {
-  course: "BSc Business Administration & Management",
-  intake: "February 2021",
-  level: "Bachelor's",
-  institute: "Budapest Metropolitan University",
-  country: "Hungary",
-};
 function CourseTab(props) {
   const [openApplyForm, setApplyForm] = useState(false);
-  const {item}=props;
+  const { item } = props;
+  if (!item) {
+    return (
+      <View>
+        <Block style={styles.block}>
+          <Text color={GlobalStyle.color.textLight} center h5>
+            Course
+          </Text>
+          <Block style={styles.line}></Block>
+          <Block row center>
+            <TextCustom>No Course found</TextCustom>
+          </Block>
+        </Block>
+      </View>
+    );
+  }
   return (
     <View>
-       <Block style={styles.block}>
+      <Block style={styles.block}>
         <Text color={GlobalStyle.color.textLight} center h5>
           Course
         </Text>
@@ -92,7 +58,7 @@ function CourseTab(props) {
           <TextCustom style={styles.info}>{item.country}</TextCustom>
         </Block>
       </Block>
-     {/* {openApplyForm ? (
+      {/* {openApplyForm ? (
         <Block style={styles.block}>
           <Text center h5 color="white">
             Select your course and location to apply
@@ -126,7 +92,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 5,
     borderRadius: 5,
-    paddingHorizontal: theme.SIZES.BASE 
+    paddingHorizontal: theme.SIZES.BASE,
   },
   title: {
     width: 80,
@@ -149,9 +115,9 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 10,
   },
-  line:{
-    height:1,
-    backgroundColor:GlobalStyle.color.textLight,
-    marginBottom:10
-  }
+  line: {
+    height: 1,
+    backgroundColor: GlobalStyle.color.textLight,
+    marginBottom: 10,
+  },
 });

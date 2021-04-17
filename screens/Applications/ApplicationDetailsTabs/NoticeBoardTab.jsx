@@ -1,17 +1,11 @@
 import { Block, Button, Input, Text, theme } from "galio-framework";
 import React from "react";
-import {
-  Alert,
-  CheckBox,
-  Dimensions,
-  TouchableHighlightBase,
-} from "react-native";
+import { Alert, CheckBox, Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
 import DropDown from "../../../components/DropDown";
 import Icons from "../../../constants/Icons";
 import GlobalStyle from "../../../GlobalStyles";
 import CustomIcon from "../../../Icons/BellIcon";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { KeyboardAvoidingView } from "react-native";
 import TextCustom from "../../../components/TextCustom";
 import ApplicationService from "../../../services/ApplicationService";
@@ -126,7 +120,8 @@ class NoticeBoardTab extends React.Component {
     const { applicationId } = this.props;
 
     LocalStorage.GetUserInfo().then((x) => {
-      this.setState({ isStudent: x.RoleID == Role.Student });
+      console.log(x);
+      if (x != null) this.setState({ isStudent: x.RoleID == Role.Student });
     });
     this.setState({ applicationId });
 
@@ -286,9 +281,10 @@ class NoticeBoardTab extends React.Component {
           <TextCustom>{this.state.statusName}</TextCustom>
         </Block>
         <View>
-          {this.state.allowUpdateStatus ? (
-            <Block style={GlobalStyle.block}>
-              <Text style={GlobalStyle.blockTitle}>Update Status</Text>
+          <Block style={GlobalStyle.block}>
+            <Text style={GlobalStyle.blockTitle}>Update Status</Text>
+
+            {this.state.allowUpdateStatus ? (
               <Block>
                 <DropDown
                   list={applicationStatus}
@@ -315,8 +311,8 @@ class NoticeBoardTab extends React.Component {
                   </Button>
                 </Block>
               </Block>
-            </Block>
-          ) : null}
+            ) : null}
+          </Block>
           {/* <Block style={GlobalStyle.block}>
             <Text style={GlobalStyle.blockTitle}>Follow Up</Text>
             {this.state.followUps.map((x, index) => (

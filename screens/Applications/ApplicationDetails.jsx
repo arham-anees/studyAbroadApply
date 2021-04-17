@@ -40,6 +40,7 @@ class ApplicationDetails extends React.Component {
       isShow: false,
       profileId: 0,
       userId: 0,
+      roleId: 0,
       toastMessage: "",
       application: {
         applicationStatus: 2,
@@ -55,6 +56,9 @@ class ApplicationDetails extends React.Component {
     } catch {}
   }
   componentDidMount() {
+    LocalStorage.GetUserInfo().then((x) => {
+      this.setState({ roleId: x.RoleID, userId: x.UserID });
+    });
     this.focusListener = this.props.navigation.addListener("focus", () => {
       ApplicationService.GetCourse(this.state.applicationId)
         .then((x) => {
@@ -137,21 +141,11 @@ class ApplicationDetails extends React.Component {
     try {
       if (this.state.activeTab === Tabs.NoticeBoard) {
         this.setState({ showModal: true });
-      } else if (this.state.activeTab === Tabs.Documents) {
+      } else if (
+        this.state.activeTab === Tabs.Documents ||
+        this.state.activeTab === Tabs.Offers
+      ) {
         this.setState({ showModal: true });
-      } else if (this.state.activeTab === Tabs.Offers) {
-        LocalStorage.GetUserInfo()
-          .then((x) => {
-            if (
-              x.RoleID == Role.Administrator ||
-              x.RoleID == Role.Institute ||
-              x.RoleID == Role.StudentCounselor
-            )
-              this.setState({ showModal: true });
-          })
-          .catch((err) => {
-            console.log("error: ", err);
-          });
       }
     } catch (e) {}
   };
@@ -213,7 +207,7 @@ class ApplicationDetails extends React.Component {
 
   render() {
     return (
-      <Background noScroll>
+      <Background>
         <ApplicationDetailsTabs
           initialIndex={this.state.activeTab}
           onChange={this.onTabChange}
@@ -255,8 +249,10 @@ class ApplicationDetails extends React.Component {
             <Toast isShow={this.state.isShow}>{this.state.toastMessage}</Toast>
             <Block style={GlobalStyle.scrollBottomPadding}></Block>
           </ScrollView>
-          {this.state.activeTab === Tabs.Documents ||
-          this.state.activeTab === Tabs.Offers ? (
+          {this.state.activeTab === Tabs.Offers &&
+          (this.state.roleId == Role.Administrator ||
+            this.state.roleId == Role.StudentCounselor ||
+            this.state.roleId == Role.Institute) ? (
             <Button style={styles.floatingButton} onPress={this.AddNewHandle}>
               <CustomIcon source={Images.Add} />
             </Button>
@@ -264,6 +260,11 @@ class ApplicationDetails extends React.Component {
           //   <CustomIcon source={Images.Add}/>
           // </TouchableOpacity>
           null}
+          {this.state.activeTab === Tabs.Documents ? (
+            <Button style={styles.floatingButton} onPress={this.AddNewHandle}>
+              <CustomIcon source={Images.Add} />
+            </Button>
+          ) : null}
           <Modal
             animationType="slide"
             transparent={true}

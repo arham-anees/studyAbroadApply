@@ -4,10 +4,11 @@ import GlobalStyle from "../../GlobalStyles";
 const { StyleSheet } = require("react-native");
 const styles = StyleSheet.create({
   containerMain: {
-    height:GlobalStyle.SIZES.PageHeight,
+    height: GlobalStyle.SIZES.PageHeight,
   },
   container: {
-    paddingHorizontal:GlobalStyle.SIZES.PageNormalPadding
+    paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding,
+    minHeight: GlobalStyle.SIZES.PageHeight,
   },
   iconBlock: {
     width: 50,

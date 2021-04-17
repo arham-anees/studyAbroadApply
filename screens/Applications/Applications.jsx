@@ -135,9 +135,9 @@ class Applications extends React.Component {
   render() {
     return (
       <Background>
+        <Loading isActive={this.state.isLoading} />
         <Animated.View style={{ opacity: this.state.fadeAnim }}>
           <View style={styles.container}>
-            <Loading isActive={this.state.isLoading} />
             <Block row middle space="between">
               <Block flex>
                 <Input
@@ -163,32 +163,38 @@ class Applications extends React.Component {
                   />
                 );
               })
+            ) : this.state.isLoading ? (
+              <View>
+                <TextCustom>Loading applications</TextCustom>
+              </View>
             ) : (
               <View>
                 <TextCustom>No application found</TextCustom>
               </View>
             )}
-            <Block row center style={{ marginTop: 10 }}>
-              <CustomIcon
-                source={Images.Backward}
-                onPress={this.previousPage}
-              />
-              <TextCustom
-                style={{
-                  marginLeft: 20,
-                  marginRight: 20,
-                  textAlign: "center",
-                  flex: 1,
-                }}
-              >
-                From {this.state.startIndex + 1} to{" "}
-                {this.state.endIndex > this.state.appList.length
-                  ? this.state.appList.length
-                  : this.state.endIndex}{" "}
-                off {this.state.appList.length}
-              </TextCustom>
-              <CustomIcon source={Images.Forward} onPress={this.nextPage} />
-            </Block>
+            {!this.state.isLoading && this.state.appFullList.length > 0 ? (
+              <Block row center style={{ marginTop: 10 }}>
+                <CustomIcon
+                  source={Images.Backward}
+                  onPress={this.previousPage}
+                />
+                <TextCustom
+                  style={{
+                    marginLeft: 20,
+                    marginRight: 20,
+                    textAlign: "center",
+                    flex: 1,
+                  }}
+                >
+                  From {this.state.startIndex + 1} to{" "}
+                  {this.state.endIndex > this.state.appList.length
+                    ? this.state.appList.length
+                    : this.state.endIndex}{" "}
+                  off {this.state.appList.length}
+                </TextCustom>
+                <CustomIcon source={Images.Forward} onPress={this.nextPage} />
+              </Block>
+            ) : null}
           </View>
         </Animated.View>
       </Background>

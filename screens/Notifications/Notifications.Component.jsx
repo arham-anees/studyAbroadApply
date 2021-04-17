@@ -56,6 +56,9 @@ function Read(props) {
       screen: "ApplicationDetails",
     });
   }
+  try {
+    props.deleteNotificationSilent(props.item.ApplicationID);
+  } catch {}
 }
 
 function NotificationItem(props) {
@@ -73,28 +76,22 @@ function NotificationItem(props) {
     duration: 0,
   }).start();
   return (
-    <Animated.View
-      ref={view}
-      style={{ overflow: "hidden", opacity: fadeAnim }}
-      // onLayout={(event) => {
-      //   setItemWidth(event.nativeEvent.layout.height);
-      // }}
-    >
+    <Animated.View ref={view} style={{ overflow: "hidden", opacity: fadeAnim }}>
       <View style={styles.container}>
         <Swipeout
           backgroundColor="transparent"
           right={[
-            // {
-            //   component: <SwipeOutComponent text={"Read"} />,
-            //   text: "Mark as read",
-            //   onPress: () => Read(props),
-            //   type: "primary",
-            // },
             {
               component: <SwipeOutComponent text={"Read"} />,
+              text: "Mark as read",
+              onPress: () => Read(props),
               type: "primary",
-              onPress: () => MarkAsRead(view),
             },
+            // {
+            //   component: <SwipeOutComponent text={"Read"} />,
+            //   type: "primary",
+            //   onPress: () => MarkAsRead(view),
+            // },
             {
               component: <SwipeOutComponent text={"Delete"} />,
               onPress: () =>

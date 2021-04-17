@@ -24,6 +24,7 @@ class Notifications extends React.Component {
       startIndex: 0,
       endIndex: 25,
       length: 25,
+      isDeleting: false,
     };
   }
 
@@ -115,6 +116,20 @@ class Notifications extends React.Component {
   }
 
   //#region ACTIONS
+  deleteNotificationSilent = (id) => {
+    NotificationService.DeleteNotification(id)
+      .then((x) => {
+        try {
+          notifs = this.state.data;
+          notifs = notifs.filter((x) => x.ApplicationID != id);
+          this.setState({ data: notifs });
+        } catch {}
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   deleteNotification = (id, callback) => {
     Alert.alert(
       "Confirm Delete",
@@ -128,6 +143,7 @@ class Notifications extends React.Component {
         {
           text: "OK",
           onPress: () => {
+            this.setState({ isDeleting: true });
             NotificationService.DeleteNotification(id)
               .then((x) => {
                 callback();
@@ -135,12 +151,13 @@ class Notifications extends React.Component {
                   try {
                     notifs = this.state.data;
                     notifs = notifs.filter((x) => x.ApplicationID != id);
-                    this.setState({ data: notifs });
+                    this.setState({ data: notifs, isDeleting: false });
                   } catch {}
                 }, 1000);
               })
               .catch((err) => {
                 console.log(err);
+                this.setState({ isDeleting: false });
                 Alert.alert(
                   "Failed",
                   "Failed to delete notification. Please try again later."
@@ -197,6 +214,7 @@ class Notifications extends React.Component {
         <Loading
           isActive={this.state.isLoading && this.state.data.length == 0}
         />
+        <Loading isActive={this.state.isDeleting} />
         <Animated.View style={{ opacity: 1 }}>
           <View
             style={{ paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding }}
@@ -226,43 +244,39 @@ class Notifications extends React.Component {
                       navigation={this.props.navigation}
                       key={index}
                       deleteNotification={this.deleteNotification}
+                      deleteNotificationSilent={this.deleteNotificationSilent}
                     />
                   ))}
-                  <Block
-                    row
-                    center
-                    style={{ marginTop: 10, BackgroundColor: "red" }}
-                  >
-                    {this.state.startIndex > 0 ? (
-                      <CustomIcon
-                        source={Images.Backward}
-                        onPress={this.previousPage}
-                      />
-                    ) : null}
-                    <TextCustom
-                      style={{
-                        marginLeft: 20,
-                        marginRight: 20,
-                        textAlign: "center",
-                        flex: 1,
-                      }}
-                    >
-                      From {this.state.startIndex + 1} to{" "}
-                      {this.state.endIndex > this.state.data.length
-                        ? this.state.data.length
-                        : this.state.endIndex}{" "}
-                      off {this.state.data.length}
-                    </TextCustom>
-                    {this.state.endIndex < this.state.data.length ? (
-                      <CustomIcon
-                        source={Images.Forward}
-                        onPress={this.nextPage}
-                      />
-                    ) : null}
-                  </Block>
                 </>
               )}
             </View>
+            {this.state.data.length > 0 ? (
+              <Block row center style={{ marginTop: 10, marginBottom: 40 }}>
+                {this.state.startIndex > 0 ? (
+                  <CustomIcon
+                    source={Images.Backward}
+                    onPress={this.previousPage}
+                  />
+                ) : null}
+                <TextCustom
+                  style={{
+                    marginLeft: 20,
+                    marginRight: 20,
+                    textAlign: "center",
+                    flex: 1,
+                  }}
+                >
+                  From {this.state.startIndex + 1} to{" "}
+                  {this.state.endIndex > this.state.data.length
+                    ? this.state.data.length
+                    : this.state.endIndex}{" "}
+                  off {this.state.data.length}
+                </TextCustom>
+                {this.state.endIndex < this.state.data.length ? (
+                  <CustomIcon source={Images.Forward} onPress={this.nextPage} />
+                ) : null}
+              </Block>
+            ) : null}
           </View>
         </Animated.View>
       </View>

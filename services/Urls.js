@@ -23,6 +23,7 @@ const Urls = {
   CreateProfile: baseAppUrl + "updateProfile",
   SearchCourse: basicUrl + "search/coursebyname",
   GetCourseAutoFill: basicUrl + "search/courseautofill",
+  GetDisciplineAutoFill: basicUrl + "search/CourseDisciplineAutoFill",
   CourseApply: basicUrl + "search/courseApply",
   CourseApplyApp: baseAppUrl + "courseApply",
   RegisterStudent: basicUrl + "account/signup",

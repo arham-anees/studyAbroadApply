@@ -27,7 +27,7 @@ export default class SelectCountry extends React.Component {
     SearchService.GetCountries()
       .then((x) => {
         this.setState({ countries: this._mapCountries(x) });
-        this.props.onChange(this.state.countries[0].value);
+        //this.props.onChange(this.state.countries[0].value);
       })
       .then((err) => {
         // Alert.alert(
@@ -38,8 +38,7 @@ export default class SelectCountry extends React.Component {
   _mapCountries = (countries) => {
     try {
       let mappedCountries = [];
-      if (this.props.value == 1)
-        mappedCountries.push({ value: 0, name: "Select Country" });
+      mappedCountries.push({ value: 0, name: "Select Country" });
       countries.forEach((x) => {
         mappedCountries.push({
           value: x.Key,

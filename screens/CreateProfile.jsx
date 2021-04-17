@@ -1,8 +1,8 @@
 import { Block } from "galio-framework";
 import React from "react";
-import { Alert } from "react-native";
+import { Alert, KeyboardAvoidingView } from "react-native";
 import Background from "../components/Background";
-import Profile from "../components/Profile.Component";
+import Loading from "../components/Loading";
 import GlobalStyle from "../GlobalStyles";
 import ApplicationService from "../services/ApplicationService";
 import SearchService from "../services/SearchService";
@@ -13,10 +13,12 @@ class CreateProfile extends React.Component {
     super(props);
     this.state = {
       NationalityList: [],
+      isLoading: false,
     };
   }
   handleUpdateProfilePress = (props) => {
     //console.log(props);
+    this.setState({ isLoading: true });
     ApplicationService.UpdateProfile({ ...props, ProfileID: 0 })
       .then((x) => {
         //console.log(x);
@@ -28,21 +30,34 @@ class CreateProfile extends React.Component {
           }).then((x) => {
             //console.log("create profile",x);
             if (x.ResponseID > 0) {
-              Alert.alert("Applied", "successfully applied for course");
+              //Alert.alert("Applied", "successfully applied for course");
+              this.setState({ isLoading: false });
+
+              this.props.navigation.navigate("Applications");
             }
           });
-        } else
+        } else {
+          this.setState({ isLoading: false });
           Alert.alert(
             "Profile Update Failed",
             "Failed to update profile. Please try again later."
           );
+        }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        this.setState({ isLoading: false });
+        console.log(err);
+        Alert.alert(
+          "Profile Update Failed",
+          "Failed to update profile. Please try again later."
+        );
+      });
   };
   componentDidMount() {}
   render() {
     return (
       <Background>
+        <Loading isActive={this.state.isLoading} />
         <Block
           style={[{ paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding }]}
         >
