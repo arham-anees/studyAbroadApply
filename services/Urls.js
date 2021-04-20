@@ -29,7 +29,7 @@ const Urls = {
   RegisterStudent: basicUrl + "account/signup",
   NotificationsList: baseAppUrl + "getApplicationNotificationList",
   DeleteNotification: baseAppUrl + "DeleteNotification",
-  MarkAllNotifRead: "MarkAllNotificationAsRead",
+  MarkAllNotificationAsRead: baseAppUrl + "MarkAllNotificationAsRead",
 };
 
 export default Urls;

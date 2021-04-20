@@ -25,6 +25,7 @@ function Get(url) {
 function Post({ data, url }) {
   return new Promise((resolve, reject) => {
     try {
+      if (!data) data = [];
       axios
         .post(url, data)
         .then((res) => {

@@ -18,7 +18,11 @@ import Images from "../../../constants/Images";
 import Step1 from "./SignUpAsAssociate.Step1";
 import Step2 from "./SignUpAsAssociate.Step2";
 import Step3 from "./SignUpAsAssociate.Step3";
-import { ValidateStep1, ValidateStep2, ValidateStep3 } from "./SignUpAsAssociate.Utils";
+import {
+  ValidateStep1,
+  ValidateStep2,
+  ValidateStep3,
+} from "./SignUpAsAssociate.Utils";
 import { KeyboardAvoidingView } from "react-native";
 import Background from "../../../components/Background";
 
@@ -66,7 +70,7 @@ class SignUpAsAssociate extends React.Component {
   }
 
   keyboardWillShow = () => {
-    console.log("keyboardWillShow");
+    //console.log("keyboardWillShow");
     this.setState({ keyboard: true });
   };
   keyboardWillHide = () => this.setState({ keyboard: false });
@@ -106,21 +110,19 @@ class SignUpAsAssociate extends React.Component {
   nextStep() {
     var stepUp;
     if (this.state.step == 1) this.nextStepProcess(true);
-      // ValidateStep1(this.state).then((response) => {
-      //   this.nextStepProcess(response)
-      // });
-    else if (this.state.step == 2)this.nextStepProcess(true);
-      // ValidateStep2(this.state).then((response) => {
-      //   this.nextStepProcess(response)
-      // });
-    else if (this.state.step == 3)this.nextStepProcess(true);
-      // ValidateStep3(this.state).then((response) => {
-      //   this.nextStepProcess(response)
-      // });
-
-    
+    // ValidateStep1(this.state).then((response) => {
+    //   this.nextStepProcess(response)
+    // });
+    else if (this.state.step == 2) this.nextStepProcess(true);
+    // ValidateStep2(this.state).then((response) => {
+    //   this.nextStepProcess(response)
+    // });
+    else if (this.state.step == 3) this.nextStepProcess(true);
+    // ValidateStep3(this.state).then((response) => {
+    //   this.nextStepProcess(response)
+    // });
   }
-  nextStepProcess(stepUp){
+  nextStepProcess(stepUp) {
     if (stepUp) {
       if (this.state.step === 3) {
         this.props.navigation.navigate("Home");
@@ -134,9 +136,9 @@ class SignUpAsAssociate extends React.Component {
     return (
       <Background noScroll fullscreen>
         <View style={styles.container} behavior="padding" enabled>
-        <Block center style={styles.logoBox}>
-        <Text style={styles.logoText}>Study Abroad Apply</Text>
-      </Block>
+          <Block center style={styles.logoBox}>
+            <Text style={styles.logoText}>Study Abroad Apply</Text>
+          </Block>
           <Block style={styles.padded}>
             <ScrollView>
               <Block style={[styles.title, styles.stepContainer]}>
@@ -162,13 +164,16 @@ class SignUpAsAssociate extends React.Component {
                   styles.navigationBtnContainer,
                 ]}
               >
-                {this.state.step!=1?
-                <Button
-                  style={{ width: 100 }}
-                  onPress={() => this.perviousStep()}
-                >
-                  Previous
-                </Button>:<View></View>}
+                {this.state.step != 1 ? (
+                  <Button
+                    style={{ width: 100 }}
+                    onPress={() => this.perviousStep()}
+                  >
+                    Previous
+                  </Button>
+                ) : (
+                  <View></View>
+                )}
                 <Button style={{ width: 100 }} onPress={() => this.nextStep()}>
                   {this.state.step === 3 ? "Submit" : "Next"}
                 </Button>

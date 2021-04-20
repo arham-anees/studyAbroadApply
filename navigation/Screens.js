@@ -1,10 +1,12 @@
 import React from "react";
 import { Dimensions } from "react-native";
 
-import { CardStyleInterpolators,createStackNavigator } from "@react-navigation/stack";
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+} from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
 
 // screens
 import Home from "../screens/Home";
@@ -33,9 +35,12 @@ const Tab = createBottomTabNavigator();
 
 function ApplicationStack(props) {
   return (
-    <Stack.Navigator headerMode="screen"  screenOptions={{
-      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-    }}>
+    <Stack.Navigator
+      headerMode="screen"
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      }}
+    >
       <Stack.Screen
         name="Applications"
         component={Applications}
@@ -70,11 +75,14 @@ function ApplicationStack(props) {
 
 function CourseStack(props) {
   return (
-    <Stack.Navigator headerMode="screen"  screenOptions={{
-      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-    }}>
+    <Stack.Navigator
+      headerMode="screen"
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      }}
+    >
       <Stack.Screen
-        name="Courses"
+        name="SearchCourse"
         component={SearchCourse}
         options={{
           header: ({ navigation, scene }) => (
@@ -120,9 +128,12 @@ function CourseStack(props) {
 }
 function NotificationStack(props) {
   return (
-    <Stack.Navigator headerMode="screen"  screenOptions={{
-      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-    }}>
+    <Stack.Navigator
+      headerMode="screen"
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      }}
+    >
       <Stack.Screen
         name="Notifications"
         component={Notifications}
@@ -143,9 +154,14 @@ function NotificationStack(props) {
 
 function ProfileStack(props) {
   return (
-    <Stack.Navigator initialRouteName="Profile" mode="card" headerMode="screen"  screenOptions={{
-      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-    }}>
+    <Stack.Navigator
+      initialRouteName="Profile"
+      mode="card"
+      headerMode="screen"
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      }}
+    >
       <Stack.Screen
         name="Profile"
         component={Profile}
@@ -186,9 +202,13 @@ function ProfileStack(props) {
 
 function HomeStack(props) {
   return (
-    <Stack.Navigator mode="card" headerMode="screen"  screenOptions={{
-      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-    }}>
+    <Stack.Navigator
+      mode="card"
+      headerMode="screen"
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      }}
+    >
       <Stack.Screen
         name="Home"
         component={Home}
@@ -211,10 +231,13 @@ function HomeStack(props) {
 
 function AuthStack(props) {
   return (
-    <Stack.Navigator mode="card" headerMode="screen" 
-    screenOptions={{
-      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-    }}>
+    <Stack.Navigator
+      mode="card"
+      headerMode="screen"
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      }}
+    >
       <Stack.Screen
         name="SignIn"
         component={SignIn}
@@ -226,7 +249,6 @@ function AuthStack(props) {
         name="SignUpAsStudent"
         component={SignUpAsStudent}
         options={{
-         
           headerShown: false,
           headerTransparent: true,
         }}
@@ -235,7 +257,6 @@ function AuthStack(props) {
         name="SignUpAsAssociate"
         component={SignUpAsAssociate}
         options={{
-         
           headerShown: false,
           headerTransparent: true,
         }}
@@ -246,9 +267,13 @@ function AuthStack(props) {
 
 export function OnboardingStack(props) {
   return (
-    <Stack.Navigator mode="card" headerMode="none"  screenOptions={{
-      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
-    }}>
+    <Stack.Navigator
+      mode="card"
+      headerMode="none"
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      }}
+    >
       <Stack.Screen
         name="Onboarding"
         component={Onboarding}
@@ -291,16 +316,21 @@ export default function AppStack(props) {
         },
       }}
       initialRouteName="Auth"
-     
       backBehavior="history"
-      drawerType={Dimensions.get("screen").width >= 768 ? 'permanent' : 'back'}
+      drawerType={Dimensions.get("screen").width >= 768 ? "permanent" : "back"}
       lazy
     >
       <Drawer.Screen name="Home" component={HomeStack} />
       <Drawer.Screen name="Applications" component={ApplicationStack} />
       <Drawer.Screen name="Courses" component={CourseStack} />
       <Drawer.Screen name="Profile" component={ProfileStack} />
-      <Drawer.Screen name="Notifications" component={NotificationStack} options={{cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS}}/>
+      <Drawer.Screen
+        name="Notifications"
+        component={NotificationStack}
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
       <Drawer.Screen name="Auth" component={AuthStack} />
     </Drawer.Navigator>
   );

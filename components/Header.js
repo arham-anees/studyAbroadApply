@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { withNavigation } from "@react-navigation/compat";
 import {
   TouchableOpacity,
   StyleSheet,
   Platform,
   Dimensions,
-  AppRegistry,
 } from "react-native";
-import { Button, Block, NavBar, Text, theme } from "galio-framework";
+import { Block, NavBar, theme } from "galio-framework";
 
 import Tabs from "./Tabs";
 import argonTheme from "../constants/Theme";
@@ -15,7 +14,6 @@ import CustomIcon from "../Icons/BellIcon";
 import Icons from "../constants/Icons";
 import GlobalStyle from "../GlobalStyles";
 import TextCustom from "./TextCustom";
-import ApplicationService from "../services/ApplicationService";
 import NotificationService from "../services/NotificationService";
 
 const { height, width } = Dimensions.get("window");
@@ -29,7 +27,7 @@ const BellButton = ({ isWhite, style, navigation, count }) => (
     onPress={() => navigation.navigate("Notifications")}
   >
     <CustomIcon source={Icons.Bell} style={{ width: 25, height: 25 }} />
-    {count > 0 ? <TextCustom style={styles.notify}>{count}</TextCustom> : null}
+    {count > -1 ? <TextCustom style={styles.notify}>{count}</TextCustom> : null}
   </TouchableOpacity>
 );
 
@@ -37,7 +35,7 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      notifCount: 0,
+      notifCount: -1,
     };
   }
 

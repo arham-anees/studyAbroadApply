@@ -58,6 +58,7 @@ class Notifications extends React.Component {
           let data = [];
           x.forEach((item) => {
             data.push({
+              id: item.NotificationID,
               name: item.Name,
               notificationText: item.Message,
               date: item.CreationDate,
@@ -121,8 +122,12 @@ class Notifications extends React.Component {
       .then((x) => {
         try {
           notifs = this.state.data;
-          notifs = notifs.filter((x) => x.ApplicationID != id);
-          this.setState({ data: notifs });
+          notifs = notifs.filter((x) => x.id != id);
+          let dataToShow = notifs.slice(
+            this.state.startIndex,
+            this.state.endIndex
+          );
+          this.setState({ data: notifs, dataToShow });
         } catch {}
       })
       .catch((err) => {
@@ -150,8 +155,16 @@ class Notifications extends React.Component {
                 setTimeout(() => {
                   try {
                     notifs = this.state.data;
-                    notifs = notifs.filter((x) => x.ApplicationID != id);
-                    this.setState({ data: notifs, isDeleting: false });
+                    notifs = notifs.filter((x) => x.id != id);
+                    let dataToShow = notifs.slice(
+                      this.state.startIndex,
+                      this.state.endIndex
+                    );
+                    this.setState({
+                      data: notifs,
+                      dataToShow,
+                      isDeleting: false,
+                    });
                   } catch {}
                 }, 1000);
               })

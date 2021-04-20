@@ -120,7 +120,7 @@ class NoticeBoardTab extends React.Component {
     const { applicationId } = this.props;
 
     LocalStorage.GetUserInfo().then((x) => {
-      console.log(x);
+      //console.log(x);
       if (x != null) this.setState({ isStudent: x.RoleID == Role.Student });
     });
     this.setState({ applicationId });
@@ -293,23 +293,21 @@ class NoticeBoardTab extends React.Component {
                   onChange={this.updateStatus}
                   disabled={applicationStatus.length === 0}
                 />
-                <Block center>
-                  <Button
-                    style={styles.updateStatusBtn}
-                    onPress={this.handleUpdateStatusPress}
-                    // disable
-                    color={this.state.allowUpdateStatus ? "primary" : "#a0a0a0"}
-                    loading={this.state.isStatusUpdating ? true : false}
-                    disabled={
-                      this.state.isStatusUpdating ||
-                      this.state.allowUpdateStatus
-                        ? true
-                        : false
-                    }
-                  >
-                    Update Status
-                  </Button>
-                </Block>
+                {this.state.allowUpdateStatus ? (
+                  <Block center>
+                    <Button
+                      style={styles.updateStatusBtn}
+                      onPress={this.handleUpdateStatusPress}
+                      // disable
+                      color={
+                        this.state.allowUpdateStatus ? "primary" : "#a0a0a0"
+                      }
+                      loading={this.state.isStatusUpdating ? true : false}
+                    >
+                      Update Status
+                    </Button>
+                  </Block>
+                ) : null}
               </Block>
             ) : null}
           </Block>

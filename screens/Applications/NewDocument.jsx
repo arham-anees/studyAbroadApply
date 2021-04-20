@@ -27,7 +27,7 @@ const NewDocument = (props) => {
       copyToCacheDirectory: true,
     })
       .then((x) => {
-        console.log(x);
+        //console.log(x);
         if (x.type == "success") setFile(x);
       })
       .catch((err) => console.log(err));
@@ -47,7 +47,7 @@ const NewDocument = (props) => {
 
     let categoryName = documentTypes.filter((x) => x.value == category)[0].name;
     if (isValid) {
-      console.log("submitting file", file);
+      //console.log("submitting file", file);
       submitModal({
         title,
         category: categoryName,

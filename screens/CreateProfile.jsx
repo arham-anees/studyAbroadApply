@@ -32,7 +32,23 @@ class CreateProfile extends React.Component {
             if (x.ResponseID > 0) {
               //Alert.alert("Applied", "successfully applied for course");
               this.setState({ isLoading: false });
-
+              props.navigation.dispatch({
+                ...CommonActions.reset({
+                  index: 0,
+                  routes: [
+                    {
+                      name: "Home",
+                      state: {
+                        routes: [
+                          {
+                            name: "Applications",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                }),
+              });
               this.props.navigation.navigate("Applications");
             }
           });

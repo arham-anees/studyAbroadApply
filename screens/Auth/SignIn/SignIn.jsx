@@ -12,6 +12,7 @@ import Background from "../../../components/Background";
 import LocalStorage from "../../../helper/LocalStorage";
 import GlobalStyle from "../../../GlobalStyles";
 import { Alert } from "react-native";
+import SignInUtil from "./SignIn.Utils";
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class SignIn extends React.Component {
     var result = await LocalStorage.GetToken();
     // console.log(this.props.navigation);
     global.navigation = this.props.navigation;
-    console.log(result);
+    //console.log(result);
     try {
       if (result.length > 100) {
         this.props.navigation.navigate("Home");
@@ -60,55 +61,48 @@ class SignIn extends React.Component {
     this.setState({ isSubmitted: true });
 
     //call service
-    AuthService.Login(this.state)
-      .then((response) => {
-        console.log("response received", response);
-        //debugger
-        if (response == null) {
-          this.setState({ isSubmitted: false, error: true });
-        } else {
-          this.setState({ isSubmitted: false });
-          AuthToken.SetAuthToken(response);
-          //let userInfo = response.Info.Table[0];
-          // console.log(response);
-          // console.log({
-          //   UserID: response.Info.Table[0].userID,
-          //   RoleID: response.Info.Table[0].UserRoleID,
-          // });
-          try {
-            LocalStorage.SetUserInfo({
-              UserID: response.info.Table[0].userID,
-              RoleID: response.info.Table[0].UserRoleID,
-            });
 
-            this.props.navigation.reset({
-              index: 0,
-              routes: [{ name: "Home" }],
-            });
-            this.props.navigation.navigate("Home");
-          } catch (err) {
-            Alert.alert("Error", err.message);
-          }
-          //this.props.navigation.dispatch(state=>console.log(state));
-          // this.props.navigation.dispatch(state=>{
-          //   // const routes =
-          //   // console.log(routes)
-          //   return CommonActions.reset({
-          //     ...state,
-          //     routeNames:["Home"],
-          //     routes:[{name:"Home"}],
-          //     index: 0,
-          //   });
-          // }
-          // );
-          //this.props.navigation.push("Home");
-          //this.props.navigation.navigate("Home");
-        }
+    SignInUtil.SignIn(
+      this.state.username,
+      this.state.password,
+      this.props.navigation
+    )
+      .then((x) => {
+        this.setState({ isSubmitted: false });
       })
       .catch((err) => {
-        console.log("Error: " + err);
-        this.setState({ isSubmitted: false, networkError: true });
+        this.setState({ isSubmitted: false, error: true });
+        Alert.alert("Error", err.message);
       });
+
+    // AuthService.Login(this.state)
+    //   .then((response) => {
+    //     console.log("response received", response);
+    //     //debugger
+    //     if (response == null) {
+    //       this.setState({ isSubmitted: false, error: true });
+    //     } else {
+    //       this.setState({ isSubmitted: false });
+    //       AuthToken.SetAuthToken(response);
+    //       try {
+    //         LocalStorage.SetUserInfo({
+    //           UserID: response.info.Table[0].userID,
+    //           RoleID: response.info.Table[0].UserRoleID,
+    //         });
+
+    //         this.props.navigation.reset({
+    //           index: 0,
+    //           routes: [{ name: "Home" }],
+    //         });
+    //         this.props.navigation.navigate("Home");
+    //       } catch (err) {
+    //       }
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log("Error: " + err);
+    //     this.setState({ isSubmitted: false, networkError: true });
+    //   });
   };
   render() {
     //this.CheckStatus();

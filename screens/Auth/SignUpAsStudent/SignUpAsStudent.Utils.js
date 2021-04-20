@@ -12,7 +12,7 @@ export function HandleSignUp({
   Email,
   Password,
   ConfirmPassword,
-  Gender
+  Gender,
 }) {
   return new Promise((resolve, reject) => {
     try {
@@ -22,19 +22,27 @@ export function HandleSignUp({
       Email = Email.trim();
       Password = Password.trim();
       ConfirmPassword = ConfirmPassword.trim();
-      if (!isEmailValid(Email)) reject({errorCode:2,message:"Invalid email address"});
-      if(Gender!='1' && Gender!='2')reject({errorCode:5,message:"Invalid gender"});
-      else if (!isPasswordValid(Password)) reject({errorCode:3, message:"Password does not match required criteria. Please enter alphabets and numbers only at least 6."});
-      else if (Password !== ConfirmPassword) reject({errorCode:4, message:"Password does not match."});
+      if (!isEmailValid(Email))
+        reject({ errorCode: 2, message: "Invalid email address" });
+      if (Gender != "1" && Gender != "2")
+        reject({ errorCode: 5, message: "Invalid gender" });
+      else if (!isPasswordValid(Password))
+        reject({
+          errorCode: 3,
+          message:
+            "Password does not match required criteria. Please enter alphabets and numbers only at least 6.",
+        });
+      else if (Password !== ConfirmPassword)
+        reject({ errorCode: 4, message: "Password does not match." });
       //call service method here
 
-      console.log("sign params",{
-        FirstName,
-        LastName,
-        Email,
-        Password,
-        Gender
-      })
+      // console.log("sign params",{
+      //   FirstName,
+      //   LastName,
+      //   Email,
+      //   Password,
+      //   Gender
+      // })
       AuthService.RegisterStudent({
         FirstName,
         LastName,
@@ -60,7 +68,7 @@ export function HandleSignUp({
         })
         .catch((err) => {
           //debugger;
-          console.log("error at sign un auth service",err);
+          console.log("error at sign un auth service", err);
           reject(err);
         });
     } catch (e) {

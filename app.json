@@ -27,8 +27,7 @@
     },
     "description": "Study Abroad Apply helps students to apply to foreign universities for studies.",
     "android": {
-      "package": "com.studyabroadapply.mobileapp",
-      "softwareKeyboardLayoutMode": "adjustResize"
+      "package": "com.studyabroadapply.mobileapp"
     }
   }
 }

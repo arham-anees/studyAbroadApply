@@ -42,6 +42,7 @@ function Background(props) {
                 flex: 1,
               }}
               keyboardShouldPersistTaps={"handled"}
+              nestedScrollEnabled={true}
             >
               {props.children}
               <View style={{ minHeight: 80 }}></View>

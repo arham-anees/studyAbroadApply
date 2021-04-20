@@ -23,11 +23,10 @@ function GetNotificationsList({ IsRequiredCount }) {
 function DeleteNotification(id) {
   return new Promise((resolve, reject) => {
     try {
-      console.log(id);
-      const url = Urls.DeleteNotification; // + `?NotificationID=${id}`;
-      Fetch.Post({ url, data: { NotificationID: id } })
+      const url = Urls.DeleteNotification + `?NotificationID=${id}`;
+      Fetch.Get(url) //({ url, data: { NotificationID: id } })
         .then((response) => {
-          console.log(response);
+          //console.log(response);
           if (response == null) reject(Messages.RequestFailed);
           else {
             resolve(response);
@@ -45,12 +44,15 @@ function MarkAllNotificationAsRead() {
   return new Promise((resolve, reject) => {
     try {
       const url = Urls.MarkAllNotificationAsRead;
-      Fetch.Get(url)
+      //console.log(url);
+      Fetch.Post({ url })
         .then((response) => {
           if (response) resolve(response);
           else reject(response);
         })
-        .catch((err) => reject(err)); //throw error
+        .catch((err) => {
+          reject(err);
+        }); //throw error
     } catch (e) {
       reject(e);
     }

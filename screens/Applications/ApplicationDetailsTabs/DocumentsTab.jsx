@@ -24,7 +24,7 @@ class DocumentsTab extends React.Component {
     if (appId > 0) {
       ApplicationService.GetDocuments(appId)
         .then((x) => {
-          this.setState({ documents: this.mapItens(x), isLoading: false });
+          this.setState({ documents: this.mapItems(x), isLoading: false });
         })
         .catch((err) => {
           // console.log(err);
@@ -33,9 +33,9 @@ class DocumentsTab extends React.Component {
     }
   }
 
-  mapItens = (data) => {
+  mapItems = (data) => {
     try {
-      console.log(data);
+      //console.log(data);
       let mappedData = [];
       data.forEach((x) => {
         mappedData.push({

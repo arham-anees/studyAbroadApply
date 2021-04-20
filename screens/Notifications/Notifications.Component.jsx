@@ -30,7 +30,7 @@ function MarkAsRead(id) {
       setTimeout(() => {
         try {
           notifs = this.state.data;
-          notifs = notifs.filter((x) => x.ApplicationID != id);
+          notifs = notifs.filter((x) => x.id != id);
           this.setState({ data: notifs });
         } catch {}
       }, 1000);
@@ -46,19 +46,19 @@ function MarkAsRead(id) {
 
 function Read(props) {
   try {
+    props.deleteNotificationSilent(props.item.id);
+  } catch {}
+  try {
     props.navigation.navigate("Applications", {
-      params: { appId: props.item.ApplicationID },
+      params: { appId: props.item.id },
       screen: "ApplicationDetails",
     });
   } catch {
     props.navigation.navigate("Applications", {
-      params: { appId: props.item.ApplicationID },
+      params: { appId: props.item.id },
       screen: "ApplicationDetails",
     });
   }
-  try {
-    props.deleteNotificationSilent(props.item.ApplicationID);
-  } catch {}
 }
 
 function NotificationItem(props) {
@@ -82,7 +82,7 @@ function NotificationItem(props) {
           backgroundColor="transparent"
           right={[
             {
-              component: <SwipeOutComponent text={"Read"} />,
+              component: <SwipeOutComponent text={"View"} />,
               text: "Mark as read",
               onPress: () => Read(props),
               type: "primary",
@@ -93,9 +93,8 @@ function NotificationItem(props) {
             //   onPress: () => MarkAsRead(view),
             // },
             {
-              component: <SwipeOutComponent text={"Delete"} />,
-              onPress: () =>
-                props.deleteNotification(props.item.ApplicationID, fadeOut),
+              component: <SwipeOutComponent text={"Read"} />,
+              onPress: () => props.deleteNotification(props.item.id, fadeOut),
               type: "delete",
             },
           ]}

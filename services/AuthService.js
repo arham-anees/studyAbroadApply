@@ -46,10 +46,8 @@ function RegisterStudent({ FirstName, LastName, Email, Password, Gender }) {
       const url =
         Urls.RegisterStudent +
         `?Email=${Email}&gender=${Gender}&password=${Password}&firstName=${FirstName}&lastName=${LastName}`;
-      console.log(url);
       Fetch.Post({ url }) //call authentication method
         .then((response) => {
-          console.log("response:", response);
           if (response == null) reject(Messages.RequestFailed);
           else {
             //if(response.ResponseStatus){

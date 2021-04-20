@@ -111,7 +111,7 @@ class ApplicationDetails extends React.Component {
           onPress: () => {
             ApplicationService.UpdateProfile(props)
               .then((x) => {
-                console.log(x);
+                //console.log(x);
                 if (x.ResponseStatus)
                   Alert.alert("Profile Updated", "Profile has been updated");
                 else
@@ -154,9 +154,9 @@ class ApplicationDetails extends React.Component {
     this.setState({ showModal: false });
   };
   submitModal = (data) => {
-    console.log("submit modal");
+    //console.log("submit modal");
     const { title, category, file, IsInstituteDocuments } = data;
-    console.log("file", file);
+    //console.log("file", file);
     let isValid = true;
     if (file != null) {
       //Alert.alert("File Uploaded", "File uploaded successfully");
@@ -164,7 +164,7 @@ class ApplicationDetails extends React.Component {
 
       LocalStorage.GetUserInfo()
         .then((userInfo) => {
-          console.log("submit modal 2");
+          //console.log("submit modal 2");
           ApplicationService.UploadFile({
             file: file,
             ApplicationID: this.state.applicationId,
@@ -188,7 +188,7 @@ class ApplicationDetails extends React.Component {
       this.setState({ isShow: true, toastMessage: "Please select a file" });
       return;
     }
-    console.log("submit modal 3");
+    //console.log("submit modal 3");
     if (title.length == 0) {
       isValid = false;
     }
@@ -212,75 +212,70 @@ class ApplicationDetails extends React.Component {
           initialIndex={this.state.activeTab}
           onChange={this.onTabChange}
         />
-        <KeyboardAvoidingView
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-          style={{ flex: 1 }}
-        >
-          <ScrollView style={styles.container}>
-            {this.state.activeTab === Tabs.NoticeBoard ? (
-              <NoticeBoardTab
-                applicationId={this.state.applicationId}
-                application={this.state.application}
-                updateStatus={this.handleApplicationStatusUpdate}
-                addFollowUp={this.handleAddFollowUp}
-                addNote={this.handleAddNote}
-                handleUpdateStatusPress={this.handleUpdateStatusPress}
-              />
-            ) : this.state.activeTab === Tabs.Profile ? (
-              <ProfileTab
-                applicationId={this.state.applicationId}
-                profileId={this.state.profileId}
-                application={this.state.application}
-                handleUpdateProfilePress={this.handleUpdateProfilePress}
-              />
-            ) : this.state.activeTab === Tabs.Course ? (
-              <CourseTab item={this.state.course} />
-            ) : this.state.activeTab === Tabs.Documents ? (
-              <DocumentsTab applicationId={this.state.applicationId} />
-            ) : this.state.activeTab === Tabs.Offers ? (
-              <OffersTab
-                applicationId={this.state.applicationId}
-                application={this.state.application}
-                deleteOffer={this.handleDeleteOffer}
-              />
-            ) : this.state.activeTab === Tabs.TravelInformation ? (
-              <TravelInformation applicationId={this.state.applicationId} />
-            ) : null}
-            <Toast isShow={this.state.isShow}>{this.state.toastMessage}</Toast>
-            <Block style={GlobalStyle.scrollBottomPadding}></Block>
-          </ScrollView>
-          {this.state.activeTab === Tabs.Offers &&
-          (this.state.roleId == Role.Administrator ||
-            this.state.roleId == Role.StudentCounselor ||
-            this.state.roleId == Role.Institute) ? (
-            <Button style={styles.floatingButton} onPress={this.AddNewHandle}>
-              <CustomIcon source={Images.Add} />
-            </Button>
-          ) : // <TouchableOpacity style={styles.floatingButton} onPress={this.AddNewHandle}>
-          //   <CustomIcon source={Images.Add}/>
-          // </TouchableOpacity>
-          null}
-          {this.state.activeTab === Tabs.Documents ? (
-            <Button style={styles.floatingButton} onPress={this.AddNewHandle}>
-              <CustomIcon source={Images.Add} />
-            </Button>
+        <ScrollView style={styles.container} nestedScrollEnabled={true}>
+          {this.state.activeTab === Tabs.NoticeBoard ? (
+            <NoticeBoardTab
+              applicationId={this.state.applicationId}
+              application={this.state.application}
+              updateStatus={this.handleApplicationStatusUpdate}
+              addFollowUp={this.handleAddFollowUp}
+              addNote={this.handleAddNote}
+              handleUpdateStatusPress={this.handleUpdateStatusPress}
+            />
+          ) : this.state.activeTab === Tabs.Profile ? (
+            <ProfileTab
+              applicationId={this.state.applicationId}
+              profileId={this.state.profileId}
+              application={this.state.application}
+              handleUpdateProfilePress={this.handleUpdateProfilePress}
+            />
+          ) : this.state.activeTab === Tabs.Course ? (
+            <CourseTab item={this.state.course} />
+          ) : this.state.activeTab === Tabs.Documents ? (
+            <DocumentsTab applicationId={this.state.applicationId} />
+          ) : this.state.activeTab === Tabs.Offers ? (
+            <OffersTab
+              applicationId={this.state.applicationId}
+              application={this.state.application}
+              deleteOffer={this.handleDeleteOffer}
+            />
+          ) : this.state.activeTab === Tabs.TravelInformation ? (
+            <TravelInformation applicationId={this.state.applicationId} />
           ) : null}
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={this.state.showModal}
-            offer={this.state.activeTab == Tabs.Offers}
-          >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <NewDocument
-                  closeModal={this.closeModal}
-                  submitModal={this.submitModal}
-                />
-              </View>
+          <Toast isShow={this.state.isShow}>{this.state.toastMessage}</Toast>
+          <Block style={GlobalStyle.scrollBottomPadding}></Block>
+        </ScrollView>
+        {this.state.activeTab === Tabs.Offers &&
+        (this.state.roleId == Role.Administrator ||
+          this.state.roleId == Role.StudentCounselor ||
+          this.state.roleId == Role.Institute) ? (
+          <Button style={styles.floatingButton} onPress={this.AddNewHandle}>
+            <CustomIcon source={Images.Add} />
+          </Button>
+        ) : // <TouchableOpacity style={styles.floatingButton} onPress={this.AddNewHandle}>
+        //   <CustomIcon source={Images.Add}/>
+        // </TouchableOpacity>
+        null}
+        {this.state.activeTab === Tabs.Documents ? (
+          <Button style={styles.floatingButton} onPress={this.AddNewHandle}>
+            <CustomIcon source={Images.Add} />
+          </Button>
+        ) : null}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.showModal}
+          offer={this.state.activeTab == Tabs.Offers}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <NewDocument
+                closeModal={this.closeModal}
+                submitModal={this.submitModal}
+              />
             </View>
-          </Modal>
-        </KeyboardAvoidingView>
+          </View>
+        </Modal>
       </Background>
     );
   }

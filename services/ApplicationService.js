@@ -255,14 +255,14 @@ function UploadFile({
   return new Promise((resolve, reject) => {
     //debugger
     if (file != null) {
-      console.log(
-        StudentID,
-        ProfileID,
-        IsInstituteDocuments,
-        DocumentCategoryID,
-        Description,
-        file
-      );
+      // console.log(
+      //   StudentID,
+      //   ProfileID,
+      //   IsInstituteDocuments,
+      //   DocumentCategoryID,
+      //   Description,
+      //   file
+      // );
       //If file selected then create FormData
       const fileToUpload = file;
       const data = new FormData();
@@ -288,9 +288,9 @@ function UploadFile({
           Accept: "application/json",
           "Content-Type": "multipart/form-data; ",
         },
-      }) //.then(x=>x.json())
+      })
         .then((x) => {
-          console.log(x);
+          //console.log(x);
           resolve(x);
         })
         .catch((err) => {

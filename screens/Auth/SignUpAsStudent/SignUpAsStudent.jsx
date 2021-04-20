@@ -3,7 +3,6 @@ import React from "react";
 import { RadioButton } from "react-native-paper";
 import { ImageBackground, Image, StatusBar, Dimensions } from "react-native";
 import { Block, Button, Text, theme } from "galio-framework";
-import AuthToken from "../../../helper/Token";
 
 import styles from "./SignUpAsStudent.Styles";
 import argonTheme from "../../../constants/Theme";
@@ -14,6 +13,7 @@ import Background from "../../../components/Background";
 import TextCustom from "../../../components/TextCustom";
 import GlobalStyle from "../../../GlobalStyles";
 import AuthService from "../../../services/AuthService";
+import SignInUtils from "../SignIn/SignIn.Utils";
 
 class SignUpAsStudent extends React.Component {
   constructor(props) {
@@ -36,33 +36,19 @@ class SignUpAsStudent extends React.Component {
 
     HandleSignUp(this.state)
       .then((x) => {
-        AuthService.Login({
-          username: this.state.Email,
-          password: this.state.Password,
-        }).then((response) => {
-          try {
-            if (response == null) {
-              this.setState({
-                generalMessage: "failed to login",
-                isLoading: false,
-              });
-            } else {
-              AuthToken.SetAuthToken(response);
-              LocalStorage.SetUserInfo({
-                UserID: response.info.Table[0].userID,
-                RoleID: response.info.Table[0].UserRoleID,
-              });
-              this.props.navigation.reset({
-                index: 0,
-                routes: [{ name: "Home" }],
-              });
-              this.setState({ isLoading: false });
-              this.props.navigation.navigate("Home");
-            }
-          } catch (err) {
+        SignInUtils.SignIn(
+          this.state.Email,
+          this.state.Password,
+          this.props.navigation
+        )
+          .then(() => {
+            //user is logged in
+            this.setState({ isLoading: false });
+            this.props.navigation.navigate("Courses");
+          })
+          .catch((err) => {
             this.setState({ isLoading: false, generalMessage: err });
-          }
-        });
+          });
         //this.props.navigation.navigate("Home");
       })
       .catch((e) => {

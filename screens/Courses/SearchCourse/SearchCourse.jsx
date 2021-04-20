@@ -59,7 +59,7 @@ class SearchCourse extends React.Component {
 
   _mapData = (data, name) => {
     try {
-      let mappedData = [];
+      let mappedData = [{ value: 0, name }];
       data.forEach((x) => {
         if (x) {
           mappedData.push({
@@ -122,13 +122,12 @@ class SearchCourse extends React.Component {
     SearchService.GetInstitutes(this.state.searchFilter.country)
       .then((x) => {
         let filter = this.state.searchFilter;
-        filter.institute = x[0].Key;
+        filter.institute = 0;
         this.setState({
           instituteList: this._mapData(x, "Institute"),
           searchFilter: filter,
         });
         this.resetSelection(2);
-        this.handleInstituteSelection(x[0].Key);
       })
       .then((err) => {});
   };
@@ -141,13 +140,12 @@ class SearchCourse extends React.Component {
     SearchService.GetLevels(this.state.searchFilter.institute)
       .then((x) => {
         let filter = this.state.searchFilter;
-        filter.level = x[0].Key;
+        filter.level = 0;
         this.setState({
           levelList: this._mapData(x, "Level"),
           searchFilter: filter,
         });
         this.resetSelection(3);
-        this.handleLevelSelection(x[0].Key);
       })
       .then((err) => {});
   };
@@ -163,13 +161,12 @@ class SearchCourse extends React.Component {
     )
       .then((x) => {
         let filter = this.state.searchFilter;
-        filter.course = x[0].Key;
+        filter.course = 0;
         this.setState({
           coursesList: this._mapData(x, "Course"),
           searchFilter: filter,
         });
         this.resetSelection(4);
-        this.handleCourseSelection(x[0].Key);
       })
       .then((err) => {});
   };
@@ -293,12 +290,13 @@ class SearchCourse extends React.Component {
   };
   updateCourse = (id, text) => {
     let searchFilter = this.state.searchFilter;
-    searchFilter["CourseOfferedID"] = id;
+    //searchFilter["CourseOfferedID"] = id;
     searchFilter["courseName"] = text;
     this.setState(searchFilter);
   };
 
   handleSearchByCourse = () => {
+    //console.log("search by course");
     let { courseName, CourseOfferedID, country } = this.state.searchFilter;
     // searchFilter.courseDisciplineId = 0;
     // searchFilter.courseDisciplineName = "";
@@ -308,7 +306,7 @@ class SearchCourse extends React.Component {
     //console.log(searchFilter);
     let searchFilter = {
       courseName,
-      CourseOfferedID,
+      CourseOfferedID: 0,
       country,
       searchTypeId: 0,
     };
@@ -319,6 +317,7 @@ class SearchCourse extends React.Component {
   };
 
   handleSearchByDiscipline = () => {
+    //console.log("search by course discipline");//
     let {
       courseDisciplineName,
       courseDisciplineId,
@@ -343,7 +342,7 @@ class SearchCourse extends React.Component {
     });
   };
   render = () => {
-    //console.log(this.state);
+    //console.log("search course: ", this.state.searchFilter);
     return (
       <Background>
         <Animated.View
