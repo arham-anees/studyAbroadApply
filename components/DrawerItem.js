@@ -9,6 +9,7 @@ import CustomIcon from "../Icons/BellIcon";
 import Theme from "../constants/Theme";
 import LocalStorage from "../helper/LocalStorage";
 import { CommonActions } from "@react-navigation/native";
+import { NavigationActions, StackActions } from "@react-navigation/compat";
 
 class DrawerItem extends React.Component {
   renderIcon = () => {
@@ -79,6 +80,16 @@ class DrawerItem extends React.Component {
     }
   };
 
+  navigate = (title, navigation) => {
+    navigation.dispatch(StackActions.popToTop());
+    try {
+      console.log(navigation);
+      navigation.push(title);
+    } catch (err) {
+      console.log(err);
+      navigation.navigate(title);
+    }
+  };
   render() {
     const { focused, title, navigation } = this.props;
 
@@ -93,7 +104,7 @@ class DrawerItem extends React.Component {
         onPress={() =>
           title == "Sign Out"
             ? this.SignOut(navigation)
-            : navigation.navigate(title)
+            : this.navigate(title, navigation)
         }
       >
         <Block flex row style={containerStyles}>

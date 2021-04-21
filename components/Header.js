@@ -38,8 +38,7 @@ class Header extends React.Component {
       notifCount: -1,
     };
   }
-
-  componentDidMount() {
+  GetNotificationsList = () => {
     NotificationService.GetNotificationsList({ IsRequiredCount: 1 })
       .then((x) => {
         //console.log(x.length);
@@ -49,17 +48,18 @@ class Header extends React.Component {
         console.log(err);
         this.setState({ notifCount: 0 });
       });
-    global.notifs = setInterval(() => {
-      NotificationService.GetNotificationsList({ IsRequiredCount: 1 })
-        .then((x) => {
-          //console.log(x.length);
-          this.setState({ notifCount: x.length });
-        })
-        .catch((err) => {
-          console.log(err);
-          this.setState({ notifCount: 0 });
-        });
-    }, 60000);
+  };
+  componentDidMount() {
+    this._unsubscribe = this.props.navigation.addListener("focus", () => {
+      this.GetNotificationsList();
+      this._interval = setInterval(() => {
+        this.GetNotificationsList();
+      }, 5000);
+    });
+  }
+  componentWillUnmount() {
+    clearInterval(this._interval);
+    this.props.navigation.removeListener("focus");
   }
   handleLeftPress = () => {
     const { back, navigation } = this.props;

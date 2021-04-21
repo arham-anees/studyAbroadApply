@@ -137,7 +137,7 @@ class Notifications extends React.Component {
 
   deleteNotification = (id, callback) => {
     Alert.alert(
-      "Confirm Delete",
+      "Confirm Read",
       "Are you sure you want to continue?",
       [
         {

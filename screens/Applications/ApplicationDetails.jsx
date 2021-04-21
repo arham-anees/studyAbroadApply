@@ -57,6 +57,7 @@ class ApplicationDetails extends React.Component {
   }
   componentDidMount() {
     LocalStorage.GetUserInfo().then((x) => {
+      x = JSON.parse(x);
       this.setState({ roleId: x.RoleID, userId: x.UserID });
     });
     this.focusListener = this.props.navigation.addListener("focus", () => {
@@ -164,12 +165,13 @@ class ApplicationDetails extends React.Component {
 
       LocalStorage.GetUserInfo()
         .then((userInfo) => {
+          userInfo = JSON.parse(userInfo);
           //console.log("submit modal 2");
           ApplicationService.UploadFile({
             file: file,
             ApplicationID: this.state.applicationId,
             StudentID: this.state.userId,
-            CurrentUserID: 1, //userInfo.UserID,
+            CurrentUserID: userInfo.UserID, //userInfo.UserID,
             ProfileID: this.state.profileId,
             IsInstituteDocuments,
             Description: title,
@@ -207,7 +209,7 @@ class ApplicationDetails extends React.Component {
 
   render() {
     return (
-      <Background>
+      <Background noScroll>
         <ApplicationDetailsTabs
           initialIndex={this.state.activeTab}
           onChange={this.onTabChange}
@@ -243,7 +245,6 @@ class ApplicationDetails extends React.Component {
             <TravelInformation applicationId={this.state.applicationId} />
           ) : null}
           <Toast isShow={this.state.isShow}>{this.state.toastMessage}</Toast>
-          <Block style={GlobalStyle.scrollBottomPadding}></Block>
         </ScrollView>
         {this.state.activeTab === Tabs.Offers &&
         (this.state.roleId == Role.Administrator ||
@@ -252,11 +253,8 @@ class ApplicationDetails extends React.Component {
           <Button style={styles.floatingButton} onPress={this.AddNewHandle}>
             <CustomIcon source={Images.Add} />
           </Button>
-        ) : // <TouchableOpacity style={styles.floatingButton} onPress={this.AddNewHandle}>
-        //   <CustomIcon source={Images.Add}/>
-        // </TouchableOpacity>
-        null}
-        {this.state.activeTab === Tabs.Documents ? (
+        ) : null}
+        {this.state.activeTab == Tabs.Documents ? (
           <Button style={styles.floatingButton} onPress={this.AddNewHandle}>
             <CustomIcon source={Images.Add} />
           </Button>
@@ -285,7 +283,6 @@ export default ApplicationDetails;
 
 const styles = StyleSheet.create({
   container: {
-    height: GlobalStyle.SIZES.PageHeight - GlobalStyle.SIZES.NavBarHeight,
     paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding,
     flex: 1,
   },

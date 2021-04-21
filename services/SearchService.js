@@ -256,7 +256,7 @@ function Search(props) {
   return new Promise((resolve, reject) => {
     try {
       const url = Urls.SearchCourse;
-      //console.log("request params:", props);
+      console.log("request params:", props);
       Fetch.Post({ url, data: props })
         .then((response) => {
           if (response == null) reject(Messages.RequestFailed);

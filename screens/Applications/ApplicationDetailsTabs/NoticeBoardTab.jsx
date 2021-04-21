@@ -121,6 +121,7 @@ class NoticeBoardTab extends React.Component {
 
     LocalStorage.GetUserInfo().then((x) => {
       //console.log(x);
+      x = JSON.parse(x);
       if (x != null) this.setState({ isStudent: x.RoleID == Role.Student });
     });
     this.setState({ applicationId });
@@ -148,6 +149,7 @@ class NoticeBoardTab extends React.Component {
 
     LocalStorage.GetUserInfo()
       .then((x) => {
+        x = JSON.parse(x);
         if (
           x.RoleID == Role.Administrator ||
           x.RoleID == Role.Institute ||

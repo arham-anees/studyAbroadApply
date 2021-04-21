@@ -18,6 +18,25 @@ class CreateProfile extends React.Component {
   }
   handleUpdateProfilePress = (props) => {
     //console.log(props);
+    props.navigation.dispatch({
+      ...CommonActions.reset({
+        index: 0,
+        routes: [
+          {
+            name: "Home",
+            state: {
+              routes: [
+                {
+                  name: "Applications",
+                },
+              ],
+            },
+          },
+        ],
+      }),
+    });
+    this.props.navigation.navigate("Applications");
+    return;
     this.setState({ isLoading: true });
     ApplicationService.UpdateProfile({ ...props, ProfileID: 0 })
       .then((x) => {

@@ -107,29 +107,28 @@ class SearchCourse extends React.Component {
     this.setState(searchFilter);
   };
 
-  handleIntakwSelection = (val) => {
-    let searchFilter = this.state.searchFilter;
-    searchFilter["intake"] = val;
-    this.setState(searchFilter);
-    this.resetSelection(6);
-  };
-
   handleCountrySelection = (val) => {
-    let searchFilter = this.state.searchFilter;
-    searchFilter["country"] = val;
-    this.setState(searchFilter);
+    try {
+      let searchFilter = this.state.searchFilter;
+      searchFilter["country"] = val;
+      this.setState(searchFilter);
 
-    SearchService.GetInstitutes(this.state.searchFilter.country)
-      .then((x) => {
-        let filter = this.state.searchFilter;
-        filter.institute = 0;
-        this.setState({
-          instituteList: this._mapData(x, "Institute"),
-          searchFilter: filter,
+      SearchService.GetInstitutes(this.state.searchFilter.country)
+        .then((x) => {
+          let filter = this.state.searchFilter;
+          filter.institute = 0;
+          this.setState({
+            instituteList: this._mapData(x, "Institute"),
+            searchFilter: filter,
+          });
+          this.resetSelection(2);
+        })
+        .then((err) => {
+          console.log(err);
         });
-        this.resetSelection(2);
-      })
-      .then((err) => {});
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   handleInstituteSelection = (val) => {
@@ -194,7 +193,7 @@ class SearchCourse extends React.Component {
   };
   //#endregion
 
-  //this method enablles
+  //this method enables
   resetSelection = (level) => {
     if (!level) level = 0;
     if (level == 0) {
