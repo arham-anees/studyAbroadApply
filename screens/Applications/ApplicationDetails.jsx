@@ -225,12 +225,14 @@ class ApplicationDetails extends React.Component {
               handleUpdateStatusPress={this.handleUpdateStatusPress}
             />
           ) : this.state.activeTab === Tabs.Profile ? (
-            <ProfileTab
-              applicationId={this.state.applicationId}
-              profileId={this.state.profileId}
-              application={this.state.application}
-              handleUpdateProfilePress={this.handleUpdateProfilePress}
-            />
+            <View>
+              <ProfileTab
+                applicationId={this.state.applicationId}
+                profileId={this.state.profileId}
+                application={this.state.application}
+                handleUpdateProfilePress={this.handleUpdateProfilePress}
+              />
+            </View>
           ) : this.state.activeTab === Tabs.Course ? (
             <CourseTab item={this.state.course} />
           ) : this.state.activeTab === Tabs.Documents ? (
@@ -244,6 +246,7 @@ class ApplicationDetails extends React.Component {
           ) : this.state.activeTab === Tabs.TravelInformation ? (
             <TravelInformation applicationId={this.state.applicationId} />
           ) : null}
+          <Block style={GlobalStyle.scrollBottomPadding}></Block>
           <Toast isShow={this.state.isShow}>{this.state.toastMessage}</Toast>
         </ScrollView>
         {this.state.activeTab === Tabs.Offers &&

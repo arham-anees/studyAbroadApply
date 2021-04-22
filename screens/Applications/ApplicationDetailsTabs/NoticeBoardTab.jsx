@@ -92,7 +92,8 @@ class NoticeBoardTab extends React.Component {
       disableUpdateBtn: true,
       isLoadingNotes: true,
       settingNote: false,
-      allowUpdateStatus: true,
+      allowUpdateStatus: false,
+      roleId: 0,
       isStudent: true,
     };
   }
@@ -108,8 +109,8 @@ class NoticeBoardTab extends React.Component {
           isVisibleToStudents: element.IsVisableToStudents,
         });
       });
-      if (this.state.isStudent)
-        return mappedData.some((x) => x.isVisibleToStudents);
+      // if (this.state.isStudent)
+      //   return mappedData.some((x) => x.isVisibleToStudents);
       return mappedData;
     } catch (err) {
       return [];
@@ -136,9 +137,9 @@ class NoticeBoardTab extends React.Component {
 
     ApplicationService.GetApplicationStatus(applicationId)
       .then((x) => {
+        //console.log(x);
         this.setState({
           statusName: x.ResponseMessage,
-          statusId: x.ResponseID,
           isStatusUpdating: false,
         });
       })
@@ -154,8 +155,11 @@ class NoticeBoardTab extends React.Component {
           x.RoleID == Role.Administrator ||
           x.RoleID == Role.Institute ||
           x.RoleID == Role.StudentCounselor
-        )
-          this.setState({ allowUpdateStatus: true });
+        ) {
+          this.setState({ allowUpdateStatus: true, roleId: x.RoleID });
+        } else {
+          this.setState({ roleId: x.RoleID });
+        }
       })
       .catch((err) => {
         console.log("error: ", err);
@@ -181,7 +185,6 @@ class NoticeBoardTab extends React.Component {
             .then((x) => {
               this.setState({
                 statusName: x.ResponseMessage,
-                statusId: x.ResponseID,
                 isStatusUpdating: false,
               });
             })
@@ -234,16 +237,20 @@ class NoticeBoardTab extends React.Component {
     ApplicationService.SetNewNote(
       this.state.applicationId.toString(),
       this.state.newNote,
-      this.state.visibleToStudent.toString()
+      this.state.visibleToStudent ? 1 : 0
     )
       .then((x) => {
-        this.setState({
-          newNote: "",
-          visibleToStudent: true,
-          openNewNote: false,
-          settingNote: false,
-        });
-        this.loadNotes();
+        if (x.ResponseStatus) {
+          this.setState({
+            newNote: "",
+            visibleToStudent: true,
+            openNewNote: false,
+            settingNote: false,
+          });
+          this.loadNotes(this.state.applicationId.toString());
+        } else {
+          Alert.alert("Failed", "Failed to add note. Please try again later.");
+        }
       })
       .catch((err) => {
         this.setState({ settingNote: false });
@@ -283,10 +290,10 @@ class NoticeBoardTab extends React.Component {
           <TextCustom>{this.state.statusName}</TextCustom>
         </Block>
         <View>
-          <Block style={GlobalStyle.block}>
-            <Text style={GlobalStyle.blockTitle}>Update Status</Text>
+          {this.state.allowUpdateStatus ? (
+            <Block style={GlobalStyle.block}>
+              <Text style={GlobalStyle.blockTitle}>Update Status</Text>
 
-            {this.state.allowUpdateStatus ? (
               <Block>
                 <DropDown
                   list={applicationStatus}
@@ -311,8 +318,8 @@ class NoticeBoardTab extends React.Component {
                   </Block>
                 ) : null}
               </Block>
-            ) : null}
-          </Block>
+            </Block>
+          ) : null}
           {/* <Block style={GlobalStyle.block}>
             <Text style={GlobalStyle.blockTitle}>Follow Up</Text>
             {this.state.followUps.map((x, index) => (
@@ -368,28 +375,30 @@ class NoticeBoardTab extends React.Component {
             </Block>
             {this.state.openNewNote ? (
               <Block>
-                <Block row style={{ alignItems: "center" }}>
-                  <View
-                    style={{
-                      backgroundColor: "#fff",
-                      margin: 0,
-                      padding: 0,
-                      borderRadius: 5,
-                      marginRight: 5,
-                    }}
-                  >
-                    <CheckBox
-                      color="white"
-                      label=""
-                      iconColor="black"
-                      onValueChange={this.handleCheckValChange}
-                      value={this.state.visibleToStudent}
-                      style={{ margin: 0, padding: 0 }}
-                    />
-                  </View>
-                  <TextCustom>Is visible to students</TextCustom>
-                </Block>
-                <Block row middle space="between">
+                {this.state.roleId != Role.Student && (
+                  <Block row style={{ alignItems: "center" }}>
+                    <View
+                      style={{
+                        backgroundColor: "#fff",
+                        margin: 0,
+                        padding: 0,
+                        borderRadius: 5,
+                        marginRight: 5,
+                      }}
+                    >
+                      <CheckBox
+                        color="white"
+                        label=""
+                        iconColor="black"
+                        onValueChange={this.handleCheckValChange}
+                        value={this.state.visibleToStudent}
+                        style={{ margin: 0, padding: 0 }}
+                      />
+                    </View>
+                    <TextCustom>Is visible to students</TextCustom>
+                  </Block>
+                )}
+                <Block>
                   <Block flex>
                     <Input
                       placeholder={"Note"}
@@ -398,15 +407,13 @@ class NoticeBoardTab extends React.Component {
                       onChangeText={(text) => this.setState({ newNote: text })}
                     />
                   </Block>
-                  <Block
-                    style={[styles.iconBlock]}
-                    middle
-                    opacity={this.state.settingNote ? 0.5 : 1}
-                  >
-                    <CustomIcon
-                      source={Icons.Send}
+                  <Block center>
+                    <Button
+                      style={styles.updateStatusBtn}
                       onPress={this.handleAddNotePress}
-                    />
+                    >
+                      Submit
+                    </Button>
                   </Block>
                 </Block>
               </Block>

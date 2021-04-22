@@ -15,6 +15,7 @@ import Icons from "../constants/Icons";
 import GlobalStyle from "../GlobalStyles";
 import TextCustom from "./TextCustom";
 import NotificationService from "../services/NotificationService";
+import Notifications from "../helper/Notifications";
 
 const { height, width } = Dimensions.get("window");
 const iPhoneX = () =>
@@ -36,6 +37,7 @@ class Header extends React.Component {
     super(props);
     this.state = {
       notifCount: -1,
+      interval: null,
     };
   }
   GetNotificationsList = () => {
@@ -50,16 +52,20 @@ class Header extends React.Component {
       });
   };
   componentDidMount() {
-    this._unsubscribe = this.props.navigation.addListener("focus", () => {
-      this.GetNotificationsList();
-      this._interval = setInterval(() => {
-        this.GetNotificationsList();
-      }, 5000);
-    });
+    // this._unsubscribe = this.props.navigation.addListener("focus", () => {
+    //this.GetNotificationsList();
+    this.setState({ notifCount: Notifications.GetNotificationCount() });
+
+    let interval = setInterval(() => {
+      //this.GetNotificationsList();
+      this.setState({ notifCount: Notifications.GetNotificationCount() });
+    }, 5000);
+    this.setState({ interval: interval });
+    // });
   }
   componentWillUnmount() {
-    clearInterval(this._interval);
-    this.props.navigation.removeListener("focus");
+    clearInterval(this.state.interval);
+    //  this.props.navigation.removeListener("focus");
   }
   handleLeftPress = () => {
     const { back, navigation } = this.props;

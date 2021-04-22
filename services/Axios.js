@@ -1,7 +1,8 @@
 import axios from "axios";
 
 function Get(url) {
-  return new Promise(async (resolve, reject) => {
+  //aconsole.log(url, "executing");
+  return new Promise((resolve, reject) => {
     try {
       //debugger
       axios
@@ -10,11 +11,14 @@ function Get(url) {
           headers: { "content-type": "application/json; charset=utf-8" },
         })
         .then((x) => {
+          //console.log(url, "executed");
+
           if (x.status == 200) {
             resolve(x.data);
           } else reject(x.status);
         })
         .catch((err) => {
+          //console.log(url, "failed");
           reject(err);
         });
     } catch (e) {
@@ -23,12 +27,14 @@ function Get(url) {
   });
 }
 function Post({ data, url }) {
+  //console.log(url, "executing");
   return new Promise((resolve, reject) => {
     try {
       if (!data) data = [];
       axios
         .post(url, data)
         .then((res) => {
+          //console.log(url, "executed");
           if (res.status == 200) {
             resolve(res.data);
           } else {
@@ -36,6 +42,8 @@ function Post({ data, url }) {
           }
         })
         .catch((err) => {
+          //console.log(url, "failed");
+
           reject(err);
         });
     } catch (e) {

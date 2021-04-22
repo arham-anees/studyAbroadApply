@@ -13,6 +13,7 @@ import GraphsDataService from "../services/GraphDataService";
 import { Alert } from "react-native";
 import HomeUtils from "./Home.Utils";
 import Loading from "../components/Loading";
+import Notifications from "../helper/Notifications";
 
 const { height, width } = Dimensions.get("screen");
 class Home extends React.Component {
@@ -45,6 +46,7 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
+    Notifications.Start();
     BackHandler.addEventListener("hardwareBackPress", this.back_Button_Press);
     const { navigation } = this.props;
     this.focusListener = navigation.addListener("focus", () => {
@@ -71,7 +73,7 @@ class Home extends React.Component {
       "Do you want to exit From App ?",
       [
         { text: "Yes", onPress: () => BackHandler.exitApp() },
-        { text: "No", onPress: () => console.log("NO Pressed") },
+        { text: "No", onPress: () => {} },
       ],
       { cancelable: false }
     );

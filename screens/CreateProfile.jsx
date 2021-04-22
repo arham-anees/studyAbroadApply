@@ -17,39 +17,15 @@ class CreateProfile extends React.Component {
     };
   }
   handleUpdateProfilePress = (props) => {
-    //console.log(props);
-    props.navigation.dispatch({
-      ...CommonActions.reset({
-        index: 0,
-        routes: [
-          {
-            name: "Home",
-            state: {
-              routes: [
-                {
-                  name: "Applications",
-                },
-              ],
-            },
-          },
-        ],
-      }),
-    });
-    this.props.navigation.navigate("Applications");
-    return;
     this.setState({ isLoading: true });
     ApplicationService.UpdateProfile({ ...props, ProfileID: 0 })
       .then((x) => {
-        //console.log(x);
         if (x.ResponseStatus) {
-          //console.log("params for course apply",{...this.props.route.params.course,ProfileID:x.ResponseID});
           SearchService.ApplyForCourseApp({
             ...this.props.route.params.course,
             ProfileID: x.ResponseID,
           }).then((x) => {
-            //console.log("create profile",x);
             if (x.ResponseID > 0) {
-              //Alert.alert("Applied", "successfully applied for course");
               this.setState({ isLoading: false });
               props.navigation.dispatch({
                 ...CommonActions.reset({

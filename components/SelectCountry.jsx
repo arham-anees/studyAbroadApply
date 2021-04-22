@@ -24,16 +24,23 @@ export default class SelectCountry extends React.Component {
   }
 
   componentDidMount() {
-    SearchService.GetCountries()
-      .then((x) => {
-        this.setState({ countries: this._mapCountries(x) });
-        //this.props.onChange(this.state.countries[0].value);
-      })
-      .then((err) => {
-        // Alert.alert(
-        //   "Failed to load countries list from. Please try again later"
-        // );
-      });
+    this.focusListener = this.props.navigation.addListener("focus", () => {
+      if (this.state.countries.length <= 1) {
+        SearchService.GetCountries()
+          .then((x) => {
+            this.setState({ countries: this._mapCountries(x) });
+          })
+          .then((err) => {
+            console.log(err);
+            // Alert.alert(
+            //   "Failed to load countries list from. Please try again later"
+            // );
+          });
+      }
+    });
+  }
+  componentWillUnmount() {
+    this.props.navigation.removeListener("focus");
   }
   _mapCountries = (countries) => {
     try {

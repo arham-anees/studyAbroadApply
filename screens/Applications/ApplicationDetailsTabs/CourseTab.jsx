@@ -1,11 +1,7 @@
 import { Block, Button, Text, theme } from "galio-framework";
 import React, { useState } from "react";
-import { Picker } from "react-native";
 import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
-import { Input } from "../../../components";
-import DropDown from "../../../components/DropDown";
-import SelectCountry from "../../../components/SelectCountry";
 import TextCustom from "../../../components/TextCustom";
 import GlobalStyle from "../../../GlobalStyles";
 
@@ -58,6 +54,7 @@ function CourseTab(props) {
           <TextCustom style={styles.info}>{item.country}</TextCustom>
         </Block>
       </Block>
+
       {/* {openApplyForm ? (
         <Block style={styles.block}>
           <Text center h5 color="white">
@@ -100,6 +97,8 @@ const styles = StyleSheet.create({
   },
   info: {
     color: "white",
+    overflow: "visible",
+    width: width - 80 - GlobalStyle.SIZES.PageNormalPadding * 2,
   },
   dropdown: {
     backgroundColor: theme.COLORS.WHITE,

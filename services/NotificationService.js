@@ -45,8 +45,9 @@ function MarkAllNotificationAsRead() {
     try {
       const url = Urls.MarkAllNotificationAsRead;
       //console.log(url);
-      Fetch.Post({ url })
+      Fetch.Post({ url, data: {} })
         .then((response) => {
+          //console.log(response);
           if (response) resolve(response);
           else reject(response);
         })

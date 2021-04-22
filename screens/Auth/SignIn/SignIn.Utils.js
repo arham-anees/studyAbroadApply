@@ -3,11 +3,11 @@ import AuthService from "../../../services/AuthService";
 import AuthToken from "../../../helper/Token";
 import Role from "../../../helper/Role";
 import ApplicationService from "../../../services/ApplicationService";
+import { CommonActions } from "@react-navigation/core";
 import { NavigationActions } from "@react-navigation/compat";
 
 function SignIn(email, password, navigation) {
   return new Promise((resolve, reject) => {
-    //console.log(email, password);
     AuthService.Login({
       username: email,
       password: password,
@@ -25,46 +25,22 @@ function SignIn(email, password, navigation) {
               UserID: response.info.Table[0].userID,
               RoleID: response.info.Table[0].UserRoleID,
             });
-            //console.log('navigation.navigate("Home", { screen: "Courses" })');
-            navigation.navigate("Home", { screen: "Home" });
-            // navigation.navigate(
-            //   NavigationActions.navigate({
-            //     routeName: "Home",
-            //     action: NavigationActions.navigate({ routeName: "Courses" }),
-            //   })
-            // );
-
-            //debugger;
-            // navigation.reset({
-            //   index: 0,
-            //   routes: [{ name: "Home" }],
-            // });
-            // navigation.navigate(
-            //   "Courses",
-            //   { screen: "Courses" }
-            // NavigationActions.navigate({
-            //   routeName: "Courses",
-            // })
-            //);
-            // if (response.info.Table[0].UserRoleID == Role.Student) {
-            //   ApplicationService.BrowseApplications().then((applications) => {
-            //     if (!applications || applications.length == 0) {
-            //       //navigation.navigate("Courses");
-            //       navigation.navigate(
-            //         "Courses",
-            //         { screen: "Courses" }
-            //         // NavigationActions.navigate({
-            //         //   routeName: "Courses",
-            //         // })
-            //       );
-            //     } else {
-            //       navigation.navigate("Applications");
-            //     }
-            //   });
-            //} else {
-            //this.setState({ isLoading: false });
-            //navigation.navigate("Home");
-            //}
+            if (response.info.Table[0].UserRoleID == Role.Student) {
+              ApplicationService.BrowseApplications().then((applications) => {
+                let screenName = "Applications";
+                if (!applications || applications.length == 0)
+                  screenName = "Courses";
+                navigation.navigate(
+                  screenName,
+                  {},
+                  NavigationActions.navigate({
+                    routeName: screenName,
+                  })
+                );
+              });
+            } else {
+              navigation.navigate("Home");
+            }
             resolve("");
           }
         } catch (err) {

@@ -111,7 +111,7 @@ class SearchCourse extends React.Component {
     try {
       let searchFilter = this.state.searchFilter;
       searchFilter["country"] = val;
-      this.setState(searchFilter);
+      this.setState({ searchFilter, isLoading: true });
 
       SearchService.GetInstitutes(this.state.searchFilter.country)
         .then((x) => {
@@ -120,11 +120,13 @@ class SearchCourse extends React.Component {
           this.setState({
             instituteList: this._mapData(x, "Institute"),
             searchFilter: filter,
+            isLoading: false,
           });
           this.resetSelection(2);
         })
         .then((err) => {
           console.log(err);
+          this.setState({ isLoading: false });
         });
     } catch (err) {
       console.log(err);
@@ -134,7 +136,7 @@ class SearchCourse extends React.Component {
   handleInstituteSelection = (val) => {
     let searchFilter = this.state.searchFilter;
     searchFilter["institute"] = val;
-    this.setState(searchFilter);
+    this.setState({ searchFilter, isLoading: true });
 
     SearchService.GetLevels(this.state.searchFilter.institute)
       .then((x) => {
@@ -143,16 +145,19 @@ class SearchCourse extends React.Component {
         this.setState({
           levelList: this._mapData(x, "Level"),
           searchFilter: filter,
+          isLoading: false,
         });
         this.resetSelection(3);
       })
-      .then((err) => {});
+      .then((err) => {
+        this.setState({ isLoading: false });
+      });
   };
 
   handleLevelSelection = (val) => {
     let searchFilter = this.state.searchFilter;
     searchFilter["level"] = val;
-    this.setState(searchFilter);
+    this.setState({ searchFilter, isLoading: true });
 
     SearchService.GetCourses(
       this.state.searchFilter.level,
@@ -164,10 +169,13 @@ class SearchCourse extends React.Component {
         this.setState({
           coursesList: this._mapData(x, "Course"),
           searchFilter: filter,
+          isLoading: false,
         });
         this.resetSelection(4);
       })
-      .then((err) => {});
+      .then((err) => {
+        this.setState({ isLoading: false });
+      });
   };
 
   handleCourseSelection = (val) => {
@@ -256,7 +264,7 @@ class SearchCourse extends React.Component {
 
   searchCourse = () => {
     const searchFilter = this.state.searchFilter;
-    //console.log(searchFilter);
+    //console.log(this.props.navigation);
     this.props.navigation.navigate({
       name: "SearchedCourses",
       params: { searchFilter },
@@ -289,20 +297,12 @@ class SearchCourse extends React.Component {
   };
   updateCourse = (id, text) => {
     let searchFilter = this.state.searchFilter;
-    //searchFilter["CourseOfferedID"] = id;
     searchFilter["courseName"] = text;
     this.setState(searchFilter);
   };
 
   handleSearchByCourse = () => {
-    //console.log("search by course");
     let { courseName, CourseOfferedID, country } = this.state.searchFilter;
-    // searchFilter.courseDisciplineId = 0;
-    // searchFilter.courseDisciplineName = "";
-    // searchFilter.institute = 0;
-    // searchFilter.level = 0;
-    // searchFilter = { ...searchFilter, searchTypeId: 0 };
-    //console.log(searchFilter);
     let searchFilter = {
       courseName,
       CourseOfferedID: 0,
@@ -316,34 +316,35 @@ class SearchCourse extends React.Component {
   };
 
   handleSearchByDiscipline = () => {
-    //console.log("search by course discipline");//
     let {
       courseDisciplineName,
       courseDisciplineId,
       country,
     } = this.state.searchFilter;
-    // searchFilter.CourseOfferedID = 0;
-    // searchFilter.course = 0;
-    // searchFilter.courseName = "";
-    // searchFilter.institute = 0;
-    // searchFilter.level = 0;
-    // searchFilter = { ...searchFilter, searchTypeId: 1 };
     let searchFilter = {
-      courseDisciplineName,
+      courseName: courseDisciplineName,
       courseDisciplineId,
       country,
       searchTypeId: 1,
     };
-    //console.log(searchFilter);
     this.props.navigation.navigate({
       name: "SearchedCourses",
       params: { searchFilter },
     });
   };
   render = () => {
-    //console.log("search course: ", this.state.searchFilter);
     return (
       <Background>
+        {this.state.isLoading ? (
+          <Block
+            style={{
+              minHeight: GlobalStyle.SIZES.PageHeight,
+              position: "absolute",
+            }}
+          >
+            <Loading isActive={this.state.isLoading} />
+          </Block>
+        ) : null}
         <Animated.View
           style={{
             opacity: this.state.fadeAnim,
@@ -357,6 +358,7 @@ class SearchCourse extends React.Component {
               <SelectCountry
                 onChange={(val) => this.handleCountrySelection(val)}
                 selectedValue={this.state.searchFilter.country}
+                navigation={this.props.navigation}
               />
               {this.state.searchFilter.advanced ? (
                 <Block>

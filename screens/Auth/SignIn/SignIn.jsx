@@ -13,6 +13,9 @@ import LocalStorage from "../../../helper/LocalStorage";
 import GlobalStyle from "../../../GlobalStyles";
 import { Alert } from "react-native";
 import SignInUtil from "./SignIn.Utils";
+import Role from "../../../helper/Role";
+import ApplicationService from "../../../services/ApplicationService";
+import { NavigationActions } from "@react-navigation/compat";
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -28,16 +31,47 @@ class SignIn extends React.Component {
   componentDidMount() {
     this.CheckStatus();
   }
-  async CheckStatus() {
-    var result = await LocalStorage.GetToken();
-    // console.log(this.props.navigation);
-    global.navigation = this.props.navigation;
-    //console.log(result);
-    try {
-      if (result.length > 100) {
-        this.props.navigation.navigate("Home");
-      }
-    } catch {}
+  CheckStatus() {
+    LocalStorage.GetToken()
+      .then((res) => {
+        if (res.length > 100) {
+          LocalStorage.GetUserInfo()
+            .then((userInfo) => {
+              userInfo = JSON.parse(userInfo);
+              if (userInfo.RoleID == Role.Student) {
+                ApplicationService.BrowseApplications().then((applications) => {
+                  let screenName = "Applications";
+                  if (!applications || applications.length == 0)
+                    screenName = "Courses";
+                  this.props.navigation.navigate(
+                    screenName,
+                    {},
+                    NavigationActions.navigate({
+                      routeName: screenName,
+                    })
+                  );
+                });
+              } else {
+                this.props.navigation.navigate("Home");
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // var result = await LocalStorage.GetToken();
+    // // console.log(this.props.navigation);
+    // global.navigation = this.props.navigation;
+    // //console.log(result);
+    // try {
+    //   if (result.length > 100) {
+    //     this.props.navigation.navigate("Home");
+    //   }
+    // } catch {}
   }
   handleSignUpStudentPress = () =>
     this.props.navigation.navigate("SignUpAsStudent");
@@ -72,7 +106,7 @@ class SignIn extends React.Component {
       })
       .catch((err) => {
         this.setState({ isSubmitted: false, error: true });
-        Alert.alert("Error", err.message);
+        //Alert.alert("Error", err.message);
       });
 
     // AuthService.Login(this.state)

@@ -142,7 +142,7 @@ class Notifications extends React.Component {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
+          onPress: () => {},
           style: "cancel",
         },
         {
@@ -189,7 +189,7 @@ class Notifications extends React.Component {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
+          onPress: () => {},
           style: "cancel",
         },
         {
@@ -197,6 +197,7 @@ class Notifications extends React.Component {
           onPress: () => {
             NotificationService.MarkAllNotificationAsRead()
               .then((x) => {
+                //console.log(x);
                 Alert.alert(
                   "Done",
                   "All notifications are marked as read successfully"

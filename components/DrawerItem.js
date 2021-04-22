@@ -1,15 +1,13 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, Linking, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Block, Text, theme } from "galio-framework";
-
-import Icon from "./Icon";
 import argonTheme from "../constants/Theme";
 import Icons from "../constants/Icons";
 import CustomIcon from "../Icons/BellIcon";
 import Theme from "../constants/Theme";
 import LocalStorage from "../helper/LocalStorage";
 import { CommonActions } from "@react-navigation/native";
-import { NavigationActions, StackActions } from "@react-navigation/compat";
+import Notifications from "../helper/Notifications";
 
 class DrawerItem extends React.Component {
   renderIcon = () => {
@@ -48,9 +46,9 @@ class DrawerItem extends React.Component {
   SignOut = async (navigation) => {
     await LocalStorage.ClearToken();
     try {
-      clearInterval(global.notifs);
+      Notifications.ClearInterval();
     } catch {
-      console.log("failed to clear interval");
+      //console.log("failed to clear interval");
     }
     //console.log(navigation);
     //navigation.popToTop();
@@ -81,12 +79,9 @@ class DrawerItem extends React.Component {
   };
 
   navigate = (title, navigation) => {
-    navigation.dispatch(StackActions.popToTop());
     try {
-      console.log(navigation);
       navigation.push(title);
     } catch (err) {
-      console.log(err);
       navigation.navigate(title);
     }
   };

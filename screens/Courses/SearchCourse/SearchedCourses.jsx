@@ -1,6 +1,6 @@
-import { Block, Button } from "galio-framework";
+import { Block } from "galio-framework";
 import React from "react";
-import { Alert, Modal, Text } from "react-native";
+import { Alert } from "react-native";
 import { Images } from "../../../constants";
 import SearchedCoursesItem from "./SearchedCourses.Component";
 import Background from "../../../components/Background";
@@ -11,7 +11,7 @@ import styles from "./SearchCourse.Styles";
 import CustomIcon from "../../../Icons/BellIcon";
 import DropDown from "../../../components/DropDown";
 import Loading from "../../../components/Loading";
-import { CommonActions } from "@react-navigation/routers";
+import { CommonActions } from "@react-navigation/core";
 
 class SearchedCourses extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class SearchedCourses extends React.Component {
       country: 0,
       level: 0,
       data: [],
-      loading: false,
+      loading: true,
       totalItems: 0,
       countries: [],
       levels: [],
@@ -45,12 +45,15 @@ class SearchedCourses extends React.Component {
         this.setState({ loading: true });
         SearchService.ApplyForCourse({ ...course })
           .then((response) => {
-            console.log(response);
             if (response == "/Application/Profile") {
               this.props.navigation.navigate("CreateProfile", { course });
-              //Alert.alert("Apply Successful", "create profile here");
             } else if (response == "/Application/BrowseApplication") {
-              this.props.navigation.navigate("Applications");
+              this.props.navigation.dispatch({
+                ...CommonActions.reset({
+                  index: 1,
+                  routes: [{ name: "Home" }, { name: "Applications" }],
+                }),
+              });
             }
             this.setState({ loading: false });
           })
@@ -66,26 +69,27 @@ class SearchedCourses extends React.Component {
   };
 
   componentDidMount() {
-    return;
-    let {
-      searchTypeId,
-      level,
-      institute,
-      country,
-      courseDisciplineId,
-      courseName,
-      courseDisciplineName,
-      advanced,
-      CourseOfferedID,
-    } = this.props.route.params.searchFilter;
-    if (!CourseOfferedID) CourseOfferedID = 0;
-    if (!courseDisciplineName) courseDisciplineName = "";
-    if (!courseName) courseName = "";
-    if (!courseDisciplineName) courseDisciplineName = "";
-    if (!courseDisciplineId) courseDisciplineId = 0;
-    if (!country) country = 0;
-    if (!institute) institute = 0;
-    if (!level)
+    this.focusListener = this.props.navigation.addListener("focus", () => {
+      //console.log("searched courses focus");
+      let {
+        searchTypeId,
+        level,
+        institute,
+        country,
+        courseDisciplineId,
+        courseName,
+        courseDisciplineName,
+        advanced,
+        CourseOfferedID,
+      } = this.props.route.params.searchFilter;
+      if (!CourseOfferedID) CourseOfferedID = 0;
+      if (!courseDisciplineName) courseDisciplineName = "";
+      if (!courseName) courseName = "";
+      if (!courseDisciplineName) courseDisciplineName = "";
+      if (!courseDisciplineId) courseDisciplineId = 0;
+      if (!country) country = 0;
+      if (!institute) institute = 0;
+      if (!level) level = 0;
       //console.log("search filter:", searchFilter);
       SearchService.Search({
         searchTypeId: searchTypeId,
@@ -98,35 +102,7 @@ class SearchedCourses extends React.Component {
         CourseOfferedID: !advanced ? CourseOfferedID : 0,
       })
         .then((x) => {
-          //console.log("Response: ", x);
           if (!x) x = [];
-
-          // let institutes = [{ name: "All", value: 0 }];
-          // let tempInsti = [];
-          // x.forEach((x) => {
-          //   if (!tempInsti.includes(x.InstituteID)) {
-          //     tempInsti.push(x.InstituteID);
-          //     institutes.push({ name: x.InstituteName, value: x.InstituteID });
-          //   }
-          // });
-
-          // let countries = [{ name: "All", value: 0 }];
-          // let tempcountry = [];
-          // x.forEach((x) => {
-          //   if (!tempcountry.includes(x.CountryID)) {
-          //     tempcountry.push(x.CountryID);
-          //     countries.push({ name: x.CountryName, value: x.CountryID });
-          //   }
-          //});
-
-          //let levels = [{ name: "All", value: 0 }];
-          // let tempLevels = [];
-          // x.forEach((x) => {
-          //   if (!tempLevels.includes(x.LevelID)) {
-          //     tempLevels.push(x.LevelID);
-          //     levels.push({ name: x.LevelName, value: x.LevelID });
-          //   }
-          // });
           this.setState({
             data: x,
             displayData: x,
@@ -135,9 +111,13 @@ class SearchedCourses extends React.Component {
           });
         })
         .catch((err) => {
-          console.log(err);
+          console.log("Error:", err);
           this.setState({ loading: false });
         });
+    });
+  }
+  componentWillUnmount() {
+    this.props.navigation.removeListener("focus");
   }
   filterData = () => {
     var newData = this.state.data;
@@ -190,47 +170,8 @@ class SearchedCourses extends React.Component {
       this.setState({ start: this.state.start + 10, end: this.state.end + 10 });
     }
   };
-  test = () => {
-    this.props.navigation.dispatch({
-      ...CommonActions.reset({
-        index: 1,
-        routes: [
-          {
-            name: "Home",
 
-            // state: {
-            //   routes: [
-            //     {
-            //       name: "Courses",
-            //     },
-            //   ],
-            // },
-          },
-          {
-            name: "Applications",
-
-            // state: {
-            //   routes: [
-            //     {
-            //       name: "Courses",
-            //     },
-            //   ],
-            // },
-          },
-        ],
-      }),
-    });
-    this.props.navigation.navigate("Applications");
-  };
   render = () => {
-    // if (this.state.loading) {
-    //   return (
-    //     <Background>
-    //       <Loading isActive={true} />
-    //     </Background>
-    //   );
-    // }
-
     return (
       <Background>
         <Loading isActive={this.state.loading} />
@@ -240,8 +181,7 @@ class SearchedCourses extends React.Component {
             styles.container,
           ]}
         >
-          <Button onPress={this.test}>Test</Button>
-          {/* {this.props.route.params.searchFilter.advanced && false ? (
+          {this.props.route.params.searchFilter.advanced && false ? (
             <Block style={GlobalStyle.block}>
               <DropDown
                 list={this.state.countries}
@@ -274,7 +214,7 @@ class SearchedCourses extends React.Component {
                 disabled={this.state.levels.length == 1}
               />
             </Block>
-          ) : null} */}
+          ) : null}
           <React.Fragment>{this.renderItems()}</React.Fragment>
           {this.state.data.length > 0 ? (
             <Block row center style={{ marginTop: 10 }}>

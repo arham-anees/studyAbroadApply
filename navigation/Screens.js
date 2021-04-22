@@ -82,7 +82,7 @@ function CourseStack(props) {
       }}
     >
       <Stack.Screen
-        name="SearchCourse"
+        name="Courses"
         component={SearchCourse}
         options={{
           header: ({ navigation, scene }) => (
@@ -296,14 +296,14 @@ export default function AppStack(props) {
         width: width * 0.8,
       }}
       drawerContentOptions={{
-        activeTintcolor: "white",
+        activeTintColor: "white",
         inactiveTintColor: "#000",
         activeBackgroundColor: "transparent",
         itemStyle: {
           width: width * 0.75,
           backgroundColor: "transparent",
           paddingVertical: 16,
-          paddingHorizonal: 12,
+          paddingHorizontal: 12,
           justifyContent: "center",
           alignContent: "center",
           alignItems: "center",

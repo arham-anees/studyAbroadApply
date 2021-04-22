@@ -14,6 +14,22 @@ const Colors = [
 ];
 function AppStatusByCountry(props) {
   const { data } = props;
+  let inProgressCount = 0;
+  let newAppsCount = 0;
+  let pendingAppsCount = 0;
+  let visaIssuedCount = 0;
+  try {
+    inProgressCount = data.filter((x) => x.key == 0)[0].amount;
+  } catch {}
+  try {
+    newAppsCount = data.filter((x) => x.key == 1)[0].amount;
+  } catch {}
+  try {
+    pendingAppsCount = data.filter((x) => x.key == 2)[0].amount;
+  } catch {}
+  try {
+    visaIssuedCount = data.filter((x) => x.key == 3)[0].amount;
+  } catch {}
   return (
     <View>
       <View style={GlobalStyle.block}>
@@ -31,7 +47,9 @@ function AppStatusByCountry(props) {
                 <View
                   style={{ ...Styles.color, backgroundColor: Colors[0] }}
                 ></View>
-                <Text style={Styles.legendTitle}>In Progress</Text>
+                <Text style={Styles.legendTitle}>
+                  In Progress ({inProgressCount})
+                </Text>
               </Block>
               <Text style={Styles.legendTitle}></Text>
             </Block>
@@ -41,7 +59,7 @@ function AppStatusByCountry(props) {
                   style={{ ...Styles.color, backgroundColor: Colors[1] }}
                 ></View>
                 <Text style={Styles.legendTitle}>
-                  New Application Submitted
+                  New Application Submitted ({newAppsCount})
                 </Text>
               </Block>
               <Text style={Styles.legendTitle}></Text>
@@ -51,7 +69,11 @@ function AppStatusByCountry(props) {
                 <View
                   style={{ ...Styles.color, backgroundColor: Colors[2] }}
                 ></View>
-                <Text style={Styles.legendTitle}>Pending With Institute</Text>
+                <Block row center space={"between"}>
+                  <Text style={Styles.legendTitle}>
+                    Pending With Institute ({pendingAppsCount})
+                  </Text>
+                </Block>
               </Block>
               <Text style={Styles.legendTitle}></Text>
             </Block>
@@ -60,7 +82,9 @@ function AppStatusByCountry(props) {
                 <View
                   style={{ ...Styles.color, backgroundColor: Colors[3] }}
                 ></View>
-                <Text style={Styles.legendTitle}>Visa Issued</Text>
+                <Text style={Styles.legendTitle}>
+                  Visa Issued ({visaIssuedCount})
+                </Text>
               </Block>
               <Text style={Styles.legendTitle}></Text>
             </Block>
