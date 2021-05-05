@@ -1,13 +1,6 @@
 import { Block, Button, Switch, Text } from "galio-framework";
 import React from "react";
-import {
-  Animated,
-  Dimensions,
-  ImageBackground,
-  KeyboardAvoidingView,
-  SafeAreaView,
-  View,
-} from "react-native";
+import { Animated } from "react-native";
 import Background from "../../../components/Background";
 import DropDown from "../../../components/DropDown";
 import SelectCountry from "../../../components/SelectCountry";
@@ -19,9 +12,7 @@ import AutoComplete from "../../../components/AutoComplete";
 import SearchedCoursesItem from "./SearchedCourses.Component";
 import TextCustom from "../../../components/TextCustom";
 import Loading from "../../../components/Loading";
-import Autocomplete from "react-native-autocomplete-input";
-import { ScrollView } from "react-native-gesture-handler";
-import { Images } from "../../../constants";
+import SearchCourseUtils from "./SearchCourse.Utils";
 
 class SearchCourse extends React.Component {
   constructor(props) {
@@ -124,7 +115,7 @@ class SearchCourse extends React.Component {
           });
           this.resetSelection(2);
         })
-        .then((err) => {
+        .catch((err) => {
           console.log(err);
           this.setState({ isLoading: false });
         });
@@ -149,7 +140,7 @@ class SearchCourse extends React.Component {
         });
         this.resetSelection(3);
       })
-      .then((err) => {
+      .catch((err) => {
         this.setState({ isLoading: false });
       });
   };
@@ -173,7 +164,7 @@ class SearchCourse extends React.Component {
         });
         this.resetSelection(4);
       })
-      .then((err) => {
+      .catch((err) => {
         this.setState({ isLoading: false });
       });
   };
@@ -182,22 +173,6 @@ class SearchCourse extends React.Component {
     let searchFilter = this.state.searchFilter;
     searchFilter["CourseOfferedID"] = val;
     this.setState(searchFilter);
-
-    // SearchService.GetIntakes(this.state.searchFilter.institute)
-    //   .then((x) => {
-    //     try {
-    //       let filter = this.state.searchFilter;
-    //       filter.institute = x[0].Key;
-    //       this.setState({
-    //         intakeList: this._mapData(x, "Intakes"),
-    //         searchFilter: filter,
-    //       });
-    //     } catch {
-    //       this.setState({ intakeList: [{ value: 0, name: "Select Intake" }] });
-    //     }
-    //     this.resetSelection(5);
-    //   })
-    //   .then((err) => {});
   };
   //#endregion
 
@@ -364,14 +339,24 @@ class SearchCourse extends React.Component {
                 <Block>
                   <AutoComplete
                     label="Course Discipline"
+                    CountryID={this.state.searchFilter.country}
+                    value={this.state.searchFilter.courseDisciplineName}
                     update={this.updateCourseDiscipline}
                     list={[]}
+                    autoFill={SearchCourseUtils.GetDisciplineAutoFill}
                   />
                   <Block row middle>
                     <Button
                       onPress={() => this.handleSearchByDiscipline()}
-                      color={"primary"}
+                      color={
+                        this.state.searchFilter.courseDisciplineName.length == 0
+                          ? GlobalStyle.color.btnDisabled
+                          : GlobalStyle.color.btnPrimary
+                      }
                       style={{ height: 30 }}
+                      disabled={
+                        this.state.searchFilter.courseDisciplineName.length == 0
+                      }
                     >
                       Search By Discipline
                     </Button>
@@ -380,13 +365,20 @@ class SearchCourse extends React.Component {
                     label="Course"
                     CountryID={this.state.searchFilter.country}
                     update={this.updateCourse}
+                    value={this.state.searchFilter.courseName}
                     list={this.state.coursesListAdv}
+                    autoFill={SearchCourseUtils.GetAutoFill}
                   />
                   <Block row middle>
                     <Button
                       onPress={() => this.handleSearchByCourse()}
-                      color={"primary"}
+                      color={
+                        this.state.searchFilter.courseName.length == 0
+                          ? GlobalStyle.color.btnDisabled
+                          : GlobalStyle.color.btnPrimary
+                      }
                       style={{ height: 30 }}
+                      disabled={this.state.searchFilter.courseName.length == 0}
                     >
                       Search By Course
                     </Button>
@@ -433,11 +425,16 @@ class SearchCourse extends React.Component {
                   }
                 />
               </Block>
-              {this.state.searchFilter.advanced ? null : (
+              {!this.state.searchFilter.advanced && (
                 <Button
                   style={styles.btn}
                   onPress={() => this.searchCourse()}
-                  color={"primary"}
+                  color={
+                    this.state.searchFilter.CourseOfferedID === 0
+                      ? GlobalStyle.color.btnDisabled
+                      : GlobalStyle.color.btnPrimary
+                  }
+                  disabled={this.state.searchFilter.CourseOfferedID === 0}
                 >
                   Search
                 </Button>

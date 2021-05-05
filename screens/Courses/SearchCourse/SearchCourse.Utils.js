@@ -12,7 +12,7 @@ function GetAutoFill(CountryID, course) {
               count++;
               coursesList.push({ id: count, text: course.Value });
             });
-            resolve({ coursesList });
+            resolve({ list: coursesList });
           }
         } catch (err) {
           reject(err);
@@ -39,7 +39,7 @@ function GetDisciplineAutoFill(CountryID, course) {
               count++;
               disciplinesList.push({ id: count, text: course.Value });
             });
-            resolve({ disciplinesList });
+            resolve({ list: disciplinesList });
           }
         } catch (err) {
           reject(err);

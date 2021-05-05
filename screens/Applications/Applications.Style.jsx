@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding,
-    minHeight: GlobalStyle.SIZES.PageHeight,
+    minHeight:
+      GlobalStyle.SIZES.PageHeight - GlobalStyle.scrollBottomPadding.height,
   },
   iconBlock: {
     width: 50,

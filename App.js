@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { AppLoading } from "expo";
 import { useFonts } from "@use-expo/font";
 import { Block, GalioProvider } from "galio-framework";

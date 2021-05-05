@@ -122,8 +122,6 @@ function GetIntakes(instituteId) {
 function GetCourseAutoFill(course, CountryID) {
   return new Promise((resolve, reject) => {
     try {
-      //console.log("course auto fill parameter:", CountryID);
-      //console.log("request url:", Urls.GetCourseAutoFill);
       if (!course) course = "";
       const url = Urls.GetCourseAutoFill;
       Fetch.Post({ url, data: { CourseName: course, CountryID } })
@@ -171,15 +169,6 @@ function ApplyForCourse({
 }) {
   return new Promise((resolve, reject) => {
     try {
-      // console.log({
-      //   ProfileID,
-      //   LevelID,
-      //   IntakeID,
-      //   InstituteID,
-      //   CourseID,
-      //   ApplicationID,
-      //   CountryID,
-      // });
       const url = Urls.CourseApply;
       Fetch.Post({
         url,

@@ -139,10 +139,10 @@ class SearchedCourses extends React.Component {
     if (this.state.data.length == 0)
       return <TextCustom style={styles.noCourse}>No Course found</TextCustom>;
     var newData = this.state.displayData;
-
+    //console.log(x.CourseIntakeList);
     newData = newData.slice(this.state.start, this.state.end);
     return newData.map((x, index) => {
-      let _intakeList = [{ name: "-", value: 0 }];
+      let _intakeList = [{ name: "Select Intake", value: 0 }];
       try {
         for (let i = 0; i < x.CourseIntakeList.length; i++) {
           _intakeList.push({

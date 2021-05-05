@@ -1,3 +1,4 @@
+import Messages from "../../../helper/Messages";
 import ApplicationService from "../../../services/ApplicationService";
 import AuthService from "../../../services/AuthService";
 
@@ -23,14 +24,13 @@ export function HandleSignUp({
       Password = Password.trim();
       ConfirmPassword = ConfirmPassword.trim();
       if (!isEmailValid(Email))
-        reject({ errorCode: 2, message: "Invalid email address" });
+        reject({ errorCode: 2, message: Messages.InvalidEmail });
       if (Gender != "1" && Gender != "2")
-        reject({ errorCode: 5, message: "Invalid gender" });
+        reject({ errorCode: 5, message: Messages.InvalidGender });
       else if (!isPasswordValid(Password))
         reject({
           errorCode: 3,
-          message:
-            "Password does not match required criteria. Please enter alphabets and numbers only at least 6.",
+          message: Messages.InvalidPassword,
         });
       else if (Password !== ConfirmPassword)
         reject({ errorCode: 4, message: "Password does not match." });
@@ -62,7 +62,7 @@ export function HandleSignUp({
             //console.log("rejected")
             reject({
               errorCode: -1,
-              message: "Failed to create your account. Please try again later.",
+              message: Messages.FailedSignUp,
             });
           }
         })

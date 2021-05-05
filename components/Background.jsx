@@ -43,6 +43,7 @@ function Background(props) {
               }}
               keyboardShouldPersistTaps={"handled"}
               nestedScrollEnabled={true}
+              // scrollEnabled={!props.isLoading}
             >
               {props.children}
               <View style={{ minHeight: 80 }}></View>

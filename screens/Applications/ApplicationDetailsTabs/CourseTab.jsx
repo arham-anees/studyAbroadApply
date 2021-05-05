@@ -94,11 +94,12 @@ const styles = StyleSheet.create({
   title: {
     width: 80,
     color: "white",
+    fontWeight: "bold",
   },
   info: {
     color: "white",
-    overflow: "visible",
-    width: width - 80 - GlobalStyle.SIZES.PageNormalPadding * 2,
+    flexWrap: "wrap",
+    maxWidth: width * 0.6,
   },
   dropdown: {
     backgroundColor: theme.COLORS.WHITE,

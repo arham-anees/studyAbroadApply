@@ -36,8 +36,17 @@ function ApplicationItem({ props }) {
           </TextCustom>
         </Block>
         <Block left>
-          <Block row middle style={{ flexWrap: "wrap" }}>
-            <TextCustom>{item.CourseName},</TextCustom>
+          <Block
+            row
+            middle
+            style={{
+              flexWrap: "wrap",
+              minWidth: "100%",
+            }}
+          >
+            <TextCustom style={{ textAlign: "center" }}>
+              {item.CourseName},
+            </TextCustom>
             <TextCustom> {item.LevelName}</TextCustom>
           </Block>
           <Block row middle>

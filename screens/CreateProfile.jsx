@@ -4,9 +4,12 @@ import { Alert, KeyboardAvoidingView } from "react-native";
 import Background from "../components/Background";
 import Loading from "../components/Loading";
 import GlobalStyle from "../GlobalStyles";
+import Messages from "../helper/Messages";
+import { isEmailValid } from "../helper/validations";
 import ApplicationService from "../services/ApplicationService";
 import SearchService from "../services/SearchService";
 import ProfileTab from "./Applications/ApplicationDetailsTabs/ProfileTab";
+import { CommonActions } from "@react-navigation/core";
 
 class CreateProfile extends React.Component {
   constructor(props) {
@@ -17,6 +20,10 @@ class CreateProfile extends React.Component {
     };
   }
   handleUpdateProfilePress = (props) => {
+    if (!isEmailValid(props.Email)) {
+      Alert.alert("Invalid Email", Messages.InvalidEmailPopup);
+      return;
+    }
     this.setState({ isLoading: true });
     ApplicationService.UpdateProfile({ ...props, ProfileID: 0 })
       .then((x) => {
@@ -27,41 +34,30 @@ class CreateProfile extends React.Component {
           }).then((x) => {
             if (x.ResponseID > 0) {
               this.setState({ isLoading: false });
-              props.navigation.dispatch({
+              this.props.navigation.dispatch({
                 ...CommonActions.reset({
-                  index: 0,
+                  index: 1,
                   routes: [
                     {
                       name: "Home",
-                      state: {
-                        routes: [
-                          {
-                            name: "Applications",
-                          },
-                        ],
-                      },
+                    },
+                    {
+                      name: "Applications",
                     },
                   ],
                 }),
               });
-              this.props.navigation.navigate("Applications");
             }
           });
         } else {
           this.setState({ isLoading: false });
-          Alert.alert(
-            "Profile Update Failed",
-            "Failed to update profile. Please try again later."
-          );
+          Alert.alert("Failed", Messages.ProfileCreationFailed);
         }
       })
       .catch((err) => {
         this.setState({ isLoading: false });
         console.log(err);
-        Alert.alert(
-          "Profile Update Failed",
-          "Failed to update profile. Please try again later."
-        );
+        Alert.alert("Failed", Messages.ProfileCreationFailed);
       });
   };
   componentDidMount() {}

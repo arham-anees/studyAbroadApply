@@ -22,13 +22,13 @@ const iPhoneX = () =>
   Platform.OS === "ios" &&
   (height === 812 || width === 812 || height === 896 || width === 896);
 
-const BellButton = ({ isWhite, style, navigation, count }) => (
+const BellButton = ({ style, navigation, count }) => (
   <TouchableOpacity
     style={[styles.button, style]}
     onPress={() => navigation.navigate("Notifications")}
   >
     <CustomIcon source={Icons.Bell} style={{ width: 25, height: 25 }} />
-    {count > -1 ? <TextCustom style={styles.notify}>{count}</TextCustom> : null}
+    {count > 0 && <TextCustom style={styles.notify}>{count}</TextCustom>}
   </TouchableOpacity>
 );
 
@@ -36,7 +36,7 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      notifCount: -1,
+      notificationsCount: -1,
       interval: null,
     };
   }
@@ -44,21 +44,23 @@ class Header extends React.Component {
     NotificationService.GetNotificationsList({ IsRequiredCount: 1 })
       .then((x) => {
         //console.log(x.length);
-        this.setState({ notifCount: x.length });
+        this.setState({ notificationsCount: x.length });
       })
       .catch((err) => {
         console.log(err);
-        this.setState({ notifCount: 0 });
+        this.setState({ notificationsCount: 0 });
       });
   };
   componentDidMount() {
     // this._unsubscribe = this.props.navigation.addListener("focus", () => {
     //this.GetNotificationsList();
-    this.setState({ notifCount: Notifications.GetNotificationCount() });
+    this.setState({ notificationsCount: Notifications.GetNotificationCount() });
 
     let interval = setInterval(() => {
       //this.GetNotificationsList();
-      this.setState({ notifCount: Notifications.GetNotificationCount() });
+      this.setState({
+        notificationsCount: Notifications.GetNotificationCount(),
+      });
     }, 5000);
     this.setState({ interval: interval });
     // });
@@ -79,7 +81,7 @@ class Header extends React.Component {
         key="chat-home"
         navigation={navigation}
         isWhite={white}
-        count={this.state.notifCount}
+        count={this.state.notificationsCount}
       />,
     ];
   };

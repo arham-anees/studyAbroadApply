@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { StyleSheet, View, Linking } from "react-native";
+import { StyleSheet, View, Linking, Alert } from "react-native";
 import { Block } from "galio-framework";
 import { Dimensions } from "react-native";
 import GlobalStyle from "../../GlobalStyles";
@@ -8,19 +8,40 @@ import Icons from "../../constants/Icons";
 import TextCustom from "../../components/TextCustom";
 import { Animated } from "react-native";
 import Role from "../../helper/Role";
-
+import * as FileSystem from "expo-file-system";
 const { width } = Dimensions.get("screen");
 const itemWidth = 120;
+// const callback = (downloadProgress) => {
+//   const progress =
+//     downloadProgress.totalBytesWritten /
+//     downloadProgress.totalBytesExpectedToWrite;
+//   this.setState({
+//     downloadProgress: progress,
+//   });
+//   console.log(progress + "%");
+// };
 
-function DownloadFile(fileName, ApplicationID) {
+async function DownloadFile(fileName, ApplicationID) {
   try {
+    // const downloadResumable = FileSystem.createDownloadResumable(
+    //   `http://www.studyabroadapply.com/documents/${ApplicationID}/${fileName}`,
+    //   FileSystem.documentDirectory + "test/" + fileName,
+    //   {},
+    //   callback
+    // );
+    // try {
+    //   const { uri } = await downloadResumable.downloadAsync();
+    //   console.log("Finished downloading to ", uri);
+    //   Alert.alert("Finished downloading to ", uri);
+    // } catch (e) {
+    //   console.error(e);
+    // }
     Linking.openURL(
-      "http://www.studyabroadapply.com/documents/" +
-        ApplicationID +
-        "/" +
-        fileName
+      `http://www.studyabroadapply.com/documents/${ApplicationID}/${fileName}`
     );
-  } catch {}
+  } catch (e) {
+    console.log(e);
+  }
 }
 function DocumentItem(props) {
   const { id, number, name, category, date, ApplicationID, roleId } = props;

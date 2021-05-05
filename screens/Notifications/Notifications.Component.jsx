@@ -29,9 +29,9 @@ function MarkAsRead(id) {
       callback();
       setTimeout(() => {
         try {
-          notifs = this.state.data;
-          notifs = notifs.filter((x) => x.id != id);
-          this.setState({ data: notifs });
+          notifications = this.state.data;
+          notifications = notifications.filter((x) => x.id != id);
+          this.setState({ data: notifications });
         } catch {}
       }, 1000);
     })
@@ -46,16 +46,16 @@ function MarkAsRead(id) {
 
 function Read(props) {
   try {
-    props.deleteNotificationSilent(props.item.id);
+    //props.deleteNotificationSilent(props.item.id);
   } catch {}
   try {
     props.navigation.navigate("Applications", {
-      params: { appId: props.item.id },
+      params: { appId: props.item.ApplicationID },
       screen: "ApplicationDetails",
     });
   } catch {
     props.navigation.navigate("Applications", {
-      params: { appId: props.item.id },
+      params: { appId: props.item.ApplicationID },
       screen: "ApplicationDetails",
     });
   }

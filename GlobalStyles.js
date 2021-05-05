@@ -14,6 +14,8 @@ const GlobalStyle = {
     textDark: "#000",
     error: "red",
     purple: "purple",
+    btnDisabled: "#9c9c9c",
+    btnPrimary: "primary",
   },
   bg: {
     green: "#32CD32", //"#04870b",

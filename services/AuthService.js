@@ -7,31 +7,26 @@ function Login({ username, password }, callback) {
   return new Promise((resolve, reject) => {
     try {
       const url = Urls.Login + `?username=${username}&password=${password}`;
-      //console.log(url);
       Fetch.Get(url) //call authentication method
-        .then(async (response) => {
+        .then((response) => {
           //if call is successful
-          if (response == null) reject(Messages.FailedLogin);
+          if (response == null) reject({ message: Messages.FailedLogin });
           //if authentication is failed
           else {
             //if authentication is successful
-            //console.log(response);
             if (response.data) {
               LocalStorage.SetToken(response.data, callback) //store token
                 .then((x) => {
-                  //console.log("saved response");
                   resolve(response);
                 })
                 .catch((err) => {
                   console.log(err);
                   reject(response.data);
                 });
-              //console.log(response.data);
             } else resolve(null);
           }
         })
         .catch((err) => {
-          //console.log(err);
           reject(err);
         }); //throw error
     } catch (e) {

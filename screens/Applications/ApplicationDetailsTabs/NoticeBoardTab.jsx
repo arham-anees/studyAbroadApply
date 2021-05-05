@@ -13,6 +13,7 @@ import Svg from "react-native-svg";
 import { Rect } from "react-native-svg";
 import LocalStorage from "../../../helper/LocalStorage";
 import Role from "../../../helper/Role";
+import Messages from "../../../helper/Messages";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -106,7 +107,7 @@ class NoticeBoardTab extends React.Component {
           sender: element.UserName,
           note: element.Message,
           date: element.CreationDate,
-          isVisibleToStudents: element.IsVisableToStudents,
+          isVisibleToStudents: element.IsVisibleToStudents,
         });
       });
       // if (this.state.isStudent)
@@ -206,9 +207,7 @@ class NoticeBoardTab extends React.Component {
     });
     applicationStatus = mappedData;
   };
-  updateStatus = () => {};
   addFollowUp = () => {};
-  addNote = () => {};
   onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     this.setState({ show: Platform.OS === "ios" });
@@ -217,6 +216,7 @@ class NoticeBoardTab extends React.Component {
   };
 
   loadNotes = (applicationId) => {
+    this.setState({ notes: [] });
     if (!applicationId) applicationId = this.state.applicationId;
     ApplicationService.GetApplicationNotes(applicationId)
       .then((x) => {
@@ -249,21 +249,12 @@ class NoticeBoardTab extends React.Component {
           });
           this.loadNotes(this.state.applicationId.toString());
         } else {
-          Alert.alert("Failed", "Failed to add note. Please try again later.");
+          Alert.alert("Failed", Messages.FailToAddNote);
         }
       })
       .catch((err) => {
         this.setState({ settingNote: false });
-        Alert.alert(
-          "Operation Failed",
-          "Failed to save note. Please try again later.",
-          [
-            {
-              text: "OK",
-              style: "cancel",
-            },
-          ]
-        );
+        Alert.alert("Failed", Messages.FailToAddNote);
       });
   };
 
@@ -271,7 +262,7 @@ class NoticeBoardTab extends React.Component {
     this.setState({ show: true, mode: currentMode });
   };
 
-  showDatepicker = () => {
+  showDatePicker = () => {
     this.showMode("date");
   };
 
@@ -341,7 +332,7 @@ class NoticeBoardTab extends React.Component {
               )}
               <Button
                 style={styles.updateStatusBtn}
-                onPress={this.showDatepicker}
+                onPress={this.showDatePicker}
                 disable
                 color={"#a0a0a0"}
               >
@@ -375,29 +366,30 @@ class NoticeBoardTab extends React.Component {
             </Block>
             {this.state.openNewNote ? (
               <Block>
-                {this.state.roleId != Role.Student && (
-                  <Block row style={{ alignItems: "center" }}>
-                    <View
-                      style={{
-                        backgroundColor: "#fff",
-                        margin: 0,
-                        padding: 0,
-                        borderRadius: 5,
-                        marginRight: 5,
-                      }}
-                    >
-                      <CheckBox
-                        color="white"
-                        label=""
-                        iconColor="black"
-                        onValueChange={this.handleCheckValChange}
-                        value={this.state.visibleToStudent}
-                        style={{ margin: 0, padding: 0 }}
-                      />
-                    </View>
-                    <TextCustom>Is visible to students</TextCustom>
-                  </Block>
-                )}
+                {this.state.roleId != Role.Student &&
+                  this.state.roleId != Role.StudentCounselor && (
+                    <Block row style={{ alignItems: "center" }}>
+                      <View
+                        style={{
+                          backgroundColor: "#fff",
+                          margin: 0,
+                          padding: 0,
+                          borderRadius: 5,
+                          marginRight: 5,
+                        }}
+                      >
+                        <CheckBox
+                          color="white"
+                          label=""
+                          iconColor="black"
+                          onValueChange={this.handleCheckValChange}
+                          value={this.state.visibleToStudent}
+                          style={{ margin: 0, padding: 0 }}
+                        />
+                      </View>
+                      <TextCustom>Is visible to students</TextCustom>
+                    </Block>
+                  )}
                 <Block>
                   <Block flex>
                     <Input

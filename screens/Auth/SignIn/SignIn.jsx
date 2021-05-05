@@ -2,16 +2,12 @@ import React from "react";
 import { StatusBar, View, Keyboard } from "react-native";
 import { Block, Button, Text } from "galio-framework";
 
-import AuthToken from "../../../helper/Token";
-
 import styles from "./SignIn.Styles";
 import argonTheme from "../../../constants/Theme";
 import LabelledInput from "../../../components/LabelledInput.Component";
-import AuthService from "../../../services/AuthService";
 import Background from "../../../components/Background";
 import LocalStorage from "../../../helper/LocalStorage";
 import GlobalStyle from "../../../GlobalStyles";
-import { Alert } from "react-native";
 import SignInUtil from "./SignIn.Utils";
 import Role from "../../../helper/Role";
 import ApplicationService from "../../../services/ApplicationService";
@@ -26,6 +22,7 @@ class SignIn extends React.Component {
       error: false,
       isSubmitted: false,
       networkError: false,
+      errorMessage: "Incorrect email or password",
     };
   }
   componentDidMount() {
@@ -63,15 +60,6 @@ class SignIn extends React.Component {
       .catch((err) => {
         console.log(err);
       });
-    // var result = await LocalStorage.GetToken();
-    // // console.log(this.props.navigation);
-    // global.navigation = this.props.navigation;
-    // //console.log(result);
-    // try {
-    //   if (result.length > 100) {
-    //     this.props.navigation.navigate("Home");
-    //   }
-    // } catch {}
   }
   handleSignUpStudentPress = () =>
     this.props.navigation.navigate("SignUpAsStudent");
@@ -105,7 +93,11 @@ class SignIn extends React.Component {
         this.setState({ isSubmitted: false });
       })
       .catch((err) => {
-        this.setState({ isSubmitted: false, error: true });
+        this.setState({
+          isSubmitted: false,
+          error: true,
+          errorMessage: err.message,
+        });
         //Alert.alert("Error", err.message);
       });
 
@@ -175,7 +167,7 @@ class SignIn extends React.Component {
               />
 
               {this.state.error ? (
-                <Text style={styles.error}>Incorrect email or password</Text>
+                <Text style={styles.error}>{this.state.errorMessage}</Text>
               ) : null}
               {this.state.networkError ? (
                 <Text style={styles.error}>

@@ -1,12 +1,7 @@
 import React from "react";
 import { withNavigation } from "@react-navigation/compat";
-import {
-  
-  StyleSheet,
-  
-  Dimensions,
-} from "react-native";
-import {  Block, NavBar, theme } from "galio-framework";
+import { StyleSheet, Dimensions } from "react-native";
+import { Block, NavBar, theme } from "galio-framework";
 
 import Tabs from "./Tabs";
 import argonTheme from "../constants/Theme";
@@ -16,18 +11,14 @@ import GlobalStyle from "../GlobalStyles";
 
 const { height, width } = Dimensions.get("window");
 
-
 class HeaderChild extends React.Component {
   handleLeftPress = () => {
-    const { back, navigation } = this.props;
+    const { canGoBack, navigation } = this.props;
+    //console.log("navigation", navigation);
     return navigation.goBack();
-    return back ? navigation.goBack() : navigation.navigate("Home");
   };
   renderRight = () => {
-    const { white, title, navigation } = this.props;
-        return [
-          null
-        ];
+    return [null];
   };
   renderTabs = () => {
     const { tabs, tabIndex, navigation } = this.props;
@@ -46,11 +37,7 @@ class HeaderChild extends React.Component {
   renderHeader = () => {
     const { search, options, tabs } = this.props;
     if (search || tabs || options) {
-      return (
-        <Block center>
-          {tabs ? this.renderTabs() : null}
-        </Block>
-      );
+      return <Block center>{tabs ? this.renderTabs() : null}</Block>;
     }
   };
   render() {
@@ -93,8 +80,11 @@ class HeaderChild extends React.Component {
           right={this.renderRight()}
           rightStyle={{ alignItems: "center" }}
           left={
-            <CustomIcon source={transparent?Icons.Back:Icons.BackWhite} style={{width:20}} 
-            onPress={this.handleLeftPress} />
+            <CustomIcon
+              source={transparent ? Icons.Back : Icons.BackWhite}
+              style={{ width: 20 }}
+              onPress={this.handleLeftPress}
+            />
           }
           leftStyle={{ paddingVertical: 12, flex: 0.2 }}
           titleStyle={[
@@ -125,7 +115,7 @@ const styles = StyleSheet.create({
     paddingBottom: theme.SIZES.BASE * 1.5,
     paddingTop: theme.SIZES.BASE,
     zIndex: 5,
-    height:GlobalStyle.SIZES.NavBarHeight
+    height: GlobalStyle.SIZES.NavBarHeight,
   },
   shadow: {
     backgroundColor: theme.COLORS.WHITE,

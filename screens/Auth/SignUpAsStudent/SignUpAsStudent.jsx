@@ -12,7 +12,6 @@ import { HandleSignUp } from "./SignUpAsStudent.Utils";
 import Background from "../../../components/Background";
 import TextCustom from "../../../components/TextCustom";
 import GlobalStyle from "../../../GlobalStyles";
-import AuthService from "../../../services/AuthService";
 import SignInUtils from "../SignIn/SignIn.Utils";
 
 class SignUpAsStudent extends React.Component {

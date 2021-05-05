@@ -19,12 +19,12 @@ class AutoComplete extends React.Component {
   }
 
   componentDidMount() {
-    const { list } = this.props;
+    var { list, value } = this.props;
     if (list && list.length > 0) {
-      this.setState({ list });
-    } else {
-      this.setState({ list: [] });
+      list = [];
     }
+
+    this.setState({ list: [], inputVal: value });
   }
 
   changeFocus = (val) => {
@@ -47,7 +47,14 @@ class AutoComplete extends React.Component {
       this.setState({ filteredList: [] });
       return;
     }
-    if (this.props.label.includes("D")) {
+    this.props
+      .autoFill(this.props.CountryID, text)
+      .then((x) => {
+        this.setState({ filteredList: x.list });
+      })
+      .catch((err) => console.log(err));
+    return;
+    if (this.props.label.includes("isciplin")) {
       SearchCourseUtils.GetDisciplineAutoFill(this.props.CountryID, text)
         .then((x) => {
           this.setState({ filteredList: x.disciplinesList });
@@ -76,7 +83,6 @@ class AutoComplete extends React.Component {
   };
 
   render = () => {
-    //console.log("this.state.filteredList.length", this.state);
     return (
       <Block>
         <LabelledInput

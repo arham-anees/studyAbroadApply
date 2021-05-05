@@ -50,9 +50,6 @@ class Applications extends React.Component {
     return data;
   }
 
-  componentWillUnmount() {
-    //this._unsubscribe();
-  }
   componentDidMount() {
     this._unsubscribe = this.props.navigation.addListener("focus", () => {
       this.fadeIn();
@@ -93,7 +90,7 @@ class Applications extends React.Component {
       this.state.startIndex,
       this.state.endIndex
     );
-    return this.MapApplicationData(apps);
+    return apps;
   }
 
   nextPage = () => {
@@ -134,7 +131,7 @@ class Applications extends React.Component {
 
   render() {
     return (
-      <Background>
+      <Background isLoading={this.state.isLoading}>
         <Loading isActive={this.state.isLoading} />
         <Animated.View style={{ opacity: this.state.fadeAnim }}>
           <View style={styles.container}>
@@ -174,14 +171,15 @@ class Applications extends React.Component {
             )}
             {!this.state.isLoading && this.state.appFullList.length > 0 ? (
               <Block row center style={{ marginTop: 10 }}>
-                <CustomIcon
-                  source={Images.Backward}
-                  onPress={this.previousPage}
-                />
+                {this.state.startIndex > 1 && (
+                  <CustomIcon
+                    source={Images.Backward}
+                    onPress={this.previousPage}
+                  />
+                )}
                 <TextCustom
                   style={{
-                    marginLeft: 20,
-                    marginRight: 20,
+                    marginHorizontal: 20,
                     textAlign: "center",
                     flex: 1,
                   }}
@@ -192,7 +190,9 @@ class Applications extends React.Component {
                     : this.state.endIndex}{" "}
                   off {this.state.appList.length}
                 </TextCustom>
-                <CustomIcon source={Images.Forward} onPress={this.nextPage} />
+                {this.state.endIndex != this.state.appFullList.length && (
+                  <CustomIcon source={Images.Forward} onPress={this.nextPage} />
+                )}
               </Block>
             ) : null}
           </View>

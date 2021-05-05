@@ -21,6 +21,7 @@ import NewDocument from "./NewDocument";
 import { debug } from "react-native-reanimated";
 import LocalStorage from "../../helper/LocalStorage";
 import Role from "../../helper/Role";
+import Messages from "../../helper/Messages";
 
 const Tabs = {
   NoticeBoard: "noticeBoard",
@@ -81,7 +82,10 @@ class ApplicationDetails extends React.Component {
             course,
           });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          Alert.alert("Failed", Messages.AppDetailsLoadFail);
+          console.log(err);
+        });
     });
   }
 
@@ -214,7 +218,11 @@ class ApplicationDetails extends React.Component {
           initialIndex={this.state.activeTab}
           onChange={this.onTabChange}
         />
-        <ScrollView style={styles.container} nestedScrollEnabled={true}>
+        <ScrollView
+          style={styles.container}
+          nestedScrollEnabled={true}
+          keyboardShouldPersistTaps={"handled"}
+        >
           {this.state.activeTab === Tabs.NoticeBoard ? (
             <NoticeBoardTab
               applicationId={this.state.applicationId}
@@ -250,18 +258,19 @@ class ApplicationDetails extends React.Component {
           <Toast isShow={this.state.isShow}>{this.state.toastMessage}</Toast>
         </ScrollView>
         {this.state.activeTab === Tabs.Offers &&
-        (this.state.roleId == Role.Administrator ||
-          this.state.roleId == Role.StudentCounselor ||
-          this.state.roleId == Role.Institute) ? (
+          (this.state.roleId == Role.Administrator ||
+            this.state.roleId == Role.StudentCounselor ||
+            this.state.roleId == Role.Institute) &&
+          false && (
+            <Button style={styles.floatingButton} onPress={this.AddNewHandle}>
+              <CustomIcon source={Images.Add} />
+            </Button>
+          )}
+        {this.state.activeTab == Tabs.Documents && false && (
           <Button style={styles.floatingButton} onPress={this.AddNewHandle}>
             <CustomIcon source={Images.Add} />
           </Button>
-        ) : null}
-        {this.state.activeTab == Tabs.Documents ? (
-          <Button style={styles.floatingButton} onPress={this.AddNewHandle}>
-            <CustomIcon source={Images.Add} />
-          </Button>
-        ) : null}
+        )}
         <Modal
           animationType="slide"
           transparent={true}

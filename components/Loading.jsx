@@ -2,17 +2,17 @@ import React from "react";
 import { Block, Text } from "galio-framework";
 import { ActivityIndicator } from "react-native-paper";
 import GlobalStyle from "../GlobalStyles";
-const { Dimensions, StyleSheet } = require("react-native");
-const { width, height } = Dimensions.get("screen");
+import { ScrollView } from "react-native-gesture-handler";
+const { Dimensions, StyleSheet, View } = require("react-native");
+const { width, height } = Dimensions.get("window");
 function Loading(props) {
   return props.isActive ? (
-    <Block style={styles.wrapper}>
+    <View style={styles.wrapper} onScroll={() => {}}>
       <Block
         style={[
           styles.loading,
           {
-            position: "absolute",
-            height: height - GlobalStyle.SIZES.NavBarHeight,
+            height: GlobalStyle.SIZES.PageHeight,
             width: width,
           },
         ]}
@@ -21,16 +21,24 @@ function Loading(props) {
           <ActivityIndicator size="large" color="#fff" />
         </Block>
       </Block>
-    </Block>
+    </View>
   ) : null;
 }
 
 export default Loading;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
+  },
   wrapper: {
     position: "absolute",
-    display: "flex",
     width: "100%",
     height: "100%",
     backgroundColor: "black",

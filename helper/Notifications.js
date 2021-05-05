@@ -9,16 +9,19 @@ function FetchNotifications() {
     // console.log(lastNotificationFetch);
     // console.log(new Date().getTime());
     if (lastNotificationFetch + 5000 < new Date().getTime()) {
+      //console.log("Sending fetch notification request");
       lastNotificationFetch = new Date().getTime();
       NotificationService.GetNotificationsList({ IsRequiredCount: 1 })
         .then((res) => {
           NotificationList = res;
         })
-        .then((err) => {});
+        .catch((err) => {
+          console.log(err.message);
+        });
     } else {
-      // console.log("called within 5 secs, ignoring");
+      //console.log("called within 5 secs, ignoring");
     }
-  }, 5000);
+  }, 6000);
 }
 function ClearInterval() {
   clearInterval(interval);
