@@ -3,13 +3,12 @@ import React from "react";
 import { Dimensions } from "react-native";
 import { StyleSheet, View } from "react-native";
 import GlobalStyle from "../../../GlobalStyles";
-import TextCustom from '../../../components/TextCustom';
+import TextCustom from "../../../components/TextCustom";
 import ApplicationService from "../../../services/ApplicationService";
 import { Rect } from "react-native-svg";
 import Svg from "react-native-svg";
 
-const {width}=Dimensions.get("screen");
-
+const { width } = Dimensions.get("screen");
 
 class TravelInformation extends React.Component {
   constructor(props) {
@@ -18,7 +17,7 @@ class TravelInformation extends React.Component {
       arrivalTime: "-",
       arrivalDate: "-",
       flightNumber: "-",
-      proposedAccomodation: "-",
+      proposedAccommodation: "-",
       contactNumberAbroad: "-",
       isLoading: true,
     };
@@ -26,18 +25,18 @@ class TravelInformation extends React.Component {
   componentDidMount() {
     const { applicationId } = this.props;
     ApplicationService.GetTravelInfo(0, applicationId)
-    .then((x) => {
-      this.setState({
-        arrivalTime: x.ArrivalTime == null ? "-" : x.ArrivalTime,
-        arrivalDate: x.ArrivalDate == null ? "-" : x.ArrivalDate,
-        flightNumber: x.FlightNumber == null ? "-" : x.FlightNumber,
-        proposedAccomodation:
-          x.ProposedAccommodation == null ? "-" : x.ProposedAccommodation,
-        contactNumberAbroad: x.AbroadContact == null ? "-" : x.AbroadContact,
-        isLoading: false,
-      });
-    })
-    .catch(err=>{});
+      .then((x) => {
+        this.setState({
+          arrivalTime: x.ArrivalTime == null ? "-" : x.ArrivalTime,
+          arrivalDate: x.ArrivalDate == null ? "-" : x.ArrivalDate,
+          flightNumber: x.FlightNumber == null ? "-" : x.FlightNumber,
+          proposedAccommodation:
+            x.ProposedAccommodation == null ? "-" : x.ProposedAccommodation,
+          contactNumberAbroad: x.AbroadContact == null ? "-" : x.AbroadContact,
+          isLoading: false,
+        });
+      })
+      .catch((err) => {});
   }
 
   render = () => (
@@ -79,10 +78,10 @@ class TravelInformation extends React.Component {
             </Block>
             <Block row>
               <TextCustom style={styles.title}>
-                Proposed Accomodation
+                Proposed Accommodation
               </TextCustom>
               <TextCustom style={styles.info}>
-                {this.state.proposedAccomodation}
+                {this.state.proposedAccommodation}
               </TextCustom>
             </Block>
             <Block row>
@@ -101,23 +100,22 @@ class TravelInformation extends React.Component {
 }
 
 export default TravelInformation;
-const styles=StyleSheet.create({
-
-   block: {
+const styles = StyleSheet.create({
+  block: {
     backgroundColor: "#0004",
     marginTop: 10,
     padding: 5,
     borderRadius: 5,
-    paddingHorizontal: theme.SIZES.BASE ,
-    paddingBottom:10
+    paddingHorizontal: theme.SIZES.BASE,
+    paddingBottom: 10,
   },
   title: {
     width: "40%",
-    fontWeight:"bold"
+    fontWeight: "bold",
   },
   info: {
     flex: 1,
-    flexWrap: 'wrap'
+    flexWrap: "wrap",
   },
   dropdown: {
     backgroundColor: theme.COLORS.WHITE,
@@ -133,9 +131,9 @@ const styles=StyleSheet.create({
     width: "100%",
     marginTop: 10,
   },
-  line:{
-    height:1,
-    backgroundColor:GlobalStyle.color.textLight,
-    marginBottom:10
-  }
-})
+  line: {
+    height: 1,
+    backgroundColor: GlobalStyle.color.textLight,
+    marginBottom: 10,
+  },
+});

@@ -3,12 +3,11 @@
     "name": "Study Abroad Apply",
     "slug": "study-abroad-apply",
     "privacy": "public",
-    "sdkVersion": "37.0.0",
     "platforms": [
       "ios",
       "android"
     ],
-    "version": "0.0.2",
+    "version": "0.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -23,11 +22,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.studyabroadapply.mobileapp",
+      "buildNumber": "0.0.3"
     },
     "description": "Study Abroad Apply helps students to apply to foreign universities for studies.",
     "android": {
-      "package": "com.studyabroadapply.mobileapp"
+      "package": "com.studyabroadapply.mobileapp",
+      "permissions": [],
+      "versionCode": 2
     }
   }
 }

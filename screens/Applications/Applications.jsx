@@ -24,7 +24,7 @@ class Applications extends React.Component {
       startIndex: 0,
       endIndex: 10,
       length: 10,
-      searchAppliation: "",
+      searchApplication: "",
       isLoading: true,
     };
     this.navigation = this.props;
@@ -76,7 +76,7 @@ class Applications extends React.Component {
               this.setState({
                 appList: result,
                 appFullList: result,
-                searchAppliation: "",
+                searchApplication: "",
                 isLoading: false,
               });
           }
@@ -112,7 +112,7 @@ class Applications extends React.Component {
   };
 
   searchApplication = (searchTerm) => {
-    this.setState({ searchAppliation: searchTerm });
+    this.setState({ searchApplication: searchTerm });
     searchTerm = searchTerm.toLocaleLowerCase();
     let filtered = this.state.appFullList.filter(
       (x) =>
@@ -139,7 +139,7 @@ class Applications extends React.Component {
               <Block flex>
                 <Input
                   placeholder={"Search Application"}
-                  value={this.state.searchAppliation}
+                  value={this.state.searchApplication}
                   color={"black"}
                   onChangeText={(text) => this.searchApplication(text)}
                 />
