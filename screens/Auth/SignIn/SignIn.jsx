@@ -1,6 +1,6 @@
 import React from "react";
-import { StatusBar, View, Keyboard } from "react-native";
-import { Block, Button, Text } from "galio-framework";
+import { View, Keyboard } from "react-native";
+import { Block, Button, Link, Text } from "galio-framework";
 
 import styles from "./SignIn.Styles";
 import argonTheme from "../../../constants/Theme";
@@ -12,6 +12,9 @@ import SignInUtil from "./SignIn.Utils";
 import Role from "../../../helper/Role";
 import ApplicationService from "../../../services/ApplicationService";
 import { NavigationActions } from "@react-navigation/compat";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import TextCustom from "../../../components/TextCustom";
+import AuthBackGround from "../../../components/BackgroundFull";
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -31,30 +34,34 @@ class SignIn extends React.Component {
   CheckStatus() {
     LocalStorage.GetToken()
       .then((res) => {
-        if (res.length > 100) {
-          LocalStorage.GetUserInfo()
-            .then((userInfo) => {
-              userInfo = JSON.parse(userInfo);
-              if (userInfo.RoleID == Role.Student) {
-                ApplicationService.BrowseApplications().then((applications) => {
-                  let screenName = "Applications";
-                  if (!applications || applications.length == 0)
-                    screenName = "Courses";
-                  this.props.navigation.navigate(
-                    screenName,
-                    {},
-                    NavigationActions.navigate({
-                      routeName: screenName,
-                    })
+        if (res != null && res != undefined) {
+          if (res.length > 100) {
+            LocalStorage.GetUserInfo()
+              .then((userInfo) => {
+                userInfo = JSON.parse(userInfo);
+                if (userInfo.RoleID == Role.Student) {
+                  ApplicationService.BrowseApplications().then(
+                    (applications) => {
+                      let screenName = "Applications";
+                      if (!applications || applications.length == 0)
+                        screenName = "Courses";
+                      this.props.navigation.navigate(
+                        screenName,
+                        {},
+                        NavigationActions.navigate({
+                          routeName: screenName,
+                        })
+                      );
+                    }
                   );
-                });
-              } else {
-                this.props.navigation.navigate("Home");
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+                } else {
+                  this.props.navigation.navigate("Home");
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
         }
       })
       .catch((err) => {
@@ -65,8 +72,9 @@ class SignIn extends React.Component {
     this.props.navigation.navigate("SignUpAsStudent");
   handleSignUpAssociatePress = () =>
     this.props.navigation.navigate("SignUpAsAssociate");
-  handlePasswordChange = (value) =>
+  handlePasswordChange = (value) => {
     this.setState({ error: false, networkError: false, password: value });
+  };
   handleUsernameChange = (value) =>
     this.setState({ error: false, networkError: false, username: value });
   handleSubmit = () => {
@@ -100,47 +108,23 @@ class SignIn extends React.Component {
         });
         //Alert.alert("Error", err.message);
       });
-
-    // AuthService.Login(this.state)
-    //   .then((response) => {
-    //     console.log("response received", response);
-    //     //debugger
-    //     if (response == null) {
-    //       this.setState({ isSubmitted: false, error: true });
-    //     } else {
-    //       this.setState({ isSubmitted: false });
-    //       AuthToken.SetAuthToken(response);
-    //       try {
-    //         LocalStorage.SetUserInfo({
-    //           UserID: response.info.Table[0].userID,
-    //           RoleID: response.info.Table[0].UserRoleID,
-    //         });
-
-    //         this.props.navigation.reset({
-    //           index: 0,
-    //           routes: [{ name: "Home" }],
-    //         });
-    //         this.props.navigation.navigate("Home");
-    //       } catch (err) {
-    //       }
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log("Error: " + err);
-    //     this.setState({ isSubmitted: false, networkError: true });
-    //   });
   };
   render() {
-    //this.CheckStatus();
-
     return (
       <Block style={styles.container}>
-        <Background fullscreen>
-          <StatusBar />
-
-          <View style={{ minHeight: GlobalStyle.SIZES.PageHeight }}>
+        <Background>
+          <Block
+            space="between"
+            style={{ minHeight: GlobalStyle.SIZES.PageHeight }}
+          >
             <Block center style={styles.logoBox}>
-              <Text style={styles.logoText}>Study Abroad Apply</Text>
+              <Text
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                style={styles.logoText}
+              >
+                Study Abroad Apply
+              </Text>
             </Block>
             <Block
               space="between"
@@ -158,6 +142,7 @@ class SignIn extends React.Component {
               <LabelledInput
                 label="Password"
                 password
+                secureTextEntry
                 onChange={this.handlePasswordChange}
                 value={this.state.password}
                 required
@@ -169,11 +154,20 @@ class SignIn extends React.Component {
               {this.state.error ? (
                 <Text style={styles.error}>{this.state.errorMessage}</Text>
               ) : null}
-              {this.state.networkError ? (
+              {this.state.networkError && (
                 <Text style={styles.error}>
                   Request failed. Please try again later
                 </Text>
-              ) : null}
+              )}
+              <View style={styles.Link}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate("ForgotPassword");
+                  }}
+                >
+                  <TextCustom>Forgot Password?</TextCustom>
+                </TouchableOpacity>
+              </View>
               <Button
                 style={[
                   styles.button,
@@ -196,7 +190,7 @@ class SignIn extends React.Component {
                 Sign Up As Student
               </Button>
             </Block>
-          </View>
+          </Block>
         </Background>
       </Block>
     );

@@ -7,7 +7,7 @@
       "ios",
       "android"
     ],
-    "version": "0.0.4",
+    "version": "0.0.6",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -16,7 +16,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "enabled":false
     },
     "assetBundlePatterns": [
       "**/*"
@@ -24,13 +25,13 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.studyabroadapply.mobileapp",
-      "buildNumber": "0.0.3"
+      "buildNumber": "0.0.5"
     },
     "description": "Study Abroad Apply helps students to apply to foreign universities for studies.",
     "android": {
       "package": "com.studyabroadapply.mobileapp",
       "permissions": [],
-      "versionCode": 2
+      "versionCode": 4
     }
   }
 }

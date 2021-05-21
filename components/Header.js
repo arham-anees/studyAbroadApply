@@ -53,11 +53,12 @@ class Header extends React.Component {
   };
   componentDidMount() {
     // this._unsubscribe = this.props.navigation.addListener("focus", () => {
-    //this.GetNotificationsList();
+    // this.GetNotificationsList();
     this.setState({ notificationsCount: Notifications.GetNotificationCount() });
 
     let interval = setInterval(() => {
       //this.GetNotificationsList();
+      console.log("getting notification count from service");
       this.setState({
         notificationsCount: Notifications.GetNotificationCount(),
       });

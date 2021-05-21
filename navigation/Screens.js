@@ -1,12 +1,12 @@
 import React from "react";
 import { Dimensions } from "react-native";
+import { connect } from "react-redux";
 
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 // screens
 import Home from "../screens/Home";
@@ -26,12 +26,13 @@ import SearchCourse from "../screens/Courses/SearchCourse/SearchCourse";
 import SearchedCourses from "../screens/Courses/SearchCourse/SearchedCourses";
 import Notifications from "../screens/Notifications/Notification";
 import HeaderChild from "../components/HeaderChild";
+import ForgotPassword from "../screens/Auth/ForgotPassword/ForgotPassword";
+import { LinearGradient } from "expo-linear-gradient";
 
 const { width } = Dimensions.get("screen");
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-const Tab = createBottomTabNavigator();
 
 function ApplicationStack(props) {
   return (
@@ -236,6 +237,7 @@ function AuthStack(props) {
       headerMode="screen"
       screenOptions={{
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        cardStyle: {},
       }}
     >
       <Stack.Screen
@@ -253,6 +255,15 @@ function AuthStack(props) {
           headerTransparent: true,
         }}
       />
+
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{
+          headerShown: false,
+          headerTransparent: true,
+        }}
+      />
       <Stack.Screen
         name="SignUpAsAssociate"
         component={SignUpAsAssociate}
@@ -265,7 +276,7 @@ function AuthStack(props) {
   );
 }
 
-export function OnboardingStack(props) {
+function OnboardingStack(props) {
   return (
     <Stack.Navigator
       mode="card"
@@ -273,20 +284,21 @@ export function OnboardingStack(props) {
       screenOptions={{
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
+      initialRouteName="Auth"
     >
       <Stack.Screen
-        name="Onboarding"
-        component={Onboarding}
+        name="Home"
+        component={AppStack}
         option={{
           headerTransparent: true,
         }}
       />
-      <Stack.Screen name="App" component={AuthStack} />
+      <Stack.Screen name="Auth" component={AuthStack} />
     </Stack.Navigator>
   );
 }
 
-export default function AppStack(props) {
+export function AppStack(props) {
   return (
     <Drawer.Navigator
       style={{ flex: 1 }}
@@ -317,7 +329,7 @@ export default function AppStack(props) {
       }}
       initialRouteName="Auth"
       backBehavior="history"
-      drawerType={Dimensions.get("screen").width >= 768 ? "permanent" : "back"}
+      drawerType={"back"}
       lazy
     >
       <Drawer.Screen name="Home" component={HomeStack} />
@@ -331,7 +343,19 @@ export default function AppStack(props) {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
       />
-      <Drawer.Screen name="Auth" component={AuthStack} />
+      <Drawer.Screen
+        name="Auth"
+        component={AuthStack}
+        options={{ swipeEnabled: false }}
+      />
     </Drawer.Navigator>
   );
 }
+
+// const mapStateToProps = (state) => {
+//   const { token } = state;
+//   console.log(token);
+//   return { token };
+// };
+
+export default AppStack;

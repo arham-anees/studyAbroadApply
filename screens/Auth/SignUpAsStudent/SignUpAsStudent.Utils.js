@@ -25,7 +25,7 @@ export function HandleSignUp({
       ConfirmPassword = ConfirmPassword.trim();
       if (!isEmailValid(Email))
         reject({ errorCode: 2, message: Messages.InvalidEmail });
-      if (Gender != "1" && Gender != "2")
+      if (Gender != "1" && Gender != "0")
         reject({ errorCode: 5, message: Messages.InvalidGender });
       else if (!isPasswordValid(Password))
         reject({
@@ -36,13 +36,6 @@ export function HandleSignUp({
         reject({ errorCode: 4, message: "Password does not match." });
       //call service method here
 
-      // console.log("sign params",{
-      //   FirstName,
-      //   LastName,
-      //   Email,
-      //   Password,
-      //   Gender
-      // })
       AuthService.RegisterStudent({
         FirstName,
         LastName,

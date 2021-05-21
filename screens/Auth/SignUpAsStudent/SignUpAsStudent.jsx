@@ -1,7 +1,6 @@
 import React from "react";
 
 import { RadioButton } from "react-native-paper";
-import { ImageBackground, Image, StatusBar, Dimensions } from "react-native";
 import { Block, Button, Text, theme } from "galio-framework";
 
 import styles from "./SignUpAsStudent.Styles";
@@ -66,9 +65,8 @@ class SignUpAsStudent extends React.Component {
   };
   handleFirstNameChange = (value) =>
     this.setState({ FirstName: value, generalMessage: "", error: -1 });
-  handleGenderChange = (value) => {
-    //this.setState({ Gender: value, generalMessage: "", error: -1 });
-  };
+  handleGenderChange = (value) =>
+    this.setState({ Gender: value, generalMessage: "", error: -1 });
   handleLastNameChange = (value) =>
     this.setState({ LastName: value, generalMessage: "", error: -1 });
   handleEmailChange = (value) =>
@@ -79,42 +77,34 @@ class SignUpAsStudent extends React.Component {
     this.setState({ ConfirmPassword: value, generalMessage: "", error: -1 });
   render = () => (
     <Background fullscreen>
-      <StatusBar />
       <Block center style={styles.logoBox}>
         <Text style={styles.logoText}>Study Abroad Apply</Text>
       </Block>
       <Block space="between" style={styles.padded}>
         <LabelledInput
           label="First Name"
-          iconname="person"
-          iconfamily="Fontisto"
           onChange={this.handleFirstNameChange}
           value={this.state.FirstName}
         />
         <LabelledInput
           label="Last Name"
-          iconname="person"
           value={this.state.LastName}
           onChange={this.handleLastNameChange}
-          iconfamily="Fontisto"
           value={this.state.LastName}
         />
 
         <LabelledInput
           label="Email"
-          iconname="key"
-          iconfamily="Entypo"
           value={this.state.Email}
           error={this.state.error === 2}
           onChange={this.handleEmailChange}
           value={this.state.Email}
           required
+          type={"email-address"}
         />
         <LabelledInput
           label="Password"
-          iconname="key"
           error={this.state.error === 3}
-          iconfamily="Entypo"
           onChange={this.handlePasswordChange}
           value={this.state.Password}
           password
@@ -122,15 +112,13 @@ class SignUpAsStudent extends React.Component {
         />
         <LabelledInput
           label="Confirm Password"
-          iconname="key"
-          iconfamily="Entypo"
           password
           onChange={this.handleConfirmPasswordChange}
           error={this.state.error === 4}
           value={this.state.ConfirmPassword}
           required
         />
-        <Block>
+        <Block style={{ marginTop: 10 }}>
           <TextCustom>Gender*</TextCustom>
           <RadioButton.Group
             onValueChange={(value) => this.handleGenderChange(value)}

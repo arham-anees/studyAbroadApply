@@ -23,13 +23,13 @@ class ApplicationDetailsTabs extends React.Component {
 
   state = {
     active: null,
-    loadStatus:false
+    loadStatus: false,
   };
 
   componentDidMount() {
     const { initialIndex, loadStatus } = this.props;
     initialIndex && this.selectMenu(initialIndex);
-    this.setState({loadStatus});
+    this.setState({ loadStatus });
   }
 
   animatedValue = new Animated.Value(1);
@@ -40,7 +40,7 @@ class ApplicationDetailsTabs extends React.Component {
     Animated.timing(this.animatedValue, {
       toValue: 1,
       duration: 300,
-      // useNativeDriver: true, // color not supported
+      useNativeDriver: false, // color not supported
     }).start();
   }
 
@@ -126,8 +126,7 @@ const styles = StyleSheet.create({
     width: width,
     backgroundColor: "transparent",
     zIndex: 2,
-    height:GlobalStyle.SIZES.NavBarHeight,
-    
+    height: GlobalStyle.SIZES.NavBarHeight,
   },
   shadow: {
     shadowColor: theme.COLORS.BLACK,

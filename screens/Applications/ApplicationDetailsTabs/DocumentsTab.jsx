@@ -7,6 +7,7 @@ import * as DocumentPicker from "expo-document-picker";
 import GlobalStyle from "../../../GlobalStyles";
 import TextCustom from "../../../components/TextCustom";
 import ApplicationService from "../../../services/ApplicationService";
+import Role from "../../../helper/Role";
 
 class DocumentsTab extends React.Component {
   constructor(props) {
@@ -95,7 +96,7 @@ class DocumentsTab extends React.Component {
       .catch((er) => console.log(er));
   };
   render() {
-    //console.log(this.state.documents)
+    //console.log(this.props.roleId);
     return (
       <View>
         <Text
@@ -115,8 +116,8 @@ class DocumentsTab extends React.Component {
               id={item.id}
               ApplicationID={item.ApplicationID}
               key={index}
-              roleId={this.props.roleId}
               deleteItem={this.deleteDocument}
+              showDelete={this.props.roleId != Role.Institute}
             />
           ))
         ) : this.state.isLoading ? (

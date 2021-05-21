@@ -69,6 +69,7 @@ class SearchCourse extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
       duration: 1000,
+      useNativeDriver: false,
     }).start();
   };
 
@@ -77,6 +78,7 @@ class SearchCourse extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 0,
       duration: 0,
+      useNativeDriver: false,
     }).start();
   };
 
@@ -99,6 +101,7 @@ class SearchCourse extends React.Component {
   };
 
   handleCountrySelection = (val) => {
+    if (val == 0) return;
     try {
       let searchFilter = this.state.searchFilter;
       searchFilter["country"] = val;
@@ -125,6 +128,7 @@ class SearchCourse extends React.Component {
   };
 
   handleInstituteSelection = (val) => {
+    if (val == 0) return;
     let searchFilter = this.state.searchFilter;
     searchFilter["institute"] = val;
     this.setState({ searchFilter, isLoading: true });
@@ -146,6 +150,7 @@ class SearchCourse extends React.Component {
   };
 
   handleLevelSelection = (val) => {
+    if (val == 0) return;
     let searchFilter = this.state.searchFilter;
     searchFilter["level"] = val;
     this.setState({ searchFilter, isLoading: true });
@@ -170,6 +175,7 @@ class SearchCourse extends React.Component {
   };
 
   handleCourseSelection = (val) => {
+    if (val == 0) return;
     let searchFilter = this.state.searchFilter;
     searchFilter["CourseOfferedID"] = val;
     this.setState(searchFilter);

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 function Get(url) {
-  //aconsole.log(url, "executing");
+  //console.log(url, "executing");
   return new Promise((resolve, reject) => {
     try {
       //debugger
@@ -19,6 +19,7 @@ function Get(url) {
         })
         .catch((err) => {
           //console.log(url, "failed");
+          console.log("sign in error", err);
           reject(err);
         });
     } catch (e) {

@@ -1,12 +1,12 @@
-import { Block, Button, Input, Text, theme } from "galio-framework";
+import { Text, theme } from "galio-framework";
 import React from "react";
-import { Alert, Picker } from "react-native";
-import { Dimensions } from "react-native";
+import { Alert } from "react-native";
 import { StyleSheet, View } from "react-native";
 import DocumentItem from "../../../components/Applications/DocumentItem";
 import TextCustom from "../../../components/TextCustom";
 import GlobalStyle from "../../../GlobalStyles";
 import ApplicationService from "../../../services/ApplicationService";
+import Role from "../../../helper/Role";
 
 class OffersTab extends React.Component {
   constructor(props) {
@@ -34,11 +34,13 @@ class OffersTab extends React.Component {
     try {
       let mappedData = [];
       data.forEach((x) => {
+        // console.log(x);
         mappedData.push({
           name: x.FileName,
           category: x.DocumentCategoryName,
           date: x.CreationDate,
           id: x.DocumentID,
+          ApplicationID: x.ApplicationID,
         });
       });
       return mappedData;
@@ -72,38 +74,47 @@ class OffersTab extends React.Component {
       { cancelable: false }
     );
   };
-  render = () => (
-    <View>
-      <Text
-        style={{ fontSize: GlobalStyle.SIZES.HEADING5 }}
-        color="white"
-        center
-      >
-        Documents
-      </Text>
-      {this.state.offers.length > 0 ? (
-        this.state.offers.map((item, index) => (
-          <DocumentItem
-            name={item.name}
-            number={index + 1}
-            category={item.category}
-            date={item.date}
-            id={item.id}
-            key={index}
-            deleteItem={this.deleteOffer}
-          />
-        ))
-      ) : this.state.isLoading ? (
-        <View>
-          <TextCustom>Loading offers...</TextCustom>
-        </View>
-      ) : (
-        <View>
-          <TextCustom>No offer found</TextCustom>
-        </View>
-      )}
-    </View>
-  );
+  render = () => {
+    console.log(this.props.roleId);
+    return (
+      <View>
+        <Text
+          style={{ fontSize: GlobalStyle.SIZES.HEADING5 }}
+          color="white"
+          center
+        >
+          Documents
+        </Text>
+        {this.state.offers.length > 0 ? (
+          this.state.offers.map((item, index) => (
+            <DocumentItem
+              name={item.name}
+              number={index + 1}
+              category={item.category}
+              date={item.date}
+              id={item.id}
+              key={index}
+              ApplicationID={item.ApplicationID}
+              deleteItem={this.deleteOffer}
+              showDelete={
+                this.props.roleId == Role.Institute ||
+                this.props.roleId == Role.Admin ||
+                this.props.roleId == Role.Institute
+              }
+            />
+          ))
+        ) : this.state.isLoading ? (
+          <View>
+            <TextCustom>Loading offers...</TextCustom>
+          </View>
+        ) : (
+          <View>
+            <TextCustom>No offer found</TextCustom>
+          </View>
+        )}
+      </View>
+    );
+  };
 }
 
 export default OffersTab;

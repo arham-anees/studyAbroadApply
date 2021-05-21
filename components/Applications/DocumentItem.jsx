@@ -7,7 +7,6 @@ import CustomIcon from "../../Icons/BellIcon";
 import Icons from "../../constants/Icons";
 import TextCustom from "../../components/TextCustom";
 import { Animated } from "react-native";
-import Role from "../../helper/Role";
 import * as FileSystem from "expo-file-system";
 const { width } = Dimensions.get("screen");
 const itemWidth = 120;
@@ -44,17 +43,28 @@ async function DownloadFile(fileName, ApplicationID) {
   }
 }
 function DocumentItem(props) {
-  const { id, number, name, category, date, ApplicationID, roleId } = props;
+  const {
+    id,
+    number,
+    name,
+    category,
+    date,
+    ApplicationID,
+    roleId,
+    showDelete,
+  } = props;
 
   const fadeAnim = useRef(new Animated.Value(itemWidth)).current;
   const fadeOut = () => {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 1000,
+      useNativeDriver: false, // Add this line
     }).start();
   };
   Animated.timing(fadeAnim, {
     toValue: itemWidth,
+    useNativeDriver: false, // Add this line
     duration: 0,
   }).start();
   const { deleteItem } = props;
@@ -85,14 +95,12 @@ function DocumentItem(props) {
             source={Icons.Download}
             onPress={() => DownloadFile(name, ApplicationID)}
           />
-          {roleId == Role.Administrator ||
-          roleId == Role.Institute ||
-          roleId == Role.StudentCounselor ? (
+          {showDelete && (
             <CustomIcon
               source={Icons.Trash}
               onPress={() => deleteItem(id, fadeOut)}
             />
-          ) : null}
+          )}
         </Block>
       </View>
     </Animated.View>

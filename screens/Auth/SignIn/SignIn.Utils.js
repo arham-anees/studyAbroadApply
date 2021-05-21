@@ -5,6 +5,7 @@ import Role from "../../../helper/Role";
 import ApplicationService from "../../../services/ApplicationService";
 import { CommonActions } from "@react-navigation/core";
 import { NavigationActions } from "@react-navigation/compat";
+import { addToken } from "../../../Redux/Reducers/TokenActions";
 
 function SignIn(email, password, navigation) {
   return new Promise((resolve, reject) => {
@@ -13,6 +14,7 @@ function SignIn(email, password, navigation) {
       password: password,
     })
       .then((response) => {
+        console.log("sign in response", response);
         try {
           if (response == null) {
             this.setState({
@@ -20,6 +22,7 @@ function SignIn(email, password, navigation) {
               isLoading: false,
             });
           } else {
+            addToken(response);
             AuthToken.SetAuthToken(response);
             LocalStorage.SetUserInfo({
               UserID: response.info.Table[0].userID,
@@ -48,6 +51,7 @@ function SignIn(email, password, navigation) {
         }
       })
       .catch((err) => {
+        console.log("sign in error", err);
         reject(err);
       });
   });

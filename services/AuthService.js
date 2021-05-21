@@ -50,7 +50,7 @@ function RegisterStudent({ FirstName, LastName, Email, Password, Gender }) {
             ///}
             //else {
             //   console.log("request failed",response.ResponseMessage)
-            //   reject(response.ReponseMessage);
+            //   reject(response.ResponseMessage);
             // }
           }
         })

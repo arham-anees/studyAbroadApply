@@ -7,8 +7,8 @@ import { Dimensions } from "react-native";
 import Theme from "../../constants/Theme";
 const { width } = Dimensions.get("screen");
 function ProgressBarByCountryItem(props) {
-   const progressCustomStyles = {
-    backgroundColor:GlobalStyle.color.textLight, 
+  const progressCustomStyles = {
+    backgroundColor: GlobalStyle.color.textLight,
   };
   return (
     <View style={styles.wrapper}>
@@ -18,17 +18,32 @@ function ProgressBarByCountryItem(props) {
         </Text>
         <Block row middle>
           <Block
-            style={{ ...styles.dot, backgroundColor: GlobalStyle.STATUSCOLOR.SentToCounsellor }}
+            style={{
+              ...styles.dot,
+              backgroundColor: GlobalStyle.STATUSCOLOR.SentToCounsellor,
+            }}
           ></Block>
-          <Text color={GlobalStyle.color.textLight}>{props.item.sentToCounselor}</Text>
+          <Text color={GlobalStyle.color.textLight}>
+            {props.item.sentToCounselor}
+          </Text>
           <Block
-            style={{ ...styles.dot, backgroundColor: GlobalStyle.STATUSCOLOR.SentToInstitute }}
+            style={{
+              ...styles.dot,
+              backgroundColor: GlobalStyle.STATUSCOLOR.SentToInstitute,
+            }}
           ></Block>
-          <Text color={GlobalStyle.color.textLight} >{props.item.sentToInstitute}</Text>
+          <Text color={GlobalStyle.color.textLight}>
+            {props.item.sentToInstitute}
+          </Text>
           <Block
-            style={{ ...styles.dot, backgroundColor: GlobalStyle.STATUSCOLOR.NewApplication }}
+            style={{
+              ...styles.dot,
+              backgroundColor: GlobalStyle.STATUSCOLOR.NewApplication,
+            }}
           ></Block>
-          <Text color={GlobalStyle.color.textLight}>{props.item.newApplications}</Text>
+          <Text color={GlobalStyle.color.textLight}>
+            {props.item.newApplications}
+          </Text>
         </Block>
       </Block>
       <Block center>
@@ -50,19 +65,16 @@ export default ProgressBarByCountryItem;
 
 const styles = StyleSheet.create({
   wrapper: {
-    
     marginVertical: 5,
     padding: 5,
     borderRadius: 10,
   },
-  countryName: {
-    
-  },
+  countryName: {},
   dot: {
     width: 15,
     height: 15,
     marginLeft: 10,
     marginRight: 5,
-    borderRadius:10
+    borderRadius: 10,
   },
 });

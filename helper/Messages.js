@@ -12,6 +12,7 @@ const Messages = {
   InvalidEmailPopup:
     "Invalid Email address. Please enter a valid email address",
   ProfileCreationFailed: "Failed to create profile. Please try again later.",
+  SignInNavigation: "We are facing some issues with your operation.",
 };
 
 export default Messages;

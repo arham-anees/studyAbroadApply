@@ -33,6 +33,7 @@ class Notifications extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
       duration: 1000,
+      useNativeDriver: false,
     }).start();
   };
 
@@ -41,6 +42,7 @@ class Notifications extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 0,
       duration: 0,
+      useNativeDriver: false,
     }).start();
   };
 

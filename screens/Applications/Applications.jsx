@@ -36,6 +36,7 @@ class Applications extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
       duration: 500,
+      useNativeDriver: false,
     }).start();
   };
 
@@ -44,6 +45,7 @@ class Applications extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 0,
       duration: 0,
+      useNativeDriver: false,
     }).start();
   };
   MapApplicationData(data) {
@@ -61,6 +63,8 @@ class Applications extends React.Component {
             appList: localData,
             appFullList: localData,
             isLoading: localData.length <= 0,
+            startIndex: 0,
+            endIndex: this.state.length,
           });
         } catch (err) {
           console.log(err);

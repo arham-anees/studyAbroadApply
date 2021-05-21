@@ -4,8 +4,8 @@ const LocalName = {
   user: "@user",
   token: "@authToken",
   tokenStoreTime: "@tokenStoreTime",
-  appList: "@applicattionsList",
-  appListFirstList: "@applicattionsListFirstList",
+  appList: "@applicationsList",
+  appListFirstList: "@applicationsListFirstList",
   userInfo: "@userinfo",
 };
 
@@ -94,6 +94,7 @@ async function _Get(name) {
 
 async function _Set(name, value, callback) {
   //return window.localStorage.setItem(name, value);
+  // if (value == null) value = "null";
   return await AsyncStorage.setItem(name, value, callback);
 }
 

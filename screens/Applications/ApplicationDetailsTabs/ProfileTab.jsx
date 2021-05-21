@@ -94,7 +94,7 @@ class ProfileTab extends React.Component {
                 _DateOfBirth: x.DateOfBirth.trim()
                   ? new Date(x.DateOfBirth)
                   : null,
-                GenderID: x.GenderID,
+                GenderID: x.GenderName == "Male" ? 1 : 0,
                 NationalityID: x.NationalityID,
                 MartialStatusID: x.MartialStatusID,
                 Address: x.Address,

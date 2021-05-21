@@ -244,12 +244,16 @@ class ApplicationDetails extends React.Component {
           ) : this.state.activeTab === Tabs.Course ? (
             <CourseTab item={this.state.course} />
           ) : this.state.activeTab === Tabs.Documents ? (
-            <DocumentsTab applicationId={this.state.applicationId} />
+            <DocumentsTab
+              applicationId={this.state.applicationId}
+              roleId={this.state.roleId}
+            />
           ) : this.state.activeTab === Tabs.Offers ? (
             <OffersTab
               applicationId={this.state.applicationId}
               application={this.state.application}
               deleteOffer={this.handleDeleteOffer}
+              roleId={this.state.roleId}
             />
           ) : this.state.activeTab === Tabs.TravelInformation ? (
             <TravelInformation applicationId={this.state.applicationId} />

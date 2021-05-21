@@ -50,20 +50,6 @@ class DrawerItem extends React.Component {
     } catch {
       //console.log("failed to clear interval");
     }
-    //console.log(navigation);
-    //navigation.popToTop();
-    // navigation.dispatch(state => {
-    //     // Remove the home route from the stack
-    //     const routes = state.routes;//.filter(r => r.name == 'Auth');
-    //     //state.history=state.history.filter(h=>h.type!="route" || h.key.includes("Auth"))
-    //     //console.log(history)
-    //   return CommonActions.reset({
-    //     index: 0,
-    //     routes:[{name:"Auth"}]
-    //   });
-    // });
-    //navigation.goBack();
-    //return;
     navigation.dispatch(
       CommonActions.reset({
         index: 0,

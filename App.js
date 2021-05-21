@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { StatusBar, Text, View } from "react-native";
 import { AppLoading } from "expo";
 import { useFonts } from "@use-expo/font";
 import { Block, GalioProvider } from "galio-framework";
 import { NavigationContainer } from "@react-navigation/native";
-import * as Sentry from "@sentry/react";
-import { Integrations } from "@sentry/tracing";
+import * as Sentry from "@sentry/react-native";
 import axios from "axios";
+import { Provider } from "react-redux";
 
 // Before rendering any navigation stack
 import { enableScreens } from "react-native-screens";
@@ -15,22 +15,36 @@ enableScreens();
 import Screens from "./navigation/Screens";
 import { Images, argonTheme } from "./constants";
 import LocalStorage from "./helper/LocalStorage";
+import { CaptureConsole as CaptureConsoleIntegration } from "@sentry/integrations";
+import store from "./Redux/Store";
+import Background from "./components/Background";
+import { LinearGradient } from "expo-linear-gradient";
 
 //#region SENTRY
 
-// try{
-// Sentry.init({
-//   dsn: 'https://367ddf64e23f4dfa9a654f873eb6aa36@o478857.ingest.sentry.io/5522026',
-//   enableInExpoDevelopment: true,
-//   debug: true, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
-//   release: "StudyAbroadApply@" + process.env.npm_package_version,
-//   integrations: [new Integrations.BrowserTracing()],
-
-//   // We recommend adjusting this value in production, or using tracesSampler
-//   // for finer control
-//   tracesSampleRate: 1.0,
-// });
-// }catch{}
+try {
+  // console.log(process.env);
+  Sentry.init({
+    dsn: "https://45acbe906c574686a29acae60709b4c8@o478857.ingest.sentry.io/5522026",
+    // enableInExpoDevelopment: true,
+    // debug: true, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+    // release: "StudyAbroadApply@3",
+    enableNative: false,
+    release: "0.0.5",
+    environment: "prod",
+    maxBreadcrumbs: 50,
+    integrations: [
+      new CaptureConsoleIntegration({
+        levels: ["log", "info", "warn", "error", "debug", "assert"],
+      }),
+    ],
+    // We recommend adjusting this value in production, or using tracesSampler
+    // for finer control
+    //tracesSampleRate: 1.0,
+  });
+} catch (e) {
+  console.log(e);
+}
 
 //#endregion
 
@@ -50,7 +64,12 @@ axios.interceptors.request.use(
 //#endregion
 
 // cache app images
-const assetImages = [Images.Onboarding, Images.LogoOnboarding, Images.Logo];
+const assetImages = [
+  Images.Onboarding,
+  Images.LogoOnboarding,
+  Images.Logo,
+  Images.Background,
+];
 function cacheImages(images) {
   return images.map((image) => {
     if (typeof image === "string") {
@@ -61,9 +80,6 @@ function cacheImages(images) {
 
 export default (props) => {
   const [isLoadingComplete, setLoading] = useState(false);
-  let [fontsLoaded] = useFonts({
-    ArgonExtra: require("./assets/font/argon.ttf"),
-  });
 
   function _loadResourcesAsync() {
     return Promise.all([...cacheImages(assetImages)]);
@@ -79,7 +95,7 @@ export default (props) => {
     setLoading(true);
   }
 
-  if (!fontsLoaded && !isLoadingComplete) {
+  if (!isLoadingComplete) {
     return (
       <AppLoading
         startAsync={_loadResourcesAsync}
@@ -87,57 +103,18 @@ export default (props) => {
         onFinish={_handleFinishLoading}
       />
     );
-  } else if (fontsLoaded) {
+  } else {
     return (
-      <NavigationContainer>
-        <GalioProvider theme={argonTheme}>
-          <Block flex>
-            <Screens />
-          </Block>
-        </GalioProvider>
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          <GalioProvider theme={argonTheme}>
+            <Block flex>
+              <StatusBar barStyle={"dark-content"} backgroundColor={"white"} />
+              <Screens />
+            </Block>
+          </GalioProvider>
+        </NavigationContainer>
+      </Provider>
     );
   }
-  return <View></View>;
 };
-
-// export default class App extends React.Component {
-//   state = {
-//     isLoadingComplete: false
-//   };
-
-//   render() {
-//     if (!this.state.isLoadingComplete) {
-//       return (
-//         <AppLoading
-//           startAsync={this._loadResourcesAsync}
-//           onError={this._handleLoadingError}
-//           onFinish={this._handleFinishLoading}
-//         />
-//       );
-//     } else {
-//       return (
-//         <NavigationContainer>
-//           <GalioProvider theme={argonTheme}>
-//             <Block flex>
-//               <Screens />
-//             </Block>
-//           </GalioProvider>
-//         </NavigationContainer>
-//       );
-//     }
-//   }
-
-//   _loadResourcesAsync = async () => {
-//     return Promise.all([...cacheImages(assetImages)]);
-//   };
-
-//   _handleLoadingError = error => {
-//     // In this case, you might want to report the error to your error
-//     // reporting service, for example Sentry
-//   };
-
-//   _handleFinishLoading = () => {
-//     this.setState({ isLoadingComplete: true });
-//   };
-// }

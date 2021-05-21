@@ -69,11 +69,13 @@ function NotificationItem(props) {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 1000,
+      useNativeDriver: false,
     }).start();
   };
   Animated.timing(fadeAnim, {
     toValue: 1,
     duration: 0,
+    useNativeDriver: false,
   }).start();
   return (
     <Animated.View ref={view} style={{ overflow: "hidden", opacity: fadeAnim }}>

@@ -32,9 +32,6 @@ export default class SelectCountry extends React.Component {
           })
           .then((err) => {
             console.log(err);
-            // Alert.alert(
-            //   "Failed to load countries list from. Please try again later"
-            // );
           });
       }
     });
