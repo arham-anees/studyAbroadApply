@@ -111,12 +111,9 @@ class SignIn extends React.Component {
   };
   render() {
     return (
-      <Block style={styles.container}>
-        <Background>
-          <Block
-            space="between"
-            style={{ minHeight: GlobalStyle.SIZES.PageHeight }}
-          >
+      <Block>
+        <AuthBackGround>
+          <Block style={styles.container}>
             <Block center style={styles.logoBox}>
               <Text
                 numberOfLines={1}
@@ -126,11 +123,10 @@ class SignIn extends React.Component {
                 Study Abroad Apply
               </Text>
             </Block>
-            <Block
-              space="between"
-              style={styles.padded}
-              KeyboardShouldPersistTaps={true}
-            >
+            <Block style={styles.padded} KeyboardShouldPersistTaps={true}>
+              <TextCustom style={{ textAlign: "center", fontSize: 20 }}>
+                Sign In
+              </TextCustom>
               <LabelledInput
                 label="Username"
                 onChange={this.handleUsernameChange}
@@ -169,29 +165,21 @@ class SignIn extends React.Component {
                 </TouchableOpacity>
               </View>
               <Button
-                style={[
-                  styles.button,
-                  { marginTop: 15 },
-                  this.state.isSubmitted ? {} : null,
-                ]}
+                style={styles.button}
                 onPress={this.handleSubmit}
                 loading={this.state.isSubmitted}
                 disabled={this.state.isSubmitted}
               >
                 Sign In
               </Button>
-
-              <Button
-                style={styles.button}
-                color={argonTheme.COLORS.SECONDARY}
-                onPress={this.handleSignUpStudentPress}
-                textStyle={{ color: argonTheme.COLORS.BLACK }}
-              >
-                Sign Up As Student
-              </Button>
+              <View style={[styles.Link, { alignItems: "center" }]}>
+                <TouchableOpacity onPress={this.handleSignUpStudentPress}>
+                  <TextCustom>Sign Up As Student</TextCustom>
+                </TouchableOpacity>
+              </View>
             </Block>
           </Block>
-        </Background>
+        </AuthBackGround>
       </Block>
     );
   }

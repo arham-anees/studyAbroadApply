@@ -7,45 +7,51 @@ const { height, width } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.COLORS.BLACK,
+    height: "100%",
+    padding: GlobalStyle.SIZES.PageNormalPadding,
+    justifyContent: "space-between",
   },
   padded: {
-    paddingHorizontal: theme.SIZES.BASE * 2,
-    bottom: theme.SIZES.BASE,
-    zIndex: 2,
+    height: "58%",
   },
   button: {
     width: "100%",
     height: theme.SIZES.BASE * 3,
     shadowRadius: 0,
     shadowOpacity: 0,
-    margin:0,
-    marginTop:10
+    margin: 0,
+    marginTop: 10,
   },
   logo: {
     width: 200,
     height: 60,
-    zIndex:10
+    zIndex: 10,
   },
-  logoBox:{
-    height:height/10*3,
-    display:"flex",
-    justifyContent:"center",
+  logoBox: {
+    height: "35%",
+    display: "flex",
+    justifyContent: "center",
   },
-  logoText:{
-    color:GlobalStyle.color.textLight,
-    fontSize:32
+  logoText: {
+    color: GlobalStyle.color.textLight,
+    fontSize: 32,
   },
   subTitle: {
     marginTop: 20,
   },
-  error:{
-    paddingHorizontal:5,
-    color:GlobalStyle.color.textLight,
-    backgroundColor:GlobalStyle.bg.errorMessage,
-    borderRadius:2,
-    textAlign:"center"
-  }
+  error: {
+    paddingHorizontal: 5,
+    color: GlobalStyle.color.textLight,
+    backgroundColor: GlobalStyle.bg.errorMessage,
+    borderRadius: 2,
+    textAlign: "center",
+  },
+  link: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    marginVertical: 5,
+  },
 });
 
 export default styles;

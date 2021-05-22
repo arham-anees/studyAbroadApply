@@ -6,30 +6,26 @@ const { Dimensions, StyleSheet } = require("react-native");
 const { height, width, fontScale } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    padding: GlobalStyle.SIZES.PageNormalPadding,
+    height: "100%",
+  },
   padded: {
-    paddingHorizontal: theme.SIZES.BASE * 2,
-    bottom: theme.SIZES.BASE,
-    zIndex: 2,
+    height: "45%",
+    justifyContent: "flex-end",
   },
   button: {
     width: "100%",
     height: theme.SIZES.BASE * 3,
     shadowRadius: 0,
     shadowOpacity: 0,
-    marginBottom: 10,
     margin: 0,
   },
-  logo: {
-    width: (width / 10) * 8,
-    height: 50,
-    resizeMode: "contain",
-    zIndex: 2,
-  },
   logoBox: {
-    height: (height / 10) * 5,
     display: "flex",
     justifyContent: "center",
+    alignItems: "center",
+    height: "45%",
     width: width,
   },
   logoText: {
@@ -41,14 +37,6 @@ const styles = StyleSheet.create({
     width,
     height: 100,
     textAlign: "center",
-  },
-  sloganText: {
-    color: GlobalStyle.color.textLight,
-    fontSize: 20,
-  },
-  title: {},
-  subTitle: {
-    marginTop: 20,
   },
   error: {
     paddingHorizontal: 5,
@@ -62,7 +50,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "flex-end",
-    marginTop: 10,
+    marginVertical: 5,
   },
 });
 

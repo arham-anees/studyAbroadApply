@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthBackGround from "../../../components/BackgroundFull";
 
 import { Alert, View, StyleSheet, Dimensions } from "react-native";
@@ -8,9 +8,45 @@ import LabelledInput from "../../../components/LabelledInput.Component";
 import GlobalStyle from "../../../GlobalStyles";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import TextCustom from "../../../components/TextCustom";
+import ForgotPasswordUtils from "./ForgotPassword.Utils";
+import { isEmailValid } from "../../../helper/validations";
 
 const { height, width, fontScale } = Dimensions.get("window");
 function ForgotPassword(props) {
+  const [userEmail, setUserEmail] = useState("");
+  const [submitStatus, setSubmitStatus] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const submit = () => {
+    setSubmitStatus(true);
+    setError(false);
+    setErrorEmail(false);
+    setErrorMessage("");
+    if (!isEmailValid(userEmail)) {
+      setErrorMessage("Please enter a valid email address");
+      setErrorEmail(true);
+      setError(true);
+      setSubmitStatus(false);
+    }
+    ForgotPasswordUtils.SubmitEmail(userEmail)
+      .then((res) => {
+        Alert.alert("Success", res.Message, [
+          {
+            onPress: () => {
+              props.navigation.navigate("SignIn");
+            },
+          },
+        ]);
+      })
+      .catch((err) => {
+        setErrorMessage(err.message);
+        setError(true);
+      })
+      .finally(() => {
+        setSubmitStatus(false);
+      });
+  };
   return (
     <View style={Styles.MainContainer}>
       <AuthBackGround fullscreen>
@@ -42,21 +78,33 @@ function ForgotPassword(props) {
             <TextCustom style={Styles.TextCenter}>Forgot Password</TextCustom>
             <LabelledInput
               label="Email address"
-              // onChange={this.handleUsernameChange}
-              // value={this.state.username}
+              onChange={setUserEmail}
+              value={userEmail}
               required
-              // error={this.state.emailError}
+              error={errorEmail}
               type={"email-address"}
             />
-            <Button style={Styles.Button}>Send Email</Button>
+            {error && (
+              <TextCustom style={Styles.Error}>{errorMessage}</TextCustom>
+            )}
+            <Button
+              style={Styles.Button}
+              loading={submitStatus}
+              disabled={submitStatus}
+              onPress={submit}
+            >
+              Send Email
+            </Button>
             <View style={Styles.Link}>
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate("SignIn")}
-              >
-                <TextCustom style={{ textAlign: "center" }}>
-                  Sign in here
-                </TextCustom>
-              </TouchableOpacity>
+              {!submitStatus && (
+                <TouchableOpacity
+                  onPress={() => props.navigation.navigate("SignIn")}
+                >
+                  <TextCustom style={{ textAlign: "center" }}>
+                    Sign in here
+                  </TextCustom>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         </View>
@@ -100,6 +148,14 @@ const Styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+  },
+  Error: {
+    paddingHorizontal: 5,
+    color: GlobalStyle.color.textLight,
+    backgroundColor: GlobalStyle.bg.errorMessage,
+    borderRadius: 3,
+    marginVertical: 5,
+    textAlign: "center",
   },
 });
 
