@@ -31,7 +31,7 @@ function ForgotPassword(props) {
     }
     ForgotPasswordUtils.SubmitEmail(userEmail)
       .then((res) => {
-        Alert.alert("Success", res.Message, [
+        Alert.alert("Success", res, [
           {
             onPress: () => {
               props.navigation.navigate("SignIn");

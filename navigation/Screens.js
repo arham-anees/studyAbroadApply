@@ -28,11 +28,22 @@ import Notifications from "../screens/Notifications/Notification";
 import HeaderChild from "../components/HeaderChild";
 import ForgotPassword from "../screens/Auth/ForgotPassword/ForgotPassword";
 import { LinearGradient } from "expo-linear-gradient";
+import LocalStorage from "../helper/LocalStorage";
 
 const { width } = Dimensions.get("screen");
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+var userName = "";
+try {
+  LocalStorage.GetUserInfo()
+    .then((x) => {
+      console.log(x);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+} catch (err) {}
 
 function ApplicationStack(props) {
   return (

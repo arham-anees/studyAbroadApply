@@ -64,6 +64,32 @@ function RegisterStudent({ FirstName, LastName, Email, Password, Gender }) {
   });
 }
 
+function ForgotPassword(email) {
+  return new Promise((resolve, reject) => {
+    try {
+      const url = Urls.ForgetPassword + `?username=${email}`;
+      Fetch.Post({ url }) //call authentication method
+        .then((response) => {
+          if (response == null) reject(Messages.RequestFailed);
+          else {
+            if (response.ResponseStatus) {
+              //console.log("forget password response", response);
+              resolve(response.ResponseMessage);
+            } else {
+              reject(response.ResponseMessage);
+            }
+          }
+        })
+        .catch((err) => {
+          //console.log("error", err);
+          reject(err);
+        }); //throw error
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
 function RegisterAssociate({
   companyName,
   companyWebsite,
@@ -93,6 +119,7 @@ const AuthService = {
   Login,
   RegisterStudent,
   RegisterAssociate,
+  ForgotPassword,
 };
 
 export default AuthService;

@@ -1,7 +1,10 @@
+import AuthService from "../../../services/AuthService";
+
 function SubmitEmail(email) {
   return new Promise((resolve, reject) => {
-    if (email == "test@test.test") reject({ message: "network error" });
-    else resolve({ Message: "Email has successfully been sent" });
+    AuthService.ForgotPassword(email)
+      .then((x) => resolve(x))
+      .catch((err) => reject(err));
   });
 }
 

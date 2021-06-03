@@ -22,11 +22,14 @@ function SignIn(email, password, navigation) {
               isLoading: false,
             });
           } else {
+            console.log("login response", response);
             addToken(response);
             AuthToken.SetAuthToken(response);
             LocalStorage.SetUserInfo({
               UserID: response.info.Table[0].userID,
               RoleID: response.info.Table[0].UserRoleID,
+              Name: response.info.Table[0].Name,
+              RoleName: response.info.Table[0].UserRoleDescription,
             });
             if (response.info.Table[0].UserRoleID == Role.Student) {
               ApplicationService.BrowseApplications().then((applications) => {

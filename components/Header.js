@@ -58,7 +58,7 @@ class Header extends React.Component {
 
     let interval = setInterval(() => {
       //this.GetNotificationsList();
-      console.log("getting notification count from service");
+      //console.log("getting notification count from service");
       this.setState({
         notificationsCount: Notifications.GetNotificationCount(),
       });

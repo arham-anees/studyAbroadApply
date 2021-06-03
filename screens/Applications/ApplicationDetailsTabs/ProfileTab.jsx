@@ -67,60 +67,55 @@ class ProfileTab extends React.Component {
       .catch((err) => {
         this.setState({ loading: false, loadingFailed: true });
       });
-    if (this.props.ProfileID != -1) {
-      //-1 is sent from create profile
-      ApplicationService.GetCourse(this.props.applicationId)
-        .then((y) => {
-          y = y.MyCourse;
-          this.setState({
-            ProfileID: y.ProfileID,
-          });
-          ApplicationService.GetProfileData(y.ProfileID)
-            .then((x) => {
-              this.setState({
-                FullName: x.FullName,
-                FirstName: x.FirstName,
-                LastName: x.LastName,
-                FatherName: x.FatherName,
-                Email: x.Email,
-                Cell: x.Cell,
-                Password: x.Password,
-                ExpiryDate: x.ExpiryDate,
-                _ExpiryDate: x.ExpiryDate.trim()
-                  ? new Date(x.ExpiryDate)
-                  : null,
-                LandLine: x.LandLine,
-                DateOfBirth: x.DateOfBirth,
-                _DateOfBirth: x.DateOfBirth.trim()
-                  ? new Date(x.DateOfBirth)
-                  : null,
-                GenderID: x.GenderName == "Male" ? 1 : 0,
-                NationalityID: x.NationalityID,
-                MartialStatusID: x.MartialStatusID,
-                Address: x.Address,
-                loading: false,
-                loadedOnce: true,
-                loadingFailed: false,
-              });
-            })
-            .catch((err) => {
-              this.setState({
-                loading: false,
-                loadedOnce: false,
-                loadingFailed: true,
-              });
-              console.log(err);
-            });
-        })
-        .catch((err) => {
-          this.setState({
-            loading: false,
-            loadedOnce: false,
-            loadingFailed: true,
-          });
-          console.log(err);
+    ApplicationService.GetCourse(this.props.applicationId)
+      .then((y) => {
+        y = y.MyCourse;
+        this.setState({
+          ProfileID: y.ProfileID,
         });
-    }
+        ApplicationService.GetProfileData(y.ProfileID)
+          .then((x) => {
+            this.setState({
+              FullName: x.FullName,
+              FirstName: x.FirstName,
+              LastName: x.LastName,
+              FatherName: x.FatherName,
+              Email: x.Email,
+              Cell: x.Cell,
+              Password: x.Password,
+              ExpiryDate: x.ExpiryDate,
+              _ExpiryDate: x.ExpiryDate.trim() ? new Date(x.ExpiryDate) : null,
+              LandLine: x.LandLine,
+              DateOfBirth: x.DateOfBirth,
+              _DateOfBirth: x.DateOfBirth.trim()
+                ? new Date(x.DateOfBirth)
+                : null,
+              GenderID: x.GenderName == "Male" ? 1 : 0,
+              NationalityID: x.NationalityID,
+              MartialStatusID: x.MartialStatusID,
+              Address: x.Address,
+              loading: false,
+              loadedOnce: true,
+              loadingFailed: false,
+            });
+          })
+          .catch((err) => {
+            this.setState({
+              loading: false,
+              loadedOnce: false,
+              loadingFailed: true,
+            });
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        this.setState({
+          loading: false,
+          loadedOnce: false,
+          loadingFailed: true,
+        });
+        console.log(err);
+      });
   }
 
   handleChange = (val, name) => {

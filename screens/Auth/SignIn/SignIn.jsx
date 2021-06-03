@@ -1,18 +1,15 @@
 import React from "react";
 import { View, Keyboard } from "react-native";
-import { Block, Button, Link, Text } from "galio-framework";
+import { Block, Button, Text } from "galio-framework";
 
 import styles from "./SignIn.Styles";
-import argonTheme from "../../../constants/Theme";
 import LabelledInput from "../../../components/LabelledInput.Component";
-import Background from "../../../components/Background";
 import LocalStorage from "../../../helper/LocalStorage";
-import GlobalStyle from "../../../GlobalStyles";
 import SignInUtil from "./SignIn.Utils";
 import Role from "../../../helper/Role";
 import ApplicationService from "../../../services/ApplicationService";
 import { NavigationActions } from "@react-navigation/compat";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import TextCustom from "../../../components/TextCustom";
 import AuthBackGround from "../../../components/BackgroundFull";
 
@@ -83,6 +80,7 @@ class SignIn extends React.Component {
     } catch (err) {
       console.log(err);
     }
+    console.log("submitted request");
     if (this.state.username.length == 0 || this.state.password.length == 0) {
       this.setState({ error: true, isSubmitted: false });
       return;
