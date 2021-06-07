@@ -50,7 +50,7 @@ class DocumentsTab extends React.Component {
       //console.log(mappedData);
       return mappedData;
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
     return [];
   };
@@ -93,7 +93,9 @@ class DocumentsTab extends React.Component {
           this.refs.toast.show("hello world");
         }
       })
-      .catch((er) => console.log(er));
+      .catch((er) => {
+        //console.log(er)
+      });
   };
   render() {
     //console.log(this.props.roleId);

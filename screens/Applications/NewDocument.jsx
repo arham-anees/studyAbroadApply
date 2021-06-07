@@ -30,7 +30,9 @@ const NewDocument = (props) => {
         //console.log(x);
         if (x.type == "success") setFile(x);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        //console.log(err)
+      });
   };
 
   const submit = () => {

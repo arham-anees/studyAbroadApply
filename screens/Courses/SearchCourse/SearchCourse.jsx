@@ -69,7 +69,7 @@ class SearchCourse extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
       duration: 1000,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   };
 
@@ -78,7 +78,7 @@ class SearchCourse extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 0,
       duration: 0,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   };
 
@@ -119,11 +119,11 @@ class SearchCourse extends React.Component {
           this.resetSelection(2);
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           this.setState({ isLoading: false });
         });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -266,7 +266,7 @@ class SearchCourse extends React.Component {
         this.setState({ isLoading: false, searchResult: x, isSearched: true });
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
         this.setState({ isLoading: false, isSearched: true });
       });
   };
@@ -297,11 +297,8 @@ class SearchCourse extends React.Component {
   };
 
   handleSearchByDiscipline = () => {
-    let {
-      courseDisciplineName,
-      courseDisciplineId,
-      country,
-    } = this.state.searchFilter;
+    let { courseDisciplineName, courseDisciplineId, country } =
+      this.state.searchFilter;
     let searchFilter = {
       courseName: courseDisciplineName,
       courseDisciplineId,

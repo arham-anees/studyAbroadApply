@@ -13,6 +13,8 @@ import { Block, Input } from "galio-framework";
 import CustomIcon from "../../Icons/BellIcon";
 import { Images } from "../../constants";
 import Loading from "../../components/Loading";
+import { FlatList } from "react-native-gesture-handler";
+import { enableScreens } from "react-native-screens";
 
 class Applications extends React.Component {
   constructor(props) {
@@ -36,7 +38,7 @@ class Applications extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
       duration: 500,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   };
 
@@ -45,7 +47,7 @@ class Applications extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 0,
       duration: 0,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   };
   MapApplicationData(data) {
@@ -53,6 +55,7 @@ class Applications extends React.Component {
   }
 
   componentDidMount() {
+    enableScreens(false);
     this._unsubscribe = this.props.navigation.addListener("focus", () => {
       this.fadeIn();
       LocalStorage.GetAppFirstPage().then((x) => {
@@ -67,7 +70,7 @@ class Applications extends React.Component {
             endIndex: this.state.length,
           });
         } catch (err) {
-          console.log(err);
+          //console.log(err);
         }
       });
       ApplicationService.BrowseApplications()
@@ -135,9 +138,11 @@ class Applications extends React.Component {
 
   render() {
     return (
-      <Background isLoading={this.state.isLoading}>
+      <Background>
         <Loading isActive={this.state.isLoading} />
-        <Animated.View style={{ opacity: this.state.fadeAnim }}>
+        <Animated.View
+          style={{ opacity: this.state.fadeAnim, marginBottom: 50 }}
+        >
           <View style={styles.container}>
             <Block row middle space="between">
               <Block flex>
@@ -148,22 +153,21 @@ class Applications extends React.Component {
                   onChangeText={(text) => this.searchApplication(text)}
                 />
               </Block>
-              {/* <Block style={[styles.iconBlock]} middle opacity={this.state.settingNote?0.5:1}>
-                  <CustomIcon
-                    source={Images.Search}
-                    onPress={this.searchApplication}
-                  />
-                </Block> */}
             </Block>
             {this.state.appList.length > 0 ? (
-              this.getApplicationList().map((item, index) => {
-                return (
+              <FlatList
+                data={this.getApplicationList()}
+                renderItem={(item) => (
                   <ApplicationItem
-                    props={{ ...this.props, item, index }}
-                    key={index}
+                    props={{
+                      ...this.props,
+                      item: item.item,
+                      index: item.index,
+                    }}
+                    key={item.index}
                   />
-                );
-              })
+                )}
+              ></FlatList>
             ) : this.state.isLoading ? (
               <View>
                 <TextCustom>Loading applications</TextCustom>
@@ -173,7 +177,7 @@ class Applications extends React.Component {
                 <TextCustom>No application found</TextCustom>
               </View>
             )}
-            {!this.state.isLoading && this.state.appFullList.length > 0 ? (
+            {!this.state.isLoading && this.state.appFullList.length > 0 && (
               <Block row center style={{ marginTop: 10 }}>
                 {this.state.startIndex > 1 && (
                   <CustomIcon
@@ -198,7 +202,7 @@ class Applications extends React.Component {
                   <CustomIcon source={Images.Forward} onPress={this.nextPage} />
                 )}
               </Block>
-            ) : null}
+            )}
           </View>
         </Animated.View>
       </Background>

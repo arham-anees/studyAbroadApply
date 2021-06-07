@@ -15,6 +15,7 @@ import HomeUtils from "./Home.Utils";
 import Loading from "../components/Loading";
 import Notifications from "../helper/Notifications";
 import { addToken } from "../Redux/Reducers/TokenActions";
+import { enableScreens } from "react-native-screens";
 
 const { height, width } = Dimensions.get("screen");
 class Home extends React.Component {
@@ -35,7 +36,7 @@ class Home extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
       duration: 500,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   };
 
@@ -44,11 +45,12 @@ class Home extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 0,
       duration: 0,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   };
 
   componentDidMount() {
+    enableScreens(false);
     Notifications.Start();
     BackHandler.addEventListener("hardwareBackPress", this.back_Button_Press);
     const { navigation } = this.props;

@@ -47,7 +47,7 @@ class Header extends React.Component {
         this.setState({ notificationsCount: x.length });
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
         this.setState({ notificationsCount: 0 });
       });
   };

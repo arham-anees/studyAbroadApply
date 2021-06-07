@@ -14,7 +14,6 @@ function SignIn(email, password, navigation) {
       password: password,
     })
       .then((response) => {
-        console.log("sign in response", response);
         try {
           if (response == null) {
             this.setState({
@@ -22,7 +21,6 @@ function SignIn(email, password, navigation) {
               isLoading: false,
             });
           } else {
-            console.log("login response", response);
             addToken(response);
             AuthToken.SetAuthToken(response);
             LocalStorage.SetUserInfo({
@@ -54,7 +52,7 @@ function SignIn(email, password, navigation) {
         }
       })
       .catch((err) => {
-        console.log("sign in error", err);
+        //console.log("sign in error", err);
         reject(err);
       });
   });

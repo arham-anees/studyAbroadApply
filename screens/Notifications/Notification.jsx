@@ -2,7 +2,7 @@ import { Block } from "galio-framework";
 import React from "react";
 import { Animated, Dimensions, StyleSheet, View } from "react-native";
 import { Alert } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import Background from "../../components/Background";
 import Loading from "../../components/Loading";
 import TextCustom from "../../components/TextCustom";
@@ -33,7 +33,7 @@ class Notifications extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
       duration: 1000,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   };
 
@@ -42,7 +42,7 @@ class Notifications extends React.Component {
     Animated.timing(this.state.fadeAnim, {
       toValue: 0,
       duration: 0,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start();
   };
 
@@ -81,7 +81,7 @@ class Notifications extends React.Component {
           }
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           this.setState({ isLoading: false });
         });
     });
@@ -133,7 +133,7 @@ class Notifications extends React.Component {
         } catch {}
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   };
 
@@ -171,7 +171,7 @@ class Notifications extends React.Component {
                 }, 1000);
               })
               .catch((err) => {
-                console.log(err);
+                //console.log(err);
                 this.setState({ isDeleting: false });
                 Alert.alert(
                   "Failed",
@@ -206,7 +206,7 @@ class Notifications extends React.Component {
                 );
               })
               .catch((err) => {
-                console.log(err);
+                //console.log(err);
                 Alert.alert(
                   "Failed",
                   "Failed to mark all notifications as read. Please try again later."
@@ -253,17 +253,20 @@ class Notifications extends React.Component {
                   <TextCustom>No Notifications</TextCustom>
                 </Block>
               ) : (
-                <>
-                  {this.state.dataToShow.map((item, index) => (
-                    <NotificationItem
-                      item={item}
-                      navigation={this.props.navigation}
-                      key={index}
-                      deleteNotification={this.deleteNotification}
-                      deleteNotificationSilent={this.deleteNotificationSilent}
-                    />
-                  ))}
-                </>
+                <FlatList
+                  data={this.state.dataToShow}
+                  renderItem={(item) => {
+                    return (
+                      <NotificationItem
+                        item={item.item}
+                        navigation={this.props.navigation}
+                        key={item.index}
+                        deleteNotification={this.deleteNotification}
+                        deleteNotificationSilent={this.deleteNotificationSilent}
+                      />
+                    );
+                  }}
+                ></FlatList>
               )}
             </View>
             {this.state.data.length > 0 ? (

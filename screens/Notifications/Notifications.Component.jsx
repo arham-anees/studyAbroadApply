@@ -36,7 +36,7 @@ function MarkAsRead(id) {
       }, 1000);
     })
     .catch((err) => {
-      console.log(err);
+      //console.log(err);
       Alert.alert(
         "Failed",
         "Failed to mark notification as read. Please try again later."

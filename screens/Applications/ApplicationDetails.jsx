@@ -84,7 +84,7 @@ class ApplicationDetails extends React.Component {
         })
         .catch((err) => {
           Alert.alert("Failed", Messages.AppDetailsLoadFail);
-          console.log(err);
+          //console.log(err);
         });
     });
   }
@@ -125,7 +125,9 @@ class ApplicationDetails extends React.Component {
                     "Failed to update profile. Please try again later."
                   );
               })
-              .catch((err) => console.log(err));
+              .catch((err) => {
+                //console.log(err)
+              });
           },
         },
         { text: "No" },
@@ -182,14 +184,14 @@ class ApplicationDetails extends React.Component {
             DocumentCategoryID: category,
           })
             .then((x) => {
-              console.log("file uploaded", x);
+              //console.log("file uploaded", x);
             })
             .catch((err) => {
-              console.log("error in file upload", err);
+              //console.log("error in file upload", err);
             });
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
         });
       this.setState({ isShow: true, toastMessage: "Please select a file" });
       return;

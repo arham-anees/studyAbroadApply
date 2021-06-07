@@ -61,7 +61,7 @@ export function HandleSignUp({
         })
         .catch((err) => {
           //debugger;
-          console.log("error at sign un auth service", err);
+          //console.log("error at sign un auth service", err);
           reject(err);
         });
     } catch (e) {

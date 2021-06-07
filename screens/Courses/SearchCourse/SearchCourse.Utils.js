@@ -20,7 +20,7 @@ function GetAutoFill(CountryID, course) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
         reject(err);
         //this.setState({ disciplinesList: [], coursesListAdv: null });
       });
@@ -47,7 +47,7 @@ function GetDisciplineAutoFill(CountryID, course) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
         reject(err);
         //this.setState({ disciplinesList: [], coursesListAdv: null });
       });

@@ -91,7 +91,7 @@ class CreateProfile extends React.Component {
       })
       .catch((err) => {
         this.setState({ isLoading: false });
-        console.log(err);
+        //console.log(err);
         Alert.alert("Failed", Messages.ProfileCreationFailed);
       });
   };

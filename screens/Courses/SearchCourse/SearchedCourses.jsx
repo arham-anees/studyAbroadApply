@@ -58,7 +58,7 @@ class SearchedCourses extends React.Component {
             this.setState({ loading: false });
           })
           .catch((err) => {
-            console.log(err);
+            //console.log(err);
             this.setState({ loading: false });
             Alert.alert(
               "An unexpected error occurred while applying for course"
@@ -111,7 +111,7 @@ class SearchedCourses extends React.Component {
           });
         })
         .catch((err) => {
-          console.log("Error:", err);
+          //console.log("Error:", err);
           this.setState({ loading: false });
         });
     });

@@ -9,16 +9,14 @@ function GetHomePageGraphsData() {
         resolve(res);
       })
       .catch((err) => {
-        console.log(err);
-        reject(err)});
+        //console.log(err);
+        reject(err);
+      });
   });
 }
 
-
-
-
-const GraphsDataService={
-    GetHomePageGraphsData
-}
+const GraphsDataService = {
+  GetHomePageGraphsData,
+};
 
 export default GraphsDataService;

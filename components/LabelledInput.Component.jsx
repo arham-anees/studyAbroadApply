@@ -1,15 +1,26 @@
 import { Block, Icon, Input, Text, theme } from "galio-framework";
 import React from "react";
-import { TextInput } from "react-native";
+import { TextInput, StyleSheet } from "react-native";
 import GlobalStyle from "../GlobalStyles";
 
 class LabelledInput extends React.Component {
-  labelColor = this.props.textColor
-    ? this.props.textColor
-    : GlobalStyle.color.textLight;
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: this.props.value ?? "",
+    };
+  }
+  labelColor = this.props.textColor ?? GlobalStyle.color.textLight;
   disabled = this.props.disabled;
   inputStyle = this.props.inputStyle;
   type = this.props.type ? this.props.type : "default";
+  //inputValue = ;
+  onChange = (val) => {
+    this.setState({ value: val });
+    if (this.props.onChange) {
+      this.props.onChange(val);
+    }
+  };
   render() {
     return (
       <Block style={{ marginTop: 10 }}>
@@ -21,20 +32,15 @@ class LabelledInput extends React.Component {
           placeholder={
             this.props.placeholder ? this.props.placeholder : this.props.label
           }
-          value={this.props.value ?? ""}
+          value={this.state.value}
           style={[
             this.props.error ? { borderColor: "red", borderWidth: 2 } : null,
             this.disabled ? { opacity: 0.8 } : null,
-            {
-              backgroundColor: "white",
-              height: 40,
-              borderRadius: 5,
-              paddingHorizontal: 5,
-            },
+            styles.input,
             this.inputStyle,
           ]}
           onBlur={this.props.onBlur}
-          onChangeText={this.props.onChange}
+          onChangeText={this.onChange}
           onFocus={this.props.onFocus}
           onKeyPress={this.props.onKeyPress}
           secureTextEntry={this.props.password ? true : false}
@@ -45,5 +51,14 @@ class LabelledInput extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  input: {
+    backgroundColor: "white",
+    height: 40,
+    borderRadius: 5,
+    paddingHorizontal: 5,
+  },
+});
 
 export default LabelledInput;

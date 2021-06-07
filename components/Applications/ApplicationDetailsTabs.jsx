@@ -40,7 +40,7 @@ class ApplicationDetailsTabs extends React.Component {
     Animated.timing(this.animatedValue, {
       toValue: 1,
       duration: 300,
-      useNativeDriver: false, // color not supported
+      useNativeDriver: true, // color not supported
     }).start();
   }
 

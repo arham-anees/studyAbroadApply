@@ -144,7 +144,7 @@ function GetDisciplineAutoFill(course, CountryID) {
       //console.log("request url:", Urls.GetDisciplineAutoFill);
       if (!course) course = "";
       const url = Urls.GetDisciplineAutoFill;
-      console.log({ url, data: { CourseName: course, CountryID } });
+      //console.log({ url, data: { CourseName: course, CountryID } });
       Fetch.Post({ url, data: { CourseName: course, CountryID } })
         .then((response) => {
           if (response == null) reject(Messages.RequestFailed);

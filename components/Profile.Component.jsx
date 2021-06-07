@@ -9,7 +9,6 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Alert } from "react-native";
 import ApplicationService from "../services/ApplicationService";
 
-
 class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -24,7 +23,7 @@ class Profile extends React.Component {
       ExpiryDate: "",
       _ExpiryDate: new Date(),
       LandLine: "",
-      DateOfBirth:"",
+      DateOfBirth: "",
       _DateOfBirth: new Date(),
       NationalityName: "",
       Address: "",
@@ -39,43 +38,78 @@ class Profile extends React.Component {
     //this._unsubscribe();
   }
   componentDidMount() {
-    //this._unsubscribe = this.props.navigation.addListener('focus', () => {    
-        let {FirstName, LastName, FatherName, Cell,LandLine, PassportNumber, ExpiryDate, DateOfBirth, NationalityName,
-        Address}=this.props;
-        FirstName=FirstName?FirstName:"";
-        LastName=LastName?LastName:"";
-        FatherName=FatherName?FatherName:"";
-        Cell=Cell?Cell:"";
-        LandLine=LandLine?LandLine:"";
-        PassportNumber=PassportNumber?PassportNumber:"";
-        ExpiryDate=ExpiryDate?ExpiryDate:"";
-        DateOfBirth=DateOfBirth?DateOfBirth:"";
-        Address=Address?Address:"";
-        this.setState({FirstName, LastName, FatherName, Cell,LandLine, PassportNumber, _ExpiryDate:new Date(ExpiryDate), _DateOfBirth:new Date(DateOfBirth), NationalityName,
-             Address})
+    //this._unsubscribe = this.props.navigation.addListener('focus', () => {
+    let {
+      FirstName,
+      LastName,
+      FatherName,
+      Cell,
+      LandLine,
+      PassportNumber,
+      ExpiryDate,
+      DateOfBirth,
+      NationalityName,
+      Address,
+    } = this.props;
+    FirstName = FirstName ? FirstName : "";
+    LastName = LastName ? LastName : "";
+    FatherName = FatherName ? FatherName : "";
+    Cell = Cell ? Cell : "";
+    LandLine = LandLine ? LandLine : "";
+    PassportNumber = PassportNumber ? PassportNumber : "";
+    ExpiryDate = ExpiryDate ? ExpiryDate : "";
+    DateOfBirth = DateOfBirth ? DateOfBirth : "";
+    Address = Address ? Address : "";
+    this.setState({
+      FirstName,
+      LastName,
+      FatherName,
+      Cell,
+      LandLine,
+      PassportNumber,
+      _ExpiryDate: new Date(ExpiryDate),
+      _DateOfBirth: new Date(DateOfBirth),
+      NationalityName,
+      Address,
+    });
     //})
-
   }
 
   handleChange = (val, name) => {
-    try{
-      let profile=this.state;
-      profile[name]=val;
-      this.setState({...profile});
-    }
-    catch{}
+    try {
+      let profile = this.state;
+      profile[name] = val;
+      this.setState({ ...profile });
+    } catch {}
   };
   updateGender = (val) => {};
   updateMaritalStatus = (val) => {};
   handleUpdateProfilePress = () => {
-    Alert.alert("Profile Updated", "Profile update is irreversible Process. Are you sure you want to update?",[{text:"Yes",onPress:()=>{
-      ApplicationService.UpdateProfile(this.state)
-      .then(x=>{
-        if(x.ResponseStatus) Alert.alert("Profile Updated", "Profile has been updated");
-        else Alert.alert("Profile Update Failed", "Failed to update profile. Please try again later.");
-      })
-      .catch(err=>console.log(err));
-    }}, {text:"No"}]);
+    Alert.alert(
+      "Profile Updated",
+      "Profile update is irreversible Process. Are you sure you want to update?",
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+            ApplicationService.UpdateProfile(this.state)
+              .then((x) => {
+                if (x.ResponseStatus)
+                  Alert.alert("Profile Updated", "Profile has been updated");
+                else
+                  Alert.alert(
+                    "Profile Update Failed",
+                    "Failed to update profile. Please try again later."
+                  );
+              })
+              .catch((err) => {
+                //console.log(err)
+              });
+          },
+        },
+        { text: "No" },
+      ]
+    );
   };
 
   showMode = (currentMode) => {
@@ -83,7 +117,7 @@ class Profile extends React.Component {
   };
 
   showDatepicker = (newDateIndex) => {
-    this.setState({ mode: "date", dateIndex: newDateIndex, show:true });
+    this.setState({ mode: "date", dateIndex: newDateIndex, show: true });
   };
   onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -142,7 +176,7 @@ class Profile extends React.Component {
             label="Cell Number"
             value={this.state.Cell}
             onChange={(text) => this.handleChange(text, "Cell")}
-            type={"numeric"}            
+            type={"numeric"}
           />
           <ButtonTextBox
             value={this.state.DateOfBirth}
@@ -174,7 +208,11 @@ class Profile extends React.Component {
         {this.state.show && (
           <DateTimePicker
             testID="dateTimePicker"
-            value={this.state.dateIndex==1?this.state._ExpiryDate:this.state._DateOfBirth}
+            value={
+              this.state.dateIndex == 1
+                ? this.state._ExpiryDate
+                : this.state._DateOfBirth
+            }
             mode={this.state.mode}
             is24Hour={true}
             display="default"

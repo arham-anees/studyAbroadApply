@@ -31,7 +31,7 @@ export default class SelectCountry extends React.Component {
             this.setState({ countries: this._mapCountries(x) });
           })
           .then((err) => {
-            console.log(err);
+            //console.log(err);
           });
       }
     });

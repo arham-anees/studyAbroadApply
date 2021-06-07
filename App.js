@@ -43,7 +43,7 @@ try {
     //tracesSampleRate: 1.0,
   });
 } catch (e) {
-  console.log(e);
+  //console.log(e);
 }
 
 //#endregion

@@ -12,6 +12,7 @@ import { NavigationActions } from "@react-navigation/compat";
 import { TouchableOpacity } from "react-native";
 import TextCustom from "../../../components/TextCustom";
 import AuthBackGround from "../../../components/BackgroundFull";
+import { enableScreens } from "react-native-screens";
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -27,44 +28,40 @@ class SignIn extends React.Component {
   }
   componentDidMount() {
     this.CheckStatus();
+    enableScreens(false);
   }
   CheckStatus() {
     LocalStorage.GetToken()
       .then((res) => {
-        if (res != null && res != undefined) {
-          if (res.length > 100) {
-            LocalStorage.GetUserInfo()
-              .then((userInfo) => {
-                userInfo = JSON.parse(userInfo);
-                if (userInfo.RoleID == Role.Student) {
-                  ApplicationService.BrowseApplications().then(
-                    (applications) => {
-                      let screenName = "Applications";
-                      if (!applications || applications.length == 0)
-                        screenName = "Courses";
-                      this.props.navigation.navigate(
-                        screenName,
-                        {},
-                        NavigationActions.navigate({
-                          routeName: screenName,
-                        })
-                      );
-                    }
+        if (res && res.length > 100) {
+          LocalStorage.GetUserInfo()
+            .then((userInfo) => {
+              userInfo = JSON.parse(userInfo);
+              if (userInfo.RoleID == Role.Student) {
+                ApplicationService.BrowseApplications().then((applications) => {
+                  let screenName = "Applications";
+                  if (!applications || applications.length == 0)
+                    screenName = "Courses";
+                  this.props.navigation.navigate(
+                    screenName,
+                    {},
+                    NavigationActions.navigate({
+                      routeName: screenName,
+                    })
                   );
-                } else {
-                  this.props.navigation.navigate("Home");
-                }
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }
+                });
+              } else {
+                this.props.navigation.navigate("Home");
+              }
+            })
+            .catch((err) => {});
         }
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
   }
+
   handleSignUpStudentPress = () =>
     this.props.navigation.navigate("SignUpAsStudent");
   handleSignUpAssociatePress = () =>
@@ -72,15 +69,15 @@ class SignIn extends React.Component {
   handlePasswordChange = (value) => {
     this.setState({ error: false, networkError: false, password: value });
   };
-  handleUsernameChange = (value) =>
+  handleUsernameChange = (value) => {
     this.setState({ error: false, networkError: false, username: value });
+  };
   handleSubmit = () => {
     try {
       Keyboard.dismiss();
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
-    console.log("submitted request");
     if (this.state.username.length == 0 || this.state.password.length == 0) {
       this.setState({ error: true, isSubmitted: false });
       return;

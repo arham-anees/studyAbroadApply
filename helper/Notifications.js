@@ -16,7 +16,7 @@ function FetchNotifications() {
           NotificationList = res;
         })
         .catch((err) => {
-          console.log(err.message);
+          //console.log(err.message);
         });
     } else {
       //console.log("called within 5 secs, ignoring");

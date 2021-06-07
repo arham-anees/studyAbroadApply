@@ -1,6 +1,13 @@
 import { Block, Text } from "galio-framework";
 import React from "react";
-import { Dimensions, ShadowPropTypesIOS, StyleSheet, View } from "react-native";
+import {
+  Dimensions,
+  ListView,
+  ShadowPropTypesIOS,
+  StyleSheet,
+  View,
+} from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import Svg from "react-native-svg";
 import { Rect } from "react-native-svg";
 import GlobalStyle from "../../GlobalStyles";
@@ -36,20 +43,21 @@ function ProgressBarByCountry(props) {
             <TextCustom>Not enough data for graph</TextCustom>
           </View>
         ) : (
-          <View>
-            {props.data
-              .sort(function (a, b) {
-                return b.progress - a.progress;
-              })
-              .map((item, index) => (
+          <FlatList
+            data={props.data.sort(function (a, b) {
+              return b.progress - a.progress;
+            })}
+            renderItem={(item) => {
+              return (
                 <ProgressBarByCountryItem
-                  item={item}
+                  item={item.item}
                   totalApp={props.data[0].progress}
-                  number={index + 1}
-                  key={index}
+                  number={item.index + 1}
+                  key={item.index}
                 />
-              ))}
-          </View>
+              );
+            }}
+          ></FlatList>
         )}
         <Block left>
           {props.data.length > 0 ? (

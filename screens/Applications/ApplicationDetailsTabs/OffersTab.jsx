@@ -45,7 +45,7 @@ class OffersTab extends React.Component {
       });
       return mappedData;
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
     return [];
   };
@@ -75,7 +75,6 @@ class OffersTab extends React.Component {
     );
   };
   render = () => {
-    console.log(this.props.roleId);
     return (
       <View>
         <Text

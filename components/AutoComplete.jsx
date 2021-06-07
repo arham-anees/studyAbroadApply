@@ -52,20 +52,26 @@ class AutoComplete extends React.Component {
       .then((x) => {
         this.setState({ filteredList: x.list });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // console.log(err)
+      });
     return;
     if (this.props.label.includes("isciplin")) {
       SearchCourseUtils.GetDisciplineAutoFill(this.props.CountryID, text)
         .then((x) => {
           this.setState({ filteredList: x.disciplinesList });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          //console.log(err)
+        });
     } else {
       SearchCourseUtils.GetAutoFill(this.props.CountryID, text)
         .then((x) => {
           this.setState({ filteredList: x.coursesList });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          //console.log(err)
+        });
     }
     return;
     // console.log("list", this.state.list);

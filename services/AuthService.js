@@ -20,7 +20,7 @@ function Login({ username, password }, callback) {
                   resolve(response);
                 })
                 .catch((err) => {
-                  console.log(err);
+                  //console.log(err);
                   reject(response.data);
                 });
             } else resolve(null);
@@ -45,17 +45,10 @@ function RegisterStudent({ FirstName, LastName, Email, Password, Gender }) {
         .then((response) => {
           if (response == null) reject(Messages.RequestFailed);
           else {
-            //if(response.ResponseStatus){
             resolve(response);
-            ///}
-            //else {
-            //   console.log("request failed",response.ResponseMessage)
-            //   reject(response.ResponseMessage);
-            // }
           }
         })
         .catch((err) => {
-          console.log("error", err);
           reject(err);
         }); //throw error
     } catch (e) {
@@ -76,7 +69,7 @@ function ForgotPassword(email) {
               //console.log("forget password response", response);
               resolve(response.ResponseMessage);
             } else {
-              reject(response.ResponseMessage);
+              reject({ message: response.ResponseMessage });
             }
           }
         })
@@ -85,6 +78,7 @@ function ForgotPassword(email) {
           reject(err);
         }); //throw error
     } catch (e) {
+      //console.log("error", e);
       reject(e);
     }
   });

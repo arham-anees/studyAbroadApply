@@ -133,7 +133,7 @@ class NoticeBoardTab extends React.Component {
         this._MapAppStatus(x);
       })
       .catch((err) => {
-        console.log(err);
+        //console.log(err);
       });
 
     ApplicationService.GetApplicationStatus(applicationId)
@@ -146,7 +146,7 @@ class NoticeBoardTab extends React.Component {
       })
       .catch((err) => {
         this.setState({ isStatusUpdating: false });
-        console.log(err);
+        //console.log(err);
       });
 
     LocalStorage.GetUserInfo()
@@ -163,7 +163,7 @@ class NoticeBoardTab extends React.Component {
         }
       })
       .catch((err) => {
-        console.log("error: ", err);
+        //console.log("error: ", err);
       });
 
     this.loadNotes(applicationId);
@@ -225,7 +225,7 @@ class NoticeBoardTab extends React.Component {
       })
       .catch((err) => {
         this.setState({ isLoadingNotes: false, notes: [] });
-        console.log("ERROR: ", JSON.stringify(err));
+        //console.log("ERROR: ", JSON.stringify(err));
       });
   };
 

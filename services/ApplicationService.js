@@ -38,7 +38,7 @@ function GetApplicationNotes(applicationId) {
           //}
         })
         .catch((err) => {
-          console.log("ERROR: ", err);
+          //console.log("ERROR: ", err);
           reject(err);
         }); //throw error
     } catch (e) {
@@ -294,7 +294,7 @@ function UploadFile({
           resolve(x);
         })
         .catch((err) => {
-          console.log(err);
+          //console.log(err);
           reject(err);
         });
     } else {

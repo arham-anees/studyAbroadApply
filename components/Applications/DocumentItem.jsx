@@ -39,7 +39,7 @@ async function DownloadFile(fileName, ApplicationID) {
       `http://www.studyabroadapply.com/documents/${ApplicationID}/${fileName}`
     );
   } catch (e) {
-    console.log(e);
+    //console.log(e);
   }
 }
 function DocumentItem(props) {
@@ -59,12 +59,12 @@ function DocumentItem(props) {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 1000,
-      useNativeDriver: false, // Add this line
+      useNativeDriver: true, // Add this line
     }).start();
   };
   Animated.timing(fadeAnim, {
     toValue: itemWidth,
-    useNativeDriver: false, // Add this line
+    useNativeDriver: true, // Add this line
     duration: 0,
   }).start();
   const { deleteItem } = props;

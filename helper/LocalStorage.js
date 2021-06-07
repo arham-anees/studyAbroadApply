@@ -87,7 +87,7 @@ async function _Get(name) {
     //return window.localStorage.getItem(name);
     return await AsyncStorage.getItem(name);
   } catch (e) {
-    console.log("Error LocalStorage: " + e);
+    //console.log("Error LocalStorage: " + e);
     return null;
   }
 }

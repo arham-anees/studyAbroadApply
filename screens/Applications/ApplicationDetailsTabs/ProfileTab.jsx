@@ -105,7 +105,7 @@ class ProfileTab extends React.Component {
               loadedOnce: false,
               loadingFailed: true,
             });
-            console.log(err);
+            //console.log(err);
           });
       })
       .catch((err) => {
@@ -114,7 +114,7 @@ class ProfileTab extends React.Component {
           loadedOnce: false,
           loadingFailed: true,
         });
-        console.log(err);
+        //console.log(err);
       });
   }
 

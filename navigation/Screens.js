@@ -27,23 +27,13 @@ import SearchedCourses from "../screens/Courses/SearchCourse/SearchedCourses";
 import Notifications from "../screens/Notifications/Notification";
 import HeaderChild from "../components/HeaderChild";
 import ForgotPassword from "../screens/Auth/ForgotPassword/ForgotPassword";
-import { LinearGradient } from "expo-linear-gradient";
-import LocalStorage from "../helper/LocalStorage";
+import { enableScreens } from "react-native-screens";
 
 const { width } = Dimensions.get("screen");
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 var userName = "";
-try {
-  LocalStorage.GetUserInfo()
-    .then((x) => {
-      console.log(x);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-} catch (err) {}
 
 function ApplicationStack(props) {
   return (
@@ -310,6 +300,7 @@ function OnboardingStack(props) {
 }
 
 export function AppStack(props) {
+  enableScreens(false);
   return (
     <Drawer.Navigator
       style={{ flex: 1 }}
@@ -330,7 +321,6 @@ export function AppStack(props) {
           justifyContent: "center",
           alignContent: "center",
           alignItems: "center",
-          overflow: "hidden",
         },
         labelStyle: {
           fontSize: 18,

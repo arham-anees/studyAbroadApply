@@ -60,7 +60,7 @@ class SignUpAsStudent extends React.Component {
             isLoading: false,
           });
         } catch (err) {
-          console.log("error message", err);
+          //console.log("error message", err);
           this.setState({ generalMessage: err, error: -1, isLoading: false });
         }
       });

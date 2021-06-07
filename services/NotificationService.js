@@ -34,7 +34,7 @@ function DeleteNotification(id) {
         })
         .catch((err) => reject(err)); //throw error
     } catch (e) {
-      console.log(err);
+      //console.log(err);
       reject(e);
     }
   });
