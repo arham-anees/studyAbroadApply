@@ -17,7 +17,6 @@ import { Images, argonTheme } from "./constants";
 import LocalStorage from "./helper/LocalStorage";
 import { CaptureConsole as CaptureConsoleIntegration } from "@sentry/integrations";
 import store from "./Redux/Store";
-import Background from "./components/Background";
 import { LinearGradient } from "expo-linear-gradient";
 
 //#region SENTRY

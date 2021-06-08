@@ -5,7 +5,7 @@ import { Dimensions } from "react-native";
 import GlobalStyle from "../../GlobalStyles";
 import CustomIcon from "../../Icons/BellIcon";
 import Icons from "../../constants/Icons";
-import TextCustom from "../../components/TextCustom";
+import TextCustom from "../TextCustom";
 import { Animated } from "react-native";
 import * as FileSystem from "expo-file-system";
 const { width } = Dimensions.get("screen");
