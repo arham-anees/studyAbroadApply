@@ -66,19 +66,20 @@ function NotificationItem(props) {
   const view = useRef(null);
   const fadeAnim = useRef(new Animated.Value(initialOpacity)).current;
   const fadeOut = () => {
+    return;
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 1000,
       useNativeDriver: false,
     }).start();
   };
-  Animated.timing(fadeAnim, {
-    toValue: 1,
-    duration: 0,
-    useNativeDriver: false,
-  }).start();
+  // Animated.timing(fadeAnim, {
+  //   toValue: 1,
+  //   duration: 0,
+  //   useNativeDriver: false,
+  // }).start();
   return (
-    <Animated.View ref={view} style={{ overflow: "hidden", opacity: fadeAnim }}>
+    <View ref={view} style={{ overflow: "hidden" }}>
       <View style={styles.container}>
         <Swipeout
           backgroundColor="transparent"
@@ -123,7 +124,7 @@ function NotificationItem(props) {
           </Block>
         </Swipeout>
       </View>
-    </Animated.View>
+    </View>
   );
 }
 

@@ -58,7 +58,7 @@ function DocumentItem(props) {
   const fadeOut = () => {
     Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 1000,
+      duration: 300,
       useNativeDriver: true, // Add this line
     }).start();
   };

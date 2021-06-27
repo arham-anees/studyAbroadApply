@@ -8,6 +8,7 @@ import GlobalStyle from "../../../GlobalStyles";
 import TextCustom from "../../../components/TextCustom";
 import ApplicationService from "../../../services/ApplicationService";
 import Role from "../../../helper/Role";
+import { FlatList } from "react-native-gesture-handler";
 
 class DocumentsTab extends React.Component {
   constructor(props) {
@@ -109,19 +110,22 @@ class DocumentsTab extends React.Component {
           Documents
         </Text>
         {this.state.documents.length > 0 ? (
-          this.state.documents.map((item, index) => (
-            <DocumentItem
-              name={item.name}
-              number={index + 1}
-              category={item.category}
-              date={item.date}
-              id={item.id}
-              ApplicationID={item.ApplicationID}
-              key={index}
-              deleteItem={this.deleteDocument}
-              showDelete={this.props.roleId != Role.Institute}
-            />
-          ))
+          <FlatList
+            data={this.state.documents}
+            renderItem={(item) => (
+              <DocumentItem
+                name={item.item.name}
+                number={item.index + 1}
+                category={item.item.category}
+                date={item.item.date}
+                id={item.item.id}
+                ApplicationID={item.item.ApplicationID}
+                key={item.index}
+                deleteItem={this.deleteDocument}
+                showDelete={this.props.roleId != Role.Institute}
+              />
+            )}
+          ></FlatList>
         ) : this.state.isLoading ? (
           <View>
             <TextCustom>Loading documents...</TextCustom>

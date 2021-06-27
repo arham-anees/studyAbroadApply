@@ -29,6 +29,7 @@ class Notifications extends React.Component {
   }
 
   fadeIn = () => {
+    return;
     // Will change fadeAnim value to 1 in 5 seconds
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
@@ -38,6 +39,7 @@ class Notifications extends React.Component {
   };
 
   fadeOut = () => {
+    return;
     // Will change fadeAnim value to 1 in 5 seconds
     Animated.timing(this.state.fadeAnim, {
       toValue: 0,
@@ -231,7 +233,7 @@ class Notifications extends React.Component {
           isActive={this.state.isLoading && this.state.data.length == 0}
         />
         <Loading isActive={this.state.isDeleting} />
-        <Animated.View style={{ opacity: 1 }}>
+        <View style={{ opacity: 1 }}>
           <View
             style={{ paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding }}
           >
@@ -297,7 +299,7 @@ class Notifications extends React.Component {
               </Block>
             ) : null}
           </View>
-        </Animated.View>
+        </View>
       </View>
     </Background>
   );

@@ -65,6 +65,7 @@ class SearchCourse extends React.Component {
   };
 
   fadeIn = () => {
+    return;
     // Will change fadeAnim value to 1 in 5 seconds
     Animated.timing(this.state.fadeAnim, {
       toValue: 1,
@@ -74,6 +75,7 @@ class SearchCourse extends React.Component {
   };
 
   fadeOut = () => {
+    return;
     // Will change fadeAnim value to 1 in 5 seconds
     Animated.timing(this.state.fadeAnim, {
       toValue: 0,
@@ -323,11 +325,7 @@ class SearchCourse extends React.Component {
             <Loading isActive={this.state.isLoading} />
           </Block>
         ) : null}
-        <Animated.View
-          style={{
-            opacity: this.state.fadeAnim,
-          }}
-        >
+        <View>
           <Block
             style={[{ paddingHorizontal: GlobalStyle.SIZES.PageNormalPadding }]}
           >
@@ -444,7 +442,7 @@ class SearchCourse extends React.Component {
               )}
             </Block>
           </Block>
-        </Animated.View>
+        </View>
       </Background>
     );
 

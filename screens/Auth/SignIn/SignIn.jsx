@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Keyboard } from "react-native";
+import { View, Keyboard, InteractionManager } from "react-native";
 import { Block, Button, Text } from "galio-framework";
 
 import styles from "./SignIn.Styles";
@@ -27,8 +27,10 @@ class SignIn extends React.Component {
     };
   }
   componentDidMount() {
-    this.CheckStatus();
-    enableScreens(false);
+    InteractionManager.runAfterInteractions(() => {
+      this.CheckStatus();
+      enableScreens(false);
+    });
   }
   CheckStatus() {
     LocalStorage.GetToken()

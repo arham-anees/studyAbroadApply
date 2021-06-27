@@ -30,7 +30,7 @@ class Applications extends React.Component {
       isLoading: true,
     };
     this.navigation = this.props;
-    this.fadeOut();
+    //this.fadeOut();
   }
 
   fadeIn = () => {
@@ -57,7 +57,7 @@ class Applications extends React.Component {
   componentDidMount() {
     enableScreens(false);
     this._unsubscribe = this.props.navigation.addListener("focus", () => {
-      this.fadeIn();
+      //this.fadeIn();
       LocalStorage.GetAppFirstPage().then((x) => {
         try {
           let localData = JSON.parse(x);
@@ -140,9 +140,7 @@ class Applications extends React.Component {
     return (
       <Background>
         <Loading isActive={this.state.isLoading} />
-        <Animated.View
-          style={{ opacity: this.state.fadeAnim, marginBottom: 50 }}
-        >
+        <View style={{ marginBottom: 50 }}>
           <View style={styles.container}>
             <Block row middle space="between">
               <Block flex>
@@ -204,7 +202,7 @@ class Applications extends React.Component {
               </Block>
             )}
           </View>
-        </Animated.View>
+        </View>
       </Background>
     );
   }

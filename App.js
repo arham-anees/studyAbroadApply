@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { StatusBar, Text, View } from "react-native";
-import { AppLoading } from "expo";
 import { useFonts } from "@use-expo/font";
 import { Block, GalioProvider } from "galio-framework";
 import { NavigationContainer } from "@react-navigation/native";
@@ -19,6 +18,7 @@ import { CaptureConsole as CaptureConsoleIntegration } from "@sentry/integration
 import store from "./Redux/Store";
 import Background from "./components/Background";
 import { LinearGradient } from "expo-linear-gradient";
+import AppLoading from "expo-app-loading";
 
 //#region SENTRY
 

@@ -4,6 +4,7 @@ import NotificationService from "../services/NotificationService";
 var lastNotificationFetch = 0;
 var NotificationList = [];
 var interval = null;
+// var notificationSubject=new BehaviourSubject();
 function FetchNotifications() {
   interval = setInterval(() => {
     // console.log(lastNotificationFetch);

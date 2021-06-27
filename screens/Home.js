@@ -1,5 +1,10 @@
 import React from "react";
-import { StyleSheet, Dimensions, BackHandler } from "react-native";
+import {
+  StyleSheet,
+  Dimensions,
+  BackHandler,
+  InteractionManager,
+} from "react-native";
 import { theme } from "galio-framework";
 
 import LineChart from "../components/Home/LineChart.Component";
@@ -50,17 +55,19 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
-    enableScreens(false);
-    Notifications.Start();
-    BackHandler.addEventListener("hardwareBackPress", this.back_Button_Press);
-    const { navigation } = this.props;
-    addToken("token added");
-    this.focusListener = navigation.addListener("focus", () => {
-      this.setState({
-        isLoading: true,
+    InteractionManager.runAfterInteractions(() => {
+      enableScreens(false);
+      Notifications.Start();
+      BackHandler.addEventListener("hardwareBackPress", this.back_Button_Press);
+      const { navigation } = this.props;
+      addToken("token added");
+      this.focusListener = navigation.addListener("focus", () => {
+        this.setState({
+          isLoading: true,
+        });
+        this.fadeIn();
+        this.getData();
       });
-      this.fadeIn();
-      this.getData();
     });
   }
   componentWillUnmount() {
@@ -88,18 +95,23 @@ class Home extends React.Component {
 
   getData() {
     try {
-      //console.log("getting data");
       GraphsDataService.GetHomePageGraphsData()
         .then((x) => {
           let pieChartData = HomeUtils.MapPieChartData(x["PieChartDataList"]);
           let barChartData = HomeUtils.MapBarChartData(x);
           let lineChartData = HomeUtils.MapLineChartData(x);
-          this.setState({
-            pieChartData,
-            barChartData,
-            lineChartData,
-            isLoading: false,
-          });
+          if (
+            pieChartData != this.state.pieChartData &&
+            barChartData != this.state.barChartData &&
+            lineChartData != this.state.lineChartData
+          ) {
+            this.setState({
+              pieChartData,
+              barChartData,
+              lineChartData,
+              isLoading: false,
+            });
+          }
         })
         .catch((err) => {
           this.setState({ isLoading: false });
@@ -122,7 +134,7 @@ class Home extends React.Component {
             this.state.pieChartData.length == 0
           }
         />
-        <Animated.View style={{ opacity: this.state.fadeAnim }}>
+        <View>
           <View style={{ padding: GlobalStyle.SIZES.PageNormalPadding }}>
             <AppStatusByCountry
               data={this.state.pieChartData}
@@ -143,7 +155,7 @@ class Home extends React.Component {
               }
             />
           </View>
-        </Animated.View>
+        </View>
       </Background>
     );
   }

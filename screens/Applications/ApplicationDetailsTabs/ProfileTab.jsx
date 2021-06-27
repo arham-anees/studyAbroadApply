@@ -10,7 +10,6 @@ import ApplicationService from "../../../services/ApplicationService";
 import Loading from "../../../components/Loading";
 import TextCustom from "../../../components/TextCustom";
 import { RadioButton } from "react-native-paper";
-import { ScrollView } from "react-native-gesture-handler";
 
 class ProfileTab extends React.Component {
   constructor(props) {

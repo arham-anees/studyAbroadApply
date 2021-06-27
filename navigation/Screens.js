@@ -352,11 +352,4 @@ export function AppStack(props) {
     </Drawer.Navigator>
   );
 }
-
-// const mapStateToProps = (state) => {
-//   const { token } = state;
-//   console.log(token);
-//   return { token };
-// };
-
 export default AppStack;

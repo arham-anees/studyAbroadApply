@@ -13,7 +13,6 @@ function CustomDrawerContent({
   state,
   ...rest
 }) {
-  // const insets = useSafeArea();
   const screens = ["Home", "Applications", "Courses"];
   return (
     <Block
@@ -65,11 +64,11 @@ const styles = StyleSheet.create({
     paddingTop: theme.SIZES.BASE * 3,
     justifyContent: "center",
   },
-  logo:{
-    resizeMode:"contain",
-    height:50,
-    alignSelf:"center"
-  }
+  logo: {
+    resizeMode: "contain",
+    height: 50,
+    alignSelf: "center",
+  },
 });
 
 export default CustomDrawerContent;

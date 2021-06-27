@@ -7,6 +7,7 @@ import TextCustom from "../../../components/TextCustom";
 import GlobalStyle from "../../../GlobalStyles";
 import ApplicationService from "../../../services/ApplicationService";
 import Role from "../../../helper/Role";
+import { FlatList } from "react-native-gesture-handler";
 
 class OffersTab extends React.Component {
   constructor(props) {
@@ -85,23 +86,26 @@ class OffersTab extends React.Component {
           Documents
         </Text>
         {this.state.offers.length > 0 ? (
-          this.state.offers.map((item, index) => (
-            <DocumentItem
-              name={item.name}
-              number={index + 1}
-              category={item.category}
-              date={item.date}
-              id={item.id}
-              key={index}
-              ApplicationID={item.ApplicationID}
-              deleteItem={this.deleteOffer}
-              showDelete={
-                this.props.roleId == Role.Institute ||
-                this.props.roleId == Role.Admin ||
-                this.props.roleId == Role.Institute
-              }
-            />
-          ))
+          <FlatList
+            data={this.state.offers}
+            renderItem={(item) => (
+              <DocumentItem
+                name={item.item.name}
+                number={item.index + 1}
+                category={item.item.category}
+                date={item.item.date}
+                id={item.item.id}
+                key={item.index}
+                ApplicationID={item.item.ApplicationID}
+                deleteItem={this.deleteOffer}
+                showDelete={
+                  this.props.roleId == Role.Institute ||
+                  this.props.roleId == Role.Admin ||
+                  this.props.roleId == Role.Institute
+                }
+              />
+            )}
+          ></FlatList>
         ) : this.state.isLoading ? (
           <View>
             <TextCustom>Loading offers...</TextCustom>
